@@ -13,6 +13,8 @@ import 'package:property_association_or_resident/ResidentScreen/ResidentBottomSc
 import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/CommunityContactsScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentNotification_Screen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassRequest.dart';
+import '../../../Core/AuthService/AuthServiceProvider.dart';
+import '../../../Core/Utils/showMessage.dart';
 import 'provider/getResidentProfileProvider.dart';
 
 class Residentprofilescreen extends ConsumerStatefulWidget {
@@ -423,18 +425,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                   SizedBox(height: 20.h),
                   signOutCard(
                     onTap: () async {
-                      var box = Hive.box("associationdata");
-                      await box.delete("token");
-                      await box.delete("role");
-                      if (context.mounted) {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => const AssociationLogin(),
-                          ),
-                          (route) => false,
-                        );
-                      }
+                      _showLogoutDialog(context);
                     },
                   ),
                   SizedBox(height: 20.h),
@@ -597,6 +588,171 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        bool isLoading = false;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: AppColors.background,
+              surfaceTintColor: Colors.transparent,
+              contentPadding: EdgeInsets.all(24.w),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.logout_rounded,
+                      color: Colors.red,
+                      size: 36.sp,
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Text(
+                    "Logout",
+                    style: GoogleFonts.outfit(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
+                      letterSpacing: -0.54,
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    "Are you sure you want to log out from this account?",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.outfit(
+                      fontSize: 15.sp,
+                      color: Color.fromRGBO(41, 42, 51, 0.6),
+                      height: 1.4,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 28.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  Navigator.pop(context);
+                                },
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 14.h),
+                            side: BorderSide(color: AppColors.heading),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                          ),
+                          child: Text(
+                            "Cancel",
+                            style: GoogleFonts.outfit(
+                              color: AppColors.heading,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: isLoading
+                              ? null
+                              : () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+
+                                  try {
+                                    final service = ref.read(
+                                      authServiceProvider,
+                                    );
+                                    final respos = await service.logout();
+                                    if (context.mounted) {
+                                      var box = Hive.box("associationdata");
+                                      await box.delete("token");
+                                      await box.delete("role");
+                                      if (context.mounted) {
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          CupertinoPageRoute(
+                                            builder: (context) =>
+                                                const AssociationLogin(),
+                                          ),
+                                          (route) => false,
+                                        );
+                                      }
+                                    }
+                                  } catch (e) {
+                                    if (context.mounted) {
+                                      Navigator.pop(context);
+                                      var box = Hive.box("associationdata");
+                                      await box.delete("token");
+                                      showSuccessSnackBar(
+                                        "Successfully logged out",
+                                      );
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const AssociationLogin(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    }
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            padding: EdgeInsets.symmetric(vertical: 14.h),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                          ),
+                          child: isLoading
+                              ? SizedBox(
+                                  height: 20.h,
+                                  width: 20.w,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2.5,
+                                  ),
+                                )
+                              : Text(
+                                  "Logout",
+                                  style: GoogleFonts.outfit(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

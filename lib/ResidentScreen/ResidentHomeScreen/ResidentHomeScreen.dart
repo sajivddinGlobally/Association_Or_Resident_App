@@ -44,7 +44,7 @@ class _ResidentBottomNavBarState extends State<ResidentBottomNavBar> {
         });
       },
     ),
-    Apartmentscreen(),
+    Apartmentscreen(isShowBackButton: false),
     Residentrequestscreen(),
     Residentprofilescreen(),
   ];
