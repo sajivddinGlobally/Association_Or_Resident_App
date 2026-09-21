@@ -10,6 +10,7 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/g
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitListModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
 import '../data/model/BodyModel/assocationCalenderBodyModel.dart';
 import '../data/model/BodyModel/changePasswordBodyModel.dart';
@@ -564,8 +565,9 @@ class AuthService {
     required String search,
   }) async {
     try {
-      final queryStatus =
-          status.isEmpty || status.toLowerCase() == "all" ? null : status;
+      final queryStatus = status.isEmpty || status.toLowerCase() == "all"
+          ? null
+          : status;
       final querySearch = search.trim().isEmpty ? null : search.trim();
       final response = await api.getServiceManagement(queryStatus, querySearch);
       return response;
@@ -611,6 +613,16 @@ class AuthService {
   }) async {
     try {
       final response = await api.associationReport(status, search);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  //////////////////////////  resident dashboard   //////////////////////
+
+  Future<ResidentDashbordModel> getResidentDashboardData() async {
+    try {
+      final response = await api.getResidentDashbordData();
       return response;
     } catch (e) {
       rethrow;

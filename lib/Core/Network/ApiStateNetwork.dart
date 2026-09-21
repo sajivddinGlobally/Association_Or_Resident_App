@@ -14,6 +14,7 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/m
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/outstandingPendingModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
 import 'package:retrofit/retrofit.dart';
+import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
 import '../data/model/BodyModel/assocationCalenderBodyModel.dart';
 import '../data/model/BodyModel/changePasswordBodyModel.dart';
@@ -188,7 +189,6 @@ abstract class ApiStateNetwork {
     @Query('filter') String filter,
     @Query('search') String search,
   );
-  //////////////////////////////// Resident //////////////////////////
 
   @GET("/api/v1/committee/units/available")
   Future<GetUnitsModel> getAvailableUnits();
@@ -248,4 +248,8 @@ abstract class ApiStateNetwork {
     @Query("status") String? status,
     @Query("search") String? search,
   );
+
+  /////////////////////////////// resident dashbord ////////////////
+  @GET("/api/v1/resident/dashboard")
+  Future<ResidentDashbordModel> getResidentDashbordData();
 }

@@ -406,22 +406,24 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                                     "name",
                                     response.data!.user!.name,
                                   );
-                                  final userRole = (response.data?.user?.role != null &&
-                                          response.data!.user!.role!.toString().trim().isNotEmpty)
+                                  final userRole =
+                                      (response.data?.user?.role != null &&
+                                          response.data!.user!.role!
+                                              .toString()
+                                              .trim()
+                                              .isNotEmpty)
                                       ? response.data!.user!.role
                                       : selectedRole;
-                                  await box.put(
-                                    "role",
-                                    userRole,
-                                  );
+                                  await box.put("role", userRole);
                                   if (context.mounted) {
-                                    Navigator.push(
+                                    Navigator.pushAndRemoveUntil(
                                       context,
-                                      CupertinoPageRoute(
+                                      MaterialPageRoute(
                                         builder: (context) => selectIndex == 0
                                             ? const AssociationBottomNavBar()
                                             : const ResidentBottomNavBar(),
                                       ),
+                                      (route) => false,
                                     );
                                   }
                                 }
