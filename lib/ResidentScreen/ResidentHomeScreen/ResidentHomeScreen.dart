@@ -1,0 +1,1044 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:property_association_or_resident/AssociationScreen/AssociationCalender/AssociationCalender.dart';
+import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/ResidentScreen/RaiseComplaintScreen/RaiseComplaint.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentAIPropertyAssistantScreen/Resident_Ai_PropertyAssistant.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentAssociationCalendarScreen/Resident_Calendar_Screen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentApartmentScreen/ApartmentScreen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentProfileScreen/ResidentProfileScreen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentRequestScreen/ResidentRequestScreen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/CommunityContactsScreen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentEmergencyContactScreen/Emergency_ContactScreen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentNotification_Screen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentMmcStatusScreen/MMC_StatusScreen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassRequest.dart';
+import 'package:svg_flutter/svg.dart';
+
+class ResidentBottomNavBar extends StatefulWidget {
+  const ResidentBottomNavBar({super.key});
+
+  @override
+  State<ResidentBottomNavBar> createState() => _ResidentBottomNavBarState();
+}
+
+class _ResidentBottomNavBarState extends State<ResidentBottomNavBar> {
+  int selectedBottomIndex = 0;
+
+  List<Widget> get pages => [
+    Residenthomescreen(
+      onDocumentTap: () {
+        setState(() {
+          selectedBottomIndex = 3;
+        });
+      },
+      onProfileTap: () {
+        setState(() {
+          selectedBottomIndex = 4;
+        });
+      },
+    ),
+    Apartmentscreen(),
+    Residentrequestscreen(),
+    Residentprofilescreen(),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBg,
+      body: pages[selectedBottomIndex],
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Container(
+          width: double.infinity,
+          height: 70.h,
+          decoration: BoxDecoration(
+            color: Color(0xFFFFFCEB),
+            border: Border(
+              top: BorderSide(color: const Color(0xFF17221D), width: 1.w),
+            ),
+          ),
+          child: Row(
+            children: [
+              _bottomItem(
+                index: 0,
+                // image: "assets/bottam_img.png",
+                image: "assets/SvgImage/homeicon.svg",
+                title: "Home",
+              ),
+
+              _bottomItem(
+                index: 1,
+                // image: "assets/bottom_img2.png",
+                image: "assets/SvgImage/bottom_img2.svg",
+                title: "Apartment",
+              ),
+
+              _bottomItem(
+                index: 2,
+                // image: "assets/bottom_img3.png",
+                image: "assets/SvgImage/bottam_img.svg",
+                title: "Requests",
+              ),
+
+              _bottomItem(
+                index: 3,
+                // image: "assets/bottom_img5.png",
+                image: "assets/SvgImage/profileicon.svg",
+                title: "Account",
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomItem({
+    required int index,
+    required String image,
+    required String title,
+  }) {
+    final bool isSelected = selectedBottomIndex == index;
+
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            selectedBottomIndex = index;
+          });
+        },
+        child: SizedBox(
+          height: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedScale(
+                scale: isSelected ? 1.08 : 1.0,
+                duration: const Duration(milliseconds: 200),
+                child: SvgPicture.asset(
+                  image,
+                  colorFilter: ColorFilter.mode(
+                    isSelected
+                        ? const Color(0xff101C16)
+                        : const Color(0xffA0A5A2),
+                    BlendMode.srcIn,
+                  ),
+                  width: 30.w,
+                  height: 30.h,
+                ),
+              ),
+              SizedBox(height: 2.h),
+              Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.outfit(
+                  fontSize: 16.sp,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: isSelected
+                      ? Color(0xFF17221D)
+                      : const Color(0xffA0A5A2),
+                  letterSpacing: -0.4,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Residenthomescreen extends StatefulWidget {
+  final VoidCallback onDocumentTap;
+  final VoidCallback onProfileTap;
+  const Residenthomescreen({
+    super.key,
+    required this.onDocumentTap,
+    required this.onProfileTap,
+  });
+
+  @override
+  State<Residenthomescreen> createState() => _ResidenthomescreenState();
+}
+
+class _ResidenthomescreenState extends State<Residenthomescreen> {
+  @override
+  Widget build(BuildContext context) {
+    var box = Hive.box("associationdata");
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBg,
+      appBar: AppBar(
+        backgroundColor: AppColors.scaffoldBg,
+        automaticallyImplyLeading: false,
+        titleSpacing: 20.w,
+        title: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Good Morning",
+                    style: GoogleFonts.outfit(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromRGBO(16, 28, 22, 0.6),
+                    ),
+                  ),
+                  Text(
+                    "Hello, ${box.get("name")} 👋",
+                    style: GoogleFonts.outfit(
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          Row(
+            children: [
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => ResidentnotificationScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 40.w,
+                      height: 40.w,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(color: Color(0xffE8E5DC)),
+                      ),
+                      child: Icon(
+                        Icons.notifications_none_rounded,
+                        size: 21.sp,
+                        color: Color(0xff0D241B),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 0.w,
+                    top: -2.h,
+                    child: Container(
+                      width: 8.w,
+                      height: 8.w,
+                      decoration: const BoxDecoration(
+                        color: Color(0xffD5A52C),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 8.w),
+              InkWell(
+                onTap: widget.onProfileTap,
+                child: Container(
+                  width: 40.w,
+                  height: 40.w,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(color: Color(0xffE8E5DC)),
+                  ),
+                  child: Icon(
+                    Icons.person_outline_rounded,
+                    size: 21.sp,
+                    color: Color(0xff0D241B),
+                  ),
+                ),
+              ),
+              SizedBox(width: 20.w),
+            ],
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 252.h,
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        "assets/ResidentHome.png",
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+
+                      Positioned.fill(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withOpacity(0.75),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        left: 23.w,
+                        bottom: 71.h,
+                        child: Text(
+                          "My Residence",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xffB8860B),
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 23.w,
+                        bottom: 49.h,
+                        child: Text(
+                          "Green Valley",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.outfit(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 45.h,
+                        right: 22.w,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 5.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(184, 134, 11, 0.3),
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: Text(
+                            "A-204",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.outfit(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xffB8860B),
+                              letterSpacing: -0.2,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 23.w,
+                        bottom: 29.h,
+                        child: Text(
+                          "Your registered apartment",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                "Quick Actions",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.outfit(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => Raisecomplaint(),
+                          ),
+                        );
+                      },
+                      child: _serviceCard(
+                        title: "Raise Complaint",
+                        subtitle: "Report an issue and receive a token",
+                        icon: Icons.warning_amber_rounded,
+                        isSelected: true,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(width: 20.w),
+
+                  Expanded(
+                    child: _serviceCard(
+                      title: "My Requests",
+                      subtitle: "Track your complaints",
+                      icon: Icons.chat_bubble_outline,
+                      isSelected: false,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                "Community",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.outfit(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => MmcStatusscreen()),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE9D6A5),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Icon(
+                          Icons.account_balance_wallet_outlined,
+                          color: const Color(0xFFB8860B),
+                          size: 18.sp,
+                        ),
+                      ),
+
+                      SizedBox(width: 15.w),
+
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "MMC Status",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.outfit(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "Monthly maintenance charges",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.outfit(
+                                fontSize: 14.sp,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 4.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE9D6A5),
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Paid",
+                            style: GoogleFonts.outfit(
+                              fontSize: 14.sp,
+                              color: const Color(0xFFB8860B),
+                              letterSpacing: -0.2,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => ResidentCalendarScreen(),
+                    ),
+                  );
+                },
+                child: associationCard(
+                  title: "Association Calendar",
+                  subtitle: "Upcoming community events",
+                  icon: Icons.calendar_month_outlined,
+                ),
+              ),
+
+              SizedBox(height: 16.h),
+
+              associationCard(
+                title: "Notifications",
+                subtitle: "Association announcements",
+                icon: Icons.notifications_none_outlined,
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                "Support",
+                style: GoogleFonts.outfit(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => Communitycontactsscreen(),
+                            ),
+                          );
+                        },
+                        child: supportCard(
+                          title: "Support",
+                          subtitle: "Caretaker & Association Representative",
+                          icon: Icons.headset_mic_outlined,
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(width: 28.w),
+
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => EmergencyContactscreen(),
+                            ),
+                          );
+                        },
+                        child: supportCard(
+                          title: "Emergency Contact",
+                          subtitle: "Call for immediate assistance",
+                          icon: Icons.phone_outlined,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                "Assistant",
+                style: GoogleFonts.outfit(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => ResidentAiPropertyassistant(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 16.h,
+                    horizontal: 17.w,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(184, 134, 11, 0.9),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(2.r),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color(0xFF101C16),
+                            width: 1.w,
+                          ),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Center(
+                          child: Container(
+                            width: 39.w,
+                            height: 39.h,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF101C16),
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                "assets/SvgImage/vector.svg",
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(width: 6.w),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    "Property Assistant",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xFF101C16),
+                                      height: 1,
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 5.w),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 3.w,
+                                    vertical: 2.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFAE8130),
+                                    borderRadius: BorderRadius.circular(3.r),
+                                  ),
+                                  child: Text(
+                                    "AI",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xFF101C16),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 2.h),
+                            Text(
+                              "Ask me anything about your property",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.outfit(
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF101C16),
+                                height: 1,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 12.w),
+
+                      // Arrow Circle
+                      Container(
+                        width: 41.w,
+                        height: 41.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFF101C16),
+                            width: 1.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.arrow_forward,
+                            size: 18.sp,
+                            color: const Color(0xFF101C16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => Residentvisitorpassrequest(),
+                    ),
+                  );
+                },
+                child: visitorPassCard(),
+              ),
+              SizedBox(height: 30.h),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _serviceCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required bool isSelected,
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      decoration: BoxDecoration(
+        color: isSelected ? AppColors.heading : Colors.transparent,
+        border: Border.all(
+          color: isSelected ? AppColors.heading : const Color(0xFFD9D5C9),
+          width: 1.5,
+        ),
+        borderRadius: BorderRadius.circular(9.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 36.w,
+                height: 36.w,
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? const Color(0xFFF5F0DF)
+                      : const Color(0xFFF0EAD4),
+                  borderRadius: BorderRadius.circular(7.r),
+                ),
+                child: Center(
+                  child: Icon(
+                    icon,
+                    size: 18.sp,
+                    color: const Color(0xFFB8860B),
+                  ),
+                ),
+              ),
+
+              Icon(
+                Icons.arrow_forward,
+                size: 20.sp,
+                color: const Color(0xFFB8860B),
+              ),
+            ],
+          ),
+          SizedBox(height: 7.h),
+          Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.outfit(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
+              color: isSelected ? Colors.white : const Color(0xFF101C16),
+              letterSpacing: -0.5,
+            ),
+          ),
+
+          SizedBox(height: 4.h),
+
+          Text(
+            subtitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.outfit(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
+              color: isSelected ? Colors.white : const Color(0xFF666666),
+              letterSpacing: -0.3,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget associationCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFF999999), width: 1.3),
+        borderRadius: BorderRadius.circular(7.r),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE9D6A5),
+              borderRadius: BorderRadius.circular(7.r),
+            ),
+            child: Icon(icon, size: 18.sp, color: const Color(0xFFB8860B)),
+          ),
+
+          SizedBox(width: 15.w),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.outfit(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF101C16),
+                  ),
+                ),
+
+                SizedBox(height: 2.h),
+
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.outfit(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFF777777),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(width: 8.w),
+
+          Icon(
+            Icons.chevron_right,
+            size: 22.sp,
+            color: const Color(0xFF101C16),
+            fontWeight: FontWeight.w500,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget supportCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFFD9D5C9), width: 1.2),
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(7.w),
+            decoration: BoxDecoration(
+              color: const Color(0xffEEE6D2),
+              borderRadius: BorderRadius.circular(7.r),
+            ),
+            child: Icon(icon, size: 18.sp, color: const Color(0xFFB8860B)),
+          ),
+
+          SizedBox(height: 5.h),
+
+          Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.outfit(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF101C16),
+              letterSpacing: -0.2,
+            ),
+          ),
+
+          SizedBox(height: 2.h),
+
+          Text(
+            subtitle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.outfit(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF666666),
+              letterSpacing: -0.2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget visitorPassCard() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0D1D17),
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Icon(
+              Icons.person_add_alt_1_outlined,
+              size: 24.sp,
+              color: const Color(0xFFB8860B),
+            ),
+          ),
+
+          SizedBox(width: 8.w),
+
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Visitor Pass Request",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.outfit(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    letterSpacing: -0.2,
+                  ),
+                ),
+
+                SizedBox(height: 2.h),
+
+                Text(
+                  "Create a visitor access request",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.outfit(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(width: 10.w),
+
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 6.h),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.chevron_right,
+              size: 16.sp,
+              color: const Color(0xFF101C16),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
