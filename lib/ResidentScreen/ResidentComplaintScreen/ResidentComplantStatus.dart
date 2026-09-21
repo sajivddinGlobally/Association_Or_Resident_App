@@ -1,17 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 
-class Residentcomplantstatus extends StatefulWidget {
-  const Residentcomplantstatus({super.key});
+import '../ResidentBottomScreen/ResidentRequestScreen/provider/getComplaintTrackingProvider.dart';
+
+class Residentcomplantstatus extends ConsumerStatefulWidget {
+  final String complainID;
+  const Residentcomplantstatus({super.key, required this.complainID});
 
   @override
-  State<Residentcomplantstatus> createState() => _ResidentcomplantstatusState();
+  ConsumerState<Residentcomplantstatus> createState() =>
+      _ResidentcomplantstatusState();
 }
 
-class _ResidentcomplantstatusState extends State<Residentcomplantstatus> {
+class _ResidentcomplantstatusState
+    extends ConsumerState<Residentcomplantstatus> {
   final List<Map<String, dynamic>> statusList = [
     {
       "title": "Complaint Raised",
@@ -41,6 +47,9 @@ class _ResidentcomplantstatusState extends State<Residentcomplantstatus> {
   ];
   @override
   Widget build(BuildContext context) {
+    final getComplaintStatus = ref.watch(
+      getComplaintTrackingProvider(widget.complainID),
+    );
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -101,157 +110,217 @@ class _ResidentcomplantstatusState extends State<Residentcomplantstatus> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20.h),
-              Container(
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xff15221C)),
-                  borderRadius: BorderRadius.circular(13.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+      body: getComplaintStatus.when(
+        data: (data) {
+          final timeline = data.data?.complaintProgress?.timeline ?? [];
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20.h),
+                  Container(
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xff15221C)),
+                      borderRadius: BorderRadius.circular(13.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text.rich(
                                 TextSpan(
-                                  text: "Complaint Token\n",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
-                                    color: Colors.grey,
-                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "Complaint Token\n",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 13.sp,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          data
+                                              .data
+                                              ?.complaintTokenCard
+                                              ?.tokenTitle ??
+                                          "N/A",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 19.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                TextSpan(
-                                  text: "Token No. 1048",
-                                  style: GoogleFonts.outfit(fontSize: 19.sp),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                            _status(
+                              data.data?.complaintTokenCard?.statusBadge ??
+                                  "N/A",
+                            ),
+                          ],
                         ),
-                        _status("In Progress"),
+
+                        Divider(),
+
+                        Text(
+                          // "Bathroom Water Leakage",
+                          data.data?.complaintTokenCard?.issueTitle ?? "N/A",
+                          style: GoogleFonts.outfit(fontSize: 19.sp),
+                        ),
+
+                        // _info(
+                        //   Icons.home_outlined,
+                        //   "Apartment Number",
+                        //   "A-204",
+                        // ),
+                        // _info(Icons.home_outlined, "Status", "In Progress"),
+                        // _info(
+                        //   Icons.calendar_month_outlined,
+                        //   "Submitted",
+                        //   "01 Sep 2026 · 10:42 AM",
+                        // ),
+                        ...?(data.data?.complaintTokenCard?.details?.map((
+                          item,
+                        ) {
+                          final label = item.label ?? "";
+                          final value = item.value ?? "N/A";
+
+                          IconData icon;
+
+                          switch (label.toLowerCase()) {
+                            case "apartment number":
+                              icon = Icons.home_outlined;
+                              break;
+
+                            case "status":
+                              icon = Icons.info_outline;
+                              break;
+
+                            case "submitted":
+                              icon = Icons.calendar_month_outlined;
+                              break;
+
+                            default:
+                              icon = Icons.description_outlined;
+                          }
+
+                          return _info(icon, label, value);
+                        }).toList()),
                       ],
                     ),
-
-                    Divider(),
-
-                    Text(
-                      "Bathroom Water Leakage",
-                      style: GoogleFonts.outfit(fontSize: 19.sp),
-                    ),
-
-                    _info(Icons.home_outlined, "Apartment Number", "A-204"),
-                    _info(Icons.home_outlined, "Status", "In Progress"),
-                    _info(
-                      Icons.calendar_month_outlined,
-                      "Submitted",
-                      "01 Sep 2026 · 10:42 AM",
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30.h),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 18.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xffF8F6ED),
-                  border: Border.all(color: const Color(0xff071811), width: 1),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Complaint Progress",
-                      style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
+                  ),
+                  SizedBox(height: 30.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 18.h),
+                    decoration: BoxDecoration(
+                      color: const Color(0xffF8F6ED),
+                      border: Border.all(
                         color: const Color(0xff071811),
+                        width: 1,
                       ),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
-
-                    SizedBox(height: 25.h),
-
-                    ...List.generate(statusList.length, (index) {
-                      final item = statusList[index];
-
-                      return _TimelineItem(
-                        title: item["title"],
-                        description: item["description"],
-                        status: item["status"],
-                        isLast: index == statusList.length - 1,
-                      );
-                    }),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(184, 134, 11, 0.2),
-                  borderRadius: BorderRadius.circular(14.r),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 36.w,
-                      height: 36.w,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(184, 134, 11, 0.3),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Icon(
-                        Icons.build,
-                        size: 20.sp,
-                        color: const Color(0xffB8860B),
-                      ),
-                    ),
-
-                    SizedBox(width: 10.w),
-
-                    Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "CURRENT STATUS",
-                          style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.heading,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          "Your complaint is In Progress",
+                          "Complaint Progress",
                           style: GoogleFonts.outfit(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.heading,
-                            letterSpacing: -0.2,
+                            color: const Color(0xff071811),
                           ),
+                        ),
+
+                        SizedBox(height: 25.h),
+
+                        ...List.generate(timeline.length, (index) {
+                          final item = timeline[index];
+
+                          return _TimelineItem(
+                            title: item.title ?? "N/A",
+                            description: item.description ?? "N/A",
+                            status: item.statusState ?? "N/A",
+                            isLast: index == timeline.length - 1,
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(184, 134, 11, 0.2),
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 36.w,
+                          height: 36.w,
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(184, 134, 11, 0.3),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: Icon(
+                            Icons.build,
+                            size: 20.sp,
+                            color: const Color(0xffB8860B),
+                          ),
+                        ),
+
+                        SizedBox(width: 10.w),
+
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              data.data?.currentStatusBanner?.label ??
+                                  "CURRENT STATUS",
+                              style: GoogleFonts.outfit(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.heading,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
+                            Text(
+                              data.data?.currentStatusBanner?.message ??
+                                  "Your complaint is In Progress",
+                              style: GoogleFonts.outfit(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.heading,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 30.h),
+                ],
               ),
-              SizedBox(height: 30.h),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
+        error: (error, stackTrace) {
+          return Center(child: Text("Something went wrong $error"));
+        },
+        loading: () {
+          return Center(
+            child: CircularProgressIndicator(color: AppColors.heading),
+          );
+        },
       ),
     );
   }

@@ -1,21 +1,78 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentRequestScreen/ResidentRequestScreen.dart';
 
-class Raisecomplaint extends StatefulWidget {
+import '../../Core/AuthService/AuthServiceProvider.dart';
+import '../../Core/Utils/showMessage.dart';
+
+class Raisecomplaint extends ConsumerStatefulWidget {
   const Raisecomplaint({super.key});
 
   @override
-  State<Raisecomplaint> createState() => _RaisecomplaintState();
+  ConsumerState<Raisecomplaint> createState() => _RaisecomplaintState();
 }
 
-class _RaisecomplaintState extends State<Raisecomplaint> {
+class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
   File? image;
+  bool isLoading = false;
+  String? selectedCategory;
+
+  final TextEditingController subjectController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  final List<Map<String, dynamic>> issueCategories = [
+    {
+      "key": "water_leakage",
+      "icon": Icons.water_drop_outlined,
+      "title": "WATER LEAKAGE",
+      "subtitle": "Apartment or common-area leakage",
+    },
+    {
+      "key": "electrical",
+      "icon": Icons.bolt_outlined,
+      "title": "ELECTRICAL",
+      "subtitle": "Apartment or common-area issue",
+    },
+    {
+      "key": "lift",
+      "icon": Icons.elevator_outlined,
+      "title": "LIFT PROBLEM",
+      "subtitle": "Common building lift issue",
+    },
+    {
+      "key": "plumbing",
+      "icon": Icons.plumbing_outlined,
+      "title": "PLUMBING",
+      "subtitle": "Apartment plumbing problem",
+    },
+    {
+      "key": "ac_cooling",
+      "icon": Icons.ac_unit_outlined,
+      "title": "AC / COOLING",
+      "subtitle": "AC / Cooling",
+    },
+    {
+      "key": "other",
+      "icon": Icons.grain_outlined,
+      "title": "OTHER",
+      "subtitle": "Other issue",
+    },
+  ];
+
+  @override
+  void dispose() {
+    subjectController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 
   Future<void> pickImage() async {
     final source = await showModalBottomSheet<ImageSource>(
@@ -93,7 +150,7 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
     }
   }
 
-  void showComplaintSuccessPopup(BuildContext context) {
+  void showComplaintSuccessPopup(BuildContext context, String token) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -211,7 +268,8 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
                       ),
                       SizedBox(height: 2.h),
                       Text(
-                        "#CMP-1048",
+                        // "#CMP-1048",
+                        token,
                         style: GoogleFonts.outfit(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w600,
@@ -229,6 +287,15 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
+                      // Residentrequestscreen par jao
+                      // Aur Home Screen ko stack mein rehne do
+                      Navigator.of(context).pushAndRemoveUntil(
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              Residentrequestscreen(showBackButton: true),
+                        ),
+                        (route) => route.isFirst,
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff071811),
@@ -243,7 +310,7 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
-                        letterSpacing: -0.2
+                        letterSpacing: -0.2,
                       ),
                     ),
                   ),
@@ -338,53 +405,78 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 6,
+                itemCount: issueCategories.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 20.w,
-                  mainAxisSpacing: 14.h,
+                  crossAxisSpacing: 14.w,
+                  mainAxisSpacing: 12.h,
                   childAspectRatio: 1.70,
                 ),
                 itemBuilder: (context, index) {
-                  final issues = [
-                    {
-                      "icon": Icons.water_drop_outlined,
-                      "title": "WATER LEAKAGE",
-                      "subtitle": "Apartment or common-area leakage",
+                  final cat = issueCategories[index];
+                  final isSelected = selectedCategory == cat["key"];
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedCategory = cat["key"] as String;
+                        subjectController.text = cat["title"] as String;
+                      });
                     },
-                    {
-                      "icon": Icons.bolt_outlined,
-                      "title": "ELECTRICAL",
-                      "subtitle": "Apartment or common-area issue",
-                    },
-                    {
-                      "icon": Icons.elevator_outlined,
-                      "title": "LIFT PROBLEM",
-                      "subtitle": "Common building lift issue",
-                    },
-                    {
-                      "icon": Icons.plumbing_outlined,
-                      "title": "PLUMBING",
-                      "subtitle": "Apartment plumbing problem",
-                    },
-                    {
-                      "icon": Icons.ac_unit_outlined,
-                      "title": "AC / COOLING",
-                      "subtitle": "AC / Cooling",
-                    },
-                    {
-                      "icon": Icons.grain_outlined,
-                      "title": "OTHER",
-                      "subtitle": "Other issue",
-                    },
-                  ];
-
-                  return _issueCard(
-                    icon: issues[index]["icon"] as IconData,
-                    title: issues[index]["title"] as String,
-                    subtitle: issues[index]["subtitle"] as String,
+                    child: _issueCard(
+                      icon: cat["icon"] as IconData,
+                      title: cat["title"] as String,
+                      subtitle: cat["subtitle"] as String,
+                      isSelected: isSelected,
+                    ),
                   );
                 },
+              ),
+              SizedBox(height: 18.h),
+              // Subject Field
+              Text(
+                "Subject",
+                style: GoogleFonts.outfit(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 10.h),
+              TextField(
+                controller: subjectController,
+                style: GoogleFonts.inter(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF101C16),
+                ),
+                decoration: InputDecoration(
+                  hintText: "e.g. Bathroom Water Leakage",
+                  hintStyle: GoogleFonts.inter(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFF888888),
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 12.h,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: const BorderSide(color: Color(0xFF999999)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: const BorderSide(color: Color(0xFF999999)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: const BorderSide(
+                      color: Color(0xFF101C16),
+                      width: 1.4,
+                    ),
+                  ),
+                ),
               ),
               SizedBox(height: 16.h),
               Text(
@@ -406,6 +498,7 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
                 child: TextField(
                   maxLines: null,
                   expands: true,
+                  controller: descriptionController,
                   textAlignVertical: TextAlignVertical.top,
                   style: GoogleFonts.inter(
                     fontSize: 16.sp,
@@ -479,7 +572,6 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
                         width: 50.w,
                         decoration: BoxDecoration(
                           color: const Color(0xFFEBD9A5),
-                          // borderRadius: BorderRadius.circular(10.r),
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: image == null
@@ -542,18 +634,84 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
                       borderRadius: BorderRadius.circular(5.r),
                     ),
                   ),
-                  onPressed: () {
-                    showComplaintSuccessPopup(context);
+                  onPressed: () async {
+                    if (selectedCategory == null) {
+                      showErrorSnackBar("Please select an issue category");
+                      return;
+                    }
+                    if (subjectController.text.trim().isEmpty) {
+                      showErrorSnackBar("Please enter a subject");
+                      return;
+                    }
+                    if (descriptionController.text.trim().isEmpty) {
+                      showErrorSnackBar("Please enter a description");
+                      return;
+                    }
+                    setState(() {
+                      isLoading = true;
+                    });
+                    try {
+                      MultipartFile? photoFile;
+                      if (image != null) {
+                        final fileName = image!.path
+                            .split(Platform.pathSeparator)
+                            .last;
+                        photoFile = await MultipartFile.fromFile(
+                          image!.path,
+                          filename: fileName,
+                        );
+                      }
+                      final authService = ref.read(authServiceProvider);
+                      final response = await authService
+                          .addResidentComplaintData(
+                            category: selectedCategory!,
+                            subject: subjectController.text.trim(),
+                            description: descriptionController.text.trim(),
+                            // priority: selectedPriority,
+                            photo: photoFile,
+                          );
+                      if (response.status == true) {
+                        if (mounted) {
+                          showComplaintSuccessPopup(
+                            context,
+                            response.data?.complaint?.token ?? 'N/A',
+                          );
+                        }
+                      } else {
+                        showErrorSnackBar(
+                          response.message ?? "Failed to raise complaint",
+                        );
+                      }
+                    } catch (e) {
+                      showErrorSnackBar(
+                        "Failed to raise complaint: ${e.toString()}",
+                      );
+                    } finally {
+                      if (mounted) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    }
                   },
-                  child: Text(
-                    "Submit Complaint",
-                    style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
+                  child: isLoading
+                      ? SizedBox(
+                          height: 20.h,
+                          width: 20.w,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text(
+                          "Submit Complaint",
+                          style: GoogleFonts.outfit(
+                            fontSize: 15.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
                 ),
               ),
               SizedBox(height: 30.h),
@@ -568,12 +726,17 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
     required IconData icon,
     required String title,
     required String subtitle,
+    required bool isSelected,
   }) {
     return Container(
       padding: EdgeInsets.only(left: 11.w, right: 8.w, top: 10.h, bottom: 8.h),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF101C16), width: 1.2),
-        borderRadius: BorderRadius.circular(4.r),
+        color: isSelected ? const Color(0xFFF1EADB) : Colors.transparent,
+        border: Border.all(
+          color: isSelected ? const Color(0xFFB8860B) : const Color(0xFF101C16),
+          width: isSelected ? 2.0 : 1.2,
+        ),
+        borderRadius: BorderRadius.circular(6.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -588,30 +751,26 @@ class _RaisecomplaintState extends State<Raisecomplaint> {
             alignment: Alignment.center,
             child: Icon(icon, size: 19.sp, color: const Color(0xFFB8860B)),
           ),
-
           SizedBox(height: 6.h),
           Text(
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
               color: const Color(0xFF101C16),
-              letterSpacing: -0.2,
             ),
           ),
-
-          SizedBox(height: 5.h),
+          SizedBox(height: 4.h),
           Text(
             subtitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
               color: const Color(0xFF666666),
-              letterSpacing: -0.2,
             ),
           ),
         ],

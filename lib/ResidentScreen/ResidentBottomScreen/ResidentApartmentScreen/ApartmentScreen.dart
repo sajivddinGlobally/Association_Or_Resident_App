@@ -249,7 +249,8 @@ class _ApartmentscreenState extends State<Apartmentscreen> {
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (context) => Residentcomplantstatus(),
+                            builder: (context) =>
+                                Residentcomplantstatus(complainID: ''),
                           ),
                         );
                       },

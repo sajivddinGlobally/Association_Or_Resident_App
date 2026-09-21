@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:property_association_or_resident/AssociationScreen/MantenanceCharges/outStandingPending.dart';
 import 'package:property_association_or_resident/Core/Network/ApiStateNetwork.dart';
@@ -10,6 +12,11 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/g
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitListModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
+import '../../ResidentScreen/Model/getComplaintListModel.dart';
+import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
+import '../../ResidentScreen/Model/getComplaintTrackingModel.dart';
+import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
 import '../data/model/BodyModel/assocationCalenderBodyModel.dart';
@@ -623,6 +630,65 @@ class AuthService {
   Future<ResidentDashbordModel> getResidentDashboardData() async {
     try {
       final response = await api.getResidentDashbordData();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GetResidentProfileModel> getResidentProfileData() async {
+    try {
+      final response = await api.getResidentProfileData();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<AddResidentComplaintResModel> addResidentComplaintData({
+    required String category,
+    required String subject,
+    required String description,
+    required MultipartFile? photo,
+  }) async {
+    try {
+      final response = await api.addResidentComplaint(
+        category,
+        subject,
+        description,
+        photo,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Future<GetComplaintRequestListModel> getComplaintFormData() async {
+  //   try {
+  //     final response = await api.getComplaintFormData();
+  //     return response;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
+
+  Future<GetComplaintListModel> getComplaintList({
+    required String status,
+  }) async {
+    try {
+      final response = await api.getComplaintList(status: status);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GetComplaintTrackingModel> getComplaintTracking({
+    required String id,
+  }) async {
+    try {
+      final response = await api.getComplaintTracking(id);
       return response;
     } catch (e) {
       rethrow;

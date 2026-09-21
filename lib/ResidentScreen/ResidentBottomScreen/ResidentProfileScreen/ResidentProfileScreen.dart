@@ -10,9 +10,7 @@ import 'package:property_association_or_resident/ResidentScreen/ResidentAssociat
 import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentProfileScreen/ResidentChangePassword.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentProfileScreen/Resident_MyProfile.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentNotification_Screen.dart';
-import 'package:property_association_or_resident/ResidentScreen/ResidentLoginScreen.dart';
-
-import '../../../AssociationScreen/AssociationProfile/Provider/getProfileProvider.dart';
+import 'provider/getResidentProfileProvider.dart';
 
 class Residentprofilescreen extends ConsumerStatefulWidget {
   const Residentprofilescreen({super.key});
@@ -25,7 +23,7 @@ class Residentprofilescreen extends ConsumerStatefulWidget {
 class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
   @override
   Widget build(BuildContext context) {
-    final residentProfileState = ref.watch(getProfileProvider);
+    final residentProfileState = ref.watch(getResidentProfileProvider);
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -88,22 +86,38 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                         Row(
                           children: [
                             ClipOval(
-                              child: Image.asset(
-                                "assets/profile (2).png",
+                              child: Image.network(
+                                // "assets/profile (2).png",
+                                data.data?.avatarUrl ?? "",
                                 width: 58.w,
                                 height: 58.w,
                                 fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 58.w,
+                                    height: 58.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.circular(50.r),
+                                    ),
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                      size: 30.sp,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
 
                             SizedBox(width: 10.w),
-
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Ahmed Rahman",
+                                    // "Ahmed Rahman",
+                                    data.data?.name ?? "N/A",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
@@ -113,11 +127,10 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                                       letterSpacing: -0.2,
                                     ),
                                   ),
-
                                   SizedBox(height: 2.h),
-
                                   Text(
-                                    "Resident · Apartment A-204",
+                                    // "Resident · Apartment A-204",
+                                    data.data?.subtitle ?? "N/A",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
@@ -145,7 +158,8 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
-                            "•  Resident Access Active",
+                            data.data?.statusBadge ??
+                                "•  Resident Access Active",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
@@ -246,7 +260,98 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                     ),
                   ),
                   SizedBox(height: 16.h),
-                  residentAccess(),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color(0xFF101C16),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "Resident Access",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF101C16),
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 14.w,
+                                vertical: 5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE8D4A0),
+                                borderRadius: BorderRadius.circular(25.r),
+                              ),
+                              child: Text(
+                                // "ACTIVE",
+                                data.data?.currentAccess?.status ?? "",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFFB8860B),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 9.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _accessItem(
+                                "Apartment",
+                                data.data?.currentAccess?.apartment ?? "",
+                              ),
+                            ),
+                            SizedBox(width: 20.w),
+                            Expanded(
+                              child: _accessItem(
+                                "Building",
+                                data.data?.currentAccess?.building ?? "",
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 11.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _accessItem(
+                                "Property",
+                                data.data?.currentAccess?.property ?? "",
+                              ),
+                            ),
+                            SizedBox(width: 20.w),
+                            Expanded(
+                              child: _accessItem(
+                                "Role",
+                                data.data?.currentAccess?.role ?? "",
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 20.h),
                   Text(
                     "Preferences & Security",
@@ -427,74 +532,6 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget residentAccess() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF101C16), width: 1),
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  "Resident Access",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.outfit(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF101C16),
-                    letterSpacing: -0.2,
-                  ),
-                ),
-              ),
-
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 5.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE8D4A0),
-                  borderRadius: BorderRadius.circular(25.r),
-                ),
-                child: Text(
-                  "ACTIVE",
-                  style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFFB8860B),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          SizedBox(height: 9.h),
-          Row(
-            children: [
-              Expanded(child: _accessItem("Apartment", "A-204")),
-              SizedBox(width: 20.w),
-              Expanded(child: _accessItem("Building", "Building A")),
-            ],
-          ),
-
-          SizedBox(height: 11.h),
-          Row(
-            children: [
-              Expanded(child: _accessItem("Property", "Green Valley")),
-              SizedBox(width: 20.w),
-              Expanded(child: _accessItem("Role", "Resident")),
-            ],
           ),
         ],
       ),

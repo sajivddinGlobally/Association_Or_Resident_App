@@ -13,7 +13,12 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/m
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/maintananceDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/outstandingPendingModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintListModel.dart';
+import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintTrackingModel.dart';
 import 'package:retrofit/retrofit.dart';
+import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
+import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
+import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
 import '../data/model/BodyModel/assocationCalenderBodyModel.dart';
@@ -252,4 +257,27 @@ abstract class ApiStateNetwork {
   /////////////////////////////// resident dashbord ////////////////
   @GET("/api/v1/resident/dashboard")
   Future<ResidentDashbordModel> getResidentDashbordData();
+
+  @GET("/api/v1/auth/me")
+  Future<GetResidentProfileModel> getResidentProfileData();
+
+  @MultiPart()
+  @POST("/api/v1/resident/complaints")
+  Future<AddResidentComplaintResModel> addResidentComplaint(
+    @Part(name: "category") String category,
+    @Part(name: "subject") String subject,
+    @Part(name: "description") String description,
+    @Part(name: "photo") MultipartFile? photo,
+  );
+
+  // @GET("/api/v1/resident/complaints/form-data")
+  // Future<GetComplaintRequestListModel> getComplaintFormData();
+
+  @GET("/api/v1/resident/complaints")
+  Future<GetComplaintListModel> getComplaintList({
+    @Query("status") String? status,
+  });
+
+  @GET("/api/v1/resident/complaints/{id}")
+  Future<GetComplaintTrackingModel> getComplaintTracking(@Path('id') String id);
 }

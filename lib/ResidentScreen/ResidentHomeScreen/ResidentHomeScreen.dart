@@ -33,14 +33,14 @@ class _ResidentBottomNavBarState extends State<ResidentBottomNavBar> {
 
   List<Widget> get pages => [
     Residenthomescreen(
-      onDocumentTap: () {
+      onReqeustTap: () {
         setState(() {
-          selectedBottomIndex = 3;
+          selectedBottomIndex = 2;
         });
       },
       onProfileTap: () {
         setState(() {
-          selectedBottomIndex = 4;
+          selectedBottomIndex = 3;
         });
       },
     ),
@@ -50,50 +50,61 @@ class _ResidentBottomNavBarState extends State<ResidentBottomNavBar> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBg,
-      body: pages[selectedBottomIndex],
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: Container(
-          width: double.infinity,
-          height: 70.h,
-          decoration: BoxDecoration(
-            color: Color(0xFFFFFCEB),
-            border: Border(
-              top: BorderSide(color: const Color(0xFF17221D), width: 1.w),
+    return WillPopScope(
+      onWillPop: () async {
+        if (selectedBottomIndex != 0) {
+          setState(() {
+            selectedBottomIndex = 0;
+          });
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBg,
+        body: pages[selectedBottomIndex],
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: Container(
+            width: double.infinity,
+            height: 70.h,
+            decoration: BoxDecoration(
+              color: Color(0xFFFFFCEB),
+              border: Border(
+                top: BorderSide(color: const Color(0xFF17221D), width: 1.w),
+              ),
             ),
-          ),
-          child: Row(
-            children: [
-              _bottomItem(
-                index: 0,
-                // image: "assets/bottam_img.png",
-                image: "assets/SvgImage/homeicon.svg",
-                title: "Home",
-              ),
+            child: Row(
+              children: [
+                _bottomItem(
+                  index: 0,
+                  // image: "assets/bottam_img.png",
+                  image: "assets/SvgImage/homeicon.svg",
+                  title: "Home",
+                ),
 
-              _bottomItem(
-                index: 1,
-                // image: "assets/bottom_img2.png",
-                image: "assets/SvgImage/bottom_img2.svg",
-                title: "Apartment",
-              ),
+                _bottomItem(
+                  index: 1,
+                  // image: "assets/bottom_img2.png",
+                  image: "assets/SvgImage/bottom_img2.svg",
+                  title: "Apartment",
+                ),
 
-              _bottomItem(
-                index: 2,
-                // image: "assets/bottom_img3.png",
-                image: "assets/SvgImage/bottam_img.svg",
-                title: "Requests",
-              ),
+                _bottomItem(
+                  index: 2,
+                  // image: "assets/bottom_img3.png",
+                  image: "assets/SvgImage/bottam_img.svg",
+                  title: "Requests",
+                ),
 
-              _bottomItem(
-                index: 3,
-                // image: "assets/bottom_img5.png",
-                image: "assets/SvgImage/profileicon.svg",
-                title: "Account",
-              ),
-            ],
+                _bottomItem(
+                  index: 3,
+                  // image: "assets/bottom_img5.png",
+                  image: "assets/SvgImage/profileicon.svg",
+                  title: "Account",
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -157,11 +168,11 @@ class _ResidentBottomNavBarState extends State<ResidentBottomNavBar> {
 }
 
 class Residenthomescreen extends ConsumerStatefulWidget {
-  final VoidCallback onDocumentTap;
+  final VoidCallback onReqeustTap;
   final VoidCallback onProfileTap;
   const Residenthomescreen({
     super.key,
-    required this.onDocumentTap,
+    required this.onReqeustTap,
     required this.onProfileTap,
   });
 
@@ -174,6 +185,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
   Widget build(BuildContext context) {
     final dashBoardData = ref.watch(residentDashboardProvider);
     var box = Hive.box("associationdata");
+    final headers = dashBoardData.valueOrNull?.data?.header;
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -237,18 +249,19 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    right: 0.w,
-                    top: -2.h,
-                    child: Container(
-                      width: 8.w,
-                      height: 8.w,
-                      decoration: const BoxDecoration(
-                        color: Color(0xffD5A52C),
-                        shape: BoxShape.circle,
+                  if (headers?.unreadNotificationsCount != 0)
+                    Positioned(
+                      right: 0.w,
+                      top: -2.h,
+                      child: Container(
+                        width: 8.w,
+                        height: 8.w,
+                        decoration: const BoxDecoration(
+                          color: Color(0xffD5A52C),
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
               SizedBox(width: 8.w),
@@ -289,11 +302,38 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       height: 252.h,
                       child: Stack(
                         children: [
-                          Image.asset(
-                            "assets/ResidentHome.png",
+                          Image.network(
+                            // "assets/ResidentHome.png",
+                            data.data?.myResidence?.image ?? "",
                             width: double.infinity,
                             height: double.infinity,
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: double.infinity,
+                                height: 252.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(30.r),
+                                    bottomRight: Radius.circular(30.r),
+                                  ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(0xff101C16).withOpacity(0.0),
+                                      Color(0xff101C16).withOpacity(0.4),
+                                      Color(0xff101C16).withOpacity(0.9),
+                                      Color(0xff101C16),
+                                    ],
+                                    stops: const [0.0, 0.4, 0.75, 1.0],
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Icon(Icons.broken_image, size: 20.w),
+                                ),
+                              );
+                            },
                           ),
 
                           Positioned.fill(
@@ -315,7 +355,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                             left: 23.w,
                             bottom: 71.h,
                             child: Text(
-                              "My Residence",
+                              data.data?.myResidence?.tag ?? "My Residence",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
@@ -330,7 +370,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                             left: 23.w,
                             bottom: 49.h,
                             child: Text(
-                              "Green Valley",
+                              data.data?.myResidence?.complexName ??
+                                  "Green Valley",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
@@ -354,7 +395,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                 borderRadius: BorderRadius.circular(50.r),
                               ),
                               child: Text(
-                                "A-204",
+                                data.data?.myResidence?.unitBadge ?? "A-204",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
@@ -370,7 +411,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                             left: 23.w,
                             bottom: 29.h,
                             child: Text(
-                              "Your registered apartment",
+                              data.data?.myResidence?.subtitle ??
+                                  "Your registered apartment",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
@@ -401,7 +443,19 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   Row(
                     children: [
                       Expanded(
-                        child: GestureDetector(
+                        child: _serviceCard(
+                          title:
+                              data.data?.quickActions?.raiseComplaint?.title ??
+                              "Raise Complaint",
+                          subtitle:
+                              data
+                                  .data
+                                  ?.quickActions
+                                  ?.raiseComplaint
+                                  ?.subtitle ??
+                              "Report an issue and receive a token",
+                          icon: Icons.warning_amber_rounded,
+                          isSelected: true,
                           onTap: () {
                             Navigator.push(
                               context,
@@ -410,23 +464,20 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               ),
                             );
                           },
-                          child: _serviceCard(
-                            title: "Raise Complaint",
-                            subtitle: "Report an issue and receive a token",
-                            icon: Icons.warning_amber_rounded,
-                            isSelected: true,
-                          ),
                         ),
                       ),
-
                       SizedBox(width: 20.w),
-
                       Expanded(
                         child: _serviceCard(
-                          title: "My Requests",
-                          subtitle: "Track your complaints",
+                          title:
+                              data.data?.quickActions?.myRequests?.title ??
+                              "My Requests",
+                          subtitle:
+                              data.data?.quickActions?.myRequests?.subtitle ??
+                              "Track your complaints",
                           icon: Icons.chat_bubble_outline,
                           isSelected: false,
+                          onTap: widget.onReqeustTap,
                         ),
                       ),
                     ],
@@ -481,7 +532,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "MMC Status",
+                                  data.data?.community?.mmcStatus?.title ??
+                                      "MMC Status",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
@@ -490,7 +542,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                   ),
                                 ),
                                 Text(
-                                  "Monthly maintenance charges",
+                                  data.data?.community?.mmcStatus?.subtitle ??
+                                      "Monthly maintenance charges",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
@@ -513,7 +566,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Paid",
+                                data.data?.community?.mmcStatus?.badge ??
+                                    "Paid",
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
                                   color: const Color(0xFFB8860B),
@@ -538,8 +592,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       );
                     },
                     child: associationCard(
-                      title: "Association Calendar",
-                      subtitle: "Upcoming community events",
+                      title:
+                          data.data?.community?.associationCalendar?.title ??
+                          "Association Calendar",
+                      subtitle:
+                          data.data?.community?.associationCalendar?.subtitle ??
+                          "Upcoming community events",
                       icon: Icons.calendar_month_outlined,
                     ),
                   ),
@@ -547,8 +605,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   SizedBox(height: 16.h),
 
                   associationCard(
-                    title: "Notifications",
-                    subtitle: "Association announcements",
+                    title:
+                        data.data?.community?.notifications?.title ??
+                        "Notifications",
+                    subtitle:
+                        data.data?.community?.notifications?.subtitle ??
+                        "Association announcements",
                     icon: Icons.notifications_none_outlined,
                   ),
                   SizedBox(height: 16.h),
@@ -578,8 +640,15 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               );
                             },
                             child: supportCard(
-                              title: "Support",
+                              title:
+                                  data.data?.support?.caretakerSupport?.title ??
+                                  "Support",
                               subtitle:
+                                  data
+                                      .data
+                                      ?.support
+                                      ?.caretakerSupport
+                                      ?.subtitle ??
                                   "Caretaker & Association Representative",
                               icon: Icons.headset_mic_outlined,
                             ),
@@ -600,8 +669,16 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               );
                             },
                             child: supportCard(
-                              title: "Emergency Contact",
-                              subtitle: "Call for immediate assistance",
+                              title:
+                                  data.data?.support?.emergencyContact?.title ??
+                                  "Emergency Contact",
+                              subtitle:
+                                  data
+                                      .data
+                                      ?.support
+                                      ?.emergencyContact
+                                      ?.subtitle ??
+                                  "Call for immediate assistance",
                               icon: Icons.phone_outlined,
                             ),
                           ),
@@ -677,7 +754,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        "Property Assistant",
+                                        data
+                                                .data
+                                                ?.assistant
+                                                ?.propertyAssistant
+                                                ?.title ??
+                                            "Property Assistant",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.outfit(
@@ -702,7 +784,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                         ),
                                       ),
                                       child: Text(
-                                        "AI",
+                                        data
+                                                .data
+                                                ?.assistant
+                                                ?.propertyAssistant
+                                                ?.badge ??
+                                            "AI",
                                         style: GoogleFonts.outfit(
                                           fontSize: 10.sp,
                                           fontWeight: FontWeight.w500,
@@ -714,7 +801,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                 ),
                                 SizedBox(height: 2.h),
                                 Text(
-                                  "Ask me anything about your property",
+                                  data
+                                          .data
+                                          ?.assistant
+                                          ?.propertyAssistant
+                                          ?.subtitle ??
+                                      "Ask me anything about your property",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
@@ -763,7 +855,14 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                         ),
                       );
                     },
-                    child: visitorPassCard(),
+                    child: visitorPassCard(
+                      title:
+                          data.data?.assistant?.visitorPass?.title ??
+                          "Visitor Pass Request",
+                      subtitle:
+                          data.data?.assistant?.visitorPass?.subtitle ??
+                          "Create a visitor access request",
+                    ),
                   ),
                   SizedBox(height: 30.h),
                 ],
@@ -788,76 +887,80 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
     required String subtitle,
     required IconData icon,
     required bool isSelected,
+    required VoidCallback onTap,
   }) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-        color: isSelected ? AppColors.heading : Colors.transparent,
-        border: Border.all(
-          color: isSelected ? AppColors.heading : const Color(0xFFD9D5C9),
-          width: 1.5,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.heading : Colors.transparent,
+          border: Border.all(
+            color: isSelected ? AppColors.heading : const Color(0xFFD9D5C9),
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(9.r),
         ),
-        borderRadius: BorderRadius.circular(9.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 36.w,
-                height: 36.w,
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? const Color(0xFFF5F0DF)
-                      : const Color(0xFFF0EAD4),
-                  borderRadius: BorderRadius.circular(7.r),
-                ),
-                child: Center(
-                  child: Icon(
-                    icon,
-                    size: 18.sp,
-                    color: const Color(0xFFB8860B),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 36.w,
+                  height: 36.w,
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? const Color(0xFFF5F0DF)
+                        : const Color(0xFFF0EAD4),
+                    borderRadius: BorderRadius.circular(7.r),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      icon,
+                      size: 18.sp,
+                      color: const Color(0xFFB8860B),
+                    ),
                   ),
                 ),
-              ),
 
-              Icon(
-                Icons.arrow_forward,
-                size: 20.sp,
-                color: const Color(0xFFB8860B),
-              ),
-            ],
-          ),
-          SizedBox(height: 7.h),
-          Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.outfit(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w400,
-              color: isSelected ? Colors.white : const Color(0xFF101C16),
-              letterSpacing: -0.5,
+                Icon(
+                  Icons.arrow_forward,
+                  size: 20.sp,
+                  color: const Color(0xFFB8860B),
+                ),
+              ],
             ),
-          ),
-
-          SizedBox(height: 4.h),
-
-          Text(
-            subtitle,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.outfit(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              color: isSelected ? Colors.white : const Color(0xFF666666),
-              letterSpacing: -0.3,
+            SizedBox(height: 7.h),
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.outfit(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400,
+                color: isSelected ? Colors.white : const Color(0xFF101C16),
+                letterSpacing: -0.5,
+              ),
             ),
-          ),
-        ],
+
+            SizedBox(height: 4.h),
+
+            Text(
+              subtitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.outfit(
+                fontSize: 11.sp,
+                fontWeight: FontWeight.w500,
+                color: isSelected ? Colors.white : const Color(0xFF666666),
+                letterSpacing: -0.3,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -988,7 +1091,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
     );
   }
 
-  Widget visitorPassCard() {
+  Widget visitorPassCard({required String title, required String subtitle}) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
@@ -1019,7 +1122,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Visitor Pass Request",
+                  title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
@@ -1033,7 +1136,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                 SizedBox(height: 2.h),
 
                 Text(
-                  "Create a visitor access request",
+                  subtitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
