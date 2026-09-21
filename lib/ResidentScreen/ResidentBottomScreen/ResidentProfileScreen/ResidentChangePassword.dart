@@ -1,21 +1,41 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:svg_flutter/svg.dart';
 
-class Residentchangepassword extends StatefulWidget {
+class Residentchangepassword extends ConsumerStatefulWidget {
   const Residentchangepassword({super.key});
 
   @override
-  State<Residentchangepassword> createState() => _ResidentchangepasswordState();
+  ConsumerState<Residentchangepassword> createState() =>
+      _ResidentchangepasswordState();
 }
 
-class _ResidentchangepasswordState extends State<Residentchangepassword> {
+class _ResidentchangepasswordState
+    extends ConsumerState<Residentchangepassword> {
   bool isCurrentPasswordVisible = false;
   bool isNewPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
+  bool isLoading = false;
+  final currentPassController = TextEditingController();
+  final newPassController = TextEditingController();
+  final confirmPassController = TextEditingController();
+
+  @override
+  void dispose() {
+    currentPassController.dispose();
+    newPassController.dispose();
+    confirmPassController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +74,7 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Security & Password",
+                    "SECURITY & PASSWORD",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
@@ -120,7 +140,7 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Account Security",
+                            "Security & Password",
                             style: GoogleFonts.outfit(
                               fontSize: 17.sp,
                               fontWeight: FontWeight.w500,
@@ -129,7 +149,7 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
                             ),
                           ),
                           Text(
-                            "Your account is protected",
+                            "Manage password and account security",
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
@@ -190,6 +210,7 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildTextfield(
+                      controller: currentPassController,
                       label: "Current Password",
                       hintText: "Current Password",
                       isPasswordVisible: isCurrentPasswordVisible,
@@ -201,6 +222,7 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
                     ),
                     SizedBox(height: 12.h),
                     _buildTextfield(
+                      controller: newPassController,
                       label: "New Password",
                       hintText: "Enter New Password",
                       isPasswordVisible: isNewPasswordVisible,
@@ -212,6 +234,7 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
                     ),
                     SizedBox(height: 12.h),
                     _buildTextfield(
+                      controller: confirmPassController,
                       label: "Confirm New Password",
                       hintText: "Confirm New Password",
                       isPasswordVisible: isConfirmPasswordVisible,
@@ -235,7 +258,42 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
                       borderRadius: BorderRadius.circular(3.r),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (newPassController.text != confirmPassController.text) {
+                      showErrorSnackBar('Passwords do not match');
+                      return;
+                    }
+                    if (newPassController.text.isEmpty ||
+                        confirmPassController.text.isEmpty ||
+                        currentPassController.text.isEmpty) {
+                      showErrorSnackBar('Please fill all the fields');
+                      return;
+                    }
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    try {
+                      final service = ref.read(authServiceProvider);
+                      final response = await service.changePassword(
+                        currentPassword: currentPassController.text,
+                        newPassword: newPassController.text,
+                        confirmNewPassword: confirmPassController.text,
+                      );
+                      if (context.mounted) {
+                        showSuccessSnackBar('Password changed successfully');
+                        if (response.status == true) {
+                          Navigator.pop(context);
+                        }
+                      }
+                    } catch (e) {
+                      log(e.toString());
+                    } finally {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  },
                   child: Text(
                     "Update Password",
                     style: GoogleFonts.outfit(
@@ -243,26 +301,6 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
                       color: Color(0xffFFFFFF),
                       fontSize: 15.sp,
                       letterSpacing: -0.34,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              Container(
-                width: double.infinity,
-                height: 36.h,
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.heading),
-                  borderRadius: BorderRadius.circular(3.r),
-                ),
-                child: Center(
-                  child: Text(
-                    "Cancel",
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      fontSize: 15.sp,
-                      letterSpacing: -0.2,
                     ),
                   ),
                 ),
@@ -279,6 +317,7 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
     required String hintText,
     required bool isPasswordVisible,
     required VoidCallback onVisibilityChanged,
+    required TextEditingController controller,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,6 +337,7 @@ class _ResidentchangepasswordState extends State<Residentchangepassword> {
           height: 40.h,
           decoration: const BoxDecoration(color: Colors.transparent),
           child: TextField(
+            controller: controller,
             cursorColor: AppColors.heading,
             cursorHeight: 18.h,
             cursorWidth: 1.5.w,

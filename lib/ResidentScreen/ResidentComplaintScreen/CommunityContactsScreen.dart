@@ -1,20 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 
-class Communitycontactsscreen extends StatefulWidget {
+import 'Provider/ResidentCommunityContactProvider.dart';
+
+class Communitycontactsscreen extends ConsumerStatefulWidget {
   const Communitycontactsscreen({super.key});
 
   @override
-  State<Communitycontactsscreen> createState() =>
+  ConsumerState<Communitycontactsscreen> createState() =>
       _CommunitycontactsscreenState();
 }
 
-class _CommunitycontactsscreenState extends State<Communitycontactsscreen> {
+class _CommunitycontactsscreenState
+    extends ConsumerState<Communitycontactsscreen> {
   @override
   Widget build(BuildContext context) {
+    final CommunityContactState = ref.watch(residentCommunityContactProvider);
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -51,7 +56,7 @@ class _CommunitycontactsscreenState extends State<Communitycontactsscreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Raise Complaint",
+                    "Community Contacts",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
@@ -61,7 +66,7 @@ class _CommunitycontactsscreenState extends State<Communitycontactsscreen> {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    "Tell us what needs attention",
+                    "Contact your community support team",
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
@@ -75,49 +80,61 @@ class _CommunitycontactsscreenState extends State<Communitycontactsscreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20.h),
-            Text(
-              "Caretaker",
-              style: GoogleFonts.outfit(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w500,
-                color: AppColors.heading,
-                letterSpacing: -0.2,
-              ),
+      body: CommunityContactState.when(
+        data: (data) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20.h),
+                Text(
+                  data.data.caretaker.sectionTitle,
+                  style: GoogleFonts.outfit(
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.heading,
+                    letterSpacing: -0.2,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                personCard(
+                  name: data.data.caretaker.name,
+                  role: data.data.caretaker.subtitle,
+                  phone: data.data.caretaker.phone,
+                  badge: data.data.caretaker.badge,
+                  icon: Icons.person_outline,
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  data.data.associationRepresentative.sectionTitle,
+                  style: GoogleFonts.outfit(
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.heading,
+                    letterSpacing: -0.2,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                personCard(
+                  name: data.data.associationRepresentative.name,
+                  role: data.data.associationRepresentative.subtitle,
+                  phone: data.data.associationRepresentative.phone,
+                  badge: data.data.associationRepresentative.badge,
+                  icon: Icons.group,
+                ),
+              ],
             ),
-            SizedBox(height: 16.h),
-            personCard(
-              name: "Ahmed Khan",
-              role: "Building A Caretaker",
-              phone: "+966 55 765 4321",
-              badge: "CARETAKER",
-              icon: Icons.person_outline,
-            ),
-            SizedBox(height: 20.h),
-            Text(
-              "Association Representative",
-              style: GoogleFonts.outfit(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w500,
-                color: AppColors.heading,
-                letterSpacing: -0.2,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            personCard(
-              name: "Mohammed Ali",
-              role: "Association Representative",
-              phone: "+966 55 765 4321",
-              badge: "Association",
-              icon: Icons.group,
-            ),
-          ],
-        ),
+          );
+        },
+        error: (error, stackTrace) {
+          return const Center(child: Text("Something went wrong"));
+        },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.heading),
+          );
+        },
       ),
     );
   }

@@ -12,6 +12,9 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/g
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitListModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
+import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
+import '../../ResidentScreen/Model/ResidentPropertyDetailsResModel.dart';
 import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
 import '../../ResidentScreen/Model/getComplaintListModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
@@ -689,6 +692,33 @@ class AuthService {
   }) async {
     try {
       final response = await api.getComplaintTracking(id);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ResidentMmcStatusResModel> residentMmnStatusData() async {
+    try {
+      final response = await api.residentMmcStatus();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ResidentPropertyDetailsResModel> residentPropertyDetailsData() async {
+    try {
+      final response = await api.residentPropertyDetails();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ResidentCommunityContactResModel> residentCommunityContact() async {
+    try {
+      final response = await api.residentCommunityContact();
       return response;
     } catch (e) {
       rethrow;

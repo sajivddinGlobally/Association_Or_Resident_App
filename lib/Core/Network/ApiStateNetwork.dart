@@ -16,6 +16,9 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/p
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintListModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintTrackingModel.dart';
 import 'package:retrofit/retrofit.dart';
+import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
+import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
+import '../../ResidentScreen/Model/ResidentPropertyDetailsResModel.dart';
 import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/getResidentProfileModel.dart';
@@ -280,4 +283,14 @@ abstract class ApiStateNetwork {
 
   @GET("/api/v1/resident/complaints/{id}")
   Future<GetComplaintTrackingModel> getComplaintTracking(@Path('id') String id);
+
+
+  @GET("/api/v1/resident/mmc-status")
+  Future<ResidentMmcStatusResModel>  residentMmcStatus();
+
+  @GET("/api/v1/resident/property/details")
+  Future<ResidentPropertyDetailsResModel> residentPropertyDetails();
+
+   @GET("/api/v1/resident/communication")
+  Future<ResidentCommunityContactResModel> residentCommunityContact();
 }

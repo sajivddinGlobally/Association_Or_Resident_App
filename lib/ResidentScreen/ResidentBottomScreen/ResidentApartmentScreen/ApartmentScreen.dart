@@ -1,21 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/ComplaintStatus.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/ResidentComplantStatus.dart';
 
-class Apartmentscreen extends StatefulWidget {
+import 'Provider/ResidentPropertyDetailsProvider.dart';
+
+class Apartmentscreen extends ConsumerStatefulWidget {
   const Apartmentscreen({super.key});
 
   @override
-  State<Apartmentscreen> createState() => _ApartmentscreenState();
+  ConsumerState<Apartmentscreen> createState() => _ApartmentscreenState();
 }
 
-class _ApartmentscreenState extends State<Apartmentscreen> {
+class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
   @override
   Widget build(BuildContext context) {
+    final popertyDetailsState = ref.watch(residentPropertyDetailsProvider);
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: PreferredSize(
@@ -60,87 +64,159 @@ class _ApartmentscreenState extends State<Apartmentscreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
+      body: popertyDetailsState.when(
+        data: (data) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Image.asset(
-                      "assets/property_img (2).png",
-                      width: double.infinity,
-                      height: 183.h,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xff101C16).withOpacity(0.0),
-                            Color(0xff101C16).withOpacity(0.0),
-                            Color(0xff101C16),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10.r),
-                          bottomRight: Radius.circular(10.r),
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: Image.network(
+                          data.data.myProperty.image,
+                          width: double.infinity,
+                          height: 183.h,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: double.infinity,
+                              height: 305.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30.r),
+                                  bottomRight: Radius.circular(30.r),
+                                ),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Color(0xff101C16).withOpacity(0.0),
+                                    Color(0xff101C16).withOpacity(0.4),
+                                    Color(0xff101C16).withOpacity(0.9),
+                                    Color(0xff101C16),
+                                  ],
+                                  stops: const [0.0, 0.4, 0.75, 1.0],
+                                ),
+                              ),
+                              child: Center(
+                                child: Icon(Icons.broken_image, size: 20.w),
+                              ),
+                            );
+                          },
                         ),
                       ),
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color(0xff101C16).withOpacity(0.0),
+                                Color(0xff101C16).withOpacity(0.0),
+                                Color(0xff101C16),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10.r),
+                              bottomRight: Radius.circular(10.r),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 16.w,
+                        bottom: 17.h,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              data.data.myProperty.tag,
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xffFFFFFF),
+                                fontSize: 13.sp,
+                                letterSpacing: -0.24,
+                              ),
+                            ),
+                            SizedBox(height: 6.h),
+                            Text(
+                              data.data.myProperty.title,
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xffFFFFFF),
+                                fontSize: 17.sp,
+                                letterSpacing: -0.54,
+                              ),
+                            ),
+                            SizedBox(height: 6.h),
+                            Text(
+                              data.data.myProperty.subtitle,
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromRGBO(255, 255, 255, 0.6),
+                                fontSize: 14.sp,
+                                letterSpacing: -0.34,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30.h),
+                  Row(
+                    children: [
+                      Text(
+                        "Property Overview",
+                        style: GoogleFonts.outfit(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.heading,
+                          fontSize: 17.sp,
+                          letterSpacing: -0.34,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        "View All",
+                        style: GoogleFonts.outfit(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.heading,
+                          fontSize: 14.sp,
+                          letterSpacing: -0.34,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.heading),
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemCount:
+                          data.data.propertyOverview.specifications.length,
+                      itemBuilder: (context, index) {
+                        final item =
+                            data.data.propertyOverview.specifications[index];
+                        return _documentRow(
+                          title: item.label,
+                          value: item.value,
+                        );
+                      },
                     ),
                   ),
-                  Positioned(
-                    left: 16.w,
-                    bottom: 17.h,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "My Property",
-                          style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xffFFFFFF),
-                            fontSize: 13.sp,
-                            letterSpacing: -0.24,
-                          ),
-                        ),
-                        SizedBox(height: 6.h),
-                        Text(
-                          "Apartment A-204",
-                          style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xffFFFFFF),
-                            fontSize: 17.sp,
-                            letterSpacing: -0.54,
-                          ),
-                        ),
-                        SizedBox(height: 6.h),
-                        Text(
-                          "Green Valley Residency · Jaipur",
-                          style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(255, 255, 255, 0.6),
-                            fontSize: 14.sp,
-                            letterSpacing: -0.34,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 30.h),
-              Row(
-                children: [
+                  SizedBox(height: 30.h),
                   Text(
-                    "Property Overview",
+                    "Property Information",
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
@@ -148,139 +224,131 @@ class _ApartmentscreenState extends State<Apartmentscreen> {
                       letterSpacing: -0.34,
                     ),
                   ),
-                  Spacer(),
-                  Text(
-                    "View All",
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      fontSize: 14.sp,
-                      letterSpacing: -0.34,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.h),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.heading),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Column(
-                  children: [
-                    _documentRow(title: "Property Number", value: "A-204"),
-                    _documentRow(title: "Property Type", value: "Apartment"),
-                    _documentRow(title: "Area", value: "1,250 sq.ft"),
-                    _documentRow(title: "Location", value: "Jaipur, Rajasthan"),
-                    _documentRow(title: "Property Status", value: "Good"),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30.h),
-              Text(
-                "Property Information",
-                style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.heading,
-                  fontSize: 17.sp,
-                  letterSpacing: -0.34,
-                ),
-              ),
-              SizedBox(height: 18.h),
-              GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 28.w,
-                mainAxisSpacing: 22.h,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                childAspectRatio: 1.75,
-                children: [
-                  _infoCard(
-                    icon: Icons.home_outlined,
-                    title: "Green Valley Residency",
-                    subtitle: "Associated Complex",
-                  ),
-
-                  _infoCard(
-                    icon: Icons.circle,
-                    title: "Rahul Sharma",
-                    subtitle: "Assigned Caretaker",
-                    iconSize: 19,
-                  ),
-                ],
-              ),
-              SizedBox(height: 25.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        foregroundColor: const Color(0xFF101C16),
-                        elevation: 0,
-                        padding: EdgeInsets.zero,
-                        fixedSize: Size(double.infinity, 44.h),
-                        side: BorderSide(
-                          color: const Color(0xFF777777),
-                          width: 1,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.r),
-                        ),
+                  SizedBox(height: 18.h),
+                  GridView.count(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 28.w,
+                    mainAxisSpacing: 22.h,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    childAspectRatio: 1.50,
+                    children: [
+                      _infoCard(
+                        icon: Icons.home_outlined,
+                        title: data
+                            .data
+                            .propertyInformation
+                            .cards
+                            .associatedComplex
+                            .name,
+                        subtitle: data
+                            .data
+                            .propertyInformation
+                            .cards
+                            .associatedComplex
+                            .label,
                       ),
-                      child: Text(
-                        "Add Complain",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
+
+                      _infoCard(
+                        icon: Icons.circle,
+                        title: data
+                            .data
+                            .propertyInformation
+                            .cards
+                            .assignedCaretaker
+                            .name,
+                        subtitle: data
+                            .data
+                            .propertyInformation
+                            .cards
+                            .assignedCaretaker
+                            .label,
+                        iconSize: 19,
                       ),
-                    ),
+                    ],
                   ),
-
-                  SizedBox(width: 25.w),
-
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) =>
-                                Residentcomplantstatus(complainID: ''),
+                  SizedBox(height: 25.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            foregroundColor: const Color(0xFF101C16),
+                            elevation: 0,
+                            padding: EdgeInsets.zero,
+                            fixedSize: Size(double.infinity, 44.h),
+                            side: BorderSide(
+                              color: const Color(0xFF777777),
+                              width: 1,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
                           ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF101C16),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        padding: EdgeInsets.zero,
-                        fixedSize: Size(double.infinity, 44.h),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.r),
+                          child: Text(
+                            "Add Complain",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.outfit(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
-                      child: Text(
-                        "Complain Track Status  →",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
+
+                      SizedBox(width: 25.w),
+
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    Residentcomplantstatus(complainID: ""),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF101C16),
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            padding: EdgeInsets.zero,
+                            fixedSize: Size(double.infinity, 44.h),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                          ),
+                          child: Text(
+                            "Complain Track Status  →",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.outfit(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
+                  SizedBox(height: 20.h),
                 ],
               ),
-              SizedBox(height: 20.h),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
+        error: (error, stackTrace) {
+          return const Center(child: Text("Something went wrong"));
+        },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.heading),
+          );
+        },
       ),
     );
   }
@@ -373,7 +441,7 @@ class _ApartmentscreenState extends State<Apartmentscreen> {
           SizedBox(height: 8.h),
           Text(
             title,
-            maxLines: 1,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
               fontSize: 15.sp,
