@@ -5,12 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/ComplaintStatus.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/ResidentScreen/RaiseComplaintScreen/RaiseComplaint.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/ResidentComplantStatus.dart';
 
+import '../ResidentRequestScreen/ResidentRequestScreen.dart';
 import 'Provider/ResidentPropertyDetailsProvider.dart';
 
 class Apartmentscreen extends ConsumerStatefulWidget {
-  const Apartmentscreen({super.key});
+  final bool isShowBackButton;
+  const Apartmentscreen({super.key, this.isShowBackButton = true});
 
   @override
   ConsumerState<Apartmentscreen> createState() => _ApartmentscreenState();
@@ -29,34 +32,60 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
           child: SafeArea(
             child: Padding(
               padding: EdgeInsets.only(left: 20.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  Text(
-                    "PROPERTY DETAILS",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                  if (widget.isShowBackButton)
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 41.w,
+                        height: 41.h,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color.fromRGBO(16, 28, 22, 0.3),
+                          ),
+                          borderRadius: BorderRadius.circular(4.r),
+                        ),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: const Color(0xff101C16),
+                          size: 16.sp,
+                        ),
+                      ),
                     ),
-                  ),
+                  SizedBox(width: 10.w),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "PROPERTY DETAILS",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.outfit(
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xff292832),
+                          letterSpacing: -0.64,
+                        ),
+                      ),
 
-                  SizedBox(height: 2.h),
+                      SizedBox(height: 2.h),
 
-                  Text(
-                    "Complete information about your property",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
-                    ),
+                      Text(
+                        "Complete information about your property",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromRGBO(42, 41, 51, 0.6),
+                          letterSpacing: -0.24,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -272,7 +301,14 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => Raisecomplaint(),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             foregroundColor: const Color(0xFF101C16),
@@ -308,7 +344,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                               context,
                               CupertinoPageRoute(
                                 builder: (context) =>
-                                    Residentcomplantstatus(complainID: ""),
+                                    Residentrequestscreen(showBackButton: true),
                               ),
                             );
                           },

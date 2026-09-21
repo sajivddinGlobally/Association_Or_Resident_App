@@ -12,10 +12,13 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/g
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitListModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
 import '../../ResidentScreen/Model/ResidentPropertyDetailsResModel.dart';
 import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
+import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
+import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintListModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/getComplaintTrackingModel.dart';
@@ -724,4 +727,38 @@ class AuthService {
       rethrow;
     }
   }
+
+  Future<CreatVisitorPassResModdel> createVisitorPassRequest({
+    required String visitorName,
+    required String mobileNumber,
+    required String visitorType,
+    required String visitDate,
+    required String visitTime,
+    required String purposeOfVisit,
+  }) async {
+    try {
+      final body = CreateVisitorPassBodyModdel(
+        visitorName: visitorName,
+        mobileNumber: mobileNumber,
+        visitorType: visitorType,
+        visitDate: visitDate,
+        visitTime: visitTime,
+        purposeOfVisit: purposeOfVisit,
+      );
+      final response = await api.createVisitorPassRequest(body);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+   Future<GetVisitorPassListModel> getVisitorPass() async {
+    try {
+      final response = await api.getVisitorPass();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

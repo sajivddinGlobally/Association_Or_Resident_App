@@ -15,12 +15,15 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/o
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintListModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintTrackingModel.dart';
+import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
 import '../../ResidentScreen/Model/ResidentPropertyDetailsResModel.dart';
 import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
+import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
+import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
 import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
@@ -284,13 +287,20 @@ abstract class ApiStateNetwork {
   @GET("/api/v1/resident/complaints/{id}")
   Future<GetComplaintTrackingModel> getComplaintTracking(@Path('id') String id);
 
-
   @GET("/api/v1/resident/mmc-status")
-  Future<ResidentMmcStatusResModel>  residentMmcStatus();
+  Future<ResidentMmcStatusResModel> residentMmcStatus();
 
   @GET("/api/v1/resident/property/details")
   Future<ResidentPropertyDetailsResModel> residentPropertyDetails();
 
-   @GET("/api/v1/resident/communication")
+  @GET("/api/v1/resident/communication")
   Future<ResidentCommunityContactResModel> residentCommunityContact();
+
+  @POST("/api/v1/resident/visitor-pass")
+  Future<CreatVisitorPassResModdel> createVisitorPassRequest(
+    @Body() CreateVisitorPassBodyModdel body,
+  );
+
+  @GET("/api/v1/resident/visitor-pass")
+  Future<GetVisitorPassListModel> getVisitorPass();
 }

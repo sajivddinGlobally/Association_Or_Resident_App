@@ -7,9 +7,12 @@ import 'package:hive/hive.dart';
 import 'package:property_association_or_resident/AssociationScreen/Auth/AssociationLogin.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentAssociationCalendarScreen/Resident_Calendar_Screen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentApartmentScreen/ApartmentScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentProfileScreen/ResidentChangePassword.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentProfileScreen/Resident_MyProfile.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/CommunityContactsScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentNotification_Screen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassRequest.dart';
 import 'provider/getResidentProfileProvider.dart';
 
 class Residentprofilescreen extends ConsumerStatefulWidget {
@@ -204,35 +207,51 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                             );
                           },
                         ),
-
                         Divider(height: 1, color: const Color(0xff555555)),
-
                         menuItem(
                           icon: Icons.home_outlined,
                           title: "My Apartment",
                           subtitle: "Green Valley · Building A · A-204",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    Apartmentscreen(isShowBackButton: true),
+                              ),
+                            );
+                          },
                         ),
-
                         Divider(height: 1, color: const Color(0xff555555)),
-
                         menuItem(
                           icon: Icons.calendar_month_outlined,
                           title: "Community Contacts",
                           subtitle: "Caretaker & Association Representative",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => Communitycontactsscreen(),
+                              ),
+                            );
+                          },
                         ),
-
                         Divider(height: 1, color: const Color(0xff555555)),
                         menuItem(
                           icon: Icons.calendar_month_outlined,
                           title: "Visitor Pass Request",
                           subtitle: "Visitor Pass Request",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    Residentvisitorpassrequest(),
+                              ),
+                            );
+                          },
                         ),
-
                         Divider(height: 1, color: const Color(0xff555555)),
-
                         menuItem(
                           icon: Icons.person_outline,
                           title: "Association Calendar",
@@ -384,9 +403,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                             );
                           },
                         ),
-
                         Divider(height: 1, color: const Color(0xff555555)),
-
                         menuItem(
                           icon: Icons.lock_outline,
                           title: "Security & Password",
@@ -467,19 +484,21 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.outfit(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff101C16),
+                      letterSpacing: -0.2,
                     ),
                   ),
                   Text(
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       color: const Color(0xff777777),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -488,8 +507,8 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
 
             Icon(
               Icons.chevron_right,
-              size: 27.sp,
-              color: const Color(0xff101C16),
+              size: 20.sp,
+              color: const Color(0xFF101C16),
             ),
           ],
         ),
