@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationProperty/AssociationPropertyUnitDetails.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/apiErrorWidget.dart';
 import 'Provider/getPropeertyUnitListProvider.dart';
 
 class AssociationProperty extends ConsumerStatefulWidget {
@@ -105,13 +106,40 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
           ],
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          return ref.refresh(getPropertyUnitListProvider(filterParams).future);
-        },
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
+      body: state.hasError && state.valueOrNull == null
+          ? RefreshIndicator(
+              color: AppColors.heading,
+              onRefresh: () async {
+                return ref.refresh(
+                  getPropertyUnitListProvider(filterParams).future,
+                );
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: 0.75.sh,
+                  child: ApiErrorWidget(
+                    error: state.error!,
+                    onRetry: () =>
+                        ref.refresh(getPropertyUnitListProvider(filterParams)),
+                    defaultTitle: "Complex Not Found",
+                    defaultSubtitle:
+                        "Unable to load property units because no complex information is associated with this account.",
+                    icon: Icons.apartment_outlined,
+                  ),
+                ),
+              ),
+            )
+          : RefreshIndicator(
+              color: AppColors.heading,
+              onRefresh: () async {
+                return ref.refresh(
+                  getPropertyUnitListProvider(filterParams).future,
+                );
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 16.h),
@@ -515,23 +543,14 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                   );
                 },
                 error: (error, stackTrace) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Something went wrong",
-                          style: GoogleFonts.outfit(color: AppColors.heading),
-                        ),
-                        SizedBox(height: 8.h),
-                        ElevatedButton(
-                          onPressed: () => ref.refresh(
-                            getPropertyUnitListProvider(filterParams),
-                          ),
-                          child: const Text("Retry"),
-                        ),
-                      ],
+                  return ApiErrorWidget(
+                    error: error,
+                    onRetry: () => ref.refresh(
+                      getPropertyUnitListProvider(filterParams),
                     ),
+                    defaultTitle: "Complex Not Found",
+                    defaultSubtitle: "Unable to load units for this complex.",
+                    icon: Icons.apartment_outlined,
                   );
                 },
                 loading: () => Center(

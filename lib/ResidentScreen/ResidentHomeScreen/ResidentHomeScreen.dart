@@ -604,14 +604,24 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
 
                   SizedBox(height: 16.h),
 
-                  associationCard(
-                    title:
-                        data.data?.community?.notifications?.title ??
-                        "Notifications",
-                    subtitle:
-                        data.data?.community?.notifications?.subtitle ??
-                        "Association announcements",
-                    icon: Icons.notifications_none_outlined,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => ResidentnotificationScreen(),
+                        ),
+                      );
+                    },
+                    child: associationCard(
+                      title:
+                          data.data?.community?.notifications?.title ??
+                          "Notifications",
+                      subtitle:
+                          data.data?.community?.notifications?.subtitle ??
+                          "Association announcements",
+                      icon: Icons.notifications_none_outlined,
+                    ),
                   ),
                   SizedBox(height: 16.h),
                   Text(

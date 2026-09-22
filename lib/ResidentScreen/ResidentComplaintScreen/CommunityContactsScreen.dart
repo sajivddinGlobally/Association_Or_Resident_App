@@ -1,9 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'Provider/ResidentCommunityContactProvider.dart';
 
@@ -17,9 +20,35 @@ class Communitycontactsscreen extends ConsumerStatefulWidget {
 
 class _CommunitycontactsscreenState
     extends ConsumerState<Communitycontactsscreen> {
+  Future<void> _makeCall(String telUriOrPhone) async {
+    try {
+      final String cleanPhone = telUriOrPhone
+          .replaceFirst('tel:', '')
+          .replaceAll(RegExp(r'\s+'), '');
+
+      final Uri uri = Uri(scheme: 'tel', path: cleanPhone);
+
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        final bool launched = await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+        if (!launched) {
+          showErrorSnackBar("Could not open dialer for $cleanPhone");
+        }
+      }
+    } catch (e) {
+      showErrorSnackBar("Unable to make call: $e");
+      log("Error making call: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final CommunityContactState = ref.watch(residentCommunityContactProvider);
+    final communityContactState = ref.watch(residentCommunityContactProvider);
+
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -70,7 +99,7 @@ class _CommunitycontactsscreenState
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
+                      color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
                   ),
@@ -80,50 +109,96 @@ class _CommunitycontactsscreenState
           ),
         ),
       ),
-      body: CommunityContactState.when(
+      body: communityContactState.when(
         data: (data) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20.h),
-                Text(
-                  data.data.caretaker.sectionTitle,
-                  style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.heading,
-                    letterSpacing: -0.2,
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                personCard(
-                  name: data.data.caretaker.name,
-                  role: data.data.caretaker.subtitle,
-                  phone: data.data.caretaker.phone,
-                  badge: data.data.caretaker.badge,
-                  icon: Icons.person_outline,
-                ),
-                SizedBox(height: 20.h),
-                Text(
-                  data.data.associationRepresentative.sectionTitle,
-                  style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.heading,
-                    letterSpacing: -0.2,
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                personCard(
-                  name: data.data.associationRepresentative.name,
-                  role: data.data.associationRepresentative.subtitle,
-                  phone: data.data.associationRepresentative.phone,
-                  badge: data.data.associationRepresentative.badge,
-                  icon: Icons.group,
-                ),
-              ],
+          final sections = data.data.sections;
+
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (sections.isNotEmpty) ...[
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: sections.length,
+                      separatorBuilder: (_, __) => SizedBox(height: 20.h),
+                      itemBuilder: (context, index) {
+                        final sec = sections[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: index == 0 ? 20.h : 0),
+                            Text(
+                              sec.sectionTitle,
+                              style: GoogleFonts.outfit(
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.heading,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                            personCard(
+                              name: sec.name,
+                              role: sec.subtitle,
+                              phone: sec.phone,
+                              badge: sec.badge,
+                              icon: sec.icon == "users"
+                                  ? Icons.group
+                                  : Icons.person_outline,
+                              telUri: sec.callAction.telUri,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ] else ...[
+                    SizedBox(height: 20.h),
+                    Text(
+                      data.data.caretaker.sectionTitle,
+                      style: GoogleFonts.outfit(
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.heading,
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    personCard(
+                      name: data.data.caretaker.name,
+                      role: data.data.caretaker.subtitle,
+                      phone: data.data.caretaker.phone,
+                      badge: data.data.caretaker.badge,
+                      icon: Icons.person_outline,
+                      telUri: data.data.caretaker.callAction.telUri,
+                    ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      data.data.associationRepresentative.sectionTitle,
+                      style: GoogleFonts.outfit(
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.heading,
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    personCard(
+                      name: data.data.associationRepresentative.name,
+                      role: data.data.associationRepresentative.subtitle,
+                      phone: data.data.associationRepresentative.phone,
+                      badge: data.data.associationRepresentative.badge,
+                      icon: Icons.group,
+                      telUri:
+                          data.data.associationRepresentative.callAction.telUri,
+                    ),
+                  ],
+                  SizedBox(height: 20.h),
+                ],
+              ),
             ),
           );
         },
@@ -145,6 +220,7 @@ class _CommunitycontactsscreenState
     required String phone,
     required String badge,
     required IconData icon,
+    String? telUri,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 11.h),
@@ -165,9 +241,7 @@ class _CommunitycontactsscreenState
                 ),
                 child: Icon(icon, size: 20.sp, color: const Color(0xffB8860B)),
               ),
-
               SizedBox(width: 10.w),
-
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +264,6 @@ class _CommunitycontactsscreenState
                   ],
                 ),
               ),
-
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
                 decoration: BoxDecoration(
@@ -208,13 +281,9 @@ class _CommunitycontactsscreenState
               ),
             ],
           ),
-
           SizedBox(height: 15.h),
-
           Divider(thickness: 1, color: AppColors.heading),
-
           SizedBox(height: 5.h),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -225,10 +294,11 @@ class _CommunitycontactsscreenState
                   color: const Color.fromRGBO(16, 28, 22, 0.6),
                 ),
               ),
-
               GestureDetector(
                 onTap: () {
-                  // Call action
+                  _makeCall(
+                    telUri != null && telUri.isNotEmpty ? telUri : phone,
+                  );
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(

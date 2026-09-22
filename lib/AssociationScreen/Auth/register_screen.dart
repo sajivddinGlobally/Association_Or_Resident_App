@@ -336,7 +336,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
                                   isDense: true,
-                                  hintText: 'Select Flat',
+                                  hintText: 'Select Complex Name',
                                   hintStyle: GoogleFonts.outfit(
                                     fontSize: 13.sp,
                                     fontWeight: FontWeight.w500,

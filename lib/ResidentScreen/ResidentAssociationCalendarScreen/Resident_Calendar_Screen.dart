@@ -1,19 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentAssociationCalendarScreen/provider/residentCalenderProvider.dart';
 
-class ResidentCalendarScreen extends StatefulWidget {
+class ResidentCalendarScreen extends ConsumerStatefulWidget {
   const ResidentCalendarScreen({super.key});
 
   @override
-  State<ResidentCalendarScreen> createState() => _ResidentCalendarScreenState();
+  ConsumerState<ResidentCalendarScreen> createState() =>
+      _ResidentCalendarScreenState();
 }
 
-class _ResidentCalendarScreenState extends State<ResidentCalendarScreen> {
+class _ResidentCalendarScreenState
+    extends ConsumerState<ResidentCalendarScreen> {
   DateTime currentMonth = DateTime.now();
-  DateTime selectedDate = DateTime.now();
+  DateTime? selectedDate;
+  String? currentMonthParam;
 
   final Set<int> eventDates = {3, 9, 18};
 
@@ -27,15 +31,23 @@ class _ResidentCalendarScreenState extends State<ResidentCalendarScreen> {
     "SAT",
   ];
 
-  void previousMonth() {
+  void previousMonth([String? prevMonthStr]) {
     setState(() {
+      if (prevMonthStr != null && prevMonthStr.isNotEmpty) {
+        currentMonthParam = prevMonthStr;
+      }
       currentMonth = DateTime(currentMonth.year, currentMonth.month - 1);
+      selectedDate = null;
     });
   }
 
-  void nextMonth() {
+  void nextMonth([String? nextMonthStr]) {
     setState(() {
+      if (nextMonthStr != null && nextMonthStr.isNotEmpty) {
+        currentMonthParam = nextMonthStr;
+      }
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+      selectedDate = null;
     });
   }
 
@@ -93,18 +105,49 @@ class _ResidentCalendarScreenState extends State<ResidentCalendarScreen> {
   }
 
   bool isSelected(DateTime date) {
-    return date.year == selectedDate.year &&
-        date.month == selectedDate.month &&
-        date.day == selectedDate.day;
+    if (selectedDate == null) return false;
+    return date.year == selectedDate!.year &&
+        date.month == selectedDate!.month &&
+        date.day == selectedDate!.day;
   }
 
   bool hasEvent(DateTime date) {
     return isCurrentMonth(date) && eventDates.contains(date.day);
   }
 
+  Color _parseColor(String? hexString, Color fallback) {
+    if (hexString == null || hexString.isEmpty) return fallback;
+    try {
+      final buffer = StringBuffer();
+      if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+      buffer.write(hexString.replaceFirst('#', ''));
+      return Color(int.parse(buffer.toString(), radix: 16));
+    } catch (_) {
+      return fallback;
+    }
+  }
+
+  IconData _getEventIcon(String? iconType) {
+    switch (iconType?.toLowerCase()) {
+      case 'users':
+      case 'meeting':
+        return Icons.groups_outlined;
+      case 'announcement':
+      case 'announcements':
+        return Icons.campaign_outlined;
+      case 'maintenance':
+        return Icons.build_outlined;
+      default:
+        return Icons.groups_outlined;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(getResidentCalenderProvider(currentMonthParam));
     final dates = getCalendarDates();
+    final headerData = state.valueOrNull?.data?.header;
+
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -141,7 +184,9 @@ class _ResidentCalendarScreenState extends State<ResidentCalendarScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Association Calendar",
+                    headerData?.tag ??
+                        headerData?.title ??
+                        "Association Calendar",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
@@ -151,11 +196,11 @@ class _ResidentCalendarScreenState extends State<ResidentCalendarScreen> {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    "View upcoming community events",
+                    headerData?.subtitle ?? "View upcoming community events",
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
+                      color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
                   ),
@@ -165,247 +210,450 @@ class _ResidentCalendarScreenState extends State<ResidentCalendarScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20.h),
-              Text(
-                "Calender",
-                style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.heading,
-                  letterSpacing: -0.2,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 22.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
+      body: state.when(
+        data: (data) {
+          final calendar = data.data?.calendar;
+          final upcoming = data.data?.upcomingEvents;
+          final daysGrid = calendar?.daysGrid;
+          final useApiGrid = daysGrid != null && daysGrid.isNotEmpty;
+          final weekdaysList = calendar?.weekdays ?? weekDays;
+          final eventsList = upcoming?.events ?? [];
+
+          final Set<String> upcomingEventDates = {};
+          for (final ev in eventsList) {
+            if (ev.dateRaw != null) {
+              upcomingEventDates.add(
+                "${ev.dateRaw!.year}-${ev.dateRaw!.month}-${ev.dateRaw!.day}",
+              );
+            }
+          }
+
+          final bool hasTodayInGrid =
+              useApiGrid && daysGrid.any((d) => d.isToday == true);
+
+          return RefreshIndicator(
+            color: AppColors.heading,
+            onRefresh: () async {
+              ref.invalidate(getResidentCalenderProvider(currentMonthParam));
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 18.w),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 45.w,
-                          width: 45.w,
-                          decoration: BoxDecoration(
-                            color: const Color(0xffEAF6F3),
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Icon(
-                            Icons.calendar_today_outlined,
-                            size: 23.sp,
-                            color: const Color(0xff007C6B),
-                          ),
-                        ),
-
-                        SizedBox(width: 13.w),
-
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    SizedBox(height: 20.h),
+                    Text(
+                      calendar?.title ?? "Calender",
+                      style: GoogleFonts.outfit(
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.heading,
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 22.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
                             children: [
-                              Text(
-                                "$monthName ${currentMonth.year}",
-                                style: GoogleFonts.inter(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: const Color(0xff101C16),
+                              Container(
+                                height: 45.w,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffEAF6F3),
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Icon(
+                                  Icons.calendar_today_outlined,
+                                  size: 23.sp,
+                                  color: const Color(0xff007C6B),
                                 ),
                               ),
-
-                              SizedBox(height: 3.h),
-
-                              Text(
-                                "Community Calendar",
-                                style: GoogleFonts.inter(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xff777777),
+                              SizedBox(width: 13.w),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      calendar?.monthYear ??
+                                          "$monthName ${currentMonth.year}",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: const Color(0xff101C16),
+                                      ),
+                                    ),
+                                    SizedBox(height: 3.h),
+                                    Text(
+                                      calendar?.subtitle ??
+                                          "Community Calendar",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: const Color(0xff777777),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () =>
+                                    previousMonth(calendar?.previousMonth),
+                                child: Container(
+                                  height: 44.w,
+                                  width: 44.w,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffF8FAF9),
+                                    border: Border.all(
+                                      color: const Color(0xffE5EAE7),
+                                    ),
+                                    borderRadius: BorderRadius.circular(11.r),
+                                  ),
+                                  child: Icon(
+                                    Icons.chevron_left,
+                                    size: 28.sp,
+                                    color: const Color(0xff49635C),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 7.w),
+                              GestureDetector(
+                                onTap: () => nextMonth(calendar?.nextMonth),
+                                child: Container(
+                                  height: 44.w,
+                                  width: 44.w,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffF8FAF9),
+                                    border: Border.all(
+                                      color: const Color(0xffE5EAE7),
+                                    ),
+                                    borderRadius: BorderRadius.circular(11.r),
+                                  ),
+                                  child: Icon(
+                                    Icons.chevron_right,
+                                    size: 28.sp,
+                                    color: const Color(0xff49635C),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: previousMonth,
-                          child: Container(
-                            height: 44.w,
-                            width: 44.w,
-                            decoration: BoxDecoration(
-                              color: const Color(0xffF8FAF9),
-                              border: Border.all(
-                                color: const Color(0xffE5EAE7),
-                              ),
-                              borderRadius: BorderRadius.circular(11.r),
-                            ),
-                            child: Icon(
-                              Icons.chevron_left,
-                              size: 28.sp,
-                              color: const Color(0xff49635C),
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(width: 7.w),
-                        GestureDetector(
-                          onTap: nextMonth,
-                          child: Container(
-                            height: 44.w,
-                            width: 44.w,
-                            decoration: BoxDecoration(
-                              color: const Color(0xffF8FAF9),
-                              border: Border.all(
-                                color: const Color(0xffE5EAE7),
-                              ),
-                              borderRadius: BorderRadius.circular(11.r),
-                            ),
-                            child: Icon(
-                              Icons.chevron_right,
-                              size: 28.sp,
-                              color: const Color(0xff49635C),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 24.h),
-                    Row(
-                      children: weekDays.map((day) {
-                        return Expanded(
-                          child: Center(
-                            child: Text(
-                              day,
-                              style: GoogleFonts.inter(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xff8A9692),
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-
-                    SizedBox(height: 8.h),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: dates.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 7,
-                            mainAxisSpacing: 3,
-                            crossAxisSpacing: 2,
-                            childAspectRatio: 0.95,
-                          ),
-                      itemBuilder: (context, index) {
-                        final date = dates[index];
-
-                        final bool selected = isSelected(date);
-                        final bool current = isCurrentMonth(date);
-                        final bool event = hasEvent(date);
-
-                        return GestureDetector(
-                          onTap: current
-                              ? () {
-                                  setState(() {
-                                    selectedDate = date;
-                                  });
-                                }
-                              : null,
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 2.w,
-                              vertical: 1.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: selected
-                                  ? const Color(0xff007665)
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(14.r),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${date.day}",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 15.sp,
-                                    fontWeight: selected
-                                        ? FontWeight.w700
-                                        : FontWeight.w400,
-                                    color: !current
-                                        ? const Color(0xffC7CDCA)
-                                        : selected
-                                        ? Colors.white
-                                        : event
-                                        ? const Color(0xff007665)
-                                        : const Color(0xff4D5552),
+                          SizedBox(height: 24.h),
+                          Row(
+                            children: weekdaysList.map((day) {
+                              return Expanded(
+                                child: Center(
+                                  child: Text(
+                                    day,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xff8A9692),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 3.h),
-                                if (selected)
-                                  Container(
-                                    width: 5.w,
-                                    height: 5.w,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  )
-                                else
-                                  SizedBox(width: 5.w, height: 5.w),
-                              ],
-                            ),
+                              );
+                            }).toList(),
                           ),
+                          SizedBox(height: 8.h),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: useApiGrid
+                                ? daysGrid.length
+                                : dates.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 7,
+                                  mainAxisSpacing: 3,
+                                  crossAxisSpacing: 2,
+                                  childAspectRatio: 0.95,
+                                ),
+                            itemBuilder: (context, index) {
+                              final int dayNum;
+                              final bool selected;
+                              final bool current;
+                              final bool event;
+                              final VoidCallback? onDateTap;
+
+                              if (useApiGrid) {
+                                final dayItem = daysGrid[index];
+                                dayNum = dayItem.dayNumber ?? 0;
+                                current = dayItem.isCurrentMonth ?? false;
+                                final String? dayKey = dayItem.date != null
+                                    ? "${dayItem.date!.year}-${dayItem.date!.month}-${dayItem.date!.day}"
+                                    : null;
+                                final bool hasUpcomingEvent =
+                                    dayKey != null &&
+                                    upcomingEventDates.contains(dayKey);
+                                event =
+                                    (dayItem.hasEvents ?? false) ||
+                                    ((dayItem.eventCount ?? 0) > 0) ||
+                                    hasUpcomingEvent;
+                                selected = selectedDate != null
+                                    ? (dayItem.date != null &&
+                                          selectedDate!.year ==
+                                              dayItem.date!.year &&
+                                          selectedDate!.month ==
+                                              dayItem.date!.month &&
+                                          selectedDate!.day ==
+                                              dayItem.date!.day)
+                                    : hasTodayInGrid
+                                    ? (dayItem.isToday ?? false)
+                                    : false;
+                                onDateTap = current
+                                    ? () {
+                                        setState(() {
+                                          selectedDate = dayItem.date;
+                                        });
+                                      }
+                                    : null;
+                              } else {
+                                final date = dates[index];
+                                dayNum = date.day;
+                                final String dateKey =
+                                    "${date.year}-${date.month}-${date.day}";
+                                final now = DateTime.now();
+                                final bool isTodayDate =
+                                    date.year == now.year &&
+                                    date.month == now.month &&
+                                    date.day == now.day;
+                                selected = selectedDate != null
+                                    ? isSelected(date)
+                                    : isTodayDate;
+                                current = isCurrentMonth(date);
+                                event =
+                                    hasEvent(date) ||
+                                    upcomingEventDates.contains(dateKey);
+                                onDateTap = current
+                                    ? () {
+                                        setState(() {
+                                          selectedDate = date;
+                                        });
+                                      }
+                                    : null;
+                              }
+
+                              return GestureDetector(
+                                onTap: onDateTap,
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 2.w,
+                                    vertical: 1.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: selected
+                                        ? const Color(0xff007665)
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(14.r),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "$dayNum",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 15.sp,
+                                          fontWeight: selected
+                                              ? FontWeight.w700
+                                              : FontWeight.w400,
+                                          color: !current
+                                              ? const Color(0xffC7CDCA)
+                                              : selected
+                                              ? Colors.white
+                                              : event
+                                              ? const Color(0xff007665)
+                                              : const Color(0xff4D5552),
+                                        ),
+                                      ),
+                                      SizedBox(height: 3.h),
+                                      if (event && current)
+                                        Container(
+                                          width: 5.w,
+                                          height: 5.w,
+                                          decoration: BoxDecoration(
+                                            color: selected
+                                                ? Colors.white
+                                                : const Color(0xff007665),
+                                            shape: BoxShape.circle,
+                                          ),
+                                        )
+                                      else
+                                        SizedBox(width: 5.w, height: 5.w),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Separate into upcoming and past events
+                    Builder(
+                      builder: (context) {
+                        final todayItem = daysGrid
+                            ?.where((d) => d.isToday == true)
+                            .firstOrNull;
+                        final today = todayItem?.date ?? DateTime.now();
+                        final todayComparable = DateTime(
+                          today.year,
+                          today.month,
+                          today.day,
+                        );
+
+                        final upcomingEvents = eventsList.where((ev) {
+                          if (ev.dateRaw == null) return true;
+                          final evDate = DateTime(
+                            ev.dateRaw!.year,
+                            ev.dateRaw!.month,
+                            ev.dateRaw!.day,
+                          );
+                          return !evDate.isBefore(todayComparable);
+                        }).toList();
+
+                        final pastEvents = eventsList.where((ev) {
+                          if (ev.dateRaw == null) return false;
+                          final evDate = DateTime(
+                            ev.dateRaw!.year,
+                            ev.dateRaw!.month,
+                            ev.dateRaw!.day,
+                          );
+                          return evDate.isBefore(todayComparable);
+                        }).toList();
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 20.h),
+                            Text(
+                              upcoming?.sectionTitle ?? "Upcoming Events",
+                              style: GoogleFonts.outfit(
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.heading,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                            if (upcomingEvents.isNotEmpty)
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                itemCount: upcomingEvents.length,
+                                itemBuilder: (context, index) {
+                                  final ev = upcomingEvents[index];
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: 16.h),
+                                    child: eventCard(
+                                      title: ev.title ?? "",
+                                      date: ev.date ?? "",
+                                      time: ev.time ?? "",
+                                      badgeBg: _parseColor(
+                                        ev.badgeIconBg,
+                                        const Color(0xffEBD9A8),
+                                      ),
+                                      iconColor: _parseColor(
+                                        ev.badgeIconColor,
+                                        const Color(0xffA77900),
+                                      ),
+                                      icon: _getEventIcon(ev.icon),
+                                    ),
+                                  );
+                                },
+                              )
+                            else
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 24.h),
+                                child: Center(
+                                  child: Text(
+                                    "No upcoming events",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff777777),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            if (pastEvents.isNotEmpty) ...[
+                              SizedBox(height: 10.h),
+                              Text(
+                                "Past Events",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff777777),
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                              SizedBox(height: 16.h),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                itemCount: pastEvents.length,
+                                itemBuilder: (context, index) {
+                                  final ev = pastEvents[index];
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: 16.h),
+                                    child: Opacity(
+                                      opacity: 0.85,
+                                      child: eventCard(
+                                        title: ev.title ?? "",
+                                        date: ev.date ?? "",
+                                        time: ev.time ?? "",
+                                        badgeBg: const Color(0xffE5EAE7),
+                                        iconColor: const Color(0xff777777),
+                                        icon: _getEventIcon(ev.icon),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                            SizedBox(height: 20.h),
+                          ],
                         );
                       },
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 20.h),
-              Text(
-                "Upcoming Events",
-                style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.heading,
-                  letterSpacing: -0.2,
-                ),
+            ),
+          );
+        },
+        error: (error, stackTrace) {
+          return Center(
+            child: Text(
+              "Error",
+              style: GoogleFonts.outfit(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.heading,
+                letterSpacing: -0.2,
               ),
-              SizedBox(height: 16.h),
-              eventCard(
-                title: "Association Committee Meeting",
-                date: "03 September 2026",
-                time: "06:30 PM",
-              ),
-              SizedBox(height: 16.h),
-              eventCard(
-                title: "Community Maintenance Day",
-                date: "09 September 2026",
-                time: "09:00 AM",
-              ),
-              SizedBox(height: 16.h),
-              eventCard(
-                title: "Residents Community Gathering",
-                date: "18 September 2026",
-                time: "07:00 PM",
-              ),
-              SizedBox(height: 20.h),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
+        loading: () {
+          return Center(
+            child: CircularProgressIndicator(color: AppColors.heading),
+          );
+        },
       ),
     );
   }
@@ -414,6 +662,9 @@ class _ResidentCalendarScreenState extends State<ResidentCalendarScreen> {
     required String title,
     required String date,
     required String time,
+    Color? badgeBg,
+    Color? iconColor,
+    IconData? icon,
   }) {
     Widget info(IconData icon, String text) {
       return Row(
@@ -446,14 +697,14 @@ class _ResidentCalendarScreenState extends State<ResidentCalendarScreen> {
             children: [
               Container(
                 padding: EdgeInsets.all(7.w),
-                decoration: const BoxDecoration(
-                  color: Color(0xffEBD9A8),
+                decoration: BoxDecoration(
+                  color: badgeBg ?? const Color(0xffEBD9A8),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  Icons.groups_outlined,
+                  icon ?? Icons.groups_outlined,
                   size: 18.sp,
-                  color: const Color(0xffA77900),
+                  color: iconColor ?? const Color(0xffA77900),
                 ),
               ),
               SizedBox(width: 10.w),

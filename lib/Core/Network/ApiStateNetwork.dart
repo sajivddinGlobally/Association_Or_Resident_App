@@ -18,12 +18,14 @@ import 'package:property_association_or_resident/ResidentScreen/Model/getComplai
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
+import '../../ResidentScreen/Model/ResidentEmergencyContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
 import '../../ResidentScreen/Model/ResidentPropertyDetailsResModel.dart';
 import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
 import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
+import '../../ResidentScreen/Model/getResidentCalenderModel.dart';
 import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
@@ -36,6 +38,7 @@ import '../data/model/BodyModel/resetPassBodyModel.dart'
     show ResetPassBodyModel;
 import '../data/model/BodyModel/verifyOtpBodyModel.dart';
 import '../data/model/ResponseModel/GetNotificaionListModel.dart';
+import '../data/model/ResponseModel/MarkNotificationReadResModel.dart';
 import '../data/model/ResponseModel/ServiceManagementPerformanceResModel.dart';
 import '../data/model/ResponseModel/ServiceManagementResModel.dart';
 import '../data/model/ResponseModel/addResidentResModel.dart';
@@ -221,6 +224,11 @@ abstract class ApiStateNetwork {
     @Query("filter") String filter,
   );
 
+  @POST("/api/v1/notifications/{id}/read")
+  Future<MarkNotificationReadResModel> markNotificationRead(
+    @Path("id") String id,
+  );
+
   @POST("/api/v1/association-calendar")
   Future<AssociationCalenderResModel> addAssociationCalendar(
     @Body() AssociationCalenderBodyModel body,
@@ -303,4 +311,12 @@ abstract class ApiStateNetwork {
 
   @GET("/api/v1/resident/visitor-pass")
   Future<GetVisitorPassListModel> getVisitorPass();
+
+  @GET("/api/v1/resident/calendar")
+  Future<GetResidentCalenderModel> getResidentCalender({
+    @Query("month") String? month,
+  });
+
+  @GET("/api/v1/resident/emergency-contact")
+  Future<ResidentEmergencyContactResModel> emergencyContact();
 }

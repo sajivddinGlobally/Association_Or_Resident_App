@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -14,6 +15,7 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/g
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
+import '../../ResidentScreen/Model/ResidentEmergencyContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
 import '../../ResidentScreen/Model/ResidentPropertyDetailsResModel.dart';
 import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
@@ -22,6 +24,7 @@ import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintListModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/getComplaintTrackingModel.dart';
+import '../../ResidentScreen/Model/getResidentCalenderModel.dart';
 import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
@@ -33,6 +36,7 @@ import '../data/model/BodyModel/registerBodyModel.dart';
 import '../data/model/BodyModel/resetPassBodyModel.dart';
 import '../data/model/BodyModel/verifyOtpBodyModel.dart';
 import '../data/model/ResponseModel/GetNotificaionListModel.dart';
+import '../data/model/ResponseModel/MarkNotificationReadResModel.dart';
 import '../data/model/ResponseModel/ServiceManagementPerformanceResModel.dart';
 import '../data/model/ResponseModel/ServiceManagementResModel.dart';
 import '../data/model/ResponseModel/addResidentResModel.dart';
@@ -522,6 +526,29 @@ class AuthService {
     }
   }
 
+  Future<MarkNotificationReadResModel> markNotificationRead({
+    required String id,
+  }) async {
+    try {
+      final response = await api.markNotificationRead(id);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> markMultipleNotificationsRead({
+    required List<String> ids,
+  }) async {
+    try {
+      await Future.wait(
+        ids.map((id) => api.markNotificationRead(id)),
+      );
+    } catch (e) {
+      log("Error marking notifications as read: $e");
+    }
+  }
+
   Future<AssociationCalenderResModel> addAssociationCalendar({
     required String eventName,
     required String eventType,
@@ -752,7 +779,7 @@ class AuthService {
     }
   }
 
-   Future<GetVisitorPassListModel> getVisitorPass() async {
+  Future<GetVisitorPassListModel> getVisitorPass() async {
     try {
       final response = await api.getVisitorPass();
       return response;
@@ -761,4 +788,21 @@ class AuthService {
     }
   }
 
+  Future<GetResidentCalenderModel> getResidentCalender({String? month}) async {
+    try {
+      final response = await api.getResidentCalender(month: month);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ResidentEmergencyContactResModel> emergencyContactData() async {
+    try {
+      final response = await api.emergencyContact();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

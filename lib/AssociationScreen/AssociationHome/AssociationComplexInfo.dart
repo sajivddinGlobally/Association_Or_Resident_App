@@ -6,8 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationDocument/AssociationDocument.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationHome/Provider/getComplexDetailsProvider.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationProperty/AssociationProperty.dart';
-import 'package:property_association_or_resident/Core/data/model/ResponseModel/complexDetailsModel.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/apiErrorWidget.dart';
+import 'package:property_association_or_resident/Core/data/model/ResponseModel/complexDetailsModel.dart';
 
 class AssociationComplexInfo extends ConsumerStatefulWidget {
   const AssociationComplexInfo({super.key});
@@ -674,20 +675,24 @@ class _AssociationComplexInfoState
           );
         },
         error: (error, stackTrace) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Something went wrong",
-                  style: GoogleFonts.outfit(color: AppColors.heading),
+          return RefreshIndicator(
+            color: AppColors.heading,
+            onRefresh: () async {
+              return ref.refresh(getComplextDetailsProvider);
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox(
+                height: 0.75.sh,
+                child: ApiErrorWidget(
+                  error: error,
+                  onRetry: () => ref.refresh(getComplextDetailsProvider),
+                  defaultTitle: "Complex Not Found",
+                  defaultSubtitle:
+                      "No complex details are associated with this account or found at the moment.",
+                  icon: Icons.apartment_outlined,
                 ),
-                SizedBox(height: 8.h),
-                ElevatedButton(
-                  onPressed: () => ref.refresh(getComplextDetailsProvider),
-                  child: Text("Retry"),
-                ),
-              ],
+              ),
             ),
           );
         },

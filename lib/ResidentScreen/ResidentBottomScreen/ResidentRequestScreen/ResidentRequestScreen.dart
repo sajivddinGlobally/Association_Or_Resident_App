@@ -187,58 +187,102 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                       ),
                     ),
                   ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: data.data?.requests?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    final request = data.data?.requests![index];
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => Residentcomplantstatus(
-                              complainID: request!.id.toString(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: data.data?.requests?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      final request = data.data?.requests![index];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => Residentcomplantstatus(
+                                complainID: request!.id.toString(),
+                              ),
                             ),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(12),
+                          margin: EdgeInsets.only(bottom: 12.h),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromRGBO(16, 28, 22, 0.2),
+                            ),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(12),
-                        margin: EdgeInsets.only(bottom: 12.h),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Color.fromRGBO(16, 28, 22, 0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  // "Token No",
-                                  request?.tokenLabel ?? "N/A",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.heading,
-                                    letterSpacing: -0.2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    // "Token No",
+                                    request?.tokenLabel ?? "N/A",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.heading,
+                                      letterSpacing: -0.2,
+                                    ),
                                   ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                      vertical: 5.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(184, 134, 11, 0.3),
+                                      borderRadius: BorderRadius.circular(50.r),
+                                    ),
+                                    child: Text(
+                                      request?.status ?? "N/A",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xffB8860B),
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10.h),
+                              Text(
+                                // "Bathroom Water Leakage",
+                                request?.title ?? "N/A",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.2,
                                 ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 10.w,
-                                    vertical: 5.h,
+                              ),
+                              SizedBox(height: 10.h),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.description,
+                                    color: Color(0xffB8860B),
+                                    size: 20.sp,
                                   ),
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(184, 134, 11, 0.3),
-                                    borderRadius: BorderRadius.circular(50.r),
+                                  SizedBox(width: 2.w),
+                                  Expanded(
+                                    child: Text(
+                                      request?.location ?? "N/A",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.heading,
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
                                   ),
-                                  child: Text(
-                                    request?.status ?? "N/A",
+                                  Text(
+                                    "View Details  →",
                                     style: GoogleFonts.outfit(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
@@ -246,56 +290,14 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                       letterSpacing: -0.2,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10.h),
-                            Text(
-                              // "Bathroom Water Leakage",
-                              request?.title ?? "N/A",
-                              style: GoogleFonts.outfit(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.heading,
-                                letterSpacing: -0.2,
+                                ],
                               ),
-                            ),
-                            SizedBox(height: 10.h),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.description,
-                                  color: Color(0xffB8860B),
-                                  size: 20.sp,
-                                ),
-                                SizedBox(width: 2.w),
-                                Expanded(
-                                  child: Text(
-                                    request?.location ?? "N/A",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.heading,
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  "View Details  →",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xffB8860B),
-                                    letterSpacing: -0.2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
