@@ -426,6 +426,17 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                             subtitle: "",
                             onTap: widget.onDocumentTap,
                           ),
+                          /*
+                          // [POINT 5] SECURITY MANAGEMENT QUICK ACTION (Uncomment to enable):
+                          _quickAction(
+                            icon: Icons.security_outlined,
+                            title: "Security",
+                            subtitle: "Gate Pass",
+                            onTap: () {
+                              // Navigate to Security & Visitor Log Screen
+                            },
+                          ),
+                          */
                         ],
                       ),
                     ),
@@ -627,6 +638,215 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                     ),
                   ),
 
+                  /*
+                  // ==========================================================================
+                  // [POINT 5] SECURITY & GATE MANAGEMENT OVERVIEW (Association Head Module)
+                  // To enable, uncomment this section.
+                  // Shows today's visitor count, checked-in status, deliveries, and gate activity.
+                  // ==========================================================================
+                  SizedBox(height: 16.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Security & Gate Management",
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xFF101C16),
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE8F5E9),
+                            borderRadius: BorderRadius.circular(4.r),
+                            border: Border.all(color: const Color(0xFF81C784)),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 5.w,
+                                height: 5.h,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                "Gate Active",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.green.shade800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(14.w),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(color: const Color(0xFFD9D9D0)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Today's Total Visitors",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff777777),
+                                    ),
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    "28 Visitors",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.heading,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Icon(
+                                Icons.shield_outlined,
+                                color: const Color(0xFF007665),
+                                size: 28.sp,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12.h),
+                          const Divider(height: 1, color: Color(0xFFEEEEEE)),
+                          SizedBox(height: 12.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Inside Complex
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Inside Complex",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 10.sp,
+                                      color: const Color(0xff888888),
+                                    ),
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    "6",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xff007665),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // Deliveries
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Deliveries",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 10.sp,
+                                      color: const Color(0xff888888),
+                                    ),
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    "14",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xffFB8C00),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // Pre-Approved
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Pre-Approved",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 10.sp,
+                                      color: const Color(0xff888888),
+                                    ),
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    "8",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xff1E88E5),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12.h),
+                          InkWell(
+                            onTap: () {
+                              // View Live Gate Visitor Logs
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(vertical: 8.h),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF7F4EB),
+                                borderRadius: BorderRadius.circular(6.r),
+                                border: Border.all(color: const Color(0xFFD9D9D0)),
+                              ),
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.list_alt, size: 14.sp, color: const Color(0xFF101C16)),
+                                  SizedBox(width: 6.w),
+                                  Text(
+                                    "View Live Gate Visitor Logs →",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF101C16),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  */
                   SizedBox(height: 12.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),

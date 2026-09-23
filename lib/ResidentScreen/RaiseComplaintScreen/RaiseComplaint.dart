@@ -619,6 +619,138 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                   ),
                 ),
               ),
+              /*
+              // ==========================================================================
+              // [POINT 2] PRIORITY SELECTION & HIGH PRIORITY ALERT TO COMMITTEE/ADMIN
+              // To enable, uncomment this section.
+              // Allows resident to mark urgency (Low, Medium, High).
+              // When High Priority is marked, an alert indicates that Committee & Admin
+              // are instantly notified for emergency action.
+              // ==========================================================================
+              SizedBox(height: 18.h),
+              Text(
+                "Priority Level",
+                style: GoogleFonts.outfit(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(color: const Color(0xFFD9D9D0)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Low",
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xff1E88E5),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(color: const Color(0xFFD9D9D0)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Medium",
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xffFB8C00),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFEBEE),
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(color: const Color(0xFFE53935), width: 1.5),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "High (Urgent)",
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFFE53935),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.h),
+              // High Priority Alert Notification Box
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF2F2),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: const Color(0xFFFFCDD2)),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      color: const Color(0xFFD32F2F),
+                      size: 20.sp,
+                    ),
+                    SizedBox(width: 8.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "High Priority Alert Enabled",
+                            style: GoogleFonts.outfit(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFFD32F2F),
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            "Submitting as High Priority immediately alerts the Association Head and Admin team via push notification and SMS for emergency action.",
+                            style: GoogleFonts.outfit(
+                              fontSize: 11.sp,
+                              color: const Color(0xFF555555),
+                              height: 1.3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              */
+
               SizedBox(height: 20.h),
               SizedBox(
                 width: double.infinity,

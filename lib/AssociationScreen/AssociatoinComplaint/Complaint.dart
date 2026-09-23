@@ -34,6 +34,29 @@ class _ComplaintState extends ConsumerState<Complaint> {
     "under_review",
     "in_progress",
   ];
+
+  String _statusToApiValue(String status) {
+    switch (status.toLowerCase()) {
+      case 'submitted':
+        return 'Submitted';
+      case 'under review':
+      case 'review':
+      case 'under_review':
+        return 'Under Review';
+      case 'assigned':
+        return 'Assigned';
+      case 'in progress':
+      case 'in_progress':
+        return 'In Progress';
+      case 'resolved':
+        return 'Resolved';
+      case 'closed':
+        return 'Closed';
+      default:
+        return status.toLowerCase().replaceAll(' ', '_');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final getComplaintState = ref.watch(
@@ -414,7 +437,8 @@ class _ComplaintState extends ConsumerState<Complaint> {
                       issues: item.assignedTo,
                       lastServiceLabel: 'DATE',
                       lastService: item.date,
-                      status: item.statusLabel,
+                      // status: item.status,
+                      status: _statusToApiValue(item.status),
                       onTap: () {
                         Navigator.push(
                           context,

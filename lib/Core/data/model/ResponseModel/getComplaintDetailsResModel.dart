@@ -172,6 +172,9 @@ class Banner {
     final String thumbnail;
     final String title;
     final String ticketNumber;
+    final String? status;
+    final String? statusRaw;
+    final String? statusBadge;
     final String priority;
     final String priorityBadge;
     final List<StatusStepper> statusStepper;
@@ -180,24 +183,35 @@ class Banner {
         required this.thumbnail,
         required this.title,
         required this.ticketNumber,
+        this.status,
+        this.statusRaw,
+        this.statusBadge,
         required this.priority,
         required this.priorityBadge,
         required this.statusStepper,
     });
 
     factory Banner.fromJson(Map<String, dynamic> json) => Banner(
-        thumbnail: json["thumbnail"],
-        title: json["title"],
-        ticketNumber: json["ticket_number"],
-        priority: json["priority"],
-        priorityBadge: json["priority_badge"],
-        statusStepper: List<StatusStepper>.from(json["status_stepper"].map((x) => StatusStepper.fromJson(x))),
+        thumbnail: json["thumbnail"] ?? "",
+        title: json["title"] ?? "",
+        ticketNumber: json["ticket_number"] ?? "",
+        status: json["status"]?.toString(),
+        statusRaw: json["status_raw"]?.toString(),
+        statusBadge: json["status_badge"]?.toString(),
+        priority: json["priority"] ?? "",
+        priorityBadge: json["priority_badge"] ?? "",
+        statusStepper: json["status_stepper"] != null
+            ? List<StatusStepper>.from(json["status_stepper"].map((x) => StatusStepper.fromJson(x)))
+            : [],
     );
 
     Map<String, dynamic> toJson() => {
         "thumbnail": thumbnail,
         "title": title,
         "ticket_number": ticketNumber,
+        "status": status,
+        "status_raw": statusRaw,
+        "status_badge": statusBadge,
         "priority": priority,
         "priority_badge": priorityBadge,
         "status_stepper": List<dynamic>.from(statusStepper.map((x) => x.toJson())),
@@ -216,9 +230,9 @@ class StatusStepper {
     });
 
     factory StatusStepper.fromJson(Map<String, dynamic> json) => StatusStepper(
-        name: json["name"],
-        isCompleted: json["is_completed"],
-        isCurrent: json["is_current"],
+        name: json["name"] ?? "",
+        isCompleted: json["is_completed"] ?? false,
+        isCurrent: json["is_current"] ?? false,
     );
 
     Map<String, dynamic> toJson() => {
@@ -244,11 +258,11 @@ class ComplaintActivity {
     });
 
     factory ComplaintActivity.fromJson(Map<String, dynamic> json) => ComplaintActivity(
-        step: json["step"],
-        title: json["title"],
-        timestamp: json["timestamp"],
-        note: json["note"],
-        isCompleted: json["is_completed"],
+        step: json["step"] ?? 0,
+        title: json["title"] ?? "",
+        timestamp: json["timestamp"] ?? "",
+        note: json["note"] ?? "",
+        isCompleted: json["is_completed"] ?? false,
     );
 
     Map<String, dynamic> toJson() => {
@@ -266,6 +280,7 @@ class ComplaintInformation {
     final String submittedBy;
     final String submittedDate;
     final String urgency;
+    final String? status;
     final List<Item> items;
 
     ComplaintInformation({
@@ -274,16 +289,20 @@ class ComplaintInformation {
         required this.submittedBy,
         required this.submittedDate,
         required this.urgency,
+        this.status,
         required this.items,
     });
 
     factory ComplaintInformation.fromJson(Map<String, dynamic> json) => ComplaintInformation(
-        propertyUnit: json["property_unit"],
-        category: json["category"],
-        submittedBy: json["submitted_by"],
-        submittedDate: json["submitted_date"],
-        urgency: json["urgency"],
-        items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+        propertyUnit: json["property_unit"] ?? "",
+        category: json["category"] ?? "",
+        submittedBy: json["submitted_by"] ?? "",
+        submittedDate: json["submitted_date"] ?? "",
+        urgency: json["urgency"] ?? "",
+        status: json["status"]?.toString(),
+        items: json["items"] != null
+            ? List<Item>.from(json["items"].map((x) => Item.fromJson(x)))
+            : [],
     );
 
     Map<String, dynamic> toJson() => {
@@ -292,6 +311,7 @@ class ComplaintInformation {
         "submitted_by": submittedBy,
         "submitted_date": submittedDate,
         "urgency": urgency,
+        "status": status,
         "items": List<dynamic>.from(items.map((x) => x.toJson())),
     };
 }

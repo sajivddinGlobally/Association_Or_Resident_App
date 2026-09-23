@@ -36,6 +36,7 @@ import '../data/model/BodyModel/loginBodyModel.dart';
 import '../data/model/BodyModel/registerBodyModel.dart';
 import '../data/model/BodyModel/resetPassBodyModel.dart'
     show ResetPassBodyModel;
+import '../data/model/BodyModel/updateTicketStatusBodyModel.dart';
 import '../data/model/BodyModel/verifyOtpBodyModel.dart';
 import '../data/model/ResponseModel/GetNotificaionListModel.dart';
 import '../data/model/ResponseModel/MarkNotificationReadResModel.dart';
@@ -139,6 +140,12 @@ abstract class ApiStateNetwork {
   @GET("/api/v1/committee/tickets/{id}/details")
   Future<GetServiceRequestDetailsModel> getServiceRequestDetails(
     @Path("id") String id,
+  );
+
+  @POST("/api/v1/committee/tickets/{id}/status")
+  Future<dynamic> updateTicketStatus(
+    @Path("id") String id,
+    @Body() UpdateTicketStatusBodyModel body,
   );
 
   @GET("/api/v1/committee/service-requests/{id}/tracking")

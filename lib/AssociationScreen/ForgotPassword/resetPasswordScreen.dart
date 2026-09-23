@@ -72,19 +72,14 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               ),
             ),
             Center(
-              child: Column(
-                children: [
-                  ClipOval(
-                    child: Image.asset(
-                      "assets/logo.jpeg",
-                      width: 73.w,
-                      height: 73.w,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  SizedBox(height: 24.h),
-                ],
+              child: ClipOval(
+                child: Image.asset(
+                  // "assets/property_img.png",
+                  "assets/logo.png",
+                  width: 75.w,
+                  height: 75.w,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(height: 30.h),

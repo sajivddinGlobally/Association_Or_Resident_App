@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'Provider/emergencyContactProvider.dart';
 
@@ -17,6 +21,31 @@ class EmergencyContactscreen extends ConsumerStatefulWidget {
 
 class _EmergencyContactscreenState
     extends ConsumerState<EmergencyContactscreen> {
+  Future<void> _makeCall(String telUriOrPhone) async {
+    try {
+      final String cleanPhone = telUriOrPhone
+          .replaceFirst('tel:', '')
+          .replaceAll(RegExp(r'\s+'), '');
+
+      final Uri uri = Uri(scheme: 'tel', path: cleanPhone);
+
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        final bool launched = await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+        if (!launched) {
+          showErrorSnackBar("Could not open dialer for $cleanPhone");
+        }
+      }
+    } catch (e) {
+      showErrorSnackBar("Unable to make call: $e");
+      log("Error making call: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final emergenctState = ref.watch(emergencyContactProvider);
@@ -177,7 +206,9 @@ class _EmergencyContactscreenState
                               borderRadius: BorderRadius.circular(5.r),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _makeCall(data.data.card.phone);
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

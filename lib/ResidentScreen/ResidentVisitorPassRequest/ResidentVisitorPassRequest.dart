@@ -401,6 +401,79 @@ class _ResidentvisitorpassrequestState
                         ),
                       ],
                     ),
+
+                    /*
+                    // ==========================================================================
+                    // [POINT 3] QUICK VISITOR TYPE & DELIVERY / CAB SELECTION CHIPS
+                    // To enable, uncomment this section.
+                    // Allows resident to quickly tap Swiggy, Zomato, Cab (Uber/Ola), Amazon, Guest, etc.
+                    // ==========================================================================
+                    SizedBox(height: 14.h),
+                    Text(
+                      "Quick Select Category",
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff777777),
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Wrap(
+                      spacing: 8.w,
+                      runSpacing: 8.h,
+                      children: [
+                        {
+                          "name": "Swiggy / Zomato",
+                          "icon": Icons.delivery_dining,
+                          "color": const Color(0xffFF5200),
+                        },
+                        {
+                          "name": "Amazon / Parcel",
+                          "icon": Icons.local_shipping_outlined,
+                          "color": const Color(0xff232F3E),
+                        },
+                        {
+                          "name": "Cab (Uber / Ola)",
+                          "icon": Icons.local_taxi,
+                          "color": const Color(0xff000000),
+                        },
+                        {
+                          "name": "Home Service / Repair",
+                          "icon": Icons.build_outlined,
+                          "color": const Color(0xff007665),
+                        },
+                        {
+                          "name": "Family / Guest",
+                          "icon": Icons.people_outline,
+                          "color": const Color(0xffB8860B),
+                        },
+                      ].map((item) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.r),
+                            border: Border.all(color: const Color(0xffD9D9D0)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(item["icon"] as IconData, size: 14.sp, color: item["color"] as Color),
+                              SizedBox(width: 5.w),
+                              Text(
+                                item["name"] as String,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.heading,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    */
                   ],
                 ),
               ),

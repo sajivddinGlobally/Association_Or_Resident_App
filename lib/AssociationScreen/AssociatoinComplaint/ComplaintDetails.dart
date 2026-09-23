@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:property_association_or_resident/AssociationScreen/AssociationHome/Provider/getComplexDetailsProvider.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/ComplaintStatus.dart';
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:property_association_or_resident/Core/data/model/ResponseModel/getComplaintDetailsResModel.dart';
 
+import 'Provider/getComplaintProvider.dart';
 import 'provider/getComplaintDetailsProvider.dart';
 
 class ComplaintDetails extends ConsumerStatefulWidget {
@@ -22,34 +25,144 @@ class ComplaintDetails extends ConsumerStatefulWidget {
 class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
   static const List<String> statuses = [
     'Submitted',
-    'Review',
+    'Under Review',
     'Assigned',
+    'In Progress',
     'Resolved',
     'Closed',
   ];
 
-  final activities = [
-    {
-      "title": "Complaint Submitted",
-      "date": "21 Aug 2026 · 10:42 AM",
-      "description": "Complaint was submitted by Arjun Sharma.",
-    },
-    {
-      "title": "Complaint Reviewed",
-      "date": "21 Aug 2026 · 11:05 AM",
-      "description": "Complaint reviewed and accepted for further action.",
-    },
-    {
-      "title": "Assigned to Maintenance",
-      "date": "21 Aug 2026 · 11:15 AM",
-      "description": "Complaint assigned to the maintenance team.",
-    },
-    {
-      "title": "Work In Progress",
-      "date": "21 Aug 2026 · 11:15 AM",
-      "description": "Maintenance action is currently in progress.",
-    },
-  ];
+  String? selectedStatus;
+  bool _isUpdatingStatus = false;
+
+  String _statusToApiValue(String status) {
+    switch (status.toLowerCase()) {
+      case 'submitted':
+        return 'submitted';
+      case 'under review':
+      case 'review':
+      case 'under_review':
+        return 'under_review';
+      case 'assigned':
+        return 'assigned';
+      case 'in progress':
+      case 'in_progress':
+        return 'in_progress';
+      case 'resolved':
+        return 'resolved';
+      case 'closed':
+        return 'closed';
+      default:
+        return status.toLowerCase().replaceAll(' ', '_');
+    }
+  }
+
+  String _matchStatus(String? apiStatus) {
+    if (apiStatus == null || apiStatus.isEmpty) return statuses.first;
+    final lower = apiStatus.trim().toLowerCase().replaceAll('_', ' ');
+    for (final s in statuses) {
+      if (s.toLowerCase() == lower) return s;
+    }
+    if (lower.contains('review')) return 'Review';
+    if (lower.contains('assign')) return 'Assigned';
+    if (lower.contains('progress')) return 'In Progress';
+    if (lower.contains('resolve')) return 'Resolved';
+    if (lower.contains('close')) return 'Closed';
+    return 'Submitted';
+  }
+
+  List<StatusStepper> _getDynamicSteps(String activeStatus) {
+    final lower = activeStatus.trim().toLowerCase().replaceAll('_', ' ');
+
+    int activeIndex = 0;
+    if (lower.contains('review')) {
+      activeIndex = 1;
+    } else if (lower.contains('assign')) {
+      activeIndex = 2;
+    } else if (lower.contains('progress')) {
+      activeIndex = 3;
+    } else if (lower.contains('resolve') || lower.contains('close')) {
+      activeIndex = 4;
+    } else {
+      activeIndex = 0;
+    }
+
+    final stepNames = [
+      'Submitted',
+      'Review',
+      'Assigned',
+      'In Progress',
+      'Resolved',
+      'Closed',
+    ];
+
+    final bool isAllCompleted =
+        lower.contains('resolve') || lower.contains('close');
+
+    return List.generate(stepNames.length, (index) {
+      if (isAllCompleted) {
+        return StatusStepper(
+          name: stepNames[index],
+          isCompleted: true,
+          isCurrent: index == 4,
+        );
+      }
+
+      if (index < activeIndex) {
+        return StatusStepper(
+          name: stepNames[index],
+          isCompleted: true,
+          isCurrent: false,
+        );
+      } else if (index == activeIndex) {
+        return StatusStepper(
+          name: stepNames[index],
+          isCompleted: true,
+          isCurrent: true,
+        );
+      } else {
+        return StatusStepper(
+          name: stepNames[index],
+          isCompleted: false,
+          isCurrent: false,
+        );
+      }
+    });
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'submitted':
+        return const Color(0xFFFB8C00); // Orange
+      case 'review':
+      case 'under review':
+      case 'under_review':
+        return const Color(0xFF7B1FA2); // Purple
+      case 'assigned':
+        return const Color(0xFF00796B); // Teal
+      case 'in progress':
+      case 'in_progress':
+        return const Color(0xFF1E5993); // Blue
+      case 'resolved':
+        return const Color(0xFF24B06A); // Green
+      case 'closed':
+        return const Color(0xFF616161); // Grey
+      default:
+        return const Color(0xFF1E5993);
+    }
+  }
+
+  Color _getPriorityColor(String? priority) {
+    final p = (priority ?? '').toLowerCase();
+    if (p.contains('high') || p.contains('urgent')) {
+      return const Color(0xFFE3240F);
+    } else if (p.contains('medium')) {
+      return const Color(0xFFFB8C00);
+    } else if (p.contains('low')) {
+      return const Color(0xFF24B06A);
+    }
+    return const Color(0xFFE3240F);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -214,16 +327,22 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(45),
                                 border: Border.all(
-                                  color: const Color(0xFFE3240F),
+                                  color: _getPriorityColor(
+                                    data.data.banner.priority,
+                                  ),
                                   width: 1.w,
                                 ),
                               ),
                               child: Text(
-                                data.data.banner.priority,
+                                data.data.banner.priorityBadge.isNotEmpty
+                                    ? data.data.banner.priorityBadge
+                                    : data.data.banner.priority,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFFE3240F),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: _getPriorityColor(
+                                    data.data.banner.priority,
+                                  ),
                                 ),
                               ),
                             ),
@@ -233,35 +352,204 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                         Divider(
                           height: 1.h,
                           thickness: 1.2.h,
-                          color: Color.fromRGBO(16, 28, 22, 0.5),
+                          color: const Color.fromRGBO(16, 28, 22, 0.5),
                         ),
                         SizedBox(height: 12.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Current Status',
-                              style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                                letterSpacing: -0.2,
-                              ),
-                            ),
-                            Text(
-                              data.data.banner.priorityBadge,
-                              style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF1E5993),
-                                letterSpacing: -0.2,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10.h),
-                        ComplaintTimeline(
-                          steps: data.data.banner.statusStepper,
+                        Builder(
+                          builder: (context) {
+                            final apiStatus =
+                                data.data.banner.status ??
+                                data.data.banner.statusRaw ??
+                                data.data.banner.statusBadge ??
+                                data.data.complaintInformation.status;
+                            final currentActiveStatus =
+                                selectedStatus ?? _matchStatus(apiStatus);
+
+                            final dynamicSteps =
+                                (selectedStatus == null &&
+                                    data.data.banner.statusStepper.isNotEmpty)
+                                ? data.data.banner.statusStepper
+                                : _getDynamicSteps(currentActiveStatus);
+
+                            final dropdownValue =
+                                statuses.contains(currentActiveStatus)
+                                ? currentActiveStatus
+                                : _matchStatus(currentActiveStatus);
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Current Status',
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 32.h,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFFFCEB),
+                                        borderRadius: BorderRadius.circular(
+                                          6.r,
+                                        ),
+                                        border: Border.all(
+                                          color: const Color(0xFF101C16),
+                                          width: 1.w,
+                                        ),
+                                      ),
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton<String>(
+                                          value: dropdownValue,
+                                          icon: Padding(
+                                            padding: EdgeInsets.only(left: 4.w),
+                                            child: _isUpdatingStatus
+                                                ? SizedBox(
+                                                    width: 14.w,
+                                                    height: 14.w,
+                                                    child:
+                                                        const CircularProgressIndicator(
+                                                          strokeWidth: 1.8,
+                                                          color: Color(
+                                                            0xFF101C16,
+                                                          ),
+                                                        ),
+                                                  )
+                                                : Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    size: 16.sp,
+                                                    color: const Color(
+                                                      0xFF101C16,
+                                                    ),
+                                                  ),
+                                          ),
+                                          isDense: true,
+                                          dropdownColor: const Color(
+                                            0xFFFFFCEB,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8.r,
+                                          ),
+                                          onChanged: _isUpdatingStatus
+                                              ? null
+                                              : (String? newValue) async {
+                                                  if (newValue == null ||
+                                                      newValue ==
+                                                          dropdownValue) {
+                                                    return;
+                                                  }
+
+                                                  setState(() {
+                                                    _isUpdatingStatus = true;
+                                                  });
+
+                                                  final apiStatusValue =
+                                                      _statusToApiValue(
+                                                        newValue,
+                                                      );
+
+                                                  try {
+                                                    final authService = ref
+                                                        .read(
+                                                          authServiceProvider,
+                                                        );
+                                                    await authService
+                                                        .updateTicketStatus(
+                                                          id: widget.id,
+                                                          status:
+                                                              apiStatusValue,
+                                                        );
+
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        selectedStatus =
+                                                            newValue;
+                                                        _isUpdatingStatus =
+                                                            false;
+                                                      });
+                                                      showSuccessSnackBar(
+                                                        "Status updated to $newValue",
+                                                      );
+                                                      ref.invalidate(
+                                                        getComplaintDetailsProvider(
+                                                          widget.id,
+                                                        ),
+                                                      );
+                                                      ref.invalidate(
+                                                        getComplaintProvider,
+                                                      );
+                                                    }
+                                                  } catch (e) {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        _isUpdatingStatus =
+                                                            false;
+                                                      });
+                                                      showErrorSnackBar(
+                                                        "Failed to update status. Please try again.",
+                                                      );
+                                                    }
+                                                  }
+                                                },
+                                          items: statuses
+                                              .map<DropdownMenuItem<String>>((
+                                                String value,
+                                              ) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Container(
+                                                        width: 7.w,
+                                                        height: 7.w,
+                                                        decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color:
+                                                              _getStatusColor(
+                                                                value,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      Text(
+                                                        value,
+                                                        style: GoogleFonts.outfit(
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color:
+                                                              _getStatusColor(
+                                                                value,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              })
+                                              .toList(),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10.h),
+                                ComplaintTimeline(steps: dynamicSteps),
+                              ],
+                            );
+                          },
                         ),
                         SizedBox(height: 4.h),
                       ],
@@ -285,7 +573,10 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                       vertical: 13.h,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF000000), width: 1.w),
+                      border: Border.all(
+                        color: const Color(0xFF000000),
+                        width: 1.w,
+                      ),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Column(
@@ -303,26 +594,37 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                           action: "View ›",
                           id: widget.id,
                         ),
-
                         _divider(),
-
                         _informationRow(
-                          icon: Icons.home_outlined,
+                          icon: Icons.person_outline,
                           label: "Submitted By",
                           value: data.data.complaintInformation.submittedBy,
                         ),
                         _divider(),
                         _informationRow(
-                          icon: Icons.location_searching_sharp,
+                          icon: Icons.calendar_today_outlined,
                           label: "Submitted Date",
                           value: data.data.complaintInformation.submittedDate,
                         ),
                         _divider(),
                         _informationRow(
-                          icon: Icons.diamond_outlined,
-                          label: "Prioritye",
+                          icon: Icons.flag_outlined,
+                          label: "Urgency",
                           value: data.data.complaintInformation.urgency,
                         ),
+                        if (data.data.complaintInformation.status != null &&
+                            data
+                                .data
+                                .complaintInformation
+                                .status!
+                                .isNotEmpty) ...[
+                          _divider(),
+                          _informationRow(
+                            icon: Icons.info_outline,
+                            label: "Status",
+                            value: data.data.complaintInformation.status!,
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -393,9 +695,15 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                           child: ClipOval(
                             child:
                                 data.data.assignedPerson.avatar != null &&
-                                    data.data.assignedPerson.avatar!.isNotEmpty
+                                    data.data.assignedPerson.avatar
+                                        .toString()
+                                        .trim()
+                                        .isNotEmpty &&
+                                    data.data.assignedPerson.avatar
+                                            .toString() !=
+                                        "null"
                                 ? Image.network(
-                                    data.data.assignedPerson.avatar!,
+                                    data.data.assignedPerson.avatar.toString(),
                                     width: 50.w,
                                     height: 50.w,
                                     fit: BoxFit.cover,
@@ -490,7 +798,13 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                           title: data.data.attachments.complaintPhoto.title,
                           subtitle: data.data.attachments.complaintPhoto.action,
                           imageUrl: data.data.attachments.complaintPhoto.url,
-                          onTap: () {},
+                          onTap: () {
+                            _showAttachmentDialog(
+                              context,
+                              data.data.attachments.complaintPhoto.title,
+                              data.data.attachments.complaintPhoto.url,
+                            );
+                          },
                         ),
                       ),
 
@@ -504,7 +818,13 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                               data.data.attachments.supportingDocument.action,
                           imageUrl:
                               data.data.attachments.supportingDocument.url,
-                          onTap: () {},
+                          onTap: () {
+                            _showAttachmentDialog(
+                              context,
+                              data.data.attachments.supportingDocument.title,
+                              data.data.attachments.supportingDocument.url,
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -608,6 +928,40 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                       }),
                     ],
                   ),
+                  if (data.data.actionButton.label.isNotEmpty) ...[
+                    SizedBox(height: 20.h),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48.h,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) =>
+                                  ComplaintStatus(id: widget.id),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF101C16),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: Text(
+                          data.data.actionButton.label.toUpperCase(),
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                   SizedBox(height: 30.h),
                 ],
               ),
@@ -665,9 +1019,9 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
             // Image / Icon
             ClipRRect(
               borderRadius: BorderRadius.circular(6.r),
-              child: imageUrl != null && imageUrl!.isNotEmpty
+              child: imageUrl != null && imageUrl.isNotEmpty
                   ? Image.network(
-                      imageUrl!,
+                      imageUrl,
                       width: 35.w,
                       height: 30.h,
                       fit: BoxFit.cover,
@@ -722,7 +1076,6 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
     required String label,
     required String value,
     String? action,
-    double bottomPadding = 8,
     String? id,
   }) {
     return Row(
@@ -799,6 +1152,78 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
       child: Divider(height: 1.h, color: Color.fromRGBO(41, 42, 51, 0.6)),
     );
   }
+
+  void _showAttachmentDialog(
+    BuildContext context,
+    String title,
+    String? imageUrl,
+  ) {
+    if (imageUrl == null || imageUrl.isEmpty) {
+      showErrorSnackBar("No attachment available");
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: AppColors.scaffoldBg,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          side: BorderSide(color: const Color(0xFF101C16), width: 1.w),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: GoogleFonts.outfit(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF101C16),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.pop(ctx),
+                    child: Icon(
+                      Icons.close,
+                      size: 20.sp,
+                      color: const Color(0xFF101C16),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 14.h),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => Container(
+                    height: 150.h,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Unable to preview file",
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class ComplaintTimeline extends StatelessWidget {
@@ -818,13 +1243,17 @@ class ComplaintTimeline extends StatelessWidget {
             final bool completed = step.isCompleted;
             final bool active = step.isCurrent;
 
+            final bool nextReached =
+                (index + 1 < steps.length) &&
+                (steps[index + 1].isCompleted || steps[index + 1].isCurrent);
+
             return Expanded(
               child: Row(
                 children: [
                   _buildDot(completed: completed, active: active),
 
                   if (index != steps.length - 1)
-                    Expanded(child: _buildLine(completed: completed)),
+                    Expanded(child: _buildLine(completed: nextReached)),
                 ],
               ),
             );
@@ -840,11 +1269,11 @@ class ComplaintTimeline extends StatelessWidget {
             return Expanded(
               child: Text(
                 step.name,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: _getTextAlignment(index, steps.length),
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 11.sp,
                   fontWeight: FontWeight.w500,
                   color: step.isCurrent
                       ? const Color(0xFF1E5993)
@@ -862,10 +1291,10 @@ class ComplaintTimeline extends StatelessWidget {
   Widget _buildDot({required bool completed, required bool active}) {
     Color color;
 
-    if (completed && !active) {
-      color = const Color(0xFFB8860B);
-    } else if (active) {
+    if (active) {
       color = const Color(0xFF1E5993);
+    } else if (completed) {
+      color = const Color(0xFFB8860B);
     } else {
       color = const Color(0xFFFFFDF0);
     }
@@ -877,7 +1306,7 @@ class ComplaintTimeline extends StatelessWidget {
         shape: BoxShape.circle,
         color: color,
         border: Border.all(
-          color: active || completed ? color : Colors.black,
+          color: active || completed ? color : const Color(0xFF101C16),
           width: 1.3.w,
         ),
       ),
@@ -888,8 +1317,8 @@ class ComplaintTimeline extends StatelessWidget {
     return Container(
       height: 1.2.h,
       color: completed
-          ? const Color.fromRGBO(184, 134, 11, 0.5)
-          : const Color.fromRGBO(16, 28, 22, 0.5),
+          ? const Color.fromRGBO(184, 134, 11, 0.7)
+          : const Color.fromRGBO(16, 28, 22, 0.3),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:property_association_or_resident/AssociationScreen/MantenanceCharges/outStandingPending.dart';
 import 'package:property_association_or_resident/Core/Network/ApiStateNetwork.dart';
 import 'package:property_association_or_resident/Core/data/model/BodyModel/aiAssistanceBodyModel.dart';
+import 'package:property_association_or_resident/Core/data/model/BodyModel/resetPassBodyModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/commiteDashboardModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/complexDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/documentDetailsModel.dart';
@@ -33,7 +34,7 @@ import '../data/model/BodyModel/changePasswordBodyModel.dart';
 import '../data/model/BodyModel/forgotPassBodyModel.dart';
 import '../data/model/BodyModel/loginBodyModel.dart';
 import '../data/model/BodyModel/registerBodyModel.dart';
-import '../data/model/BodyModel/resetPassBodyModel.dart';
+import '../data/model/BodyModel/updateTicketStatusBodyModel.dart';
 import '../data/model/BodyModel/verifyOtpBodyModel.dart';
 import '../data/model/ResponseModel/GetNotificaionListModel.dart';
 import '../data/model/ResponseModel/MarkNotificationReadResModel.dart';
@@ -426,6 +427,19 @@ class AuthService {
     }
   }
 
+  Future<dynamic> updateTicketStatus({
+    required String id,
+    required String status,
+  }) async {
+    try {
+      final body = UpdateTicketStatusBodyModel(status: status);
+      final response = await api.updateTicketStatus(id, body);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<ComplaintStatusResModel> getComplaintStatus({
     required String id,
   }) async {
@@ -541,9 +555,7 @@ class AuthService {
     required List<String> ids,
   }) async {
     try {
-      await Future.wait(
-        ids.map((id) => api.markNotificationRead(id)),
-      );
+      await Future.wait(ids.map((id) => api.markNotificationRead(id)));
     } catch (e) {
       log("Error marking notifications as read: $e");
     }
