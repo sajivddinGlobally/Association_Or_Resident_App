@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'provider/getDefaulterDetailsProvider.dart';
 
 class DefaultersDetails extends ConsumerStatefulWidget {
@@ -156,24 +158,49 @@ class _DefaultersDetailsState extends ConsumerState<DefaultersDetails> {
                               ],
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 1.w,
+                          InkWell(
+                            onTap: _isTogglingStatus ? null : _toggleStatus,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 4.h,
                               ),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Text(
-                              data.data?.unitCard?.statusBadge ?? "N/A",
-                              style: GoogleFonts.outfit(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
+                              decoration: BoxDecoration(
+                                color: const Color(0xff101C16).withOpacity(0.05),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1.w,
+                                ),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (_isTogglingStatus)
+                                    SizedBox(
+                                      width: 12.w,
+                                      height: 12.w,
+                                      child: const CircularProgressIndicator(
+                                        strokeWidth: 1.5,
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  else
+                                    Icon(
+                                      Icons.swap_horiz,
+                                      size: 13.sp,
+                                      color: Colors.black87,
+                                    ),
+                                  SizedBox(width: 4.w),
+                                  Text(
+                                    data.data?.unitCard?.statusBadge ?? "N/A",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -473,6 +500,8 @@ class _DefaultersDetailsState extends ConsumerState<DefaultersDetails> {
                     ],
                   ),
                 ),
+                SizedBox(height: 24.h),
+                _buildActionButtons(data.data),
                 SizedBox(height: 30.h),
               ],
             ),
@@ -702,4 +731,426 @@ class _DefaultersDetailsState extends ConsumerState<DefaultersDetails> {
       ),
     );
   }
+
+  bool _isSendingReminder = false;
+  bool _isTogglingStatus = false;
+
+  Future<void> _sendReminder(dynamic data) async {
+    setState(() => _isSendingReminder = true);
+    try {
+      final res = await ref.read(authServiceProvider).sendDefaulterReminder(id: widget.id);
+      String msg = "Payment reminder sent successfully!";
+      if (res is Map && res['message'] != null) {
+        msg = res['message'].toString();
+      }
+      showSuccessSnackBar(msg);
+    } catch (e) {
+      showErrorSnackBar("Failed to send reminder: $e");
+    } finally {
+      if (mounted) setState(() => _isSendingReminder = false);
+    }
+  }
+
+  Future<void> _toggleStatus() async {
+    setState(() => _isTogglingStatus = true);
+    try {
+      final res = await ref.read(authServiceProvider).toggleDefaulterStatus(id: widget.id);
+      String msg = "Status toggled successfully!";
+      if (res is Map && res['message'] != null) {
+        msg = res['message'].toString();
+      }
+      ref.invalidate(getDefaulterDetailsProvider(widget.id));
+      showSuccessSnackBar(msg);
+    } catch (e) {
+      showErrorSnackBar("Failed to toggle status: $e");
+    } finally {
+      if (mounted) setState(() => _isTogglingStatus = false);
+    }
+  }
+
+  Widget _buildActionButtons(dynamic data) {
+    final statusBadge = data?.unitCard?.statusBadge ?? "Defaulter";
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Management Actions",
+          style: GoogleFonts.outfit(
+            fontSize: 17.sp,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+            letterSpacing: -0.2,
+          ),
+        ),
+        SizedBox(height: 12.h),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: _isSendingReminder ? null : () => _sendReminder(data),
+                style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                  side: BorderSide(color: const Color(0xFF101C16), width: 1.w),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                  backgroundColor: Colors.white,
+                ),
+                child: _isSendingReminder
+                    ? SizedBox(
+                        width: 18.w,
+                        height: 18.w,
+                        child: const CircularProgressIndicator(color: Color(0xFF101C16), strokeWidth: 2),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.notifications_active_outlined, size: 18.sp, color: const Color(0xFF101C16)),
+                          SizedBox(width: 8.w),
+                          Text(
+                            "Send Reminder",
+                            style: GoogleFonts.outfit(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF101C16),
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () => _showRecordPaymentModal(context, data),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                  backgroundColor: const Color(0xFF101C16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                  elevation: 0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.payment_outlined, size: 18.sp, color: Colors.white),
+                    SizedBox(width: 8.w),
+                    Text(
+                      "Receive Pay",
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 10.h),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: _isTogglingStatus ? null : _toggleStatus,
+            icon: _isTogglingStatus
+                ? SizedBox(
+                    width: 16.w,
+                    height: 16.w,
+                    child: const CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF101C16)),
+                  )
+                : Icon(Icons.swap_horiz, size: 18.sp, color: const Color(0xFF101C16)),
+            label: Text(
+              "Toggle Defaulter Status ($statusBadge)",
+              style: GoogleFonts.outfit(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF101C16),
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.symmetric(vertical: 12.h),
+              side: BorderSide(color: Colors.black26, width: 1.w),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+              backgroundColor: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showRecordPaymentModal(BuildContext context, dynamic data) {
+    String paidVia = 'UPI (Google Pay)';
+    final methods = [
+      'UPI (Google Pay)',
+      'Cash',
+      'Cheque',
+      'Bank Transfer',
+      'UPI (PhonePe)',
+      'UPI (Paytm)',
+    ];
+
+    final now = DateTime.now();
+    String paymentDate =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+    String rawAmount = '';
+    final formatted = data?.outstandingAmount?.formattedTotalOutstanding?.toString() ?? '';
+    rawAmount = formatted.replaceAll(RegExp(r'[^0-9.]'), '');
+
+    final amountController = TextEditingController(text: rawAmount);
+    final notesController =
+        TextEditingController(text: "Received payment via online transfer");
+    final dateController = TextEditingController(text: paymentDate);
+    bool isSubmitting = false;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.scaffoldBg,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 20.w,
+                right: 20.w,
+                top: 20.h,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 25.h,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Receive Maintenance Pay",
+                          style: GoogleFonts.outfit(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 6.h),
+                    Text(
+                      "Unit: ${data?.unitCard?.unitNumber ?? ''} · Due: ${data?.outstandingAmount?.formattedTotalOutstanding ?? ''}",
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        color: const Color(0xFF666666),
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    Text(
+                      "Paid Via (Payment Method)",
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Wrap(
+                      spacing: 8.w,
+                      runSpacing: 6.h,
+                      children: methods.map((m) {
+                        final isSel = paidVia == m;
+                        return ChoiceChip(
+                          label: Text(
+                            m,
+                            style: GoogleFonts.outfit(
+                              fontSize: 13.sp,
+                              fontWeight: isSel ? FontWeight.w600 : FontWeight.w400,
+                              color: isSel ? Colors.white : Colors.black87,
+                            ),
+                          ),
+                          selected: isSel,
+                          selectedColor: const Color(0xFF101C16),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.r),
+                            side: BorderSide(
+                              color: isSel ? const Color(0xFF101C16) : Colors.black26,
+                            ),
+                          ),
+                          onSelected: (val) {
+                            if (val) setModalState(() => paidVia = m);
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 14.h),
+                    Text(
+                      "Amount Received",
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    SizedBox(height: 6.h),
+                    TextField(
+                      controller: amountController,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      style: GoogleFonts.outfit(fontSize: 14.sp),
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.currency_rupee, size: 16),
+                        hintText: "e.g. 4250",
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(color: Colors.black26),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Text(
+                      "Payment Date (yyyy-MM-dd)",
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    SizedBox(height: 6.h),
+                    TextField(
+                      controller: dateController,
+                      readOnly: true,
+                      style: GoogleFonts.outfit(fontSize: 14.sp),
+                      onTap: () async {
+                        final picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2035),
+                        );
+                        if (picked != null) {
+                          final formattedDate =
+                              "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+                          setModalState(() {
+                            paymentDate = formattedDate;
+                            dateController.text = formattedDate;
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        suffixIcon: const Icon(Icons.calendar_today, size: 18),
+                        hintText: "Select payment date",
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(color: Colors.black26),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Text(
+                      "Payment Notes",
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    SizedBox(height: 6.h),
+                    TextField(
+                      controller: notesController,
+                      maxLines: 2,
+                      style: GoogleFonts.outfit(fontSize: 14.sp),
+                      decoration: InputDecoration(
+                        hintText: "e.g. Received payment via online transfer",
+                        hintStyle: GoogleFonts.outfit(fontSize: 13.sp, color: Colors.grey),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(color: Colors.black26),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48.h,
+                      child: ElevatedButton(
+                        onPressed: isSubmitting
+                            ? null
+                            : () async {
+                                final amt = amountController.text.trim();
+                                if (amt.isEmpty) {
+                                  showErrorSnackBar("Please enter received amount");
+                                  return;
+                                }
+                                setModalState(() => isSubmitting = true);
+                                try {
+                                  final res = await ref.read(authServiceProvider).receiveDefaulterPay(
+                                        id: widget.id,
+                                        amount: amt,
+                                        paidVia: paidVia,
+                                        paymentDate: dateController.text.trim(),
+                                        notes: notesController.text.trim(),
+                                      );
+                                  ref.invalidate(getDefaulterDetailsProvider(widget.id));
+                                  String msg = "Payment received and recorded successfully";
+                                  if (res is Map && res['message'] != null) {
+                                    msg = res['message'].toString();
+                                  }
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                    showSuccessSnackBar(msg);
+                                  }
+                                } catch (e) {
+                                  setModalState(() => isSubmitting = false);
+                                  showErrorSnackBar("Failed to record payment: $e");
+                                }
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF101C16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                        ),
+                        child: isSubmitting
+                            ? SizedBox(
+                                width: 20.w,
+                                height: 20.w,
+                                child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                              )
+                            : Text(
+                                "Submit Payment Record",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 }
+

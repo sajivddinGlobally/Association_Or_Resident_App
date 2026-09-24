@@ -75,8 +75,9 @@ import '../data/model/ResponseModel/verifyOtpResModel.dart';
 
 class AuthService {
   final ApiStateNetwork api;
+  final Dio? dio;
 
-  AuthService(this.api);
+  AuthService(this.api, {this.dio});
 
   Future<GetUnAssignedResModel> getUnassigned() async {
     try {
@@ -359,6 +360,29 @@ class AuthService {
     }
   }
 
+  Future<dynamic> updateMaintenanceStatus({
+    required String id,
+    required String status,
+    String? notes,
+  }) async {
+    try {
+      if (dio != null) {
+        final res = await dio!.post(
+          "https://realestate.gwsstaging.com/api/v1/committee/maintenance/$id/status",
+          data: {
+            "status": status,
+            if (notes != null && notes.isNotEmpty) "notes": notes,
+          },
+        );
+        return res.data;
+      }
+      return null;
+    } catch (e) {
+      log("Error updating maintenance status: $e");
+      rethrow;
+    }
+  }
+
   Future<MaintananceChargesModel> getMaintananceCharges() async {
     try {
       final response = await api.getMaintananceCharges();
@@ -398,6 +422,70 @@ class AuthService {
       final response = await api.getDefaulterDetails(id);
       return response;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> sendDefaulterReminder({
+    required String id,
+  }) async {
+    try {
+      if (dio != null) {
+        final res = await dio!.post(
+          "https://realestate.gwsstaging.com/api/v1/committee/charges/defaulters/$id/send-reminder",
+          data: {},
+        );
+        return res.data;
+      }
+      return null;
+    } catch (e) {
+      log("Error sending defaulter reminder: $e");
+      rethrow;
+    }
+  }
+
+  Future<dynamic> receiveDefaulterPay({
+    required String id,
+    required dynamic amount,
+    required String paidVia,
+    required String paymentDate,
+    String? notes,
+  }) async {
+    try {
+      if (dio != null) {
+        final num? parsedAmount = num.tryParse(amount.toString());
+        final res = await dio!.post(
+          "https://realestate.gwsstaging.com/api/v1/committee/charges/defaulters/$id/receive-pay",
+          data: {
+            "paid_via": paidVia,
+            "amount": parsedAmount ?? amount,
+            "payment_date": paymentDate,
+            if (notes != null && notes.isNotEmpty) "notes": notes,
+          },
+        );
+        return res.data;
+      }
+      return null;
+    } catch (e) {
+      log("Error receiving defaulter pay: $e");
+      rethrow;
+    }
+  }
+
+  Future<dynamic> toggleDefaulterStatus({
+    required String id,
+  }) async {
+    try {
+      if (dio != null) {
+        final res = await dio!.post(
+          "https://realestate.gwsstaging.com/api/v1/committee/charges/defaulters/$id/toggle-status",
+          data: {},
+        );
+        return res.data;
+      }
+      return null;
+    } catch (e) {
+      log("Error toggling defaulter status: $e");
       rethrow;
     }
   }
