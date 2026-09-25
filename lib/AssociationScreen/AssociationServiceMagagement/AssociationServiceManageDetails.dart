@@ -668,7 +668,13 @@ class _AssociationServiceManageDetailsState
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10.r),
                             child: LinearProgressIndicator(
-                              value: data.data.servicePerformance.score / 100,
+                              value:
+                                  (data.data.servicePerformance.score > 10
+                                          ? data.data.servicePerformance.score /
+                                                100
+                                          : data.data.servicePerformance.score /
+                                                10)
+                                      .clamp(0.0, 1.0),
                               minHeight: 3.h,
                               backgroundColor: const Color(0xFF919191),
                               valueColor: const AlwaysStoppedAnimation<Color>(

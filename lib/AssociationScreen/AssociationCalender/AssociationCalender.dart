@@ -154,12 +154,12 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
     }
 
     if (selectedDate == null) {
-      showErrorSnackBar("Please select visit date");
+      showErrorSnackBar("Please select event date");
       return;
     }
 
     if (selectedTime1 == null) {
-      showErrorSnackBar("Please select visit time");
+      showErrorSnackBar("Please select start time");
       return;
     }
 
@@ -519,7 +519,7 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                       children: [
                         Expanded(
                           child: buildField(
-                            title: "Visit Date",
+                            title: "Event Date",
                             value: dateText,
                             icon: Icons.calendar_month_outlined,
                             onTap: selectDate,
@@ -528,7 +528,7 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                         SizedBox(width: 15.w),
                         Expanded(
                           child: buildField(
-                            title: "Visit Time",
+                            title: "Start Time",
                             value: timeText1,
                             icon: Icons.access_time_outlined,
                             onTap: selectTime1,

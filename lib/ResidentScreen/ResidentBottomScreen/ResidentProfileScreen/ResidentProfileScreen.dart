@@ -120,21 +120,29 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    // "Ahmed Rahman",
-                                    data.data?.name ?? "N/A",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                      letterSpacing: -0.2,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          data.data?.name ?? "N/A",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 17.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                            letterSpacing: -0.2,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 8.w),
+                                      _buildOccupancyBadge(
+                                        data.data?.myResidence?.residentType,
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(height: 2.h),
                                   Text(
-                                    // "Resident · Apartment A-204",
                                     data.data?.subtitle ?? "N/A",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -753,6 +761,40 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
           },
         );
       },
+    );
+  }
+
+  Widget _buildOccupancyBadge(String? type) {
+    final isTenant = (type ?? "").toLowerCase() == "tenant";
+    final isOwner = !isTenant;
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+      decoration: BoxDecoration(
+        color: isOwner ? const Color(0xFFE8F5E9) : const Color(0xFFFFF3E0),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(
+          color: isOwner ? const Color(0xFF81C784) : const Color(0xFFFFB74D),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(isOwner ? "👑" : "📄", style: TextStyle(fontSize: 11.sp)),
+          SizedBox(width: 4.w),
+          Text(
+            isOwner ? "Owner" : "Tenant",
+            style: GoogleFonts.outfit(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w600,
+              color: isOwner
+                  ? const Color(0xFF2E7D32)
+                  : const Color(0xFFE65100),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

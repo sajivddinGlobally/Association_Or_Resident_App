@@ -426,9 +426,7 @@ class AuthService {
     }
   }
 
-  Future<dynamic> sendDefaulterReminder({
-    required String id,
-  }) async {
+  Future<dynamic> sendDefaulterReminder({required String id}) async {
     try {
       if (dio != null) {
         final res = await dio!.post(
@@ -472,9 +470,7 @@ class AuthService {
     }
   }
 
-  Future<dynamic> toggleDefaulterStatus({
-    required String id,
-  }) async {
+  Future<dynamic> toggleDefaulterStatus({required String id}) async {
     try {
       if (dio != null) {
         final res = await dio!.post(
@@ -570,6 +566,7 @@ class AuthService {
     required String confirmPassword,
     required String unitNumber,
     required bool termsAccepted,
+    String? occupancyType,
   }) async {
     try {
       final body = AddResedentBodyModel(
@@ -580,6 +577,7 @@ class AuthService {
         confirmPassword: confirmPassword,
         unitNumber: unitNumber,
         termsAccepted: termsAccepted,
+        occupancyType: occupancyType,
       );
       final response = await api.addResident(body);
       return response;
@@ -783,6 +781,9 @@ class AuthService {
     required String subject,
     required String description,
     required MultipartFile? photo,
+    String? areaType,
+    String? location,
+    String? priority,
   }) async {
     try {
       final response = await api.addResidentComplaint(
@@ -790,6 +791,9 @@ class AuthService {
         subject,
         description,
         photo,
+        areaType: areaType,
+        location: location,
+        priority: priority,
       );
       return response;
     } catch (e) {

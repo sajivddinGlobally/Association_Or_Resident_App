@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' hide log;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart' hide Notification;
@@ -16,9 +15,11 @@ import 'package:property_association_or_resident/AssociationScreen/AssociationIm
 import 'package:property_association_or_resident/AssociationScreen/AssociationNotification/Notificaion.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationProfile/AssociationProfile.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationProperty/AssociationProperty.dart';
+import 'package:property_association_or_resident/AssociationScreen/AssociationServiceMagagement/AssociationServiceManagement.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationServiceRequest/ServiiceRequest.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/Complaint.dart';
 import 'package:property_association_or_resident/AssociationScreen/Mantenance&Service/PendingMantenaceService.dart';
+import 'package:property_association_or_resident/AssociationScreen/MantenanceCharges/DefaulterList.dart';
 import 'package:property_association_or_resident/AssociationScreen/MantenanceCharges/MantenanceCharges.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:svg_flutter/svg_flutter.dart';
@@ -1060,7 +1061,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
 
                                 _bottomOverviewStat(
                                   icon: Icons.shield_outlined,
-                                  title: "Outstanding Units",
+                                  title: "Overdue Units",
                                   value:
                                       "${complexOverview?.stats?.outstandingUnits ?? widgets?.defaulters?.count ?? 0}"
                                           .padLeft(2, ''),
@@ -1592,21 +1593,29 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
         servicePerf?.scoreValue?.toDouble() ??
         widgets?.propertyScore?.toDouble() ??
         0.0;
-    final progressValue = (propertyScore / 100).clamp(0.0, 1.0);
-    final scoreStr =
-        servicePerf?.score ??
-        (propertyScore % 1 == 0
-            ? "${propertyScore.toInt()}%"
-            : "${propertyScore.toStringAsFixed(1)}%");
+    final normalizedScore = propertyScore > 10
+        ? propertyScore / 10
+        : propertyScore;
+    final progressValue = (normalizedScore / 10).clamp(0.0, 1.0);
+    final rawScore = servicePerf?.score;
+    final scoreStr = rawScore != null && rawScore.isNotEmpty
+        ? (rawScore.replaceAll('%', '').trim().contains('/')
+              ? rawScore.replaceAll('%', '').trim()
+              : "${rawScore.replaceAll('%', '').trim()}/10")
+        : (normalizedScore > 0
+              ? (normalizedScore % 1 == 0
+                    ? "${normalizedScore.toInt()}/10"
+                    : "${normalizedScore.toStringAsFixed(1)}/10")
+              : "0/10");
     final performanceStatus =
         servicePerf?.rating ??
-        (propertyScore >= 80
+        (normalizedScore >= 8.0
             ? "Good"
-            : (propertyScore >= 50 ? "Average" : "Needs Attention"));
+            : (normalizedScore >= 5.0 ? "Average" : "Needs Attention"));
     final performanceColor =
-        (performanceStatus.toLowerCase() == "good" || propertyScore >= 80)
+        (performanceStatus.toLowerCase() == "good" || normalizedScore >= 8.0)
         ? Colors.green
-        : (propertyScore >= 50 ? Colors.orange : Colors.red);
+        : (normalizedScore >= 5.0 ? Colors.orange : Colors.red);
     final perfTitle = servicePerf?.title ?? "Service Performance";
     final perfLabel = servicePerf?.label ?? "Overall Service\nPerformance";
     final perfMessage = servicePerf?.message ?? "Overall Service Performance";
@@ -1618,216 +1627,140 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(12.w),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(15.r),
-                  border: Border.all(
-                    color: const Color(0xffE8E5DC),
-                    width: 1.w,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) =>
+                          const AssociationServiceManagement(),
+                    ),
+                  ).then((value) {
+                    ref.invalidate(commiteDashboardProvider);
+                  });
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(15.r),
+                    border: Border.all(
+                      color: const Color(0xffE8E5DC),
+                      width: 1.w,
+                    ),
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            perfTitle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.outfit(
-                              fontSize: 11.sp,
-                              color: AppColors.heading,
-                              letterSpacing: -0.3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              perfTitle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.outfit(
+                                fontSize: 11.sp,
+                                color: AppColors.heading,
+                                letterSpacing: -0.3,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: 4.w),
-                        Text(
-                          "View Details",
-                          maxLines: 1,
-                          style: GoogleFonts.outfit(
-                            fontSize: 11.sp,
-                            color: const Color(0xFF9B7627),
-                            letterSpacing: -0.3,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 8.h),
-
-                    // Performance
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 70.w,
-                          height: 70.w,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              SizedBox(
-                                width: 60.w,
-                                height: 60.w,
-                                child: CircularProgressIndicator(
-                                  value: progressValue,
-                                  strokeWidth: 5.w,
-                                  backgroundColor: const Color(0xffE8E4D8),
-                                  color: Color(0xffD5A52C),
-                                ),
-                              ),
-                              Text(
-                                scoreStr,
-                                style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xff0D241B),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        SizedBox(width: 6.w),
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          SizedBox(width: 4.w),
+                          Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                perfLabel,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
+                                "View Details",
+                                maxLines: 1,
                                 style: GoogleFonts.outfit(
                                   fontSize: 11.sp,
-                                  color: const Color(0xff0D241B),
+                                  color: const Color(0xFF9B7627),
                                   letterSpacing: -0.3,
                                 ),
                               ),
-                              Text(
-                                performanceStatus,
-                                style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: performanceColor,
-                                  letterSpacing: -0.3,
-                                ),
+                              SizedBox(width: 2.w),
+                              Icon(
+                                Icons.chevron_right,
+                                size: 12.sp,
+                                color: const Color(0xFF9B7627),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-
-                    const Spacer(),
-                    Row(
-                      children: [
-                        Container(
-                          width: 20.w,
-                          height: 20.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.green.withOpacity(0.2),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.green,
-                              size: 15.sp,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(width: 5.w),
-
-                        Flexible(
-                          child: Text(
-                            perfMessage,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.outfit(
-                              fontSize: 11.sp,
-                              color: const Color(0xff0D241B),
-                              letterSpacing: -0.3,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(width: 8.w),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(12.w),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(15.r),
-                  border: Border.all(
-                    color: const Color(0xffE8E5DC),
-                    width: 1.w,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            latestInspection?.title ?? "Latest Inspection",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.outfit(
-                              fontSize: 11.sp,
-                              color: AppColors.heading,
-                              letterSpacing: -0.3,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 4.w),
-                        Text(
-                          "View Details",
-                          maxLines: 1,
-                          style: GoogleFonts.outfit(
-                            fontSize: 11.sp,
-                            color: const Color(0xFF9B7627),
-                            letterSpacing: -0.3,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.h),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.only(
-                        left: 4.w,
-                        right: 4.w,
-                        top: 3.h,
-                        bottom: 3.h,
+                        ],
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.r),
-                        color: const Color(0xFFF9F2E4),
-                        border: Border.all(
-                          color: const Color(0xffE8E5DC),
-                          width: 1.w,
-                        ),
+
+                      SizedBox(height: 8.h),
+
+                      // Performance
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 70.w,
+                            height: 70.w,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 60.w,
+                                  height: 60.w,
+                                  child: CircularProgressIndicator(
+                                    value: progressValue,
+                                    strokeWidth: 5.w,
+                                    backgroundColor: const Color(0xffE8E4D8),
+                                    color: Color(0xffD5A52C),
+                                  ),
+                                ),
+                                Text(
+                                  scoreStr,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff0D241B),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          SizedBox(width: 6.w),
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  perfLabel,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 11.sp,
+                                    color: const Color(0xff0D241B),
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                                Text(
+                                  performanceStatus,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: performanceColor,
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Row(
+
+                      const Spacer(),
+                      Row(
                         children: [
                           Container(
                             width: 20.w,
@@ -1840,92 +1773,226 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                               child: Icon(
                                 Icons.check,
                                 color: Colors.green,
-                                size: 14.sp,
+                                size: 15.sp,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(width: 5.w),
+
+                          Flexible(
+                            child: Text(
+                              perfMessage,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.outfit(
+                                fontSize: 11.sp,
+                                color: const Color(0xff0D241B),
+                                letterSpacing: -0.3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(width: 8.w),
+            Expanded(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  // Navigator.push(
+                  //   context,
+                  //   CupertinoPageRoute(
+                  //     builder: (context) => const InspectionreportScreen(),
+                  //   ),
+                  // ).then((value) {
+                  //   ref.invalidate(commiteDashboardProvider);
+                  // });
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(15.r),
+                    border: Border.all(
+                      color: const Color(0xffE8E5DC),
+                      width: 1.w,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              latestInspection?.title ?? "Latest Inspection",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.outfit(
+                                fontSize: 11.sp,
+                                color: AppColors.heading,
+                                letterSpacing: -0.3,
                               ),
                             ),
                           ),
                           SizedBox(width: 4.w),
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  latestInspection?.status ?? "Completed",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.green,
-                                    letterSpacing: -0.2,
-                                  ),
-                                ),
-                                Text(
-                                  latestInspection?.description ??
-                                      "Most recent property inspection",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 10.sp,
-                                    color: const Color(0xff777777),
-                                    letterSpacing: -0.2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Row(
+                          //   mainAxisSize: MainAxisSize.min,
+                          //   children: [
+                          //     Text(
+                          //       "View Details",
+                          //       maxLines: 1,
+                          //       style: GoogleFonts.outfit(
+                          //         fontSize: 11.sp,
+                          //         color: const Color(0xFF9B7627),
+                          //         letterSpacing: -0.3,
+                          //       ),
+                          //     ),
+                          //     SizedBox(width: 2.w),
+                          //     Icon(
+                          //       Icons.chevron_right,
+                          //       size: 12.sp,
+                          //       color: const Color(0xFF9B7627),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 8.h),
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          _inspectionItem(
-                            icon: Icons.calendar_today_outlined,
-                            title: "Date",
-                            value:
-                                latestInspection?.date ??
-                                _formatInspectionDate(
-                                  widgets?.latestInspection?.date,
+                      SizedBox(height: 8.h),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.only(
+                          left: 4.w,
+                          right: 4.w,
+                          top: 3.h,
+                          bottom: 3.h,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.r),
+                          color: const Color(0xFFF9F2E4),
+                          border: Border.all(
+                            color: const Color(0xffE8E5DC),
+                            width: 1.w,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 20.w,
+                              height: 20.w,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.green.withOpacity(0.2),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.check,
+                                  color: Colors.green,
+                                  size: 14.sp,
                                 ),
-                          ),
-                          Container(
-                            width: 1.w,
-                            margin: EdgeInsets.symmetric(
-                              vertical: 2.h,
-                              horizontal: 2.w,
+                              ),
                             ),
-                            color: const Color(0xffE8E5DC),
-                          ),
-                          _inspectionItem(
-                            icon: Icons.score_outlined,
-                            title: "Score",
-                            value: latestInspection?.score != null
-                                ? "${latestInspection!.score}%"
-                                : (widgets?.latestInspection?.score != null
-                                      ? "${widgets!.latestInspection!.score}%"
-                                      : "N/A"),
-                          ),
-                          Container(
-                            width: 1.w,
-                            margin: EdgeInsets.symmetric(
-                              vertical: 2.h,
-                              horizontal: 2.w,
+                            SizedBox(width: 4.w),
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    latestInspection?.status ?? "Completed",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.green,
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                  Text(
+                                    latestInspection?.description ??
+                                        "Most recent property inspection",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 10.sp,
+                                      color: const Color(0xff777777),
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            color: const Color(0xffE8E5DC),
-                          ),
-                          _inspectionItem(
-                            icon: Icons.verified_outlined,
-                            title: "Status",
-                            value: latestInspection?.status ?? "Completed",
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 8.h),
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _inspectionItem(
+                              icon: Icons.calendar_today_outlined,
+                              title: "Date",
+                              value:
+                                  latestInspection?.date ??
+                                  _formatInspectionDate(
+                                    widgets?.latestInspection?.date,
+                                  ),
+                            ),
+                            Container(
+                              width: 1.w,
+                              margin: EdgeInsets.symmetric(
+                                vertical: 2.h,
+                                horizontal: 2.w,
+                              ),
+                              color: const Color(0xffE8E5DC),
+                            ),
+                            Builder(
+                              builder: (context) {
+                                final inspScore = latestInspection?.score
+                                    ?.toString();
+                                return _inspectionItem(
+                                  icon: Icons.score_outlined,
+                                  title: "Score",
+                                  value: inspScore != null
+                                      ? (inspScore.contains('/')
+                                            ? inspScore
+                                            : "${inspScore.replaceAll('%', '').trim()}/10")
+                                      : (widgets?.latestInspection?.score !=
+                                                null
+                                            ? "${widgets!.latestInspection!.score}/10"
+                                            : "N/A"),
+                                );
+                              },
+                            ),
+                            Container(
+                              width: 1.w,
+                              margin: EdgeInsets.symmetric(
+                                vertical: 2.h,
+                                horizontal: 2.w,
+                              ),
+                              color: const Color(0xffE8E5DC),
+                            ),
+                            _inspectionItem(
+                              icon: Icons.verified_outlined,
+                              title: "Status",
+                              value: latestInspection?.status ?? "Completed",
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1993,8 +2060,9 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
     Widgets? widgets,
   ) {
     final title = chargesMonthly?.title ?? "Maintenance Charges (Monthly)";
-    final status =
-        chargesMonthly?.status ?? chargesMonthly?.statusBadge ?? "Tracking";
+    final rawStatus =
+        chargesMonthly?.status ?? chargesMonthly?.statusBadge ?? "Active";
+    final status = rawStatus.toLowerCase() == "tracking" ? "Active" : rawStatus;
     final totalUnits =
         complex?.totalUnits ?? complex?.occupancyOverview?.totalProperties ?? 0;
     final defaultersCount =
@@ -2106,8 +2174,12 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
           onTap: () {
             Navigator.push(
               context,
-              CupertinoPageRoute(builder: (context) => Importantalertsscreen()),
-            );
+              CupertinoPageRoute(
+                builder: (context) => const Importantalertsscreen(),
+              ),
+            ).then((value) {
+              ref.invalidate(commiteDashboardProvider);
+            });
           },
           child: Padding(
             padding: EdgeInsets.only(top: 5.h),
@@ -2125,13 +2197,21 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                   }
 
                   final type = (alert.type ?? "").toLowerCase();
-                  if (type.contains("complaint")) {
+                  final titleLower = (alert.title ?? "").toLowerCase();
+                  final actionRoute = (alert.actionRoute ?? "").toLowerCase();
+
+                  if (type.contains("complaint") ||
+                      titleLower.contains("complaint")) {
                     icon = Icons.report_problem_outlined;
                     color = const Color(0xffD94A42);
-                  } else if (type.contains("maintenance")) {
+                  } else if (type.contains("maintenance") ||
+                      titleLower.contains("maintenance")) {
                     icon = Icons.build_outlined;
                   } else if (type.contains("charge") ||
-                      type.contains("defaulter")) {
+                      type.contains("defaulter") ||
+                      titleLower.contains("charge") ||
+                      titleLower.contains("outstanding") ||
+                      titleLower.contains("unit")) {
                     icon = Icons.currency_rupee;
                   } else {
                     icon = Icons.info_outline;
@@ -2148,6 +2228,64 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                     );
                   }
 
+                  VoidCallback onAlertTap;
+                  if (type.contains("complaint") ||
+                      actionRoute.contains("complaint") ||
+                      titleLower.contains("complaint")) {
+                    onAlertTap = () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const Complaint(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(commiteDashboardProvider);
+                      });
+                    };
+                  } else if (type.contains("maintenance") ||
+                      actionRoute.contains("maintenance") ||
+                      titleLower.contains("maintenance")) {
+                    onAlertTap = () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const PendingMantenaceService(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(commiteDashboardProvider);
+                      });
+                    };
+                  } else if (type.contains("charge") ||
+                      type.contains("defaulter") ||
+                      actionRoute.contains("charge") ||
+                      actionRoute.contains("defaulter") ||
+                      titleLower.contains("charge") ||
+                      titleLower.contains("outstanding") ||
+                      titleLower.contains("payment") ||
+                      titleLower.contains("unit")) {
+                    onAlertTap = () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const DefaulterList(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(commiteDashboardProvider);
+                      });
+                    };
+                  } else {
+                    onAlertTap = () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const Importantalertsscreen(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(commiteDashboardProvider);
+                      });
+                    };
+                  }
+
                   return Padding(
                     padding: EdgeInsets.only(right: 8.w),
                     child: SizedBox(
@@ -2158,6 +2296,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                         title: displayTitle,
                         description: alert.subtitle ?? "",
                         color: color,
+                        onTap: onAlertTap,
                       ),
                     ),
                   );
@@ -2179,7 +2318,16 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
       child: _sectionContainer(
         title: "Important Alerts",
         action: "View All",
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => const Importantalertsscreen(),
+            ),
+          ).then((value) {
+            ref.invalidate(commiteDashboardProvider);
+          });
+        },
         child: Padding(
           padding: EdgeInsets.only(top: 5.h),
           child: SingleChildScrollView(
@@ -2193,7 +2341,17 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                     count: "$openComplaints",
                     title: "complaints require attention",
                     description: "Review and take necessary action",
-                    color: Color(0xffD94A42),
+                    color: const Color(0xffD94A42),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const Complaint(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(commiteDashboardProvider);
+                      });
+                    },
                   ),
                 ),
                 SizedBox(width: 8.w),
@@ -2204,7 +2362,17 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                     count: "$pendingMaintenance",
                     title: "maintenance items pending",
                     description: "Pending maintenance requires approval",
-                    color: Color(0xffD5A52C),
+                    color: const Color(0xffD5A52C),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const PendingMantenaceService(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(commiteDashboardProvider);
+                      });
+                    },
                   ),
                 ),
                 SizedBox(width: 8.w),
@@ -2217,7 +2385,17 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                     description: totalOutstanding > 0
                         ? "Total: ₹$totalOutstanding"
                         : "Follow up for payment collection",
-                    color: Color(0xffD5A52C),
+                    color: const Color(0xffD5A52C),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const DefaulterList(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(commiteDashboardProvider);
+                      });
+                    },
                   ),
                 ),
               ],
@@ -2234,83 +2412,88 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
     required String title,
     required String description,
     required Color color,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: EdgeInsets.all(10.w),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: const Color(0xffE8E5DC), width: 1.w),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 32.w,
-                height: 32.w,
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(7.r),
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: EdgeInsets.all(10.w),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: const Color(0xffE8E5DC), width: 1.w),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 32.w,
+                  height: 32.w,
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(7.r),
+                  ),
+                  child: Center(
+                    child: Icon(icon, size: 17.sp, color: color),
+                  ),
                 ),
-                child: Center(
-                  child: Icon(icon, size: 17.sp, color: color),
-                ),
-              ),
-              SizedBox(width: 7.w),
-              Expanded(
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      if (count.isNotEmpty)
+                SizedBox(width: 7.w),
+                Expanded(
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        if (count.isNotEmpty)
+                          TextSpan(
+                            text: "$count ",
+                            style: GoogleFonts.outfit(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xff0D241B),
+                            ),
+                          ),
                         TextSpan(
-                          text: "$count ",
+                          text: title,
                           style: GoogleFonts.outfit(
                             fontSize: 11.sp,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: const Color(0xff0D241B),
                           ),
                         ),
-                      TextSpan(
-                        text: title,
-                        style: GoogleFonts.outfit(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff0D241B),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(width: 4.w),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 13.sp,
+                  color: const Color(0xff0D241B),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 10.h),
+            Padding(
+              padding: EdgeInsets.only(left: 4.w),
+              child: Text(
+                description,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.outfit(
+                  fontSize: 12.sp,
+                  color: const Color(0xff777777),
+                  letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(width: 4.w),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 13.sp,
-                color: const Color(0xff0D241B),
-              ),
-            ],
-          ),
-
-          SizedBox(height: 10.h),
-          Padding(
-            padding: EdgeInsets.only(left: 4.w),
-            child: Text(
-              description,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.outfit(
-                fontSize: 12.sp,
-                color: const Color(0xff777777),
-                letterSpacing: -0.2,
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -2347,21 +2530,27 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
               ),
               GestureDetector(
                 onTap: onTap,
-                child: Text(
-                  action,
-                  style: GoogleFonts.outfit(
-                    fontSize: 11.sp,
-                    color: const Color(0xFF9B7627),
-                    letterSpacing: -0.2,
-                  ),
+                behavior: HitTestBehavior.opaque,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      action,
+                      style: GoogleFonts.outfit(
+                        fontSize: 11.sp,
+                        color: const Color(0xFF9B7627),
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                    if (action.isNotEmpty)
+                      Icon(
+                        Icons.chevron_right,
+                        size: 13.sp,
+                        color: Color(0xFF9B7627),
+                      ),
+                  ],
                 ),
               ),
-              if (action.isNotEmpty)
-                Icon(
-                  Icons.chevron_right,
-                  size: 13.sp,
-                  color: Color(0xFF9B7627),
-                ),
             ],
           ),
           SizedBox(height: 7.h),

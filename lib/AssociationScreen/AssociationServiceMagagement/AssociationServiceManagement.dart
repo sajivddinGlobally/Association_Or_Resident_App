@@ -860,7 +860,10 @@ class ServiceCard extends StatelessWidget {
                 ),
                 FractionallySizedBox(
                   widthFactor: double.tryParse(percentage) != null
-                      ? double.parse(percentage) / 100
+                      ? ((double.parse(percentage) > 10
+                                ? double.parse(percentage) / 100
+                                : double.parse(percentage) / 10))
+                            .clamp(0.0, 1.0)
                       : 0,
                   child: Container(height: 3.h, color: const Color(0xFF195B3A)),
                 ),

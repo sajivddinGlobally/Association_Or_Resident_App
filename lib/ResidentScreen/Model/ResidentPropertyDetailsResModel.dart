@@ -133,19 +133,37 @@ class MyProperty {
   final String title;
   final String subtitle;
   final String image;
+  final String? occupancyType;
+  final String? residentType;
+  final String? residentTypeBadge;
+  final String? residentTypeKey;
+  final bool? isHouseOwner;
 
   MyProperty({
     required this.tag,
     required this.title,
     required this.subtitle,
     required this.image,
+    this.occupancyType,
+    this.residentType,
+    this.residentTypeBadge,
+    this.residentTypeKey,
+    this.isHouseOwner,
   });
 
   factory MyProperty.fromJson(Map<String, dynamic> json) => MyProperty(
-    tag: json["tag"],
-    title: json["title"],
-    subtitle: json["subtitle"],
-    image: json["image"],
+    tag: json["tag"] ?? "",
+    title: json["title"] ?? "",
+    subtitle: json["subtitle"] ?? "",
+    image: json["image"] ?? "",
+    occupancyType: json["occupancy_type"] ??
+        json["resident_type_badge"] ??
+        json["resident_type"] ??
+        json["occupant_type"],
+    residentType: json["resident_type"],
+    residentTypeBadge: json["resident_type_badge"],
+    residentTypeKey: json["resident_type_key"],
+    isHouseOwner: json["is_house_owner"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -153,6 +171,11 @@ class MyProperty {
     "title": title,
     "subtitle": subtitle,
     "image": image,
+    "occupancy_type": occupancyType,
+    "resident_type": residentType,
+    "resident_type_badge": residentTypeBadge,
+    "resident_type_key": residentTypeKey,
+    "is_house_owner": isHouseOwner,
   };
 }
 

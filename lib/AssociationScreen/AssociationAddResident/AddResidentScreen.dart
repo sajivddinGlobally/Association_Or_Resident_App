@@ -9,7 +9,7 @@ import 'package:property_association_or_resident/AssociationScreen/AssociationAd
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 
 import '../../Core/Utils/showMessage.dart';
-import '../../core/AuthService/AuthServiceProvider.dart';
+import '../../Core/AuthService/AuthServiceProvider.dart';
 import 'provider/addResidentProvider.dart';
 
 class Addresidentscreen extends ConsumerStatefulWidget {
@@ -24,6 +24,7 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
   bool isConfirmPasswordVisible = false;
   bool associationAgreeTerms = false;
   String? unitNumber;
+  String selectedResidentType = "owner"; // "owner" | "tenant"
   final _formKeyResident = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -397,6 +398,123 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                       ),
                       SizedBox(height: 16.h),
 
+                      // ==========================================================================
+                      // [POINT 3] RESIDENT TYPE SELECTION (OWNER VS TENANT)
+                      // ==========================================================================
+                      // Text(
+                      //   "Resident Type",
+                      //   style: GoogleFonts.outfit(
+                      //     fontSize: 16.sp,
+                      //     fontWeight: FontWeight.w500,
+                      //     color: AppColors.heading,
+                      //     letterSpacing: -0.2,
+                      //   ),
+                      // ),
+                      // SizedBox(height: 8.h),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: GestureDetector(
+                      //         onTap: () {
+                      //           setState(() {
+                      //             selectedResidentType = "owner";
+                      //           });
+                      //         },
+                      //         child: Container(
+                      //           padding: EdgeInsets.symmetric(vertical: 11.h),
+                      //           decoration: BoxDecoration(
+                      //             color: selectedResidentType == "owner"
+                      //                 ? const Color(0xFFE8F5E9)
+                      //                 : Colors.white,
+                      //             borderRadius: BorderRadius.circular(8.r),
+                      //             border: Border.all(
+                      //               color: selectedResidentType == "owner"
+                      //                   ? const Color(0xFF2E7D32)
+                      //                   : const Color(0xFFD9D9D0),
+                      //               width: selectedResidentType == "owner"
+                      //                   ? 1.6
+                      //                   : 1,
+                      //             ),
+                      //           ),
+                      //           child: Row(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               Text(
+                      //                 "👑",
+                      //                 style: TextStyle(fontSize: 15.sp),
+                      //               ),
+                      //               SizedBox(width: 6.w),
+                      //               Text(
+                      //                 "Owner",
+                      //                 style: GoogleFonts.outfit(
+                      //                   fontSize: 14.sp,
+                      //                   fontWeight:
+                      //                       selectedResidentType == "owner"
+                      //                           ? FontWeight.w600
+                      //                           : FontWeight.w500,
+                      //                   color: selectedResidentType == "owner"
+                      //                       ? const Color(0xFF2E7D32)
+                      //                       : AppColors.heading,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 12.w),
+                      //     Expanded(
+                      //       child: GestureDetector(
+                      //         onTap: () {
+                      //           setState(() {
+                      //             selectedResidentType = "tenant";
+                      //           });
+                      //         },
+                      //         child: Container(
+                      //           padding: EdgeInsets.symmetric(vertical: 11.h),
+                      //           decoration: BoxDecoration(
+                      //             color: selectedResidentType == "tenant"
+                      //                 ? const Color(0xFFFFF3E0)
+                      //                 : Colors.white,
+                      //             borderRadius: BorderRadius.circular(8.r),
+                      //             border: Border.all(
+                      //               color: selectedResidentType == "tenant"
+                      //                   ? const Color(0xFFE65100)
+                      //                   : const Color(0xFFD9D9D0),
+                      //               width: selectedResidentType == "tenant"
+                      //                   ? 1.6
+                      //                   : 1,
+                      //             ),
+                      //           ),
+                      //           child: Row(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               Text(
+                      //                 "📄",
+                      //                 style: TextStyle(fontSize: 15.sp),
+                      //               ),
+                      //               SizedBox(width: 6.w),
+                      //               Text(
+                      //                 "Tenant",
+                      //                 style: GoogleFonts.outfit(
+                      //                   fontSize: 14.sp,
+                      //                   fontWeight:
+                      //                       selectedResidentType == "tenant"
+                      //                           ? FontWeight.w600
+                      //                           : FontWeight.w500,
+                      //                   color: selectedResidentType == "tenant"
+                      //                       ? const Color(0xFFE65100)
+                      //                       : AppColors.heading,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // SizedBox(height: 16.h),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -473,6 +591,7 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                                           .trim(),
                                       unitNumber: unitNumber!,
                                       termsAccepted: associationAgreeTerms,
+                                      occupancyType: selectedResidentType,
                                     );
                                     if (response.status == true) {
                                       showSuccessSnackBar(

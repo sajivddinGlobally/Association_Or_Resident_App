@@ -13,6 +13,7 @@ import 'package:property_association_or_resident/Core/AuthService/AuthServicePro
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentHomeScreen.dart';
+import 'package:svg_flutter/svg_flutter.dart';
 
 class AssociationLogin extends ConsumerStatefulWidget {
   const AssociationLogin({super.key});
@@ -67,13 +68,23 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
               child: ClipOval(
                 child: Image.asset(
                   // "assets/property_img.png",
-                  "assets/logo.png",
-                  width: 75.w,
-                  height: 75.w,
+                  // "assets/logo.png",
+                  // "assets/newlogo.jpeg",
+                  // "assets/updatelogo.png",
+                  "assets/new logo.png",
+                  width: 110.w,
+                  height: 110.w,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
+            // Center(
+            //   child: SvgPicture.asset(
+            //     "assets/SvgImage/Logo Pro.svg",
+            //     width: 150.w,
+            //     height: 150.w,
+            //   ),
+            // ),
             SizedBox(height: 70.h),
             Padding(
               padding: EdgeInsets.only(left: 20.w, right: 20.w),

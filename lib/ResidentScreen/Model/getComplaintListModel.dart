@@ -134,9 +134,17 @@ class Request {
     String? tokenNumber;
     String? status;
     String? statusColor;
+    bool? isEmergency;
+    String? emergencyIndicator;
+    String? areaType;
+    String? areaTypeLabel;
     String? title;
     String? location;
+    String? resolutionPhoto;
     String? viewDetailsUrl;
+    bool? isOverdue;
+    String? deadline;
+    String? issueScope;
 
     Request({
         this.id,
@@ -144,21 +152,67 @@ class Request {
         this.tokenNumber,
         this.status,
         this.statusColor,
+        this.isEmergency,
+        this.emergencyIndicator,
+        this.areaType,
+        this.areaTypeLabel,
         this.title,
         this.location,
+        this.resolutionPhoto,
         this.viewDetailsUrl,
+        this.isOverdue,
+        this.deadline,
+        this.issueScope,
     });
 
-    factory Request.fromJson(Map<String, dynamic> json) => Request(
-        id: json["id"],
-        tokenLabel: json["token_label"],
-        tokenNumber: json["token_number"],
-        status: json["status"],
-        statusColor: json["status_color"],
-        title: json["title"],
-        location: json["location"],
-        viewDetailsUrl: json["view_details_url"],
-    );
+    factory Request.fromJson(Map<String, dynamic> json) {
+        final statusStr = json["status"]?.toString() ?? "";
+        final deadlineStr = json["deadline"] ?? json["sla_target_date"] ?? json["target_date"];
+        final bool isEmergencyVal = json["is_emergency"] == true ||
+            json["is_emergency"] == 1 ||
+            statusStr.toLowerCase().contains("emergency") ||
+            statusStr.toLowerCase().contains("overdue");
+
+        bool overdue = isEmergencyVal ||
+            json["is_overdue"] == true ||
+            json["is_overdue"] == 1;
+
+        if (!overdue && deadlineStr != null) {
+            final dt = DateTime.tryParse(deadlineStr.toString());
+            final st = statusStr.toLowerCase();
+            if (dt != null && DateTime.now().isAfter(dt) && st != "resolved" && st != "completed" && st != "closed") {
+                overdue = true;
+            }
+        }
+
+        final areaTypeVal = json["area_type"]?.toString() ??
+            json["issue_scope"]?.toString() ??
+            json["scope"]?.toString();
+
+        final areaTypeLabelVal = json["area_type_label"]?.toString() ??
+            (areaTypeVal == "common_area"
+                ? "Common Area"
+                : (areaTypeVal == "inside_house" ? "Inside House" : null));
+
+        return Request(
+            id: json["id"],
+            tokenLabel: json["token_label"],
+            tokenNumber: json["token_number"],
+            status: json["status"],
+            statusColor: json["status_color"],
+            isEmergency: isEmergencyVal,
+            emergencyIndicator: json["emergency_indicator"]?.toString(),
+            areaType: areaTypeVal,
+            areaTypeLabel: areaTypeLabelVal,
+            title: json["title"],
+            location: json["location"],
+            resolutionPhoto: json["resolution_photo"]?.toString(),
+            viewDetailsUrl: json["view_details_url"],
+            isOverdue: overdue,
+            deadline: deadlineStr?.toString(),
+            issueScope: areaTypeVal,
+        );
+    }
 
     Map<String, dynamic> toJson() => {
         "id": id,
@@ -166,8 +220,16 @@ class Request {
         "token_number": tokenNumber,
         "status": status,
         "status_color": statusColor,
+        "is_emergency": isEmergency,
+        "emergency_indicator": emergencyIndicator,
+        "area_type": areaType,
+        "area_type_label": areaTypeLabel,
         "title": title,
         "location": location,
+        "resolution_photo": resolutionPhoto,
         "view_details_url": viewDetailsUrl,
+        "is_overdue": isOverdue,
+        "deadline": deadline,
+        "issue_scope": issueScope,
     };
 }

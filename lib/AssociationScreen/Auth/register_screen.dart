@@ -95,13 +95,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ClipOval(
-                      child: Image.asset(
-                        // "assets/property_img.png",
-                        "assets/logo.png",
-                        width: 75.w,
-                        height: 75.w,
-                        fit: BoxFit.cover,
+                    // ClipOval(
+                    //   child: Image.asset(
+                    //     // "assets/property_img.png",
+                    //     "assets/logo.png",
+                    //     width: 75.w,
+                    //     height: 75.w,
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    // ),
+                    Center(
+                      child: ClipOval(
+                        child: Image.asset(
+                          // "assets/property_img.png",
+                          // "assets/logo.png",
+                          // "assets/newlogo.jpeg",
+                          // "assets/updatelogo.png",
+                          "assets/new logo.png",
+                          width: 110.w,
+                          height: 110.w,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     SizedBox(height: 10.h),

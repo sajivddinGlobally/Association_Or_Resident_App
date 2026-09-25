@@ -132,6 +132,8 @@ class ComplaintTokenCard {
     String? statusBadgeColor;
     String? issueTitle;
     List<Detail>? details;
+    bool? isOverdue;
+    String? deadline;
 
     ComplaintTokenCard({
         this.tokenLabel,
@@ -141,17 +143,38 @@ class ComplaintTokenCard {
         this.statusBadgeColor,
         this.issueTitle,
         this.details,
+        this.isOverdue,
+        this.deadline,
     });
 
-    factory ComplaintTokenCard.fromJson(Map<String, dynamic> json) => ComplaintTokenCard(
-        tokenLabel: json["token_label"],
-        tokenTitle: json["token_title"],
-        tokenCode: json["token_code"],
-        statusBadge: json["status_badge"],
-        statusBadgeColor: json["status_badge_color"],
-        issueTitle: json["issue_title"],
-        details: json["details"] == null ? [] : List<Detail>.from(json["details"]!.map((x) => Detail.fromJson(x))),
-    );
+    factory ComplaintTokenCard.fromJson(Map<String, dynamic> json) {
+        final statusStr = json["status_badge"]?.toString() ?? "";
+        final deadlineStr = json["deadline"] ?? json["sla_target_date"] ?? json["target_date"];
+        bool overdue = json["is_overdue"] == true ||
+            json["is_overdue"] == 1 ||
+            statusStr.toLowerCase().contains("overdue") ||
+            statusStr.toLowerCase().contains("emergency");
+
+        if (!overdue && deadlineStr != null) {
+            final dt = DateTime.tryParse(deadlineStr.toString());
+            final st = statusStr.toLowerCase();
+            if (dt != null && DateTime.now().isAfter(dt) && !st.contains("resolved") && !st.contains("completed") && !st.contains("closed")) {
+                overdue = true;
+            }
+        }
+
+        return ComplaintTokenCard(
+            tokenLabel: json["token_label"],
+            tokenTitle: json["token_title"],
+            tokenCode: json["token_code"],
+            statusBadge: json["status_badge"],
+            statusBadgeColor: json["status_badge_color"],
+            issueTitle: json["issue_title"],
+            details: json["details"] == null ? [] : List<Detail>.from(json["details"]!.map((x) => Detail.fromJson(x))),
+            isOverdue: overdue,
+            deadline: deadlineStr?.toString(),
+        );
+    }
 
     Map<String, dynamic> toJson() => {
         "token_label": tokenLabel,
@@ -161,6 +184,8 @@ class ComplaintTokenCard {
         "status_badge_color": statusBadgeColor,
         "issue_title": issueTitle,
         "details": details == null ? [] : List<dynamic>.from(details!.map((x) => x.toJson())),
+        "is_overdue": isOverdue,
+        "deadline": deadline,
     };
 }
 

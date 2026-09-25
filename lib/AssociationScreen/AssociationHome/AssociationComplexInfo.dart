@@ -205,32 +205,7 @@ class _AssociationComplexInfoState
                                   ),
                                 ],
                               ]
-                            : [
-                                _buildDetailRow(
-                                  icon: Icons.home_outlined,
-                                  label: "Complex Name",
-                                  value: complex?.name ?? "N/A",
-                                ),
-                                _buildDivider(),
-                                _buildDetailRow(
-                                  icon: Icons.my_location_sharp,
-                                  label: "Address",
-                                  value: complex?.address ?? "N/A",
-                                ),
-                                _buildDivider(),
-                                _buildDetailRow(
-                                  icon: Icons.apartment_outlined,
-                                  label: "Building / Block Information",
-                                  value:
-                                      "${complex?.propertiesCount ?? 0} Residential Blocks / Properties",
-                                ),
-                                _buildDivider(),
-                                _buildDetailRow(
-                                  icon: Icons.grid_view_outlined,
-                                  label: "Total Units",
-                                  value: "${complex?.totalUnits ?? 0} ",
-                                ),
-                              ],
+                            : [],
                       ),
                     ),
                     SizedBox(height: 18.w),
@@ -252,7 +227,7 @@ class _AssociationComplexInfoState
                               context,
                               CupertinoPageRoute(
                                 builder: (context) =>
-                                    const AssociationProperty(),
+                                    const AssociationProperty(isShowBack: true),
                               ),
                             );
                           },
@@ -299,13 +274,15 @@ class _AssociationComplexInfoState
                                 units:
                                     b.unitsText ?? "${b.totalUnits ?? 0} Units",
                                 onTap: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   CupertinoPageRoute(
-                                  //     builder: (context) =>
-                                  //         const AssociationProperty(),
-                                  //   ),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const AssociationProperty(
+                                            isShowBack: true,
+                                          ),
+                                    ),
+                                  );
                                 },
                               );
                             }
@@ -315,13 +292,15 @@ class _AssociationComplexInfoState
                               name: building["name"]!,
                               units: building["units"]!,
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   CupertinoPageRoute(
-                                //     builder: (context) =>
-                                //         const AssociationProperty(),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) =>
+                                        const AssociationProperty(
+                                          isShowBack: true,
+                                        ),
+                                  ),
+                                );
                               },
                             );
                           },
@@ -341,60 +320,58 @@ class _AssociationComplexInfoState
                             letterSpacing: -0.2,
                           ),
                         ),
-                        Text(
-                          "View All",
-                          style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
-                            letterSpacing: -0.2,
-                          ),
-                        ),
+                        // Text(
+                        //   "View All",
+                        //   style: GoogleFonts.outfit(
+                        //     fontSize: 14.sp,
+                        //     fontWeight: FontWeight.w500,
+                        //     color: Color(0xFF000000),
+                        //     letterSpacing: -0.2,
+                        //   ),
+                        // ),
                       ],
                     ),
                     SizedBox(height: 16.h),
                     if (complex?.facilities != null &&
                         complex!.facilities!.isNotEmpty) ...[
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: complex.facilities!.map((facility) {
-                            return Container(
-                              margin: EdgeInsets.only(right: 8.w),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 10.w,
-                                vertical: 6.h,
+                      Wrap(
+                        spacing: 8.w,
+                        runSpacing: 8.h,
+                        children: complex.facilities!.map((facility) {
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 6.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFFBEA),
+                              borderRadius: BorderRadius.circular(6.r),
+                              border: Border.all(
+                                color: const Color(0xFF101C16),
+                                width: 1.w,
                               ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFFFBEA),
-                                borderRadius: BorderRadius.circular(6.r),
-                                border: Border.all(
-                                  color: const Color(0xFF101C16),
-                                  width: 1.w,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.check_circle_outline,
+                                  size: 14.sp,
+                                  color: const Color(0xffD5A52C),
                                 ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.check_circle_outline,
-                                    size: 14.sp,
-                                    color: const Color(0xffD5A52C),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  facility,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF101C16),
                                   ),
-                                  SizedBox(width: 4.w),
-                                  Text(
-                                    facility,
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF101C16),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
                       ),
                       SizedBox(height: 12.h),
                     ],
@@ -478,23 +455,23 @@ class _AssociationComplexInfoState
                                 ],
                               ]
                             : [
-                                _serviceItem(
-                                  icon: Icons.home_outlined,
-                                  title: 'Housekeeping Services',
-                                  subtitle: 'Assigned service provider',
-                                ),
-                                _buildDivider(),
-                                _serviceItem(
-                                  icon: Icons.person_outline,
-                                  title: 'Security Services',
-                                  subtitle: 'Security service provider',
-                                ),
-                                _buildDivider(),
-                                _serviceItem(
-                                  icon: Icons.electrical_services_outlined,
-                                  title: 'Electrical Services',
-                                  subtitle: 'Maintenance service provider',
-                                ),
+                                // _serviceItem(
+                                //   icon: Icons.home_outlined,
+                                //   title: 'Housekeeping Services',
+                                //   subtitle: 'Assigned service provider',
+                                // ),
+                                // _buildDivider(),
+                                // _serviceItem(
+                                //   icon: Icons.person_outline,
+                                //   title: 'Security Services',
+                                //   subtitle: 'Security service provider',
+                                // ),
+                                // _buildDivider(),
+                                // _serviceItem(
+                                //   icon: Icons.electrical_services_outlined,
+                                //   title: 'Electrical Services',
+                                //   subtitle: 'Maintenance service provider',
+                                // ),
                               ],
                       ),
                     ),
@@ -814,10 +791,11 @@ class _AssociationComplexInfoState
             width: 30.w,
             height: 30.w,
             decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFF000000), width: 1.w),
+              color: const Color(0xFFFFF9E6),
+              border: Border.all(color: const Color(0xFFD5A52C), width: 1.w),
               borderRadius: BorderRadius.circular(6.r),
             ),
-            child: Icon(icon, size: 13.sp, color: Color(0xFF111111)),
+            child: Icon(icon, size: 14.sp, color: const Color(0xFFB8860B)),
           ),
           SizedBox(height: 10.h),
           Text(
@@ -860,10 +838,11 @@ class _AssociationComplexInfoState
               width: 35.w,
               height: 35.w,
               decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFF000000), width: 1.w),
+                color: const Color(0xFFFFF9E6),
+                border: Border.all(color: const Color(0xFFD5A52C), width: 1.w),
                 borderRadius: BorderRadius.circular(6.r),
               ),
-              child: Icon(icon, size: 15.sp, color: Color(0xFF000000)),
+              child: Icon(icon, size: 16.sp, color: const Color(0xFFB8860B)),
             ),
             SizedBox(width: 7.w),
             Expanded(
@@ -935,8 +914,12 @@ class _AssociationComplexInfoState
                   width: 30.w,
                   height: 30.w,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xFF000000), width: 1.w),
-                    borderRadius: BorderRadius.circular(3.r),
+                    color: const Color(0xFFFFF9E6),
+                    border: Border.all(
+                      color: const Color(0xFFD5A52C),
+                      width: 1.w,
+                    ),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                   child: Center(
                     child: Text(
@@ -944,7 +927,7 @@ class _AssociationComplexInfoState
                       style: GoogleFonts.outfit(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF000000),
+                        color: const Color(0xFFB8860B),
                       ),
                     ),
                   ),

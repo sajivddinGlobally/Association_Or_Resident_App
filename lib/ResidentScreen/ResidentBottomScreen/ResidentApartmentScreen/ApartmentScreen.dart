@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/ComplaintStatus.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/ResidentScreen/RaiseComplaintScreen/RaiseComplaint.dart';
-import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/ResidentComplantStatus.dart';
 
 import '../ResidentRequestScreen/ResidentRequestScreen.dart';
 import 'Provider/ResidentPropertyDetailsProvider.dart';
@@ -163,14 +161,22 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              data.data.myProperty.tag,
-                              style: GoogleFonts.outfit(
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xffFFFFFF),
-                                fontSize: 13.sp,
-                                letterSpacing: -0.24,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  data.data.myProperty.tag,
+                                  style: GoogleFonts.outfit(
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xffFFFFFF),
+                                    fontSize: 13.sp,
+                                    letterSpacing: -0.24,
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
+                                _buildOccupancyBadge(
+                                  data.data.myProperty.occupancyType,
+                                ),
+                              ],
                             ),
                             SizedBox(height: 6.h),
                             Text(
@@ -209,16 +215,16 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                           letterSpacing: -0.34,
                         ),
                       ),
-                      Spacer(),
-                      Text(
-                        "View All",
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.heading,
-                          fontSize: 14.sp,
-                          letterSpacing: -0.34,
-                        ),
-                      ),
+                      // Spacer(),
+                      // Text(
+                      //   "View All",
+                      //   style: GoogleFonts.outfit(
+                      //     fontWeight: FontWeight.w500,
+                      //     color: AppColors.heading,
+                      //     fontSize: 14.sp,
+                      //     letterSpacing: -0.34,
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(height: 16.h),
@@ -497,6 +503,47 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
               fontWeight: FontWeight.w500,
               color: Color.fromRGBO(41, 42, 51, 0.6),
               letterSpacing: -0.34,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOccupancyBadge(String? type) {
+    final isTenant = (type ?? "").toLowerCase() == "tenant";
+    final isOwner = !isTenant;
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+      decoration: BoxDecoration(
+        color: isOwner
+            ? const Color(0xFFE8F5E9)
+            : const Color(0xFFFFF3E0),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(
+          color: isOwner
+              ? const Color(0xFF81C784)
+              : const Color(0xFFFFB74D),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            isOwner ? "👑" : "📄",
+            style: TextStyle(fontSize: 10.sp),
+          ),
+          SizedBox(width: 4.w),
+          Text(
+            isOwner ? "Owner" : "Tenant",
+            style: GoogleFonts.outfit(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w600,
+              color: isOwner
+                  ? const Color(0xFF2E7D32)
+                  : const Color(0xFFE65100),
             ),
           ),
         ],

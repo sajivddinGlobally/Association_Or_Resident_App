@@ -580,7 +580,9 @@ class _ServiceManageProviderDetailsState
                                 ),
                               ),
                               Text(
-                                "94%",
+                                data.data.providerPerformance.score > 10
+                                    ? "${(data.data.providerPerformance.score / 10).toStringAsFixed(1)}/10"
+                                    : "${data.data.providerPerformance.score}/10",
                                 style: GoogleFonts.outfit(
                                   fontSize: 17.sp,
                                   fontWeight: FontWeight.w500,
@@ -595,7 +597,19 @@ class _ServiceManageProviderDetailsState
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10.r),
                             child: LinearProgressIndicator(
-                              value: data.data.providerPerformance.score / 100,
+                              value:
+                                  (data.data.providerPerformance.score > 10
+                                          ? data
+                                                    .data
+                                                    .providerPerformance
+                                                    .score /
+                                                100
+                                          : data
+                                                    .data
+                                                    .providerPerformance
+                                                    .score /
+                                                10)
+                                      .clamp(0.0, 1.0),
                               minHeight: 3.h,
                               backgroundColor: const Color(0xFF919191),
                               valueColor: const AlwaysStoppedAnimation<Color>(

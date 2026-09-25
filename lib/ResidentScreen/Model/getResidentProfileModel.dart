@@ -48,10 +48,15 @@ class Data {
     String? statusBadge;
     String? statusPill;
     CurrentAccess? currentAccess;
-    String? community;
+    String? communityName;
     String? building;
     String? apartment;
     String? unitNumber;
+    MyResidence? myResidence;
+    Community? community;
+    String? residentType;
+    bool? isHouseOwner;
+    MmcStatus? mmcStatus;
 
     Data({
         this.id,
@@ -73,10 +78,15 @@ class Data {
         this.statusBadge,
         this.statusPill,
         this.currentAccess,
-        this.community,
+        this.communityName,
         this.building,
         this.apartment,
         this.unitNumber,
+        this.myResidence,
+        this.community,
+        this.residentType,
+        this.isHouseOwner,
+        this.mmcStatus,
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -99,10 +109,15 @@ class Data {
         statusBadge: json["status_badge"],
         statusPill: json["status_pill"],
         currentAccess: json["current_access"] == null ? null : CurrentAccess.fromJson(json["current_access"]),
-        community: json["community"],
+        communityName: json["community_name"],
         building: json["building"],
         apartment: json["apartment"],
         unitNumber: json["unit_number"],
+        myResidence: json["my_residence"] == null ? null : MyResidence.fromJson(json["my_residence"]),
+        community: json["community"] == null ? null : Community.fromJson(json["community"]),
+        residentType: json["resident_type"],
+        isHouseOwner: json["is_house_owner"],
+        mmcStatus: json["mmc_status"] == null ? null : MmcStatus.fromJson(json["mmc_status"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -125,10 +140,67 @@ class Data {
         "status_badge": statusBadge,
         "status_pill": statusPill,
         "current_access": currentAccess?.toJson(),
-        "community": community,
+        "community_name": communityName,
         "building": building,
         "apartment": apartment,
         "unit_number": unitNumber,
+        "my_residence": myResidence?.toJson(),
+        "community": community?.toJson(),
+        "resident_type": residentType,
+        "is_house_owner": isHouseOwner,
+        "mmc_status": mmcStatus?.toJson(),
+    };
+}
+
+class Community {
+    String? name;
+    MmcStatus? mmcStatus;
+
+    Community({
+        this.name,
+        this.mmcStatus,
+    });
+
+    factory Community.fromJson(Map<String, dynamic> json) => Community(
+        name: json["name"],
+        mmcStatus: json["mmc_status"] == null ? null : MmcStatus.fromJson(json["mmc_status"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "name": name,
+        "mmc_status": mmcStatus?.toJson(),
+    };
+}
+
+class MmcStatus {
+    bool? isApplicable;
+    String? badge;
+    String? badgeColor;
+    int? amount;
+    String? notApplicableReason;
+
+    MmcStatus({
+        this.isApplicable,
+        this.badge,
+        this.badgeColor,
+        this.amount,
+        this.notApplicableReason,
+    });
+
+    factory MmcStatus.fromJson(Map<String, dynamic> json) => MmcStatus(
+        isApplicable: json["is_applicable"],
+        badge: json["badge"],
+        badgeColor: json["badge_color"],
+        amount: json["amount"],
+        notApplicableReason: json["not_applicable_reason"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "is_applicable": isApplicable,
+        "badge": badge,
+        "badge_color": badgeColor,
+        "amount": amount,
+        "not_applicable_reason": notApplicableReason,
     };
 }
 
@@ -173,5 +245,45 @@ class CurrentAccess {
         "apartment": apartment,
         "unit_number": unitNumber,
         "role": role,
+    };
+}
+
+class MyResidence {
+    String? residentType;
+    bool? isHouseOwner;
+    String? tag;
+    String? complexName;
+    String? unitBadge;
+    String? residentTypeBadge;
+    String? residentTypeKey;
+
+    MyResidence({
+        this.residentType,
+        this.isHouseOwner,
+        this.tag,
+        this.complexName,
+        this.unitBadge,
+        this.residentTypeBadge,
+        this.residentTypeKey,
+    });
+
+    factory MyResidence.fromJson(Map<String, dynamic> json) => MyResidence(
+        residentType: json["resident_type"],
+        isHouseOwner: json["is_house_owner"],
+        tag: json["tag"],
+        complexName: json["complex_name"],
+        unitBadge: json["unit_badge"],
+        residentTypeBadge: json["resident_type_badge"],
+        residentTypeKey: json["resident_type_key"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "resident_type": residentType,
+        "is_house_owner": isHouseOwner,
+        "tag": tag,
+        "complex_name": complexName,
+        "unit_badge": unitBadge,
+        "resident_type_badge": residentTypeBadge,
+        "resident_type_key": residentTypeKey,
     };
 }

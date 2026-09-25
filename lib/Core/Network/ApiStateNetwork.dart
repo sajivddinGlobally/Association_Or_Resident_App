@@ -288,8 +288,11 @@ abstract class ApiStateNetwork {
     @Part(name: "category") String category,
     @Part(name: "subject") String subject,
     @Part(name: "description") String description,
-    @Part(name: "photo") MultipartFile? photo,
-  );
+    @Part(name: "photo") MultipartFile? photo, {
+    @Part(name: "area_type") String? areaType,
+    @Part(name: "location") String? location,
+    @Part(name: "priority") String? priority,
+  });
 
   // @GET("/api/v1/resident/complaints/form-data")
   // Future<GetComplaintRequestListModel> getComplaintFormData();

@@ -113,6 +113,15 @@ class _ResidentcomplantstatusState
       body: getComplaintStatus.when(
         data: (data) {
           final timeline = data.data?.complaintProgress?.timeline ?? [];
+          final tokenCard = data.data?.complaintTokenCard;
+          final isOverdue = tokenCard?.isOverdue == true ||
+              (tokenCard?.statusBadge ?? "")
+                  .toLowerCase()
+                  .contains("overdue") ||
+              (tokenCard?.statusBadge ?? "")
+                  .toLowerCase()
+                  .contains("emergency");
+
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w),
@@ -123,7 +132,13 @@ class _ResidentcomplantstatusState
                   Container(
                     padding: EdgeInsets.all(16.w),
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xff15221C)),
+                      color: isOverdue ? const Color(0xFFFFFBFB) : Colors.white,
+                      border: Border.all(
+                        color: isOverdue
+                            ? const Color(0xFFD32F2F)
+                            : const Color(0xff15221C),
+                        width: isOverdue ? 1.5 : 1,
+                      ),
                       borderRadius: BorderRadius.circular(13.r),
                     ),
                     child: Column(
@@ -143,12 +158,7 @@ class _ResidentcomplantstatusState
                                       ),
                                     ),
                                     TextSpan(
-                                      text:
-                                          data
-                                              .data
-                                              ?.complaintTokenCard
-                                              ?.tokenTitle ??
-                                          "N/A",
+                                      text: tokenCard?.tokenTitle ?? "N/A",
                                       style: GoogleFonts.outfit(
                                         fontSize: 19.sp,
                                       ),
@@ -158,8 +168,8 @@ class _ResidentcomplantstatusState
                               ),
                             ),
                             _status(
-                              data.data?.complaintTokenCard?.statusBadge ??
-                                  "N/A",
+                              tokenCard?.statusBadge ?? "N/A",
+                              isOverdue: isOverdue,
                             ),
                           ],
                         ),
@@ -167,8 +177,7 @@ class _ResidentcomplantstatusState
                         Divider(),
 
                         Text(
-                          // "Bathroom Water Leakage",
-                          data.data?.complaintTokenCard?.issueTitle ?? "N/A",
+                          tokenCard?.issueTitle ?? "N/A",
                           style: GoogleFonts.outfit(fontSize: 19.sp),
                         ),
 
@@ -257,7 +266,12 @@ class _ResidentcomplantstatusState
                     width: double.infinity,
                     padding: EdgeInsets.all(16.w),
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(184, 134, 11, 0.2),
+                      color: isOverdue
+                          ? const Color(0xFFFFEBEE)
+                          : const Color.fromRGBO(184, 134, 11, 0.2),
+                      border: isOverdue
+                          ? Border.all(color: const Color(0xFFFFCDD2))
+                          : null,
                       borderRadius: BorderRadius.circular(14.r),
                     ),
                     child: Row(
@@ -266,43 +280,59 @@ class _ResidentcomplantstatusState
                           width: 36.w,
                           height: 36.w,
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(184, 134, 11, 0.3),
+                            color: isOverdue
+                                ? const Color(0xFFFFCDD2)
+                                : const Color.fromRGBO(184, 134, 11, 0.3),
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Icon(
-                            Icons.build,
+                            isOverdue
+                                ? Icons.warning_amber_rounded
+                                : Icons.build,
                             size: 20.sp,
-                            color: const Color(0xffB8860B),
+                            color: isOverdue
+                                ? const Color(0xFFD32F2F)
+                                : const Color(0xffB8860B),
                           ),
                         ),
 
                         SizedBox(width: 10.w),
 
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data.data?.currentStatusBanner?.label ??
-                                  "CURRENT STATUS",
-                              style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.heading,
-                                letterSpacing: -0.2,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                isOverdue
+                                    ? "OVERDUE / EMERGENCY ACTION"
+                                    : (data.data?.currentStatusBanner?.label ??
+                                        "CURRENT STATUS"),
+                                style: GoogleFonts.outfit(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: isOverdue
+                                      ? const Color(0xFFD32F2F)
+                                      : AppColors.heading,
+                                  letterSpacing: -0.2,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 2.h),
-                            Text(
-                              data.data?.currentStatusBanner?.message ??
-                                  "Your complaint is In Progress",
-                              style: GoogleFonts.outfit(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.heading,
-                                letterSpacing: -0.2,
+                              SizedBox(height: 2.h),
+                              Text(
+                                isOverdue
+                                    ? "Action deadline has passed without resolution. Escalated to Association Committee for emergency intervention."
+                                    : (data.data?.currentStatusBanner?.message ??
+                                        "Your complaint is In Progress"),
+                                style: GoogleFonts.outfit(
+                                  fontSize: isOverdue ? 13.sp : 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: isOverdue
+                                      ? const Color(0xFFD32F2F)
+                                      : AppColors.heading,
+                                  letterSpacing: -0.2,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -359,18 +389,44 @@ class _ResidentcomplantstatusState
     );
   }
 
-  Widget _status(String text) {
+  Widget _status(String text, {bool isOverdue = false}) {
+    final lower = text.toLowerCase();
+    final overdue = isOverdue || lower.contains("overdue") || lower.contains("emergency");
+    final resolved = lower.contains("resolved") || lower.contains("completed");
+
+    Color bg;
+    Color textColor;
+    Border? border;
+    String label = text;
+
+    if (overdue) {
+      bg = const Color(0xFFFFEBEE);
+      textColor = const Color(0xFFD32F2F);
+      border = Border.all(color: const Color(0xFFEF9A9A));
+      label = "OVERDUE / EMERGENCY 🔴";
+    } else if (resolved) {
+      bg = const Color(0xFFE8F5E9);
+      textColor = const Color(0xFF2E7D32);
+      border = Border.all(color: const Color(0xFFA5D6A7));
+    } else {
+      bg = const Color(0xffE8D39A);
+      textColor = const Color(0xffA77A12);
+      border = null;
+    }
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 5.h),
       decoration: BoxDecoration(
-        color: const Color(0xffE8D39A),
+        color: bg,
+        border: border,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
-        text,
+        label,
         style: GoogleFonts.outfit(
           fontSize: 12.sp,
-          color: const Color(0xffA77A12),
+          fontWeight: FontWeight.w600,
+          color: textColor,
         ),
       ),
     );

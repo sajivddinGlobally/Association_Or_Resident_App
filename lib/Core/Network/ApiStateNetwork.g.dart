@@ -1424,8 +1424,11 @@ class _ApiStateNetwork implements ApiStateNetwork {
     String category,
     String subject,
     String description,
-    MultipartFile? photo,
-  ) async {
+    MultipartFile? photo, {
+    String? areaType,
+    String? location,
+    String? priority,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -1436,6 +1439,15 @@ class _ApiStateNetwork implements ApiStateNetwork {
     _data.fields.add(MapEntry('description', description));
     if (photo != null) {
       _data.files.add(MapEntry('photo', photo));
+    }
+    if (areaType != null) {
+      _data.fields.add(MapEntry('area_type', areaType));
+    }
+    if (location != null) {
+      _data.fields.add(MapEntry('location', location));
+    }
+    if (priority != null) {
+      _data.fields.add(MapEntry('priority', priority));
     }
     final _options = _setStreamType<AddResidentComplaintResModel>(
       Options(

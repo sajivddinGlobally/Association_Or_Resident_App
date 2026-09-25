@@ -432,7 +432,7 @@ class _MantenanceServiceDetailsState
 
                 // Maintenance Details Section
                 SizedBox(height: 20.h),
-                _sectionHeader("Maintenance Details", "TRACKING"),
+                _sectionHeader("Maintenance Details", "ACTIVE"),
                 SizedBox(height: 16.h),
                 Container(
                   width: double.infinity,

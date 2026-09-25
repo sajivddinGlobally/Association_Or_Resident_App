@@ -24,9 +24,13 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
   File? image;
   bool isLoading = false;
   String? selectedCategory;
+  String areaType = "inside_house"; // "inside_house" | "common_area"
+  String selectedPriority = "medium"; // "low" | "medium" | "high"
 
   final TextEditingController subjectController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController commonAreaLocationController =
+      TextEditingController();
 
   final List<Map<String, dynamic>> issueCategories = [
     {
@@ -71,6 +75,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
   void dispose() {
     subjectController.dispose();
     descriptionController.dispose();
+    commonAreaLocationController.dispose();
     super.dispose();
   }
 
@@ -391,7 +396,181 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 30.h),
+              SizedBox(height: 24.h),
+
+              // ==========================================================================
+              // [POINT 1] INSIDE HOUSE VS COMMON AREA SELECTION
+              // Allows resident to specify if issue is within their unit or common area.
+              // ==========================================================================
+              Text(
+                "Issue Scope / Area",
+                style: GoogleFonts.outfit(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          areaType = "inside_house";
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 10.w,
+                        ),
+                        decoration: BoxDecoration(
+                          // color: areaType == "inside_house"
+                          //     ? const Color(0xFFF9F5EC)
+                          //     : Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(
+                            color: areaType == "inside_house"
+                                ? const Color(0xFFB8860B)
+                                : const Color(0xFFD9D9D0),
+                            width: areaType == "inside_house" ? 1.6 : 1.0,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("🏠", style: TextStyle(fontSize: 16.sp)),
+                            SizedBox(width: 8.w),
+                            Flexible(
+                              child: Text(
+                                "Inside Flat / House",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
+                                  fontWeight: areaType == "inside_house"
+                                      ? FontWeight.w600
+                                      : FontWeight.w400,
+                                  color: areaType == "inside_house"
+                                      ? const Color(0xFF101C16)
+                                      : const Color(0xFF666666),
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          areaType = "common_area";
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 10.w,
+                        ),
+                        decoration: BoxDecoration(
+                          // color: areaType == "common_area"
+                          //     ? const Color(0xFFF9F5EC)
+                          //     : Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(
+                            color: areaType == "common_area"
+                                ? const Color(0xFFB8860B)
+                                : const Color(0xFFD9D9D0),
+                            width: areaType == "common_area" ? 1.6 : 1.0,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("🏢", style: TextStyle(fontSize: 16.sp)),
+                            SizedBox(width: 8.w),
+                            Flexible(
+                              child: Text(
+                                "Common Area",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
+                                  fontWeight: areaType == "common_area"
+                                      ? FontWeight.w600
+                                      : FontWeight.w400,
+                                  color: areaType == "common_area"
+                                      ? const Color(0xFF101C16)
+                                      : const Color(0xFF666666),
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              // if (areaType == "common_area") ...[
+              //   SizedBox(height: 12.h),
+              //   TextField(
+              //     controller: commonAreaLocationController,
+              //     style: GoogleFonts.inter(
+              //       fontSize: 14.sp,
+              //       fontWeight: FontWeight.w500,
+              //       color: const Color(0xFF101C16),
+              //     ),
+              //     decoration: InputDecoration(
+              //       prefixIcon: Icon(
+              //         Icons.place_outlined,
+              //         color: const Color(0xFFB8860B),
+              //         size: 20.sp,
+              //       ),
+              //       hintText:
+              //           "Specify location (e.g. 3rd Floor Corridor, Lift 1, Parking, Park)",
+              //       hintStyle: GoogleFonts.inter(
+              //         fontSize: 13.sp,
+              //         fontWeight: FontWeight.w400,
+              //         color: const Color(0xFF888888),
+              //       ),
+              //       contentPadding: EdgeInsets.symmetric(
+              //         horizontal: 14.w,
+              //         vertical: 12.h,
+              //       ),
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(10.r),
+              //         borderSide: const BorderSide(
+              //           color: Color(0xFF999999),
+              //           width: 1.2,
+              //         ),
+              //       ),
+              //       enabledBorder: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(10.r),
+              //         borderSide: const BorderSide(
+              //           color: Color(0xFF999999),
+              //           width: 1.2,
+              //         ),
+              //       ),
+              //       focusedBorder: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(10.r),
+              //         borderSide: const BorderSide(
+              //           color: Color(0xFF101C16),
+              //           width: 1.2,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ],
+              SizedBox(height: 20.h),
               Text(
                 "Issue Category",
                 style: GoogleFonts.outfit(
@@ -619,15 +798,8 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                   ),
                 ),
               ),
-              /*
-              // ==========================================================================
-              // [POINT 2] PRIORITY SELECTION & HIGH PRIORITY ALERT TO COMMITTEE/ADMIN
-              // To enable, uncomment this section.
-              // Allows resident to mark urgency (Low, Medium, High).
-              // When High Priority is marked, an alert indicates that Committee & Admin
-              // are instantly notified for emergency action.
-              // ==========================================================================
-              SizedBox(height: 18.h),
+
+              SizedBox(height: 20.h),
               Text(
                 "Priority Level",
                 style: GoogleFonts.outfit(
@@ -640,117 +812,31 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               SizedBox(height: 10.h),
               Row(
                 children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: const Color(0xFFD9D9D0)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Low",
-                          style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xff1E88E5),
-                          ),
-                        ),
-                      ),
-                    ),
+                  _buildPriorityOption(
+                    title: "Low",
+                    key: "low",
+                    selectedColor: const Color(0xFF24B06A),
+                    selectedBg: const Color(0xFFE8F8F0),
+                    emoji: "🟢",
                   ),
                   SizedBox(width: 8.w),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: const Color(0xFFD9D9D0)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Medium",
-                          style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xffFB8C00),
-                          ),
-                        ),
-                      ),
-                    ),
+                  _buildPriorityOption(
+                    title: "Medium",
+                    key: "medium",
+                    selectedColor: const Color(0xFFC18A00),
+                    selectedBg: const Color(0xFFFFF8E6),
+                    emoji: "🟡",
                   ),
                   SizedBox(width: 8.w),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFEBEE),
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: const Color(0xFFE53935), width: 1.5),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "High (Urgent)",
-                          style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFFE53935),
-                          ),
-                        ),
-                      ),
-                    ),
+                  _buildPriorityOption(
+                    title: "High",
+                    key: "high",
+                    selectedColor: const Color(0xFFE53935),
+                    selectedBg: const Color(0xFFFFEBEE),
+                    emoji: "🔴",
                   ),
                 ],
               ),
-              SizedBox(height: 10.h),
-              // High Priority Alert Notification Box
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFF2F2),
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: const Color(0xFFFFCDD2)),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.warning_amber_rounded,
-                      color: const Color(0xFFD32F2F),
-                      size: 20.sp,
-                    ),
-                    SizedBox(width: 8.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "High Priority Alert Enabled",
-                            style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFFD32F2F),
-                            ),
-                          ),
-                          SizedBox(height: 2.h),
-                          Text(
-                            "Submitting as High Priority immediately alerts the Association Head and Admin team via push notification and SMS for emergency action.",
-                            style: GoogleFonts.outfit(
-                              fontSize: 11.sp,
-                              color: const Color(0xFF555555),
-                              height: 1.3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              */
-
               SizedBox(height: 20.h),
               SizedBox(
                 width: double.infinity,
@@ -767,6 +853,10 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                     ),
                   ),
                   onPressed: () async {
+                    if (areaType.isEmpty) {
+                      showErrorSnackBar("Please select an area type");
+                      return;
+                    }
                     if (selectedCategory == null) {
                       showErrorSnackBar("Please select an issue category");
                       return;
@@ -777,6 +867,10 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                     }
                     if (descriptionController.text.trim().isEmpty) {
                       showErrorSnackBar("Please enter a description");
+                      return;
+                    }
+                    if (selectedPriority.isEmpty) {
+                      showErrorSnackBar("Please select a priority");
                       return;
                     }
                     setState(() {
@@ -793,14 +887,17 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                           filename: fileName,
                         );
                       }
+
                       final authService = ref.read(authServiceProvider);
                       final response = await authService
                           .addResidentComplaintData(
                             category: selectedCategory!,
                             subject: subjectController.text.trim(),
                             description: descriptionController.text.trim(),
-                            // priority: selectedPriority,
                             photo: photoFile,
+                            areaType: areaType,
+                            // location: locText.isNotEmpty ? locText : null,
+                            priority: selectedPriority,
                           );
                       if (response.status == true) {
                         if (mounted) {
@@ -937,6 +1034,53 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPriorityOption({
+    required String title,
+    required String key,
+    required Color selectedColor,
+    required Color selectedBg,
+    required String emoji,
+  }) {
+    final bool isSelected = selectedPriority == key;
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPriority = key;
+          });
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          decoration: BoxDecoration(
+            color: isSelected ? selectedBg : Colors.transparent,
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(
+              color: isSelected ? selectedColor : const Color(0xFFD9D9D0),
+              width: isSelected ? 1.5 : 1.0,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(emoji, style: TextStyle(fontSize: 10.sp)),
+              SizedBox(width: 5.w),
+              Text(
+                title,
+                style: GoogleFonts.outfit(
+                  fontSize: 13.sp,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  color: isSelected ? selectedColor : const Color(0xFF666666),
+                  letterSpacing: -0.2,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -149,13 +149,18 @@ class _AssociationPropertyUnitDetailsState
                         Expanded(
                           child: _statCard(
                             icon: _mapIcon(
-                              statsCards?.propertyScore?.icon,
-                              Icons.diamond_outlined,
+                              statsCards?.occupancyStatus?.icon ??
+                                  statsCards?.maintenanceStatus?.icon,
+                              Icons.verified_user_outlined,
                             ),
-                            value: "${statsCards?.propertyScore?.value ?? 0}",
+                            value:
+                                statsCards?.occupancyStatus?.value ??
+                                statsCards?.maintenanceStatus?.value ??
+                                (owner != null ? "Occupied" : "Vacant"),
                             title:
-                                statsCards?.propertyScore?.label ??
-                                "Property Score",
+                                statsCards?.occupancyStatus?.label ??
+                                statsCards?.maintenanceStatus?.label ??
+                                "Occupancy Status",
                           ),
                         ),
                       ],
@@ -386,6 +391,152 @@ class _AssociationPropertyUnitDetailsState
                         ],
                       ),
                     ),
+                    if (data?.currentOccupant != null) ...[
+                      SizedBox(height: 18.h),
+                      Text(
+                        data?.currentOccupant?.roleLabel ??
+                            "Current Tenant / Occupant Details",
+                        style: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 14.w,
+                          vertical: 16.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFFBF0),
+                          border: Border.all(
+                            color: const Color(0xFFD5A52C),
+                            width: 1.w,
+                          ),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: 40.h,
+                                  width: 40.w,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFFEBD9A5),
+                                  ),
+                                  child:
+                                      (data
+                                              ?.currentOccupant
+                                              ?.avatar
+                                              ?.isNotEmpty ==
+                                          true)
+                                      ? Image.network(
+                                          data!.currentOccupant!.avatar!,
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  const Icon(
+                                                    Icons.person,
+                                                    color: Color(0xFFB8860B),
+                                                  ),
+                                        )
+                                      : const Icon(
+                                          Icons.person,
+                                          color: Color(0xFFB8860B),
+                                        ),
+                                ),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        data?.currentOccupant?.name ?? "Tenant",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                          letterSpacing: -0.2,
+                                        ),
+                                      ),
+                                      Text(
+                                        data?.currentOccupant?.roleLabel ??
+                                            "Current Occupant (Tenant)",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color.fromRGBO(
+                                            0,
+                                            0,
+                                            0,
+                                            0.6,
+                                          ),
+                                          letterSpacing: -0.2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
+                                    vertical: 4.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFFF3E0),
+                                    border: Border.all(
+                                      color: const Color(0xFFFFB74D),
+                                      width: 1.w,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4.r),
+                                  ),
+                                  child: Text(
+                                    "Tenant",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFFE65100),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16.h),
+                            const Divider(height: 1, color: Color(0xFFE0D5B8)),
+                            SizedBox(height: 10.h),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: _ownerInfo(
+                                    title: "CONTACT",
+                                    value:
+                                        data?.currentOccupant?.contact ??
+                                        data?.currentOccupant?.fullContact ??
+                                        "N/A",
+                                  ),
+                                ),
+                                Expanded(
+                                  child: _ownerInfo(
+                                    title: "OCCUPANCY",
+                                    value:
+                                        data
+                                            ?.currentOccupant
+                                            ?.propertyOwnership ??
+                                        "Rented / Tenant",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                     // SizedBox(height: 10.h),
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

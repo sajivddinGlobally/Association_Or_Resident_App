@@ -569,7 +569,7 @@ class _AssociationOccupancePropertyStatusState
 
               // Blocks
               Expanded(
-                child: _associationInfoItem(title: "SCORE", value: "86 / 100"),
+                child: _associationInfoItem(title: "SCORE", value: "8.6 / 10"),
               ),
             ],
           ),

@@ -69,6 +69,7 @@ class _ComplaintState extends ConsumerState<Complaint> {
         getComplaintState.valueOrNull?.data.complaintOverview;
     final totalCount =
         getComplaintState.valueOrNull?.data.summary.totalCount ?? 0;
+    final summary = getComplaintState.valueOrNull?.data.summary;
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -222,7 +223,7 @@ class _ComplaintState extends ConsumerState<Complaint> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  complaintState?.totalOpen.toString() ?? "",
+                                  summary?.totalCount.toString() ?? "0",
                                   style: GoogleFonts.outfit(
                                     fontSize: 17.sp,
                                     fontWeight: FontWeight.w500,
@@ -232,7 +233,7 @@ class _ComplaintState extends ConsumerState<Complaint> {
                                 ),
 
                                 Text(
-                                  complaintState?.tag ?? "",
+                                  "Total Complaint",
                                   style: GoogleFonts.outfit(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
@@ -429,7 +430,8 @@ class _ComplaintState extends ConsumerState<Complaint> {
                       icon: Icons.warning_amber_rounded,
                       title: item.title,
                       subtitle: item.unitSubtitle,
-                      providerLabel: item.priority,
+                      priority: item.priority,
+                      providerLabel: 'CATEGORY',
                       providerName: item.category,
                       scheduleLabel: 'SUBMITTED BY',
                       schedule: item.submittedBy,
@@ -437,7 +439,6 @@ class _ComplaintState extends ConsumerState<Complaint> {
                       issues: item.assignedTo,
                       lastServiceLabel: 'DATE',
                       lastService: item.date,
-                      // status: item.status,
                       status: _statusToApiValue(item.status),
                       onTap: () {
                         Navigator.push(
@@ -524,6 +525,7 @@ class ServiceCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final String? priority;
   final String providerLabel;
   final String providerName;
   final String scheduleLabel;
@@ -540,6 +542,7 @@ class ServiceCard extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subtitle,
+    this.priority,
     required this.providerLabel,
     required this.providerName,
     required this.scheduleLabel,
@@ -616,28 +619,54 @@ class ServiceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(width: 10.w),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
-                    vertical: 4.h,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(2.r),
-                    border: Border.all(
-                      color: const Color(0xFF000000),
-                      width: 1.w,
-                    ),
-                  ),
-                  child: Text(
-                    'HIGH',
-                    style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
-                      letterSpacing: -0.2,
-                    ),
-                  ),
+                Builder(
+                  builder: (context) {
+                    final p = (priority ?? "HIGH").toUpperCase();
+                    Color badgeBg;
+                    Color badgeText;
+                    Color badgeBorder;
+
+                    if (p.contains("HIGH") ||
+                        p.contains("URGENT") ||
+                        p.contains("EMERGENCY")) {
+                      badgeBg = const Color(0xFFFFEBEE);
+                      badgeText = const Color(0xFFD32F2F);
+                      badgeBorder = const Color(0xFFEF9A9A);
+                    } else if (p.contains("MEDIUM") || p.contains("MED")) {
+                      badgeBg = const Color(0xFFFFF3E0);
+                      badgeText = const Color(0xFFE65100);
+                      badgeBorder = const Color(0xFFFFB74D);
+                    } else if (p.contains("LOW")) {
+                      badgeBg = const Color(0xFFE8F5E9);
+                      badgeText = const Color(0xFF2E7D32);
+                      badgeBorder = const Color(0xFFA5D6A7);
+                    } else {
+                      badgeBg = const Color(0xFFF5F5F5);
+                      badgeText = const Color(0xFF333333);
+                      badgeBorder = const Color(0xFFD9D9D0);
+                    }
+
+                    return Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 4.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: badgeBg,
+                        borderRadius: BorderRadius.circular(4.r),
+                        border: Border.all(color: badgeBorder, width: 1.w),
+                      ),
+                      child: Text(
+                        p,
+                        style: GoogleFonts.outfit(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: badgeText,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
