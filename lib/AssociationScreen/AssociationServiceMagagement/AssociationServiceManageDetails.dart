@@ -42,46 +42,52 @@ class _AssociationServiceManageDetailsState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Service Details",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Service Details",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "Service Management",
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Service Management",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -112,18 +118,20 @@ class _AssociationServiceManageDetailsState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              data.data.header.complexName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF000000),
-                                height: 1.h,
-                                letterSpacing: -0.2,
+                            Expanded(
+                              child: Text(
+                                data.data.header.complexName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.2,
+                                ),
                               ),
                             ),
+                            SizedBox(width: 8.w),
                             Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 10.w,
@@ -141,14 +149,14 @@ class _AssociationServiceManageDetailsState
                                   Icon(
                                     Icons.circle,
                                     color: Color(0xFF000000),
-                                    size: 12.sp,
+                                    size: 10.sp,
                                   ),
                                   SizedBox(width: 5.w),
                                   Text(
                                     data.data.heroCard.badgeStatus,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w600,
                                       color: const Color(0xFF000000),
                                       letterSpacing: -0.2,
                                     ),
@@ -163,15 +171,15 @@ class _AssociationServiceManageDetailsState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width: 30.w,
-                              height: 30.w,
+                              width: 34.w,
+                              height: 34.w,
                               decoration: BoxDecoration(
                                 color: Color(0xFFB8860B),
                                 borderRadius: BorderRadius.circular(4.r),
                               ),
                               child: Icon(
                                 Icons.cleaning_services_outlined,
-                                size: 16.sp,
+                                size: 18.sp,
                                 color: const Color(0xFF000000),
                               ),
                             ),
@@ -185,10 +193,10 @@ class _AssociationServiceManageDetailsState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF000000),
-                                      height: 1.h,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
+                                      height: 1.1,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -198,10 +206,10 @@ class _AssociationServiceManageDetailsState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(0, 0, 0, 0.6),
-                                      height: 1.1,
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                      height: 1.15,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -248,9 +256,9 @@ class _AssociationServiceManageDetailsState
                   Text(
                     "Service Information",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -309,9 +317,9 @@ class _AssociationServiceManageDetailsState
                   Text(
                     "Assigned Person / Vendor",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -358,14 +366,14 @@ class _AssociationServiceManageDetailsState
                                 errorBuilder: (context, error, stackTrace) {
                                   return Icon(
                                     Icons.person,
-                                    size: 18.sp,
+                                    size: 20.sp,
                                     color: Colors.black87,
                                   );
                                 },
                               ),
                             ),
                           ),
-                          SizedBox(width: 10.w),
+                          SizedBox(width: 12.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -373,25 +381,26 @@ class _AssociationServiceManageDetailsState
                                 Text(
                                   data.data.assignedVendor.providerLabel,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
+                                    fontSize: 13.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: Color.fromRGBO(42, 41, 52, 0.6),
+                                    color: const Color.fromRGBO(42, 41, 51, 0.75),
                                     height: 1,
                                     letterSpacing: -0.1,
                                   ),
                                 ),
-                                SizedBox(height: 2.h),
+                                SizedBox(height: 3.h),
                                 Text(
                                   data.data.assignedVendor.name,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF101C16),
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.heading,
                                     letterSpacing: -0.1,
                                   ),
                                 ),
+                                SizedBox(height: 2.h),
                                 Text(
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -399,8 +408,8 @@ class _AssociationServiceManageDetailsState
                                   style: GoogleFonts.outfit(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: Color.fromRGBO(42, 41, 52, 0.6),
-                                    height: 1,
+                                    color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                    height: 1.2,
                                     letterSpacing: -0.1,
                                   ),
                                 ),
@@ -419,11 +428,11 @@ class _AssociationServiceManageDetailsState
                   ),
                   SizedBox(height: 16.h),
                   Text(
-                    "Assigned Person / Vendor",
+                    "Scope of Work",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -462,8 +471,8 @@ class _AssociationServiceManageDetailsState
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 30.w,
-                                  height: 30.w,
+                                  width: 28.w,
+                                  height: 28.w,
                                   decoration: BoxDecoration(
                                     color: item.isCompleted
                                         ? const Color(0xFFB8860B)
@@ -484,16 +493,16 @@ class _AssociationServiceManageDetailsState
                                         )
                                       : null,
                                 ),
-                                SizedBox(width: 10.w),
+                                SizedBox(width: 12.w),
                                 Expanded(
                                   child: Text(
                                     item.task,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF000000),
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.heading,
                                       height: 1.1,
                                       letterSpacing: -0.3,
                                     ),
@@ -510,9 +519,9 @@ class _AssociationServiceManageDetailsState
                   Text(
                     "Reported Issues",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -541,7 +550,7 @@ class _AssociationServiceManageDetailsState
                               data.data.reportedIssues.badge,
                               style: GoogleFonts.outfit(
                                 fontSize: 13.sp,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 color: Color(0xFFFFFFFF),
                                 height: 1,
                                 letterSpacing: -0.1,
@@ -549,22 +558,24 @@ class _AssociationServiceManageDetailsState
                             ),
                           ),
                         ),
-                        SizedBox(width: 10.w),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 data.data.reportedIssues.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF000000),
-                                  height: 1,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.heading,
+                                  height: 1.1,
                                   letterSpacing: -0.1,
                                 ),
                               ),
-                              SizedBox(height: 2.h),
+                              SizedBox(height: 3.h),
                               Text(
                                 data.data.reportedIssues.subtitle,
                                 maxLines: 2,
@@ -572,7 +583,7 @@ class _AssociationServiceManageDetailsState
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(0, 0, 0, 0.6),
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                   letterSpacing: -0.1,
                                 ),
                               ),
@@ -592,9 +603,9 @@ class _AssociationServiceManageDetailsState
                   Text(
                     "Service Performance",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -632,8 +643,8 @@ class _AssociationServiceManageDetailsState
                                     Text(
                                       data.data.servicePerformance.title,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
                                         color: Colors.white,
                                         height: 1.1,
                                         letterSpacing: -0.2,
@@ -643,9 +654,9 @@ class _AssociationServiceManageDetailsState
                                     Text(
                                       "Based on service monitoring",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 12.sp,
+                                        fontSize: 13.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.white,
+                                        color: Colors.white70,
                                         height: 1.1,
                                       ),
                                     ),
@@ -655,8 +666,8 @@ class _AssociationServiceManageDetailsState
                               Text(
                                 data.data.servicePerformance.formatted,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                   height: 1.1,
                                   letterSpacing: -0.2,
@@ -675,23 +686,23 @@ class _AssociationServiceManageDetailsState
                                           : data.data.servicePerformance.score /
                                                 10)
                                       .clamp(0.0, 1.0),
-                              minHeight: 3.h,
+                              minHeight: 4.h,
                               backgroundColor: const Color(0xFF919191),
                               valueColor: const AlwaysStoppedAnimation<Color>(
                                 Color(0xFF00BB5E),
                               ),
                             ),
                           ),
-                          SizedBox(height: 6.h),
+                          SizedBox(height: 8.h),
                           Row(
                             children: [
                               Expanded(
                                 child: Text(
                                   "Current Performance",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 12.sp,
+                                    fontSize: 13.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.white,
+                                    color: Colors.white70,
                                     height: 1.1,
                                   ),
                                 ),
@@ -699,8 +710,8 @@ class _AssociationServiceManageDetailsState
                               Text(
                                 data.data.servicePerformance.currentPerformance,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: Colors.white,
                                   height: 1.1,
                                 ),
@@ -752,20 +763,24 @@ class _AssociationServiceManageDetailsState
       children: [
         Text(
           label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
             letterSpacing: -0.2,
           ),
         ),
         SizedBox(height: 4.h),
         Text(
           value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
@@ -784,7 +799,7 @@ class _AssociationServiceManageDetailsState
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(0, 0, 0, 0.7),
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
             height: 1.1,
             letterSpacing: -0.2,
           ),
@@ -796,8 +811,8 @@ class _AssociationServiceManageDetailsState
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
             height: 1.1,
             letterSpacing: -0.2,
           ),

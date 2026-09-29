@@ -47,20 +47,20 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                   Text(
                     "Account",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Manage your account and profile",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -128,7 +128,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.outfit(
-                                            fontSize: 17.sp,
+                                            fontSize: 19.sp,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white,
                                             letterSpacing: -0.2,
@@ -147,7 +147,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white,
                                       letterSpacing: -0.2,
@@ -176,8 +176,8 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
                               color: const Color(0xFFB8860B),
                               letterSpacing: -0.2,
                             ),
@@ -190,7 +190,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                   Text(
                     "Upcoming Events",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -282,7 +282,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                   Text(
                     "Current Access",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -311,7 +311,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -332,7 +332,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                                 // "ACTIVE",
                                 data.data?.currentAccess?.status ?? "",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xFFB8860B),
                                 ),
@@ -385,7 +385,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                   Text(
                     "Preferences & Security",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -484,7 +484,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff101C16),
                       letterSpacing: -0.2,
@@ -495,7 +495,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       color: const Color(0xff777777),
                       letterSpacing: -0.2,
                     ),
@@ -531,7 +531,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 13.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF666666),
               letterSpacing: -0.2,
@@ -545,7 +545,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
@@ -587,7 +587,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
             Text(
               "Sign Out",
               style: GoogleFonts.inter(
-                fontSize: 17.sp,
+                fontSize: 19.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xffD91F1F),
                 letterSpacing: -0.2,
@@ -644,10 +644,10 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                     "Are you sure you want to log out from this account?",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
+                      fontSize: 17.sp,
                       color: Color.fromRGBO(41, 42, 51, 0.6),
                       height: 1.4,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(height: 28.h),
@@ -671,7 +671,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                             "Cancel",
                             style: GoogleFonts.outfit(
                               color: AppColors.heading,
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -747,7 +747,7 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                                   "Logout",
                                   style: GoogleFonts.outfit(
                                     color: Colors.white,
-                                    fontSize: 16.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -781,12 +781,12 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(isOwner ? "👑" : "📄", style: TextStyle(fontSize: 11.sp)),
+          Text(isOwner ? "👑" : "📄", style: TextStyle(fontSize: 15.sp)),
           SizedBox(width: 4.w),
           Text(
             isOwner ? "Owner" : "Tenant",
             style: GoogleFonts.outfit(
-              fontSize: 11.sp,
+              fontSize: 13.sp,
               fontWeight: FontWeight.w600,
               color: isOwner
                   ? const Color(0xFF2E7D32)

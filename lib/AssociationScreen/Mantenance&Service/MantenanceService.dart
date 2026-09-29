@@ -53,46 +53,52 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Maintenance & Services",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Maintenance & Services",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "Residential/Commercial management Issue Operations",
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Residential/Commercial management Issue Operations",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -110,11 +116,11 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 15.h,
+                      horizontal: 14.w,
+                      vertical: 16.h,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF000000), width: 1.w),
+                      border: Border.all(color: AppColors.heading, width: 1.2),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Column(
@@ -126,32 +132,31 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                               child: Text(
                                 "PROPERTY OPERATIONS",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF000000),
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
                               ),
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 13.w,
+                                horizontal: 14.w,
                                 vertical: 4.h,
                               ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40.r),
                                 border: Border.all(
-                                  color: Color(0xFFB8860B),
-                                  width: 1.w,
+                                  color: const Color(0xFFB8860B),
+                                  width: 1.2.w,
                                 ),
                               ),
                               child: Text(
-                                // "OVERVIEW",
                                 data.data?.propertyOperations?.badge ?? "N/A",
                                 style: GoogleFonts.outfit(
                                   fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFFB8860B),
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFFB8860B),
                                   letterSpacing: -0.2,
                                   height: 1.h,
                                 ),
@@ -159,35 +164,33 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 18.h),
+                        SizedBox(height: 16.h),
                         Text(
-                          // "Keep Everything Running Smoothly.",
                           data.data?.propertyOperations?.headline ?? "N/A",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 8.h),
                         Text(
-                          // "Monitor maintenance activities, service operations and ongoing work across the complex.",
                           data.data?.propertyOperations?.description ?? "N/A",
                           style: GoogleFonts.outfit(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(0, 0, 0, 0.7),
-                            height: 1.2.h,
+                            color: const Color.fromRGBO(42, 41, 51, 0.75),
+                            height: 1.25,
                           ),
                         ),
-                        SizedBox(height: 13.h),
-                        Divider(
+                        SizedBox(height: 14.h),
+                        const Divider(
                           height: 1,
-                          thickness: 0.8,
-                          color: Color.fromRGBO(16, 28, 22, 0.5),
+                          thickness: 1,
+                          color: Color.fromRGBO(16, 28, 22, 0.15),
                         ),
-                        SizedBox(height: 13.h),
+                        SizedBox(height: 14.h),
                         Row(
                           children: [
                             Expanded(
@@ -246,9 +249,9 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                       Text(
                         "Maintenance",
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.heading,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -257,13 +260,13 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                         style: GoogleFonts.outfit(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
-                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                          color: const Color.fromRGBO(42, 41, 51, 0.75),
                           letterSpacing: -0.2,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 14.h),
                   ServiceCard(
                     icon: Icons.pie_chart_outline,
                     title: "Pending Maintenance",
@@ -281,27 +284,16 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                       );
                     },
                   ),
-                  // SizedBox(height: 16.h),
-                  // ServiceCard(
-                  //   icon: Icons.history,
-                  //   title: "Maintenance History",
-                  //   description:
-                  //       "Review completed maintenance, past repairs and previous\nactivities.",
-                  //   bottomLeft: "Records available",
-                  //   bottomRight:
-                  //       "${data.data?.maintenanceSection?.maintenanceHistory?.count ?? "0"} Records",
-                  //   onTap: () {},
-                  // ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 20.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Services",
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.heading,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -310,13 +302,13 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                         style: GoogleFonts.outfit(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
-                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                          color: const Color.fromRGBO(42, 41, 51, 0.75),
                           letterSpacing: -0.2,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 14.h),
                   ServiceCard(
                     icon: Icons.gps_fixed,
                     title: "Service Management",
@@ -334,62 +326,12 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                       );
                     },
                   ),
-                  // SizedBox(height: 20.h),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Text(
-                  //       'Quick Access',
-                  //       style: GoogleFonts.outfit(
-                  //         fontSize: 17.sp,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: Colors.black,
-                  //         height: 1,
-                  //         letterSpacing: -0.3,
-                  //       ),
-                  //     ),
-                  //     Text(
-                  //       'Shortcuts',
-                  //       style: GoogleFonts.outfit(
-                  //         fontSize: 15.sp,
-                  //         fontWeight: FontWeight.w400,
-                  //         color: Color.fromRGBO(0, 0, 0, 0.7),
-                  //         height: 1,
-                  //         letterSpacing: -0.2,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(height: 16.h),
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: _quickAccessCard(
-                  //         icon: Icons.add,
-                  //         title: 'New Maintenance',
-                  //         description:
-                  //             'Create or record a maintenance\nactivity.',
-                  //         onTap: () {},
-                  //       ),
-                  //     ),
-                  //     SizedBox(width: 20.w),
-                  //     Expanded(
-                  //       child: _quickAccessCard(
-                  //         icon: Icons.description_outlined,
-                  //         title: 'Service Records',
-                  //         description:
-                  //             'Access service-related records\nand details.',
-                  //         onTap: () {},
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   SizedBox(height: 22.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      vertical: 15.h,
-                      horizontal: 14.w,
+                      vertical: 16.h,
+                      horizontal: 16.w,
                     ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFB8860B),
@@ -404,11 +346,10 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                               data?.data?.serviceSnapshot?.title ??
                                   'Service Snapshot',
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.white,
-                                height: 1,
-                                letterSpacing: -0.5,
+                                letterSpacing: -0.3,
                               ),
                             ),
                             GestureDetector(
@@ -422,7 +363,7 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                                     'VIEW ALL',
                                     style: GoogleFonts.outfit(
                                       fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w600,
                                       color: Colors.white,
                                       letterSpacing: -0.2,
                                     ),
@@ -432,7 +373,7 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                                     '→',
                                     style: GoogleFonts.outfit(
                                       fontSize: 18.sp,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w600,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -449,7 +390,7 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                           itemCount:
                               data.data?.serviceSnapshot?.items?.length ?? 0,
                           separatorBuilder: (context, index) {
-                            return SizedBox(height: 16.h);
+                            return SizedBox(height: 14.h);
                           },
                           itemBuilder: (context, index) {
                             final service =
@@ -465,7 +406,7 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 22.h),
+                  SizedBox(height: 25.h),
                 ],
               ),
             ),
@@ -492,9 +433,9 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
         Text(
           label,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(0, 0, 0, 0.7),
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
             letterSpacing: -0.2,
           ),
         ),
@@ -502,82 +443,22 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
         Text(
           value,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
           ),
         ),
         SizedBox(height: 4.h),
         Text(
           status,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFFB8860B),
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFFB8860B),
             height: 1,
           ),
         ),
       ],
-    );
-  }
-
-  Widget _quickAccessCard({
-    required VoidCallback onTap,
-    required IconData icon,
-    required String title,
-    required String description,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(10.r),
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
-        decoration: BoxDecoration(
-          color: const Color(0xFFFFFEFF),
-          borderRadius: BorderRadius.circular(10.r),
-          border: Border.all(color: Colors.black, width: 1.w),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 36.w,
-              height: 36.w,
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 242, 165, 0.3),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Icon(icon, size: 20.sp, color: const Color(0xFFB8860B)),
-            ),
-            SizedBox(height: 5.h),
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.outfit(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-                height: 1,
-                letterSpacing: -0.3,
-              ),
-            ),
-            SizedBox(height: 5.h),
-            Text(
-              description,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.outfit(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
-                color: Color.fromRGBO(0, 0, 0, 0.6),
-                height: 1.15,
-                letterSpacing: -0.2,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -619,15 +500,15 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 36.w,
-          height: 36.w,
+          width: 40.w,
+          height: 40.w,
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: Color(0xFF101C16),
           ),
-          child: Icon(icon, size: 18.sp, color: const Color(0xFFB8860B)),
+          child: Icon(icon, size: 20.sp, color: const Color(0xFFB8860B)),
         ),
-        SizedBox(width: 9.w),
+        SizedBox(width: 10.w),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -638,24 +519,22 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  height: 1,
-                  letterSpacing: -0.3,
+                  letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: 2.h),
               Text(
                 subtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(255, 255, 255, 0.7),
-                  height: 1,
-                  letterSpacing: -0.6,
+                  color: const Color.fromRGBO(255, 255, 255, 0.8),
+                  letterSpacing: -0.2,
                 ),
               ),
             ],
@@ -666,11 +545,10 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
         Text(
           status,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
-            height: 1,
-            letterSpacing: -0.5,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            letterSpacing: -0.2,
           ),
         ),
       ],
@@ -702,10 +580,10 @@ class ServiceCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 19.w),
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1.w),
-          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(color: AppColors.heading, width: 1.2),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: Column(
           children: [
@@ -713,20 +591,19 @@ class ServiceCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 37.w,
-                  height: 37.w,
+                  width: 40.w,
+                  height: 40.w,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 1.w),
-                    borderRadius: BorderRadius.circular(2.r),
+                    border: Border.all(color: AppColors.heading, width: 1.2),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     icon,
-                    size: 18.sp,
-                    color: Colors.black,
-                    weight: 1,
+                    size: 20.sp,
+                    color: AppColors.heading,
                   ),
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -737,64 +614,62 @@ class ServiceCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
                           fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          height: 1.1,
-                          letterSpacing: -0.3,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
                         ),
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: 3.h),
                       Text(
                         description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          height: 1.15,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(42, 41, 51, 0.75),
+                          height: 1.2,
                           letterSpacing: -0.2,
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: 10.w),
-                GestureDetector(
-                  onTap: onTap,
-                  child: Container(
-                    width: 37.w,
-                    height: 37.w,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 1.w),
-                      borderRadius: BorderRadius.circular(2.r),
-                    ),
-                    child: Icon(
-                      Icons.chevron_right,
-                      size: 18.sp,
-                      color: Colors.black,
-                    ),
+                SizedBox(width: 8.w),
+                Container(
+                  width: 36.w,
+                  height: 36.w,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: const Color.fromRGBO(16, 28, 22, 0.3), width: 1.w),
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  child: Icon(
+                    Icons.chevron_right,
+                    size: 20.sp,
+                    color: AppColors.heading,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 16.h),
-            Divider(
-              height: 1.h,
-              thickness: 0.7.w,
-              color: const Color(0xFF999999),
+            SizedBox(height: 14.h),
+            const Divider(
+              height: 1,
+              thickness: 1,
+              color: Color.fromRGBO(16, 28, 22, 0.15),
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 14.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Text(
                     bottomLeft,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -802,9 +677,9 @@ class ServiceCard extends StatelessWidget {
                 Text(
                   bottomRight,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),

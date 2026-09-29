@@ -348,8 +348,8 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                       "Event / Meeting Name *",
                       style: GoogleFonts.outfit(
                         fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -358,43 +358,46 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                       controller: eventNameController,
                       textAlignVertical: TextAlignVertical.center,
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                       decoration: InputDecoration(
                         isDense: true,
-                        border: InputBorder.none,
                         hintText: "Enter Event / Meeting Name",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 15.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFF777777),
+                          color: const Color.fromRGBO(16, 28, 22, 0.6),
                           letterSpacing: -0.2,
                         ),
                         prefixIcon: Icon(
                           Icons.article_outlined,
-                          size: 20.sp,
-                          color: Colors.black,
+                          size: 22.sp,
+                          color: AppColors.heading,
                         ),
                         prefixIconConstraints: BoxConstraints(
-                          minWidth: 35.w,
-                          minHeight: 25.h,
+                          minWidth: 44.w,
+                          minHeight: 52.h,
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.heading),
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderSide: BorderSide(
+                            color: AppColors.heading,
+                            width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(6.r),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(42, 41, 51, 0.6),
+                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            width: 1.2,
                           ),
                         ),
                         contentPadding: EdgeInsets.symmetric(
-                          vertical: 12.h,
-                          horizontal: 10.w,
+                          vertical: 14.h,
+                          horizontal: 14.w,
                         ),
                       ),
                     ),
@@ -403,8 +406,8 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                       "Event Type *",
                       style: GoogleFonts.outfit(
                         fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -436,8 +439,8 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                       "Location *",
                       style: GoogleFonts.outfit(
                         fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -446,43 +449,46 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                       controller: locationController,
                       textAlignVertical: TextAlignVertical.center,
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                       decoration: InputDecoration(
                         isDense: true,
-                        border: InputBorder.none,
                         hintText: "Enter Location (e.g. Main Clubhouse)",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 15.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFF777777),
+                          color: const Color.fromRGBO(16, 28, 22, 0.6),
                           letterSpacing: -0.2,
                         ),
                         prefixIcon: Icon(
                           Icons.location_on_outlined,
-                          size: 20.sp,
-                          color: Colors.black,
+                          size: 22.sp,
+                          color: AppColors.heading,
                         ),
                         prefixIconConstraints: BoxConstraints(
-                          minWidth: 35.w,
-                          minHeight: 25.h,
+                          minWidth: 44.w,
+                          minHeight: 52.h,
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.heading),
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderSide: BorderSide(
+                            color: AppColors.heading,
+                            width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(6.r),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(42, 41, 51, 0.6),
+                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            width: 1.2,
                           ),
                         ),
                         contentPadding: EdgeInsets.symmetric(
-                          vertical: 12.h,
-                          horizontal: 10.w,
+                          vertical: 14.h,
+                          horizontal: 14.w,
                         ),
                       ),
                     ),
@@ -688,10 +694,10 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                     Text(
                       "Description / Meeting Agenda",
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w700,
                         color: AppColors.heading,
-                        letterSpacing: -0.3,
+                        letterSpacing: -0.2,
                       ),
                     ),
                     SizedBox(height: 10.h),
@@ -701,36 +707,39 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                       minLines: 8,
                       textAlignVertical: TextAlignVertical.top,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
+                        letterSpacing: -0.2,
                       ),
                       decoration: InputDecoration(
                         hintText:
                             "Add the purpose, agenda or important information about this event...",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xff888D85),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(16, 28, 22, 0.6),
+                          letterSpacing: -0.2,
                         ),
                         hintMaxLines: 2,
                         filled: true,
                         fillColor: const Color(0xffFFFCEF),
                         contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 10.h,
+                          horizontal: 14.w,
+                          vertical: 14.h,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           borderSide: const BorderSide(
-                            color: Color(0xff777777),
-                            width: 1.3,
+                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            width: 1.2,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           borderSide: const BorderSide(
                             color: AppColors.heading,
+                            width: 1.5,
                           ),
                         ),
                       ),
@@ -740,20 +749,20 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
               ),
               SizedBox(height: 20.h),
               SizedBox(
-                height: 40.h,
+                height: 52.h,
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.heading,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.r),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
                   onPressed: isLoading ? null : _publishEvent,
                   child: isLoading
                       ? const SizedBox(
-                          height: 20,
-                          width: 20,
+                          height: 22,
+                          width: 22,
                           child: CircularProgressIndicator(
                             color: Colors.white,
                             strokeWidth: 2,
@@ -763,33 +772,33 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
                           "Publish Event",
                           style: GoogleFonts.outfit(
                             fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w700,
                             color: Colors.white,
-                            letterSpacing: -0.2,
+                            letterSpacing: 0.2,
                           ),
                         ),
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 12.h),
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 35.h,
+                  height: 52.h,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.heading),
-                    borderRadius: BorderRadius.circular(4.r),
+                    border: Border.all(color: AppColors.heading, width: 1.2),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Text(
                     "Cancel",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      letterSpacing: -0.2,
+                      letterSpacing: 0.2,
                     ),
                   ),
                 ),
@@ -862,8 +871,8 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 15.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
@@ -875,37 +884,44 @@ class _AssociationcalenderState extends ConsumerState<Associationcalender> {
           maxLines: 1,
           textAlignVertical: TextAlignVertical.center,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w500,
-            color: isHint ? const Color(0xFF666666) : const Color(0xFF101C16),
+            color: isHint
+                ? const Color.fromRGBO(16, 28, 22, 0.6)
+                : AppColors.heading,
+            letterSpacing: -0.2,
           ),
           decoration: InputDecoration(
             isDense: true,
             prefixIcon: Padding(
               padding: EdgeInsets.only(left: 12.w, right: 8.w),
-              child: Icon(icon, size: 19.sp, color: const Color(0xFF777777)),
+              child: Icon(icon, size: 22.sp, color: AppColors.heading),
             ),
             prefixIconConstraints: const BoxConstraints(
               minWidth: 0,
               minHeight: 0,
             ),
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 10.w,
+              horizontal: 14.w,
               vertical: 14.h,
             ),
             hintText: "DD / MM / YYYY",
             hintStyle: GoogleFonts.outfit(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF666666),
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(16, 28, 22, 0.6),
+              letterSpacing: -0.2,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(7.r),
-              borderSide: const BorderSide(color: Color(0xFF777777), width: 1),
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: const BorderSide(
+                color: Color.fromRGBO(16, 28, 22, 0.6),
+                width: 1.2,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(7.r),
-              borderSide: const BorderSide(color: Colors.black, width: 1.2),
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: BorderSide(color: AppColors.heading, width: 1.5),
             ),
           ),
         ),

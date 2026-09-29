@@ -81,22 +81,22 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -108,9 +108,9 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
                         fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xff292832),
-                        letterSpacing: -0.64,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
                       ),
                     ),
                     SizedBox(height: 2.h),
@@ -122,8 +122,8 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                       style: GoogleFonts.outfit(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
-                        color: const Color.fromRGBO(42, 41, 51, 0.6),
-                        letterSpacing: -0.24,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
                       ),
                     ),
                   ],
@@ -152,18 +152,18 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 30.h),
+                    SizedBox(height: 24.h),
                     // Alert Overview Card
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(20.w),
+                      padding: EdgeInsets.all(18.w),
                       decoration: BoxDecoration(
                         color: const Color(0xffFFFCEF),
                         border: Border.all(
                           color: const Color(0xff111111),
                           width: 1.3,
                         ),
-                        borderRadius: BorderRadius.circular(15.r),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,13 +174,15 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                               Text(
                                 "Alert Overview",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w,
+                                  horizontal: 12.w,
                                   vertical: 4.h,
                                 ),
                                 decoration: BoxDecoration(
@@ -191,7 +193,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                                   alertOverview?.badge ?? "Alert Overview",
                                   style: GoogleFonts.outfit(
                                     fontSize: 13.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                     letterSpacing: -0.2,
                                   ),
@@ -203,14 +205,14 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                           Row(
                             children: [
                               Container(
-                                width: 40.w,
-                                height: 40.h,
+                                width: 44.w,
+                                height: 44.h,
                                 decoration: BoxDecoration(
                                   color: const Color(0xffD9D9D9),
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
                               ),
-                              SizedBox(width: 11.w),
+                              SizedBox(width: 12.w),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,18 +221,25 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                                       alertOverview?.title ??
                                           "Important Alerts",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.heading,
                                         letterSpacing: -0.2,
                                       ),
                                     ),
+                                    SizedBox(height: 2.h),
                                     Text(
                                       alertOverview?.description ??
                                           "Attention required across the Residential/Commercial management team",
                                       style: GoogleFonts.outfit(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: const Color(0xff888888),
+                                        color: const Color.fromRGBO(
+                                          42,
+                                          41,
+                                          51,
+                                          0.75,
+                                        ),
                                         letterSpacing: -0.2,
                                       ),
                                     ),
@@ -239,13 +248,13 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 10.h),
+                          SizedBox(height: 14.h),
                           const Divider(
-                            color: Color(0xffC8C8C8),
+                            color: Color.fromRGBO(16, 28, 22, 0.2),
                             thickness: 1,
                             height: 1,
                           ),
-                          SizedBox(height: 16.h),
+                          SizedBox(height: 14.h),
                           Row(
                             children: [
                               _alertItem(
@@ -286,7 +295,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 18.h),
+                    SizedBox(height: 22.h),
                     // Alerts Section Title & Quick Action
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -294,22 +303,24 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                         Text(
                           alertsSection?.title ?? "Alerts",
                           style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
                         Text(
                           alertsSection?.quickAction?.label ?? "MARK ALL READ",
                           style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 16.h),
+                    SizedBox(height: 14.h),
                     // Filter Chips
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -326,8 +337,8 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w,
-                                  vertical: 5.h,
+                                  horizontal: 14.w,
+                                  vertical: 6.h,
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
@@ -365,7 +376,8 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                           child: Text(
                             "No alerts found",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
                               color: const Color(0xff777777),
                             ),
                           ),
@@ -414,20 +426,21 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
           Text(
             number,
             style: GoogleFonts.outfit(
-              fontSize: 16.sp,
-              fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.w500,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w700,
               color: isHighlighted
                   ? const Color(0xff101C16)
                   : const Color(0xff292832),
               letterSpacing: -0.2,
             ),
           ),
+          SizedBox(height: 2.h),
           Text(
             title,
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
+              fontSize: 13.sp,
               fontWeight: FontWeight.w500,
-              color: const Color(0xff777777),
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
               letterSpacing: -0.2,
             ),
           ),
@@ -439,7 +452,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
   Widget _buildUrgentHeroCard(Alert alert) {
     return Container(
       padding: EdgeInsets.all(18.w),
-      margin: EdgeInsets.only(bottom: 12.h),
+      margin: EdgeInsets.only(bottom: 14.h),
       decoration: BoxDecoration(
         color: const Color(0xff0C1C16),
         borderRadius: BorderRadius.circular(10.r),
@@ -465,12 +478,21 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
               SizedBox(width: 7.w),
               Text(
                 alert.badgeText ?? "URGENT ALERT",
-                style: GoogleFonts.outfit(fontSize: 13.sp, color: Colors.white),
+                style: GoogleFonts.outfit(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                  letterSpacing: -0.2,
+                ),
               ),
               const Spacer(),
               Text(
                 alert.timeAgo ?? "",
-                style: GoogleFonts.outfit(fontSize: 13.sp, color: Colors.grey),
+                style: GoogleFonts.outfit(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white70,
+                ),
               ),
             ],
           ),
@@ -478,22 +500,25 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
           Text(
             alert.title ?? "",
             style: GoogleFonts.outfit(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
+              fontSize: 17.sp,
+              fontWeight: FontWeight.w700,
               color: Colors.white,
+              letterSpacing: -0.2,
             ),
           ),
           if (alert.subtitle != null && alert.subtitle!.isNotEmpty) ...[
-            SizedBox(height: 2.h),
+            SizedBox(height: 4.h),
             Text(
               alert.subtitle!,
               style: GoogleFonts.outfit(
-                fontSize: 13.sp,
-                color: const Color(0xffA8B0AC),
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xffD0D8D4),
+                letterSpacing: -0.2,
               ),
             ),
           ],
-          SizedBox(height: 12.h),
+          SizedBox(height: 14.h),
           Row(
             children: [
               Expanded(
@@ -501,6 +526,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                   alert.locationInfo ?? "",
                   style: GoogleFonts.outfit(
                     fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
                 ),
@@ -509,7 +535,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                   alert.actionButton!.label!.isNotEmpty)
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
+                    horizontal: 14.w,
                     vertical: 6.h,
                   ),
                   decoration: BoxDecoration(
@@ -520,7 +546,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                     alert.actionButton!.label!,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
                   ),
@@ -558,8 +584,8 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 16.h),
-      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
+      margin: EdgeInsets.only(bottom: 14.h),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFDF0),
         border: Border.all(color: const Color(0xFF101C16), width: 1.2),
@@ -571,15 +597,15 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 36.w,
-                height: 36.h,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   color: iconBgColor,
-                  borderRadius: BorderRadius.circular(4.r),
+                  borderRadius: BorderRadius.circular(6.r),
                 ),
-                child: Icon(iconData, color: iconColor, size: 18.sp),
+                child: Icon(iconData, color: iconColor, size: 20.sp),
               ),
-              SizedBox(width: 6.w),
+              SizedBox(width: 10.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -589,13 +615,14 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w600,
                         color: const Color(0xFF101C16),
                         letterSpacing: -0.2,
                       ),
                     ),
-                    if (alert.subtitle != null && alert.subtitle!.isNotEmpty)
+                    if (alert.subtitle != null && alert.subtitle!.isNotEmpty) ...[
+                      SizedBox(height: 2.h),
                       Text(
                         alert.subtitle!,
                         maxLines: 2,
@@ -603,10 +630,11 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                         style: GoogleFonts.outfit(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFF666666),
+                          color: const Color.fromRGBO(42, 41, 51, 0.75),
                           letterSpacing: -0.2,
                         ),
                       ),
+                    ],
                   ],
                 ),
               ),
@@ -616,21 +644,21 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                 maxLines: 1,
                 style: GoogleFonts.outfit(
                   fontSize: 13.sp,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFF777777),
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromRGBO(42, 41, 51, 0.7),
                 ),
               ),
             ],
           ),
           SizedBox(height: 12.h),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFBDBDBD)),
+          const Divider(height: 1, thickness: 1, color: Color.fromRGBO(16, 28, 22, 0.15)),
           SizedBox(height: 12.h),
           Row(
             children: [
               if (badgeData?.text != null && badgeData!.text!.isNotEmpty)
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
+                    horizontal: 14.w,
                     vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
@@ -644,7 +672,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                     badgeData.text!,
                     style: GoogleFonts.outfit(
                       fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: badgeTextColor,
                       letterSpacing: -0.2,
                     ),
@@ -654,8 +682,8 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
               Text(
                 actionLabel,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
                   color: const Color(0xFF101C16),
                   letterSpacing: -0.2,
                 ),
@@ -663,7 +691,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
               SizedBox(width: 5.w),
               Icon(
                 Icons.arrow_forward,
-                size: 14.sp,
+                size: 16.sp,
                 color: const Color(0xFF101C16),
               ),
             ],

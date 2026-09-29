@@ -41,46 +41,52 @@ class _AssociationPropertyUnitDetailsState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Property / Unit Details",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Property / Unit Details",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "Complete information for this unit",
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Complete information for this unit",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -171,9 +177,9 @@ class _AssociationPropertyUnitDetailsState
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -209,56 +215,19 @@ class _AssociationPropertyUnitDetailsState
                                     : 8,
                               ),
                             ],
-                          ] else ...[
-                            // _informationRow(
-                            //   icon: Icons.grid_view_rounded,
-                            //   label: "Unit Number",
-                            //   value: banner?.title ?? "Apartment A-204",
-                            // ),
-                            // _divider(),
-                            // _informationRow(
-                            //   icon: Icons.receipt_long_outlined,
-                            //   label: "Block / Building",
-                            //   value: "Block A",
-                            //   action: "View ›",
-                            // ),
-                            // _divider(),
-                            // _informationRow(
-                            //   icon: Icons.home_outlined,
-                            //   label: "Complex",
-                            //   value: "Green Valley Residency",
-                            // ),
-                            // _divider(),
-                            // _informationRow(
-                            //   icon: Icons.location_on_outlined,
-                            //   label: "Location",
-                            //   value: "Jaipur, Rajasthan",
-                            // ),
-                            // _divider(),
-                            // _informationRow(
-                            //   icon: Icons.diamond_outlined,
-                            //   label: "Property Type",
-                            //   value: "Residential Apartment · 3 BHK",
-                            // ),
-                            // _divider(),
-                            // _informationRow(
-                            //   icon: Icons.radio_button_checked,
-                            //   label: "Property Status",
-                            //   value: "Active / Good Condition",
-                            //   bottomPadding: 10,
-                            // ),
-                          ],
+                          ] else
+                            ...[],
                         ],
                       ),
                     ),
-                    SizedBox(height: 13.h),
+                    SizedBox(height: 16.h),
                     Text(
                       data?.assignedPropertyOwner?.roleLabel ??
                           "Assigned Owner",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -281,8 +250,8 @@ class _AssociationPropertyUnitDetailsState
                           Row(
                             children: [
                               Container(
-                                height: 40.h,
-                                width: 40.w,
+                                height: 44.h,
+                                width: 44.w,
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Color(0xFFD9D9D9),
@@ -314,9 +283,9 @@ class _AssociationPropertyUnitDetailsState
                                     Text(
                                       owner?.name ?? "Arjun Sharma",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
+                                        fontSize: 17.sp,
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.black,
+                                        color: AppColors.heading,
                                         letterSpacing: -0.2,
                                       ),
                                     ),
@@ -328,10 +297,10 @@ class _AssociationPropertyUnitDetailsState
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
                                         color: const Color.fromRGBO(
-                                          0,
-                                          0,
-                                          0,
-                                          0.6,
+                                          42,
+                                          41,
+                                          51,
+                                          0.75,
                                         ),
                                         letterSpacing: -0.2,
                                       ),
@@ -342,8 +311,8 @@ class _AssociationPropertyUnitDetailsState
                               if (owner?.isVerified == true)
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: 15.w,
-                                    vertical: 5.h,
+                                    horizontal: 12.w,
+                                    vertical: 4.h,
                                   ),
                                   decoration: BoxDecoration(
                                     border: Border.all(
@@ -355,15 +324,15 @@ class _AssociationPropertyUnitDetailsState
                                   child: Text(
                                     "Verified",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w600,
                                       color: const Color(0xFF24B06A),
                                     ),
                                   ),
                                 ),
                             ],
                           ),
-                          SizedBox(height: 20.h),
+                          SizedBox(height: 16.h),
                           const Divider(height: 1, color: Color(0xFF101C16)),
                           SizedBox(height: 10.h),
                           Row(
@@ -392,14 +361,14 @@ class _AssociationPropertyUnitDetailsState
                       ),
                     ),
                     if (data?.currentOccupant != null) ...[
-                      SizedBox(height: 18.h),
+                      SizedBox(height: 20.h),
                       Text(
                         data?.currentOccupant?.roleLabel ??
                             "Current Tenant / Occupant Details",
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.heading,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -423,8 +392,8 @@ class _AssociationPropertyUnitDetailsState
                             Row(
                               children: [
                                 Container(
-                                  height: 40.h,
-                                  width: 40.w,
+                                  height: 44.h,
+                                  width: 44.w,
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Color(0xFFEBD9A5),
@@ -459,9 +428,9 @@ class _AssociationPropertyUnitDetailsState
                                       Text(
                                         data?.currentOccupant?.name ?? "Tenant",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 14.sp,
+                                          fontSize: 17.sp,
                                           fontWeight: FontWeight.w700,
-                                          color: Colors.black,
+                                          color: AppColors.heading,
                                           letterSpacing: -0.2,
                                         ),
                                       ),
@@ -472,10 +441,10 @@ class _AssociationPropertyUnitDetailsState
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                           color: const Color.fromRGBO(
-                                            0,
-                                            0,
-                                            0,
-                                            0.6,
+                                            42,
+                                            41,
+                                            51,
+                                            0.75,
                                           ),
                                           letterSpacing: -0.2,
                                         ),
@@ -499,7 +468,7 @@ class _AssociationPropertyUnitDetailsState
                                   child: Text(
                                     "Tenant",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFFE65100),
                                     ),
@@ -866,9 +835,9 @@ class _AssociationPropertyUnitDetailsState
                         Text(
                           "Recent Property Activity",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -876,17 +845,17 @@ class _AssociationPropertyUnitDetailsState
                         Text(
                           "View All",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF000000),
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
                         SizedBox(width: 2.w),
                         Icon(
                           Icons.chevron_right,
-                          size: 17.sp,
-                          color: Colors.black,
+                          size: 18.sp,
+                          color: AppColors.heading,
                         ),
                       ],
                     ),
@@ -917,28 +886,8 @@ class _AssociationPropertyUnitDetailsState
                                 date: activities[i].date ?? "",
                               ),
                             ],
-                          ] else ...[
-                            // _activityItem(
-                            //   icon: "!",
-                            //   title: "Inspection Completed",
-                            //   subtitle: "Latest property inspection recorded",
-                            //   date: "15 Aug",
-                            // ),
-                            // _divider(),
-                            // _activityItem(
-                            //   icon: "▣",
-                            //   title: "Maintenance Updated",
-                            //   subtitle: "Property maintenance record updated",
-                            //   date: "12 Aug",
-                            // ),
-                            // _divider(),
-                            // _activityItem(
-                            //   icon: "₹",
-                            //   title: "Document Added",
-                            //   subtitle: "New property document available",
-                            //   date: "09 Aug",
-                            // ),
-                          ],
+                          ] else
+                            ...[],
                         ],
                       ),
                     ),
@@ -946,9 +895,9 @@ class _AssociationPropertyUnitDetailsState
                     Text(
                       "Property Records",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -958,9 +907,9 @@ class _AssociationPropertyUnitDetailsState
                         padding: EdgeInsets.zero,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          crossAxisSpacing: 20.w,
-                          mainAxisSpacing: 10.h,
-                          childAspectRatio: 1.3,
+                          crossAxisSpacing: 14.w,
+                          mainAxisSpacing: 12.h,
+                          childAspectRatio: 1.15,
                         ),
                         itemCount: records.length,
                         shrinkWrap: true,
@@ -978,13 +927,6 @@ class _AssociationPropertyUnitDetailsState
                                         "inspection",
                                       ) ??
                                       false)) {
-                                // Navigator.push(
-                                //   context,
-                                //   CupertinoPageRoute(
-                                //     builder: (context) =>
-                                //         const InspectionreportScreen(),
-                                //   ),
-                                // );
                               } else if (rec.id == "maintenance" ||
                                   (rec.title?.toLowerCase().contains(
                                         "maintenance",
@@ -1031,9 +973,9 @@ class _AssociationPropertyUnitDetailsState
                       GridView.count(
                         padding: EdgeInsets.zero,
                         crossAxisCount: 2,
-                        crossAxisSpacing: 20.w,
-                        mainAxisSpacing: 10.h,
-                        childAspectRatio: 1.3,
+                        crossAxisSpacing: 14.w,
+                        mainAxisSpacing: 12.h,
+                        childAspectRatio: 1.15,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
@@ -1171,30 +1113,30 @@ class _AssociationPropertyUnitDetailsState
                       Text(
                         banner?.tag ?? "PROPERTY UNIT",
                         style: GoogleFonts.outfit(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
                           color: const Color(0xFFFFFFFF),
-                          letterSpacing: -0.2,
+                          letterSpacing: 0.5,
                         ),
                       ),
-                      SizedBox(height: 1.h),
+                      SizedBox(height: 2.h),
                       Text(
                         banner?.title ?? "Apartment A-204",
                         style: GoogleFonts.outfit(
                           fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w700,
                           color: Colors.white,
-                          letterSpacing: -0.2,
+                          letterSpacing: -0.3,
                         ),
                       ),
-                      SizedBox(height: 1.h),
+                      SizedBox(height: 2.h),
                       Text(
                         banner?.subtitle ??
                             "Block A · Green Valley Residency · Jaipur",
                         style: GoogleFonts.outfit(
                           fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(255, 255, 255, 0.6),
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white.withValues(alpha: 0.85),
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -1204,7 +1146,7 @@ class _AssociationPropertyUnitDetailsState
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 14.w,
-                    vertical: 3.h,
+                    vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40.r),
@@ -1217,7 +1159,7 @@ class _AssociationPropertyUnitDetailsState
                     banner?.status ?? "Active",
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: const Color(0xFF24B06A),
                     ),
                   ),
@@ -1290,32 +1232,32 @@ class _AssociationPropertyUnitDetailsState
     required String title,
   }) {
     return Container(
-      padding: EdgeInsets.only(left: 8.w, top: 7.h, right: 8.w, bottom: 7.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF000000), width: 1.w),
-        borderRadius: BorderRadius.circular(4.r),
+        border: Border.all(color: const Color(0xFF000000), width: 1.w),
+        borderRadius: BorderRadius.circular(6.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 30.h,
-            width: 30.w,
+            height: 32.h,
+            width: 32.w,
             decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFF000000), width: 1.w),
+              border: Border.all(color: const Color(0xFF000000), width: 1.w),
               borderRadius: BorderRadius.circular(4.r),
             ),
-            child: Icon(icon, size: 13.sp, color: Colors.black),
+            child: Icon(icon, size: 15.sp, color: Colors.black),
           ),
-          SizedBox(height: 3.h),
+          SizedBox(height: 4.h),
           Text(
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.heading,
               letterSpacing: -0.2,
             ),
           ),
@@ -1324,11 +1266,11 @@ class _AssociationPropertyUnitDetailsState
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
               letterSpacing: -0.2,
-              height: 1.h,
+              height: 1.1,
             ),
           ),
         ],
@@ -1347,15 +1289,15 @@ class _AssociationPropertyUnitDetailsState
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          height: 36.h,
+          height: 38.h,
           width: 38.w,
           decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFF000000), width: 1.w),
+            border: Border.all(color: const Color(0xFF000000), width: 1.w),
             borderRadius: BorderRadius.circular(5.r),
           ),
-          child: Icon(icon, size: 13.sp, color: Colors.black),
+          child: Icon(icon, size: 16.sp, color: Colors.black),
         ),
-        SizedBox(width: 7.w),
+        SizedBox(width: 8.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1363,9 +1305,9 @@ class _AssociationPropertyUnitDetailsState
               Text(
                 label,
                 style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(42, 41, 51, 0.7),
+                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                   letterSpacing: -0.2,
                 ),
               ),
@@ -1375,9 +1317,9 @@ class _AssociationPropertyUnitDetailsState
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF101C16),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -1386,13 +1328,13 @@ class _AssociationPropertyUnitDetailsState
         ),
         if (action != null)
           Padding(
-            padding: EdgeInsets.only(left: 5.w),
+            padding: EdgeInsets.only(left: 6.w),
             child: Text(
               action,
               style: GoogleFonts.outfit(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF2A2933),
+                color: const Color(0xFF2A2933),
                 letterSpacing: -0.2,
               ),
             ),
@@ -1404,7 +1346,7 @@ class _AssociationPropertyUnitDetailsState
   Widget _divider() {
     return Padding(
       padding: EdgeInsets.only(top: 14.h, bottom: 10.h),
-      child: Divider(height: 1.h, color: Color.fromRGBO(41, 42, 51, 0.6)),
+      child: Divider(height: 1.h, color: const Color.fromRGBO(41, 42, 51, 0.4)),
     );
   }
 
@@ -1415,10 +1357,10 @@ class _AssociationPropertyUnitDetailsState
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(42, 41, 51, 0.7),
-            letterSpacing: -0.2,
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w600,
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
+            letterSpacing: 0.2,
           ),
         ),
         SizedBox(height: 2.h),
@@ -1427,9 +1369,9 @@ class _AssociationPropertyUnitDetailsState
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF101C16),
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
@@ -1449,10 +1391,10 @@ class _AssociationPropertyUnitDetailsState
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 36.h,
-            width: 36.w,
+            height: 38.h,
+            width: 38.w,
             decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFF171717), width: 1.w),
+              border: Border.all(color: const Color(0xFF171717), width: 1.w),
               borderRadius: BorderRadius.circular(5.r),
             ),
             alignment: Alignment.center,
@@ -1460,8 +1402,8 @@ class _AssociationPropertyUnitDetailsState
               icon,
               style: GoogleFonts.outfit(
                 fontSize: 17.sp,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF000000),
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF000000),
               ),
             ),
           ),
@@ -1475,9 +1417,9 @@ class _AssociationPropertyUnitDetailsState
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF101C16),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -1487,9 +1429,9 @@ class _AssociationPropertyUnitDetailsState
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     height: 1.1,
-                    color: Color.fromRGBO(42, 41, 51, 0.7),
+                    color: const Color.fromRGBO(42, 41, 51, 0.75),
                   ),
                 ),
               ],
@@ -1500,7 +1442,7 @@ class _AssociationPropertyUnitDetailsState
             date,
             style: GoogleFonts.outfit(
               fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: const Color(0xFF2A2933),
             ),
           ),
@@ -1519,58 +1461,64 @@ class _AssociationPropertyUnitDetailsState
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
-          border: Border.all(color: Color(0xFF171717), width: 1.w),
+          border: Border.all(color: const Color(0xFF171717), width: 1.w),
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 30.h,
-              width: 30.w,
+              height: 32.h,
+              width: 32.w,
               decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFF000000), width: 1.w),
+                border: Border.all(color: const Color(0xFF000000), width: 1.w),
                 borderRadius: BorderRadius.circular(4.r),
               ),
               alignment: Alignment.center,
               child: Text(
                 icon,
                 style: GoogleFonts.outfit(
-                  fontSize: 15.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF000000),
+                  color: const Color(0xFF000000),
                 ),
               ),
             ),
             SizedBox(height: 6.h),
             Text(
               title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.outfit(
-                fontSize: 15.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF000000),
+                color: AppColors.heading,
                 letterSpacing: -0.2,
+              ),
+            ),
+            SizedBox(height: 3.h),
+            Expanded(
+              child: Text(
+                description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.outfit(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromRGBO(42, 41, 51, 0.75),
+                  letterSpacing: -0.2,
+                ),
               ),
             ),
             SizedBox(height: 4.h),
             Text(
-              description,
-              style: GoogleFonts.outfit(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
-                color: Color.fromRGBO(42, 41, 51, 0.7),
-                letterSpacing: -0.2,
-              ),
-            ),
-            Spacer(),
-            Text(
               buttonText,
               style: GoogleFonts.outfit(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF101C16),
+                fontWeight: FontWeight.w700,
+                color: AppColors.heading,
                 letterSpacing: -0.2,
               ),
             ),

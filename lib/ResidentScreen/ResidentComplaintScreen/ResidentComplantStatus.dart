@@ -88,20 +88,20 @@ class _ResidentcomplantstatusState
                   Text(
                     "Complain Status",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Track Your Complain",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -153,7 +153,7 @@ class _ResidentcomplantstatusState
                                     TextSpan(
                                       text: "Complaint Token\n",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
+                                        fontSize: 15.sp,
                                         color: Colors.grey,
                                       ),
                                     ),
@@ -240,7 +240,7 @@ class _ResidentcomplantstatusState
                         Text(
                           "Complaint Progress",
                           style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff071811),
                           ),
@@ -308,7 +308,7 @@ class _ResidentcomplantstatusState
                                     : (data.data?.currentStatusBanner?.label ??
                                         "CURRENT STATUS"),
                                 style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w600,
                                   color: isOverdue
                                       ? const Color(0xFFD32F2F)
@@ -376,11 +376,11 @@ class _ResidentcomplantstatusState
                 Text(
                   title,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     color: Colors.grey,
                   ),
                 ),
-                Text(value, style: GoogleFonts.outfit(fontSize: 18.sp)),
+                Text(value, style: GoogleFonts.outfit(fontSize: 19.sp)),
               ],
             ),
           ],
@@ -424,7 +424,7 @@ class _ResidentcomplantstatusState
       child: Text(
         label,
         style: GoogleFonts.outfit(
-          fontSize: 12.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w600,
           color: textColor,
         ),
@@ -476,7 +476,7 @@ class _TimelineItem extends StatelessWidget {
                   Text(
                     title,
                     style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
+                      fontSize: 17.sp,
                       fontWeight: FontWeight.w500,
                       letterSpacing: -0.2,
                       color: current
@@ -490,7 +490,7 @@ class _TimelineItem extends StatelessWidget {
                   Text(
                     description,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
+                      fontSize: 15.sp,
                       color: const Color(0xff666666),
                       fontWeight: FontWeight.w500,
                       letterSpacing: -0.2,

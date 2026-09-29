@@ -217,7 +217,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                       Text(
                         "COMPLAINT SUBMITTED",
                         style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xff009B62),
                         ),
@@ -232,7 +232,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                   "Complaint Raised Successfully",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
+                    fontSize: 19.sp,
                     fontWeight: FontWeight.w700,
                     color: AppColors.heading,
                     letterSpacing: -0.2,
@@ -247,7 +247,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                   "your complaint.",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     height: 1.25,
                     color: AppColors.heading,
                     letterSpacing: -0.2,
@@ -267,7 +267,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                       Text(
                         "Complaint Token",
                         style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
+                          fontSize: 15.sp,
                           color: Colors.grey,
                         ),
                       ),
@@ -276,7 +276,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                         // "#CMP-1048",
                         token,
                         style: GoogleFonts.outfit(
-                          fontSize: 18.sp,
+                          fontSize: 19.sp,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xff009B62),
                         ),
@@ -312,7 +312,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                     child: Text(
                       "View Complaint Status →",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                         letterSpacing: -0.2,
@@ -368,20 +368,20 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                   Text(
                     "Raise Complaint",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Tell us what needs attention",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -405,7 +405,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               Text(
                 "Issue Scope / Area",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 19.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -441,7 +441,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("🏠", style: TextStyle(fontSize: 16.sp)),
+                            Text("🏠", style: TextStyle(fontSize: 20.sp)),
                             SizedBox(width: 8.w),
                             Flexible(
                               child: Text(
@@ -449,10 +449,10 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: areaType == "inside_house"
                                       ? FontWeight.w600
-                                      : FontWeight.w400,
+                                      : FontWeight.w500,
                                   color: areaType == "inside_house"
                                       ? const Color(0xFF101C16)
                                       : const Color(0xFF666666),
@@ -493,7 +493,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("🏢", style: TextStyle(fontSize: 16.sp)),
+                            Text("🏢", style: TextStyle(fontSize: 20.sp)),
                             SizedBox(width: 8.w),
                             Flexible(
                               child: Text(
@@ -501,10 +501,10 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: areaType == "common_area"
                                       ? FontWeight.w600
-                                      : FontWeight.w400,
+                                      : FontWeight.w500,
                                   color: areaType == "common_area"
                                       ? const Color(0xFF101C16)
                                       : const Color(0xFF666666),
@@ -525,7 +525,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               //   TextField(
               //     controller: commonAreaLocationController,
               //     style: GoogleFonts.inter(
-              //       fontSize: 14.sp,
+              //       fontSize: 16.sp,
               //       fontWeight: FontWeight.w500,
               //       color: const Color(0xFF101C16),
               //     ),
@@ -538,8 +538,8 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               //       hintText:
               //           "Specify location (e.g. 3rd Floor Corridor, Lift 1, Parking, Park)",
               //       hintStyle: GoogleFonts.inter(
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w400,
+              //         fontSize: 15.sp,
+              //         fontWeight: FontWeight.w500,
               //         color: const Color(0xFF888888),
               //       ),
               //       contentPadding: EdgeInsets.symmetric(
@@ -574,7 +574,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               Text(
                 "Issue Category",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 19.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -615,7 +615,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               Text(
                 "Subject",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 19.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -625,15 +625,15 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               TextField(
                 controller: subjectController,
                 style: GoogleFonts.inter(
-                  fontSize: 15.sp,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF101C16),
                 ),
                 decoration: InputDecoration(
                   hintText: "e.g. Bathroom Water Leakage",
                   hintStyle: GoogleFonts.inter(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
                     color: const Color(0xFF888888),
                   ),
                   contentPadding: EdgeInsets.symmetric(
@@ -661,7 +661,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               Text(
                 "Description",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 19.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -680,15 +680,15 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                   controller: descriptionController,
                   textAlignVertical: TextAlignVertical.top,
                   style: GoogleFonts.inter(
-                    fontSize: 16.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF101C16),
                   ),
                   decoration: InputDecoration(
                     hintText: "Tell us what's wrong...",
                     hintStyle: GoogleFonts.inter(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color(0xFF888888),
                     ),
                     contentPadding: EdgeInsets.only(
@@ -725,7 +725,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               Text(
                 "Add Photo (Optional)",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 19.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -772,7 +772,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                             Text(
                               image == null ? "Add Photo" : "Change Photo",
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
+                                fontSize: 19.sp,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.2,
                                 color: AppColors.heading,
@@ -784,7 +784,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -803,7 +803,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
               Text(
                 "Priority Level",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 19.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -935,7 +935,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
                       : Text(
                           "Submit Complaint",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                             letterSpacing: -0.2,
@@ -986,7 +986,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF101C16),
             ),
@@ -997,8 +997,8 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
               color: const Color(0xFF666666),
             ),
           ),
@@ -1028,7 +1028,7 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
             Text(
               title,
               style: GoogleFonts.inter(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF101C16),
               ),
@@ -1068,12 +1068,12 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(emoji, style: TextStyle(fontSize: 10.sp)),
+              Text(emoji, style: TextStyle(fontSize: 14.sp)),
               SizedBox(width: 5.w),
               Text(
                 title,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                   color: isSelected ? selectedColor : const Color(0xFF666666),
                   letterSpacing: -0.2,

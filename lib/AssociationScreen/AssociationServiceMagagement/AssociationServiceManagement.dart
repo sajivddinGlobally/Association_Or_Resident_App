@@ -94,9 +94,9 @@ class _AssociationServiceManagementState
                         "Service Management",
                         style: GoogleFonts.outfit(
                           fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff292832),
-                          letterSpacing: -0.64,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.3,
                         ),
                       ),
                       SizedBox(height: 2.h),
@@ -106,8 +106,8 @@ class _AssociationServiceManagementState
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
                           fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF2A2933),
+                          fontWeight: FontWeight.w400,
+                          color: const Color.fromRGBO(42, 41, 51, 0.7),
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -153,9 +153,9 @@ class _AssociationServiceManagementState
                                 "COMPLEX SERVICE OVERVIEW",
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF000000),
-                                  letterSpacing: -0.2,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.1,
                                 ),
                               ),
                             ),
@@ -174,7 +174,7 @@ class _AssociationServiceManagementState
                                 Text(
                                   complexOverview?.badge ?? "",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
+                                    fontSize: 13.sp,
                                     fontWeight: FontWeight.w700,
                                     color: Color(0xFF24B06A),
                                     letterSpacing: -0.2,
@@ -185,15 +185,15 @@ class _AssociationServiceManagementState
                           ],
                         ),
 
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 16.h),
                         Text(
                           complexOverview?.title ?? "",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
-                            height: 1.h,
+                            height: 1.1,
                           ),
                         ),
                         SizedBox(height: 7.h),
@@ -204,8 +204,8 @@ class _AssociationServiceManagementState
                           style: GoogleFonts.outfit(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(0, 0, 0, 0.7),
-                            height: 1.h,
+                            color: Color.fromRGBO(0, 0, 0, 0.75),
+                            height: 1.1,
                           ),
                         ),
                         SizedBox(height: 13.h),
@@ -284,25 +284,34 @@ class _AssociationServiceManagementState
             SizedBox(height: 19.h),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.w),
-              height: 45.h,
+              height: 52.h,
               width: double.infinity,
-              padding: EdgeInsets.only(left: 16.w, right: 10.w),
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
               decoration: BoxDecoration(
                 color: Colors.transparent,
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: Color(0xff101C16), width: 1),
+                borderRadius: BorderRadius.circular(6.r),
+                border: Border.all(
+                  color: const Color.fromRGBO(16, 28, 22, 0.6),
+                  width: 1.2,
+                ),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.search,
-                    size: 25.sp,
-                    color: const Color(0xff8B8D8B),
+                    size: 24.sp,
+                    color: AppColors.heading,
                   ),
                   SizedBox(width: 10.w),
                   Expanded(
                     child: TextField(
                       controller: searchConatroller,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.heading,
+                        letterSpacing: -0.2,
+                      ),
                       onChanged: (value) {
                         setState(() {
                           searchQuery = value.trim();
@@ -312,10 +321,10 @@ class _AssociationServiceManagementState
                       decoration: InputDecoration(
                         hintText: "Search service or provider...",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 17.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xff8B8D8B),
-                          letterSpacing: -0.3,
+                          color: const Color.fromRGBO(16, 28, 22, 0.6),
+                          letterSpacing: -0.2,
                         ),
                         border: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -352,7 +361,7 @@ class _AssociationServiceManagementState
                               duration: const Duration(milliseconds: 200),
                               padding: EdgeInsets.symmetric(
                                 vertical: 8.h,
-                                horizontal: 25.w,
+                                horizontal: 16.w,
                               ),
                               decoration: BoxDecoration(
                                 color: isSelected
@@ -363,19 +372,19 @@ class _AssociationServiceManagementState
                                   color: isSelected
                                       ? Colors.transparent
                                       : const Color(0xff101C16),
-                                  width: 1,
+                                  width: 1.w,
                                 ),
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 chip.label,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: isSelected
                                       ? Colors.white
                                       : const Color(0xff101C16),
-                                  letterSpacing: -0.3,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
                             ),
@@ -405,7 +414,7 @@ class _AssociationServiceManagementState
                               duration: const Duration(milliseconds: 200),
                               padding: EdgeInsets.symmetric(
                                 vertical: 8.h,
-                                horizontal: 25.w,
+                                horizontal: 16.w,
                               ),
                               decoration: BoxDecoration(
                                 color: isSelected
@@ -416,19 +425,19 @@ class _AssociationServiceManagementState
                                   color: isSelected
                                       ? Colors.transparent
                                       : const Color(0xff101C16),
-                                  width: 1,
+                                  width: 1.w,
                                 ),
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 filters[index],
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: isSelected
                                       ? Colors.white
                                       : const Color(0xff101C16),
-                                  letterSpacing: -0.3,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
                             ),
@@ -515,7 +524,7 @@ class _AssociationServiceManagementState
               child: Text(
                 footer ?? "",
                 style: GoogleFonts.outfit(
-                  fontSize: 12.sp,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
                   color: Color.fromRGBO(184, 134, 11, 0.9),
                   letterSpacing: -0.1,
@@ -539,30 +548,36 @@ class _AssociationServiceManagementState
       children: [
         Text(
           label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(42, 41, 51, 0.6),
+            color: Color.fromRGBO(42, 41, 51, 0.75),
             letterSpacing: -0.2,
           ),
         ),
         SizedBox(height: 4.h),
         Text(
           value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
           ),
         ),
         SizedBox(height: 4.h),
         Text(
           status,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: Color(0xFFB8860B),
-            height: 1,
+            height: 1.1,
           ),
         ),
       ],
@@ -651,10 +666,10 @@ class ServiceCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF000000),
-                        height: 1.h,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        height: 1.1,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -666,7 +681,7 @@ class ServiceCard extends StatelessWidget {
                       style: GoogleFonts.outfit(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(0, 0, 0, 0.6),
+                        color: Color.fromRGBO(0, 0, 0, 0.75),
                         height: 1.1,
                         letterSpacing: -0.2,
                       ),
@@ -688,8 +703,8 @@ class ServiceCard extends StatelessWidget {
                 child: Text(
                   status,
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
                     color: const Color(0xFF24B06A),
                     letterSpacing: -0.2,
                   ),
@@ -701,7 +716,7 @@ class ServiceCard extends StatelessWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: Color.fromRGBO(16, 28, 22, 0.5),
+            color: Color(0xFFE0E0E0),
           ),
           SizedBox(height: 14.h),
           Row(
@@ -733,7 +748,7 @@ class ServiceCard extends StatelessWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: Color.fromRGBO(16, 28, 22, 0.5),
+            color: Color(0xFFE0E0E0),
           ),
           SizedBox(height: 10.h),
           Row(
@@ -767,10 +782,10 @@ class ServiceCard extends StatelessWidget {
                     Text(
                       personlabel,
                       style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(0, 0, 0, 0.8),
-                        height: 1,
+                        color: Color.fromRGBO(0, 0, 0, 0.75),
+                        height: 1.1,
                         letterSpacing: -0.1,
                       ),
                     ),
@@ -780,9 +795,9 @@ class ServiceCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF000000),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
                         letterSpacing: -0.1,
                       ),
                     ),
@@ -801,7 +816,7 @@ class ServiceCard extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  height: 27.h,
+                  height: 30.h,
                   padding: EdgeInsets.symmetric(horizontal: 14.w),
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(255, 242, 165, 0.3),
@@ -812,8 +827,8 @@ class ServiceCard extends StatelessWidget {
                     child: Text(
                       'View Details →',
                       style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
                         color: Color(0xFF000000),
                         letterSpacing: -0.2,
                       ),
@@ -831,7 +846,7 @@ class ServiceCard extends StatelessWidget {
                   'Service Performance',
                   style: GoogleFonts.outfit(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Color(0xFF101C16),
                     letterSpacing: -0.2,
                   ),
@@ -840,8 +855,8 @@ class ServiceCard extends StatelessWidget {
               Text(
                 performance,
                 style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
                   color: Color(0xFF101C16),
                   letterSpacing: -0.2,
                 ),
@@ -892,9 +907,9 @@ class _InfoItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 13.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(42, 41, 51, 0.6),
+            color: Color.fromRGBO(42, 41, 51, 0.75),
             height: 1.1,
             letterSpacing: -0.2,
           ),
@@ -905,9 +920,9 @@ class _InfoItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.heading,
             height: 1.1,
             letterSpacing: -0.2,
           ),

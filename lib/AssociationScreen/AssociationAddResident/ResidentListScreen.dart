@@ -33,46 +33,52 @@ class _ResidentlistscreenState extends ConsumerState<Residentlistscreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Resident List",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Resident List",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "All Resident Information",
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "All Resident Information",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -155,9 +161,10 @@ class _ResidentlistscreenState extends ConsumerState<Residentlistscreen> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: const Color(0xFF101C16),
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.heading,
+                                        letterSpacing: -0.2,
                                       ),
                                     ),
 
@@ -168,19 +175,20 @@ class _ResidentlistscreenState extends ConsumerState<Residentlistscreen> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
-                                        color: const Color(0xFF333333),
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color.fromRGBO(42, 41, 51, 0.85),
                                       ),
                                     ),
 
                                     Text(
-                                      // "+966 5X XXX XXXX",
                                       resident?.phone ?? "N/A",
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
                                         fontSize: 14.sp,
-                                        color: const Color(0xFF555555),
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       ),
                                     ),
                                   ],
@@ -209,6 +217,7 @@ class _ResidentlistscreenState extends ConsumerState<Residentlistscreen> {
                                       maxLines: 1,
                                       style: GoogleFonts.outfit(
                                         fontSize: 13.sp,
+                                        fontWeight: FontWeight.w600,
                                         color: const Color(0xFF159447),
                                       ),
                                     ),
@@ -233,7 +242,7 @@ class _ResidentlistscreenState extends ConsumerState<Residentlistscreen> {
                                       maxLines: 1,
                                       style: GoogleFonts.outfit(
                                         fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w700,
                                         color: const Color(0xFFB8860B),
                                       ),
                                     ),

@@ -173,58 +173,61 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
         backgroundColor: AppColors.scaffoldBg,
         automaticallyImplyLeading: false,
         titleSpacing: 20.w,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 41.w,
-                  height: 41.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromRGBO(16, 28, 22, 0.3),
-                    ),
-                    borderRadius: BorderRadius.circular(4.r),
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 44.w,
+                height: 44.h,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromRGBO(16, 28, 22, 0.3),
                   ),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: const Color(0xff101C16),
-                    size: 16.sp,
-                  ),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: const Color(0xff101C16),
+                  size: 20.sp,
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Complaint Details",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "View complete complaint information",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: complaintStatus.when(
@@ -239,9 +242,9 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.only(
-                      left: 10.w,
-                      top: 8.h,
-                      right: 12.w,
+                      left: 14.w,
+                      top: 12.h,
+                      right: 14.w,
                       bottom: 15.h,
                     ),
                     decoration: BoxDecoration(
@@ -255,77 +258,75 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width: 40.w,
-                              height: 40.h,
+                              width: 44.w,
+                              height: 44.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
                                 border: Border.all(
-                                  color: Color(0xFF101C16),
+                                  color: const Color(0xFF101C16),
                                   width: 1.w,
                                 ),
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.r),
+                                borderRadius: BorderRadius.circular(7.r),
                                 child: Image.network(
                                   data.data.banner.thumbnail,
-                                  width: 40.w,
-                                  height: 40.h,
+                                  width: 44.w,
+                                  height: 44.h,
                                   fit: BoxFit.cover,
                                   errorBuilder: (_, __, ___) {
                                     return Container(
-                                      width: 40.w,
-                                      height: 40.h,
+                                      width: 44.w,
+                                      height: 44.h,
                                       color: Colors.grey.shade300,
                                       child: Icon(
                                         Icons.image_outlined,
-                                        size: 20.sp,
+                                        size: 22.sp,
                                       ),
                                     );
                                   },
                                 ),
                               ),
                             ),
-                            SizedBox(width: 8.w),
+                            SizedBox(width: 10.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     data.data.banner.title,
-                                    maxLines: 1,
+                                    maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                                      fontSize: 19.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                       letterSpacing: -0.2,
-                                      height: 1.1,
                                     ),
                                   ),
                                   SizedBox(height: 2.h),
                                   Text(
                                     data.data.banner.ticketNumber,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
                                       fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(42, 41, 51, 0.7),
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-
                             SizedBox(width: 10.w),
-
-                            /// PRIORITY
                             Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 10.w,
-                                vertical: 2.h,
+                                vertical: 4.h,
                               ),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(45),
+                                borderRadius: BorderRadius.circular(45.r),
                                 border: Border.all(
                                   color: _getPriorityColor(
                                     data.data.banner.priority,
@@ -339,7 +340,7 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                     : data.data.banner.priority,
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w700,
                                   color: _getPriorityColor(
                                     data.data.banner.priority,
                                   ),
@@ -348,11 +349,11 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 12.h),
                         Divider(
                           height: 1.h,
-                          thickness: 1.2.h,
-                          color: const Color.fromRGBO(16, 28, 22, 0.5),
+                          thickness: 1.h,
+                          color: const Color.fromRGBO(16, 28, 22, 0.3),
                         ),
                         SizedBox(height: 12.h),
                         Builder(
@@ -386,14 +387,14 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                     Text(
                                       'Current Status',
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.heading,
                                         letterSpacing: -0.2,
                                       ),
                                     ),
                                     Container(
-                                      height: 32.h,
+                                      height: 34.h,
                                       padding: EdgeInsets.symmetric(
                                         horizontal: 10.w,
                                       ),
@@ -426,7 +427,7 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                                   )
                                                 : Icon(
                                                     Icons.keyboard_arrow_down,
-                                                    size: 16.sp,
+                                                    size: 18.sp,
                                                     color: const Color(
                                                       0xFF101C16,
                                                     ),
@@ -511,8 +512,8 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                                         MainAxisSize.min,
                                                     children: [
                                                       Container(
-                                                        width: 7.w,
-                                                        height: 7.w,
+                                                        width: 8.w,
+                                                        height: 8.w,
                                                         decoration: BoxDecoration(
                                                           shape:
                                                               BoxShape.circle,
@@ -526,7 +527,7 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                                       Text(
                                                         value,
                                                         style: GoogleFonts.outfit(
-                                                          fontSize: 13.sp,
+                                                          fontSize: 14.sp,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           color:
@@ -545,7 +546,7 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10.h),
+                                SizedBox(height: 12.h),
                                 ComplaintTimeline(steps: dynamicSteps),
                               ],
                             );
@@ -555,17 +556,17 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 24.h),
                   Text(
                     'Complaint Information',
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
@@ -628,48 +629,48 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 14.h),
+                  SizedBox(height: 18.h),
                   Text(
                     'Description',
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 11.w,
-                      vertical: 10.h,
+                      horizontal: 14.w,
+                      vertical: 12.h,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF000000), width: 1.w),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Text(
                       data.data.description.content,
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(42, 41, 51, 0.7),
-                        letterSpacing: -0.2,
+                        color: AppColors.heading,
+                        height: 1.35,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 18.h),
                   Text(
                     "Assigned Person",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
@@ -678,17 +679,17 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: Color(0xFF000000), width: 1.w),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Row(
                       children: [
                         Container(
-                          width: 50.w,
-                          height: 50.w,
+                          width: 48.w,
+                          height: 48.w,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: Color(0xFF000000),
+                              color: AppColors.heading,
                               width: 1.w,
                             ),
                           ),
@@ -704,25 +705,25 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                         "null"
                                 ? Image.network(
                                     data.data.assignedPerson.avatar.toString(),
-                                    width: 50.w,
-                                    height: 50.w,
+                                    width: 48.w,
+                                    height: 48.w,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Icon(
                                         Icons.person,
-                                        size: 25.sp,
+                                        size: 24.sp,
                                         color: Colors.black87,
                                       );
                                     },
                                   )
                                 : Icon(
                                     Icons.person,
-                                    size: 25.sp,
+                                    size: 24.sp,
                                     color: Colors.black87,
                                   ),
                           ),
                         ),
-                        SizedBox(width: 10.w),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -732,19 +733,21 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF101C16),
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.1,
                                 ),
                               ),
+                              SizedBox(height: 2.h),
                               Text(
                                 data.data.assignedPerson.subtitle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(42, 41, 52, 0.6),
-                                  height: 1,
+                                  color: const Color.fromRGBO(42, 41, 52, 0.75),
                                   letterSpacing: -0.1,
                                 ),
                               ),
@@ -754,13 +757,13 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                         SizedBox(width: 10.w),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 13.w,
+                            horizontal: 12.w,
                             vertical: 4.h,
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50.r),
                             border: Border.all(
-                              color: Color(0xFF24B06A),
+                              color: const Color(0xFF24B06A),
                               width: 1.w,
                             ),
                           ),
@@ -770,8 +773,8 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF24B06A),
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF24B06A),
                               letterSpacing: -0.1,
                             ),
                           ),
@@ -779,17 +782,17 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 9.w),
+                  SizedBox(height: 18.h),
                   Text(
                     "Attachments",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.w),
+                  SizedBox(height: 12.h),
                   Row(
                     children: [
                       Expanded(
@@ -807,9 +810,7 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                           },
                         ),
                       ),
-
-                      SizedBox(width: 20.w),
-
+                      SizedBox(width: 14.w),
                       Expanded(
                         child: _attachmentCard(
                           icon: Icons.description_outlined,
@@ -829,19 +830,16 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                       ),
                     ],
                   ),
-
-                  SizedBox(height: 20.w),
+                  SizedBox(height: 18.h),
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.only(
-                      top: 8.h,
-                      left: 16.w,
-                      bottom: 8.h,
-                      right: 16.w,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 12.h,
+                      horizontal: 14.w,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.r),
-                      border: Border.all(color: Colors.black, width: 1.w),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -849,13 +847,13 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                         Row(
                           children: [
                             Container(
-                              width: 34.w,
-                              height: 34.w,
+                              width: 36.w,
+                              height: 36.w,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.r),
+                                borderRadius: BorderRadius.circular(6.r),
                                 border: Border.all(
                                   color: const Color(0xFF1E5993),
-                                  width: 1.w,
+                                  width: 1.2.w,
                                 ),
                               ),
                               child: Center(
@@ -863,53 +861,53 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                   "✓",
                                   style: GoogleFonts.outfit(
                                     fontSize: 18.sp,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w600,
                                     color: const Color(0xFF1E5993),
                                     height: 1,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10.w),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Text(
                                 data.data.currentResolutionUpdate.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
                                   fontSize: 17.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                  height: 1,
-                                  letterSpacing: 0.3,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.1,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 9.h),
+                        SizedBox(height: 10.h),
                         Text(
                           data.data.currentResolutionUpdate.message,
                           style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            height: 1.25,
-                            letterSpacing: -0.2,
+                            color: AppColors.heading,
+                            height: 1.35,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.w),
+                  SizedBox(height: 18.h),
                   Text(
                     "Complaint Activity",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 19.h),
+                  SizedBox(height: 14.h),
                   Column(
                     children: [
                       ...List.generate(data.data.complaintActivity.length, (
@@ -932,7 +930,7 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                     SizedBox(height: 20.h),
                     SizedBox(
                       width: double.infinity,
-                      height: 48.h,
+                      height: 52.h,
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -944,19 +942,19 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF101C16),
+                          backgroundColor: AppColors.heading,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
                           elevation: 0,
                         ),
                         child: Text(
                           data.data.actionButton.label.toUpperCase(),
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.2,
                           ),
                         ),
                       ),
@@ -979,7 +977,8 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
               "Something went wrong",
               style: GoogleFonts.outfit(
                 fontSize: 15.sp,
-                color: AppColors.heading,
+                fontWeight: FontWeight.w500,
+                color: const Color.fromRGBO(42, 41, 51, 0.75),
               ),
             ),
           );
@@ -1006,62 +1005,60 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(13.r),
+      borderRadius: BorderRadius.circular(10.r),
       child: Container(
-        height: 95.h,
+        height: 100.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
-          border: Border.all(color: const Color(0xFF101C16), width: 1.w),
+          border: Border.all(color: AppColors.heading, width: 1.w),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image / Icon
             ClipRRect(
               borderRadius: BorderRadius.circular(6.r),
               child: imageUrl != null && imageUrl.isNotEmpty
                   ? Image.network(
                       imageUrl,
-                      width: 35.w,
-                      height: 30.h,
+                      width: 36.w,
+                      height: 32.h,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           icon,
                           size: 26.sp,
-                          color: const Color(0xFF18221D),
+                          color: AppColors.heading,
                         );
                       },
                     )
-                  : Icon(icon, size: 26.sp, color: const Color(0xFF18221D)),
+                  : Icon(icon, size: 26.sp, color: AppColors.heading),
             ),
-
             SizedBox(height: 6.h),
-
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.outfit(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+            ),
+            SizedBox(height: 3.h),
             Text(
-              title,
+              subtitle,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.outfit(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-                height: 1,
-                letterSpacing: -0.2,
-              ),
-            ),
-
-            SizedBox(height: 5.h),
-
-            Text(
-              subtitle,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.outfit(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xFF101C16),
-                height: 1,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF1E5993),
                 letterSpacing: -0.2,
               ),
             ),
@@ -1082,37 +1079,39 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          height: 36.h,
+          height: 38.h,
           width: 38.w,
           decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFF000000), width: 1.w),
-            borderRadius: BorderRadius.circular(5.r),
+            border: Border.all(color: AppColors.heading, width: 1.w),
+            borderRadius: BorderRadius.circular(6.r),
           ),
-          child: Icon(icon, size: 13.sp, color: Colors.black),
+          child: Icon(icon, size: 18.sp, color: AppColors.heading),
         ),
-        SizedBox(width: 7.w),
+        SizedBox(width: 10.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 label,
-                style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(42, 41, 51, 0.7),
-                  letterSpacing: -0.2,
-                ),
-              ),
-              SizedBox(height: 1.h),
-              Text(
-                value,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF101C16),
+                  color: const Color.fromRGBO(42, 41, 51, 0.75),
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 2.h),
+              Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.outfit(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -1130,13 +1129,13 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
               );
             },
             child: Padding(
-              padding: EdgeInsets.only(left: 5.w),
+              padding: EdgeInsets.only(left: 6.w),
               child: Text(
                 action,
                 style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF2A2933),
+                  color: const Color(0xFF1E5993),
                   letterSpacing: -0.2,
                 ),
               ),
@@ -1148,8 +1147,8 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
 
   Widget _divider() {
     return Padding(
-      padding: EdgeInsets.only(top: 14.h, bottom: 10.h),
-      child: Divider(height: 1.h, color: Color.fromRGBO(41, 42, 51, 0.6)),
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      child: const Divider(height: 1, color: Color.fromRGBO(41, 42, 51, 0.2)),
     );
   }
 
@@ -1168,7 +1167,7 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
         backgroundColor: AppColors.scaffoldBg,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
-          side: BorderSide(color: const Color(0xFF101C16), width: 1.w),
+          side: BorderSide(color: AppColors.heading, width: 1.w),
         ),
         child: Padding(
           padding: EdgeInsets.all(16.w),
@@ -1182,10 +1181,12 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                   Expanded(
                     child: Text(
                       title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF101C16),
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.heading,
                       ),
                     ),
                   ),
@@ -1194,7 +1195,7 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                     child: Icon(
                       Icons.close,
                       size: 20.sp,
-                      color: const Color(0xFF101C16),
+                      color: AppColors.heading,
                     ),
                   ),
                 ],
@@ -1211,8 +1212,9 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                     child: Text(
                       "Unable to preview file",
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
-                        color: Colors.black54,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(42, 41, 51, 0.75),
                       ),
                     ),
                   ),
@@ -1251,7 +1253,6 @@ class ComplaintTimeline extends StatelessWidget {
               child: Row(
                 children: [
                   _buildDot(completed: completed, active: active),
-
                   if (index != steps.length - 1)
                     Expanded(child: _buildLine(completed: nextReached)),
                 ],
@@ -1259,9 +1260,7 @@ class ComplaintTimeline extends StatelessWidget {
             );
           }),
         ),
-
         SizedBox(height: 6.h),
-
         Row(
           children: List.generate(steps.length, (index) {
             final step = steps[index];
@@ -1273,11 +1272,11 @@ class ComplaintTimeline extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 textAlign: _getTextAlignment(index, steps.length),
                 style: GoogleFonts.outfit(
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 12.sp,
+                  fontWeight: step.isCurrent ? FontWeight.w700 : FontWeight.w500,
                   color: step.isCurrent
                       ? const Color(0xFF1E5993)
-                      : Colors.black,
+                      : AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -1300,13 +1299,13 @@ class ComplaintTimeline extends StatelessWidget {
     }
 
     return Container(
-      width: 19.w,
-      height: 19.w,
+      width: 20.w,
+      height: 20.w,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: color,
         border: Border.all(
-          color: active || completed ? color : const Color(0xFF101C16),
+          color: active || completed ? color : AppColors.heading,
           width: 1.3.w,
         ),
       ),
@@ -1356,14 +1355,13 @@ class _TimelineItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Timeline Dot + Line
           SizedBox(
-            width: 25.w,
+            width: 26.w,
             child: Column(
               children: [
                 Container(
-                  width: 25.w,
-                  height: 25.h,
+                  width: 26.w,
+                  height: 26.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isCompleted
@@ -1387,70 +1385,55 @@ class _TimelineItem extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // Vertical Line
                 if (!isLast)
                   Expanded(
                     child: Container(
                       width: 1.w,
-                      color: const Color(0xFF000000),
+                      color: const Color.fromRGBO(16, 28, 22, 0.35),
                     ),
                   ),
               ],
             ),
           ),
-
-          SizedBox(width: 8.w),
-
-          // Activity Details
+          SizedBox(width: 12.w),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(bottom: 17.h),
+              padding: EdgeInsets.only(bottom: 16.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title
                   Text(
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      height: 1.1,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF101C16),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-
                   SizedBox(height: 3.h),
-
-                  // Date
                   Text(
                     date,
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
-                      height: 1.1,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
-                      color: const Color.fromRGBO(42, 41, 51, 0.5),
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                       letterSpacing: -0.2,
                     ),
                   ),
-
-                  SizedBox(height: 5.h),
-
-                  // Description
+                  SizedBox(height: 4.h),
                   Text(
                     desc,
-                    maxLines: 2,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
-                      height: 1.1,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
-                      color: const Color.fromRGBO(42, 41, 51, 0.5),
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                       letterSpacing: -0.2,
                     ),
                   ),

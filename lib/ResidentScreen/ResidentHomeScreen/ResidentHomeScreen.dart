@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:property_association_or_resident/AssociationScreen/AssociationCalender/AssociationCalender.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/ResidentScreen/RaiseComplaintScreen/RaiseComplaint.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentAIPropertyAssistantScreen/Resident_Ai_PropertyAssistant.dart';
@@ -138,7 +137,7 @@ class _ResidentBottomNavBarState extends State<ResidentBottomNavBar> {
                   colorFilter: ColorFilter.mode(
                     isSelected
                         ? const Color(0xff101C16)
-                        : const Color(0xffA0A5A2),
+                        : const Color(0xFF6F7672),
                     BlendMode.srcIn,
                   ),
                   width: 30.w,
@@ -151,8 +150,8 @@ class _ResidentBottomNavBarState extends State<ResidentBottomNavBar> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  fontSize: 18.sp,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                   color: isSelected
                       ? Color(0xFF17221D)
                       : const Color(0xffA0A5A2),
@@ -191,27 +190,33 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBg,
         automaticallyImplyLeading: false,
+        toolbarHeight: 70.h,
         titleSpacing: 20.w,
         title: Row(
           children: [
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Good Morning",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(16, 28, 22, 0.6),
+                      color: const Color.fromRGBO(16, 28, 22, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                   Text(
-                    "Hello, ${box.get("name")} 👋",
+                    "Hello, ${box.get("name") ?? ''} 👋",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                 ],
@@ -359,8 +364,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
                                 color: const Color(0xffB8860B),
                                 letterSpacing: -0.2,
                               ),
@@ -375,10 +380,10 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 19.sp,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.white,
-                                letterSpacing: -0.2,
+                                letterSpacing: -0.3,
                               ),
                             ),
                           ),
@@ -399,8 +404,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: const Color(0xffB8860B),
                                   letterSpacing: -0.2,
                                 ),
@@ -416,7 +421,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey,
                                 letterSpacing: -0.2,
@@ -433,8 +438,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
@@ -496,7 +501,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       Text(
                         "Emergency Contacts",
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
+                          fontSize: 19.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.heading,
                           letterSpacing: -0.2,
@@ -514,8 +519,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                         child: Text(
                           "View All →",
                           style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
                             color: const Color(0xffB8860B),
                           ),
                         ),
@@ -558,8 +563,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                     child: Text(
                                       "24/7",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w700,
                                         color: const Color(0xff009B62),
                                       ),
                                     ),
@@ -570,15 +575,16 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               Text(
                                 "Building Caretaker",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
                                   color: AppColors.heading,
                                 ),
                               ),
                               Text(
                                 "Robert Caretaker",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
                                   color: const Color(0xff777777),
                                 ),
                               ),
@@ -602,8 +608,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                       Text(
                                         "Call Caretaker",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.white,
                                         ),
                                       ),
@@ -649,7 +655,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                     child: Text(
                                       "URGENT",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 10.sp,
+                                        fontSize: 12.sp,
                                         fontWeight: FontWeight.w600,
                                         color: const Color(0xffD22424),
                                       ),
@@ -661,7 +667,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               Text(
                                 "Emergency Desk",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.heading,
                                 ),
@@ -669,7 +675,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               Text(
                                 "Association Support",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
+                                  fontSize: 14.sp,
                                   color: const Color(0xff777777),
                                 ),
                               ),
@@ -693,7 +699,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                       Text(
                                         "Call Emergency",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 12.sp,
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
                                         ),
@@ -723,7 +729,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       Text(
                         "Daily Essentials & Services",
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
+                          fontSize: 19.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.heading,
                           letterSpacing: -0.2,
@@ -732,7 +738,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       Text(
                         "Quick Redirect",
                         style: GoogleFonts.outfit(
-                          fontSize: 12.sp,
+                          fontSize: 14.sp,
                           color: const Color(0xff777777),
                         ),
                       ),
@@ -767,12 +773,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               Text(
                                 "Food Delivery",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
+                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
                               ),
                               Text(
                                 "Swiggy / Zomato",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 10.sp, color: const Color(0xff777777)),
+                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
                               ),
                             ],
                           ),
@@ -802,12 +808,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               Text(
                                 "Cab Booking",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
+                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
                               ),
                               Text(
                                 "Uber / Ola",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 10.sp, color: const Color(0xff777777)),
+                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
                               ),
                             ],
                           ),
@@ -837,12 +843,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               Text(
                                 "Quick Groceries",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
+                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
                               ),
                               Text(
                                 "Blinkit / Zepto",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 10.sp, color: const Color(0xff777777)),
+                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
                               ),
                             ],
                           ),
@@ -872,12 +878,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               Text(
                                 "Home Services",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
+                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
                               ),
                               Text(
                                 "Urban Company",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 10.sp, color: const Color(0xff777777)),
+                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
                               ),
                             ],
                           ),
@@ -892,8 +898,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
@@ -941,7 +947,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 16.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -951,7 +957,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
+                                    fontSize: 16.sp,
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -973,7 +979,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                 data.data?.community?.mmcStatus?.badge ??
                                     "Paid",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   color: const Color(0xFFB8860B),
                                   letterSpacing: -0.2,
                                   fontWeight: FontWeight.w500,
@@ -1031,8 +1037,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   Text(
                     "Support",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
@@ -1104,8 +1110,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   Text(
                     "Assistant",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
@@ -1177,10 +1183,10 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500,
+                                          fontSize: 19.sp,
+                                          fontWeight: FontWeight.w700,
                                           color: const Color(0xFF101C16),
-                                          height: 1,
+                                          height: 1.1,
                                           letterSpacing: -0.2,
                                         ),
                                       ),
@@ -1205,8 +1211,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                                 ?.badge ??
                                             "AI",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w700,
                                           color: const Color(0xFF101C16),
                                         ),
                                       ),
@@ -1224,10 +1230,10 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 10.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                     color: const Color(0xFF101C16),
-                                    height: 1,
+                                    height: 1.1,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -1353,10 +1359,10 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.outfit(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
                 color: isSelected ? Colors.white : const Color(0xFF101C16),
-                letterSpacing: -0.5,
+                letterSpacing: -0.3,
               ),
             ),
 
@@ -1367,10 +1373,10 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.outfit(
-                fontSize: 11.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
                 color: isSelected ? Colors.white : const Color(0xFF666666),
-                letterSpacing: -0.3,
+                letterSpacing: -0.2,
               ),
             ),
           ],
@@ -1414,9 +1420,10 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
                     color: const Color(0xFF101C16),
+                    letterSpacing: -0.2,
                   ),
                 ),
 
@@ -1427,8 +1434,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
                     color: const Color(0xFF777777),
                   ),
                 ),
@@ -1480,8 +1487,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
             ),
@@ -1494,7 +1501,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 13.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF666666),
               letterSpacing: -0.2,
@@ -1540,8 +1547,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 19.sp,
+                    fontWeight: FontWeight.w700,
                     color: Colors.white,
                     letterSpacing: -0.2,
                   ),
@@ -1554,8 +1561,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
                     color: Colors.white70,
                   ),
                 ),

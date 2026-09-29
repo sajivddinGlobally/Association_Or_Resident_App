@@ -123,22 +123,22 @@ class _AssociationEditProfileState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 12.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,9 +147,9 @@ class _AssociationEditProfileState
                     "Edit Profile",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -158,8 +158,8 @@ class _AssociationEditProfileState
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -255,8 +255,8 @@ class _AssociationEditProfileState
                             child: Container(
                               width: 30.r,
                               height: 30.r,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff101C16),
+                              decoration: const BoxDecoration(
+                                color: Color(0xff101C16),
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
@@ -269,39 +269,39 @@ class _AssociationEditProfileState
                         ),
                       ],
                     ),
-                    SizedBox(height: 5.h),
+                    SizedBox(height: 6.h),
                     GestureDetector(
                       onTap: _showImagePicker,
                       child: Text(
                         "Update profile photo",
                         style: GoogleFonts.outfit(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff101C16),
-                          letterSpacing: -0.3,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 25.h),
+              SizedBox(height: 24.h),
               Text(
                 "Personal Information",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF101C16),
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(height: 9.h),
+              SizedBox(height: 10.h),
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14.r),
-                  border: Border.all(color: Color(0xFF000000), width: 1.w),
+                  border: Border.all(color: AppColors.heading, width: 1.2),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,6 +312,7 @@ class _AssociationEditProfileState
                       keyboardType: TextInputType.name,
                       controller: nameController,
                     ),
+                    SizedBox(height: 14.h),
                     _buildTextfield(
                       label: "Email Address",
                       hintText: "Email Address",
@@ -319,6 +320,7 @@ class _AssociationEditProfileState
                       controller: emailController,
                       isReadOnly: true,
                     ),
+                    SizedBox(height: 14.h),
                     _buildTextfield(
                       label: "Phone Number",
                       hintText: "Enter Phone Number",
@@ -337,15 +339,15 @@ class _AssociationEditProfileState
                   ],
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 20.h),
               SizedBox(
                 width: double.infinity,
-                height: 36.h,
+                height: 52.h,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff000000),
+                    backgroundColor: const Color(0xff000000),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.r),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
                   onPressed: () async {
@@ -378,34 +380,34 @@ class _AssociationEditProfileState
                   },
                   child: isLoading
                       ? SizedBox(
-                          height: 20.h,
-                          width: 20.w,
+                          height: 22.h,
+                          width: 22.w,
                           child: CircularProgressIndicator(
                             color: AppColors.scaffoldBg,
-                            strokeWidth: 1.5,
+                            strokeWidth: 2,
                           ),
                         )
                       : Text(
                           "Save",
                           style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xffFFFFFF),
-                            fontSize: 15.sp,
-                            letterSpacing: -0.34,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xffFFFFFF),
+                            fontSize: 17.sp,
+                            letterSpacing: -0.2,
                           ),
                         ),
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 12.h),
               SizedBox(
                 width: double.infinity,
-                height: 36.h,
+                height: 52.h,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.scaffoldBg,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.r),
-                      side: BorderSide(color: AppColors.heading),
+                      borderRadius: BorderRadius.circular(10.r),
+                      side: BorderSide(color: AppColors.heading, width: 1.2),
                     ),
                   ),
                   onPressed: () {
@@ -414,10 +416,10 @@ class _AssociationEditProfileState
                   child: Text(
                     "Cancel",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 15.sp,
-                      letterSpacing: -0.34,
+                      fontSize: 17.sp,
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ),
@@ -442,51 +444,53 @@ class _AssociationEditProfileState
         Text(
           label,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF000000),
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
-
         SizedBox(height: 7.h),
-
         Container(
-          height: 44.h,
+          height: 52.h,
           decoration: const BoxDecoration(color: Colors.transparent),
           child: TextField(
             controller: controller,
-            cursorHeight: 18.h,
+            cursorHeight: 22.h,
             cursorColor: AppColors.heading,
             cursorWidth: 1.5.w,
             keyboardType: keyboardType,
             textAlignVertical: TextAlignVertical.center,
             readOnly: isReadOnly ?? false,
+            style: GoogleFonts.outfit(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
+              color: AppColors.heading,
+              letterSpacing: -0.2,
+            ),
             decoration: InputDecoration(
               isDense: true,
-
               hintText: hintText,
               hintStyle: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color.fromRGBO(16, 28, 22, 0.6),
+                letterSpacing: -0.2,
               ),
-
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.r),
-                borderSide: BorderSide(color: AppColors.heading),
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: BorderSide(color: AppColors.heading, width: 1.5),
               ),
-
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.r),
+                borderRadius: BorderRadius.circular(6.r),
                 borderSide: const BorderSide(
                   color: Color.fromRGBO(16, 28, 22, 0.6),
+                  width: 1.2,
                 ),
               ),
-
               contentPadding: EdgeInsets.symmetric(
-                horizontal: 10.w,
-                vertical: 6.h,
+                horizontal: 14.w,
+                vertical: 14.h,
               ),
             ),
           ),

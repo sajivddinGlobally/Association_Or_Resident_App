@@ -74,9 +74,9 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                     "Reports",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -85,8 +85,8 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -126,10 +126,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                           Text(
                             association?.badge ?? "",
                             style: GoogleFonts.outfit(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF000000),
-                              letterSpacing: -0.2,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.heading,
+                              letterSpacing: -0.1,
                             ),
                           ),
                           SizedBox(height: 13.h),
@@ -161,10 +161,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 17.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: const Color(0xFF000000),
-                                        letterSpacing: -0.3,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.heading,
+                                        letterSpacing: -0.2,
                                         height: 1.1,
                                       ),
                                     ),
@@ -174,10 +174,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: Color.fromRGBO(0, 0, 0, 0.6),
-                                        letterSpacing: -0.3,
+                                        color: const Color.fromRGBO(0, 0, 0, 0.75),
+                                        letterSpacing: -0.2,
                                         height: 1.1,
                                       ),
                                     ),
@@ -233,25 +233,34 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
               ),
               SizedBox(height: 16.h),
               Container(
-                height: 45.h,
+                height: 52.h,
                 width: double.infinity,
-                padding: EdgeInsets.only(left: 16.w, right: 10.w),
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: Color(0xff101C16), width: 1),
+                  borderRadius: BorderRadius.circular(6.r),
+                  border: Border.all(
+                    color: const Color.fromRGBO(16, 28, 22, 0.6),
+                    width: 1.2,
+                  ),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.search,
-                      size: 25.sp,
-                      color: const Color(0xff8B8D8B),
+                      size: 24.sp,
+                      color: AppColors.heading,
                     ),
                     SizedBox(width: 10.w),
                     Expanded(
                       child: TextField(
                         controller: searchController,
+                        style: GoogleFonts.outfit(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
+                        ),
                         onChanged: (value) {
                           setState(() {
                             searchQuery = value.trim();
@@ -261,10 +270,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                         decoration: InputDecoration(
                           hintText: "Search service or provider...",
                           hintStyle: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
-                            color: const Color(0xff8B8D8B),
-                            letterSpacing: -0.3,
+                            color: const Color.fromRGBO(16, 28, 22, 0.6),
+                            letterSpacing: -0.2,
                           ),
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -294,8 +303,8 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           padding: EdgeInsets.symmetric(
-                            vertical: 5.h,
-                            horizontal: 13.w,
+                            vertical: 8.h,
+                            horizontal: 16.w,
                           ),
                           decoration: BoxDecoration(
                             color: isSelected
@@ -304,19 +313,19 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                             borderRadius: BorderRadius.circular(40.r),
                             border: Border.all(
                               color: const Color(0xff101C16),
-                              width: 1,
+                              width: 1.w,
                             ),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             filters[index],
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
                               color: isSelected
                                   ? Colors.white
                                   : const Color(0xff101C16),
-                              letterSpacing: -0.3,
+                              letterSpacing: -0.2,
                             ),
                           ),
                         ),
@@ -329,10 +338,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
               Text(
                 "Quick Reports",
                 style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xff101C16),
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
                   fontSize: 17.sp,
-                  letterSpacing: -0.54,
+                  letterSpacing: -0.2,
                 ),
               ),
               SizedBox(height: 16.h),
@@ -359,12 +368,12 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
               ),
               SizedBox(height: 16.h),
               Text(
-                "Quick Reports",
+                "All Reports",
                 style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xff101C16),
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
                   fontSize: 17.sp,
-                  letterSpacing: -0.54,
+                  letterSpacing: -0.2,
                 ),
               ),
               SizedBox(height: 16.h),
@@ -450,10 +459,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            color: const Color(0xFF000000),
-            fontWeight: FontWeight.w500,
-            letterSpacing: -0.3,
+            fontSize: 20.sp,
+            color: AppColors.heading,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.2,
           ),
         ),
         SizedBox(height: 4.h),
@@ -464,8 +473,8 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(42, 41, 51, 0.6),
-            letterSpacing: -0.3,
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
+            letterSpacing: -0.2,
           ),
         ),
       ],
@@ -478,7 +487,7 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
     required String subtitle,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
         border: Border.all(color: Color(0xFF000000), width: 1.w),
         borderRadius: BorderRadius.circular(10.r),
@@ -501,23 +510,23 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              height: 1,
-              color: Color(0xFF000000),
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              height: 1.1,
+              color: AppColors.heading,
               letterSpacing: -0.2,
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 4.h),
           Text(
             subtitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
+              fontSize: 13.sp,
               fontWeight: FontWeight.w500,
-              height: 1,
-              color: Color.fromRGBO(0, 0, 0, 0.6),
+              height: 1.1,
+              color: const Color.fromRGBO(0, 0, 0, 0.75),
               letterSpacing: -0.2,
             ),
           ),
@@ -538,10 +547,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
   }) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 20.h),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 18.h),
       decoration: BoxDecoration(
         border: Border.all(color: Color(0xFF111111), width: 1.w),
-        borderRadius: BorderRadius.circular(9.r),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Column(
         children: [
@@ -557,7 +566,7 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                 ),
                 child: Icon(icon, size: 19.sp, color: iconColor),
               ),
-              SizedBox(width: 5.w),
+              SizedBox(width: 8.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -567,10 +576,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
-                        height: 1,
-                        color: Color(0xFF111111),
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        height: 1.1,
+                        color: AppColors.heading,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -582,10 +591,10 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
-                        height: 1,
-                        color: Color.fromRGBO(0, 0, 0, 0.6),
+                        height: 1.1,
+                        color: const Color.fromRGBO(0, 0, 0, 0.75),
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -604,7 +613,7 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                   status,
                   style: GoogleFonts.outfit(
                     fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Color(0xFFB8860B),
                     letterSpacing: -0.2,
                   ),
@@ -613,16 +622,16 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
             ],
           ),
           SizedBox(height: 12.h),
-          Divider(height: 1.w, color: Color(0xFFC6C6C6)),
+          Divider(height: 1.w, color: Color(0xFFE0E0E0)),
           SizedBox(height: 12.h),
           Row(
             children: [
               Text(
                 count,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF000000),
+                  color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -630,9 +639,9 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
               Text(
                 pdf,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF000000),
+                  color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -641,7 +650,7 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                 "VIEW →",
                 style: GoogleFonts.outfit(
                   fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                   color: Color(0xFF1E5993),
                 ),
               ),

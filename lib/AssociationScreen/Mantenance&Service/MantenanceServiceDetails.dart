@@ -36,53 +36,52 @@ class _MantenanceServiceDetailsState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "MAINTENANCE DETAILS",
-                        style: GoogleFonts.outfit(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff292832),
-                          letterSpacing: -0.64,
-                        ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "MAINTENANCE DETAILS",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
                       ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        "Maintenance Management",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF2A2933),
-                          letterSpacing: -0.2,
-                        ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Maintenance Management",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -154,16 +153,21 @@ class _MantenanceServiceDetailsState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            // "MAINTENANCE REQUEST · MR-2048",
-                            data.data?.header?.badgeRequest ?? "N/A",
-                            style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              letterSpacing: -0.2,
+                          Expanded(
+                            child: Text(
+                              // "MAINTENANCE REQUEST · MR-2048",
+                              data.data?.header?.badgeRequest ?? "N/A",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.outfit(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.heading,
+                                letterSpacing: -0.2,
+                              ),
                             ),
                           ),
+                          SizedBox(width: 8.w),
                           Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: 13.w,
@@ -181,7 +185,7 @@ class _MantenanceServiceDetailsState
                               data.data?.header?.statusBadge ?? "N/A",
                               style: GoogleFonts.outfit(
                                 fontSize: 13.sp,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 color: const Color(0xFFC18A00),
                                 height: 1,
                                 letterSpacing: -0.2,
@@ -195,10 +199,10 @@ class _MantenanceServiceDetailsState
                         // "Water Leakage Repair",
                         data.data?.header?.title ?? "N/A",
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          height: 1.05,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.heading,
+                          height: 1.1,
                           letterSpacing: -0.3,
                         ),
                       ),
@@ -207,10 +211,10 @@ class _MantenanceServiceDetailsState
                         // "Plumbing maintenance request",
                         data.data?.header?.screenTitle ?? "N/A",
                         style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xFF4A4A4A),
-                          height: 1.05,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(42, 41, 51, 0.75),
+                          height: 1.15,
                           letterSpacing: -0.15,
                         ),
                       ),
@@ -304,10 +308,10 @@ class _MantenanceServiceDetailsState
                                   // "Maintenance Request",
                                   data.data?.requestInformation?.title ?? "N/A",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                    height: 1.05,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.heading,
+                                    height: 1.1,
                                     letterSpacing: -0.3,
                                   ),
                                 ),
@@ -317,10 +321,10 @@ class _MantenanceServiceDetailsState
                                   data.data?.requestInformation?.subtitle ??
                                       "N/A",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xFF4A4A4A),
-                                    height: 1.05,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                    height: 1.15,
                                     letterSpacing: -0.15,
                                   ),
                                 ),
@@ -335,9 +339,9 @@ class _MantenanceServiceDetailsState
                       Text(
                         "Description",
                         style: GoogleFonts.outfit(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: const Color.fromRGBO(42, 41, 51, 0.60),
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
                         ),
                       ),
                       SizedBox(height: 5.h),
@@ -345,10 +349,10 @@ class _MantenanceServiceDetailsState
                         // "Water leakage reported from the bathroom plumbing connection. Maintenance team has been assigned to inspect and complete the required repair.",
                         data.data?.requestInformation?.description ?? "N/A",
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          height: 1.3,
+                          color: AppColors.heading,
+                          height: 1.35,
                         ),
                       ),
                     ],
@@ -392,9 +396,9 @@ class _MantenanceServiceDetailsState
                             Text(
                               "Property / Unit",
                               style: GoogleFonts.outfit(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                                color: const Color.fromRGBO(42, 41, 51, 0.60),
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(42, 41, 51, 0.75),
                               ),
                             ),
                             SizedBox(height: 2.h),
@@ -402,10 +406,10 @@ class _MantenanceServiceDetailsState
                               // "Apartment A-204",
                               data.data?.propertyUnit?.unitName ?? "N/A",
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                                height: 1.05,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.heading,
+                                height: 1.1,
                               ),
                             ),
                             SizedBox(height: 2.h),
@@ -413,9 +417,9 @@ class _MantenanceServiceDetailsState
                               // "Green Valley Residency · Jaipur",
                               data.data?.propertyUnit?.fullLocation ?? "N/A",
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF4A4A4A),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(42, 41, 51, 0.75),
                               ),
                             ),
                           ],
@@ -560,9 +564,10 @@ class _MantenanceServiceDetailsState
                   Text(
                     "Assigned Person / Vendor",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 16.h),
@@ -608,9 +613,9 @@ class _MantenanceServiceDetailsState
                               Text(
                                 "Assigned Person / Vendor",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color.fromRGBO(42, 41, 51, 0.60),
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                 ),
                               ),
                               SizedBox(height: 2.h),
@@ -618,10 +623,10 @@ class _MantenanceServiceDetailsState
                                 // "Raj Kumar",
                                 data.data?.assignedVendor?.name ?? "",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  height: 1.05,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
+                                  height: 1.1,
                                 ),
                               ),
                               SizedBox(height: 2.h),
@@ -629,9 +634,9 @@ class _MantenanceServiceDetailsState
                                 // "Plumbing Maintenance",
                                 data.data?.assignedVendor?.role ?? "",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF4A4A4A),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                 ),
                               ),
                             ],
@@ -929,21 +934,26 @@ class _MantenanceServiceDetailsState
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text(
-          title,
-          style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-            letterSpacing: -0.2,
+        Expanded(
+          child: Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.outfit(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.heading,
+              letterSpacing: -0.2,
+            ),
           ),
         ),
+        SizedBox(width: 8.w),
         Text(
           subtitle,
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
@@ -1019,30 +1029,30 @@ class _MantenanceServiceDetailsState
                   Text(
                     title,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      height: 1.h,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      height: 1.2,
                     ),
                   ),
                   SizedBox(height: 5.h),
                   Text(
                     subtitle,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF4A4A4A),
-                      height: 1.h,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
+                      height: 1.2,
                     ),
                   ),
                   SizedBox(height: 8.h),
                   Text(
                     date,
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF999999),
-                      height: 1.h,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      height: 1,
                     ),
                   ),
                 ],
@@ -1056,9 +1066,9 @@ class _MantenanceServiceDetailsState
 
   Widget _documentCard(String title, String subtitle, IconData icon) {
     return Container(
-      padding: EdgeInsets.only(left: 20.w, top: 5.h, bottom: 5.h),
+      padding: EdgeInsets.only(left: 16.w, right: 10.w, top: 8.h, bottom: 8.h),
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: Colors.black, width: 1.w),
       ),
@@ -1071,7 +1081,7 @@ class _MantenanceServiceDetailsState
               color: const Color.fromRGBO(255, 242, 165, 0.4),
               borderRadius: BorderRadius.circular(4.r),
             ),
-            child: Icon(icon, size: 16.sp, color: const Color(0xFF9D8422)),
+            child: Icon(icon, size: 18.sp, color: const Color(0xFF9D8422)),
           ),
           SizedBox(height: 12.h),
           Text(
@@ -1079,18 +1089,20 @@ class _MantenanceServiceDetailsState
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.heading,
             ),
           ),
           SizedBox(height: 4.h),
           Text(
             subtitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF4A4A4A),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
             ),
           ),
         ],
@@ -1359,7 +1371,8 @@ class _MantenanceServiceDetailsState
                       steps[index]['sub']!,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.outfit(
-                        fontSize: 10.sp,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
                         color: Colors.grey.shade600,
                       ),
                     ),
@@ -1521,41 +1534,55 @@ class _MantenanceServiceDetailsState
                   Text(
                     "Remark Notes (Optional)",
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 6.h),
                   TextField(
                     controller: notesController,
                     maxLines: 2,
-                    style: GoogleFonts.outfit(fontSize: 14.sp),
+                    style: GoogleFonts.outfit(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.heading,
+                      letterSpacing: -0.2,
+                    ),
                     decoration: InputDecoration(
                       hintText:
                           "Enter remarks (e.g. Work inspected and verified)...",
                       hintStyle: GoogleFonts.outfit(
-                        fontSize: 13.sp,
-                        color: Colors.grey,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(16, 28, 22, 0.6),
+                        letterSpacing: -0.2,
                       ),
                       filled: true,
                       fillColor: Colors.white,
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 12.w,
-                        vertical: 10.h,
+                        horizontal: 14.w,
+                        vertical: 14.h,
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(6.r),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(16, 28, 22, 0.6),
+                          width: 1.2,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(6.r),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(16, 28, 22, 0.6),
+                          width: 1.2,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF101C16),
+                        borderRadius: BorderRadius.circular(6.r),
+                        borderSide: BorderSide(
+                          color: AppColors.heading,
                           width: 1.5,
                         ),
                       ),
@@ -1564,7 +1591,7 @@ class _MantenanceServiceDetailsState
                   SizedBox(height: 18.h),
                   SizedBox(
                     width: double.infinity,
-                    height: 48.h,
+                    height: 52.h,
                     child: ElevatedButton(
                       onPressed: isSubmitting
                           ? null
@@ -1597,13 +1624,13 @@ class _MantenanceServiceDetailsState
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF101C16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
                       child: isSubmitting
                           ? SizedBox(
-                              width: 20.w,
-                              height: 20.w,
+                              width: 22.w,
+                              height: 22.w,
                               child: const CircularProgressIndicator(
                                 color: Colors.white,
                                 strokeWidth: 2,
@@ -1612,9 +1639,10 @@ class _MantenanceServiceDetailsState
                           : Text(
                               "Save & Update Status",
                               style: GoogleFonts.outfit(
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.white,
+                                letterSpacing: 0.2,
                               ),
                             ),
                     ),
@@ -1646,9 +1674,9 @@ class _InfoItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: const Color.fromRGBO(42, 41, 51, 0.6),
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
             height: 1,
             letterSpacing: -0.15,
           ),
@@ -1660,9 +1688,9 @@ class _InfoItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: valueColor ?? Colors.black,
-            height: 1,
+            fontWeight: FontWeight.w700,
+            color: valueColor ?? AppColors.heading,
+            height: 1.1,
             letterSpacing: -0.3,
           ),
         ),

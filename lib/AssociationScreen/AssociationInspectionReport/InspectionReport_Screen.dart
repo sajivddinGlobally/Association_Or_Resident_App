@@ -32,22 +32,22 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 12.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,9 +56,9 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                     "Inspection Reports",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -67,8 +67,8 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -86,41 +86,36 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 12.h),
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.heading),
+                  border: Border.all(color: AppColors.heading, width: 1.2),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Row(
                   children: [
                     Container(
-                      height: 40.h,
-                      width: 40.w,
+                      height: 44.h,
+                      width: 44.w,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.r),
-                        border: Border.all(color: AppColors.heading),
+                        borderRadius: BorderRadius.circular(6.r),
+                        border: Border.all(color: AppColors.heading, width: 1.2),
                       ),
                       child: Center(
-                        // child: Image.asset(
-                        //   "assets/auditImg.png",
-                        //   height: 18.h,
-                        //   width: 18.w,
-                        // ),
                         child: Icon(
-                          Icons.description,
+                          Icons.description_outlined,
                           color: AppColors.heading,
                           size: 22.sp,
                         ),
                       ),
                     ),
-                    SizedBox(width: 10.w),
+                    SizedBox(width: 12.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Green Valley Residency",
                           style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                             color: AppColors.heading,
-                            fontSize: 16.sp,
+                            fontSize: 17.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -128,8 +123,8 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                           "Building A · Common Areas",
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(42, 41, 51, 0.5),
-                            fontSize: 13.sp,
+                            color: const Color.fromRGBO(42, 41, 51, 0.75),
+                            fontSize: 14.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -142,23 +137,23 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
               Text(
                 "Inspection Reports",
                 style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 6.h),
               Text(
-                "View previous inspections, inspection dates, inspector\n information and report findings.",
+                "View previous inspections, inspection dates, inspector information and report findings.",
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(42, 41, 51, 0.5),
+                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                   fontSize: 14.sp,
                   letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 16.h),
               _buildSummaryCards(),
               SizedBox(height: 20.h),
               ListView.builder(
@@ -178,8 +173,8 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                     child: Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
-                        horizontal: 11.w,
-                        vertical: 15.h,
+                        horizontal: 14.w,
+                        vertical: 16.h,
                       ),
                       margin: EdgeInsets.only(bottom: 20.h),
                       decoration: BoxDecoration(
@@ -197,14 +192,14 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: 36.w,
-                                height: 36.h,
+                                width: 42.w,
+                                height: 42.h,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: const Color(0xff101C16),
-                                    width: 1.1,
+                                    width: 1.2,
                                   ),
-                                  borderRadius: BorderRadius.circular(4.r),
+                                  borderRadius: BorderRadius.circular(6.r),
                                 ),
                                 child: Center(
                                   child: Icon(
@@ -214,8 +209,7 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                                   ),
                                 ),
                               ),
-
-                              SizedBox(width: 10.w),
+                              SizedBox(width: 12.w),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,37 +218,35 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                                       "Common Area Inspection",
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600,
                                         color: const Color(0xff101C16),
                                         letterSpacing: -0.2,
                                       ),
                                     ),
-
-                                    SizedBox(height: 6.h),
-
+                                    SizedBox(height: 4.h),
                                     Text(
                                       "15 August 2026",
                                       style: GoogleFonts.outfit(
                                         fontSize: 14.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color.fromRGBO(16, 28, 22, 0.6),
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color.fromRGBO(16, 28, 22, 0.75),
                                         letterSpacing: -0.2,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-
-                              SizedBox(width: 10.w),
+                              SizedBox(width: 8.w),
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 20.w,
-                                  vertical: 5.h,
+                                  horizontal: 14.w,
+                                  vertical: 4.h,
                                 ),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: const Color(0xff101C16),
+                                    width: 1.2,
                                   ),
                                   borderRadius: BorderRadius.circular(25.r),
                                 ),
@@ -262,8 +254,8 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                                 child: Text(
                                   "Completed",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
                                     color: const Color(0xff101C16),
                                     letterSpacing: -0.2,
                                   ),
@@ -277,8 +269,7 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                             thickness: 1,
                             color: const Color(0xff777970),
                           ),
-
-                          SizedBox(height: 17.h),
+                          SizedBox(height: 16.h),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -288,7 +279,6 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                                   value: "Amit Verma",
                                 ),
                               ),
-
                               SizedBox(width: 15.w),
                               Expanded(
                                 child: _infoItem(
@@ -314,15 +304,13 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                child: Text(
-                                  "View Details →",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.heading,
-                                    letterSpacing: -0.2,
-                                  ),
+                              Text(
+                                "View Details →",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
                             ],
@@ -347,21 +335,19 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(16, 28, 22, 0.6),
+            color: const Color.fromRGBO(16, 28, 22, 0.75),
             letterSpacing: -0.2,
           ),
         ),
-
-        SizedBox(height: 2.h),
-
+        SizedBox(height: 3.h),
         Text(
           value,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 15.sp,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: AppColors.heading,
             letterSpacing: -0.2,
           ),
@@ -385,8 +371,9 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
         overflow: TextOverflow.ellipsis,
         style: GoogleFonts.outfit(
           fontSize: 14.sp,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: const Color(0xFF101C16),
+          letterSpacing: -0.2,
         ),
       ),
     );
@@ -417,12 +404,13 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 11.h),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.heading : Colors.transparent,
           borderRadius: BorderRadius.circular(50.r),
           border: Border.all(
-            color: isSelected ? AppColors.heading : Color(0xff6A6A6A),
+            color: isSelected ? AppColors.heading : const Color(0xff6A6A6A),
+            width: 1.2,
           ),
         ),
         child: Column(
@@ -432,8 +420,9 @@ class _InspectionreportScreenState extends State<InspectionreportScreen> {
               title,
               style: GoogleFonts.outfit(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-                color: isSelected ? Colors.white : Color(0xff6A6A6A),
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? Colors.white : const Color(0xff6A6A6A),
+                letterSpacing: -0.2,
               ),
             ),
           ],

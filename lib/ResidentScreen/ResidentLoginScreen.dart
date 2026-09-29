@@ -70,9 +70,9 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                   Text(
                     "WELCOME BACK",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 18.sp,
+                      fontSize: 22.sp,
                       letterSpacing: -0.39,
                     ),
                   ),
@@ -81,8 +81,8 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                     "Sign in to manage and monitor your property.",
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      fontSize: 14.sp,
+                      color: const Color(0xff26332D),
+                      fontSize: 17.sp,
                       letterSpacing: -0.39,
                     ),
                   ),
@@ -90,10 +90,10 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                   Text(
                     "EMAIL OR MOBILE NUMBER",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 14.sp,
-                      letterSpacing: -0.3,
+                      fontSize: 17.sp,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 10.h),
@@ -101,6 +101,12 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                     height: 44.h,
                     decoration: const BoxDecoration(color: Colors.transparent),
                     child: TextField(
+                      style: GoogleFonts.outfit(
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff101C16),
+                        letterSpacing: -0.2,
+                      ),
                       keyboardType: TextInputType.emailAddress,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
@@ -122,7 +128,7 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
 
                         hintText: "Enter Email or mobile number",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 17.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(16, 28, 22, 0.6),
                         ),
@@ -150,10 +156,10 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                   Text(
                     "PASSWORD",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 14.sp,
-                      letterSpacing: -0.39,
+                      fontSize: 17.sp,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 10.h),
@@ -161,6 +167,12 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                     height: 44.h,
                     decoration: const BoxDecoration(color: Colors.transparent),
                     child: TextField(
+                      style: GoogleFonts.outfit(
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff101C16),
+                        letterSpacing: -0.2,
+                      ),
                       obscureText: !isPasswordVisible,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
@@ -181,7 +193,7 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
 
                         hintText: "Enter your Password",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 17.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(16, 28, 22, 0.6),
                         ),
@@ -258,10 +270,10 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                             Text(
                               "Remember me",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
                                 color: AppColors.heading,
-                                letterSpacing: -0.39,
+                                letterSpacing: -0.2,
                               ),
                             ),
                           ],
@@ -280,10 +292,10 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                           child: Text(
                             "Forgot Password?",
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
                               color: const Color(0xff101C16),
-                              letterSpacing: -0.39,
+                              letterSpacing: -0.2,
                             ),
                           ),
                         ),
@@ -292,7 +304,7 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                   ),
                   SizedBox(height: 30.h),
                   SizedBox(
-                    height: 41.h,
+                    height: 48.h,
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -313,9 +325,9 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                         "Login",
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w700,
-                          fontSize: 13.sp,
-                          color: Color(0xffFFFFFF),
-                          letterSpacing: -0.24,
+                          fontSize: 16.sp,
+                          color: const Color(0xffFFFFFF),
+                          letterSpacing: 0.2,
                         ),
                       ),
                     ),
@@ -337,7 +349,7 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                   //     Text(
                   //       "OR",
                   //       style: GoogleFonts.outfit(
-                  //         fontSize: 17.sp,
+                  //         fontSize: 19.sp,
                   //         fontWeight: FontWeight.w500,
                   //         color: const Color(0xff101C16),
                   //       ),
@@ -367,7 +379,7 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                   //       "LOGIN WITH OTP",
                   //       style: GoogleFonts.outfit(
                   //         fontWeight: FontWeight.w700,
-                  //         fontSize: 13.sp,
+                  //         fontSize: 15.sp,
                   //         color: AppColors.heading,
                   //         letterSpacing: -0.24,
                   //       ),
@@ -380,7 +392,7 @@ class _ResidentloginscreenState extends State<Residentloginscreen> {
                     child: Text(
                       "SECURE PRIVATE PROPERTY MANAGEMENT",
                       style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(16, 28, 22, 0.5),
                         letterSpacing: 2.16,

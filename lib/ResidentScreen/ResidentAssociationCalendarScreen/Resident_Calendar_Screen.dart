@@ -188,20 +188,20 @@ class _ResidentCalendarScreenState
                         headerData?.title ??
                         "Association Calendar",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     headerData?.subtitle ?? "View upcoming community events",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -247,7 +247,7 @@ class _ResidentCalendarScreenState
                     Text(
                       calendar?.title ?? "Calender",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 19.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -290,7 +290,7 @@ class _ResidentCalendarScreenState
                                       calendar?.monthYear ??
                                           "$monthName ${currentMonth.year}",
                                       style: GoogleFonts.inter(
-                                        fontSize: 17.sp,
+                                        fontSize: 19.sp,
                                         fontWeight: FontWeight.w700,
                                         color: const Color(0xff101C16),
                                       ),
@@ -300,8 +300,8 @@ class _ResidentCalendarScreenState
                                       calendar?.subtitle ??
                                           "Community Calendar",
                                       style: GoogleFonts.inter(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
                                         color: const Color(0xff777777),
                                       ),
                                     ),
@@ -358,7 +358,7 @@ class _ResidentCalendarScreenState
                                   child: Text(
                                     day,
                                     style: GoogleFonts.inter(
-                                      fontSize: 12.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xff8A9692),
                                     ),
@@ -465,10 +465,10 @@ class _ResidentCalendarScreenState
                                       Text(
                                         "$dayNum",
                                         style: GoogleFonts.inter(
-                                          fontSize: 15.sp,
+                                          fontSize: 17.sp,
                                           fontWeight: selected
                                               ? FontWeight.w700
-                                              : FontWeight.w400,
+                                              : FontWeight.w500,
                                           color: !current
                                               ? const Color(0xffC7CDCA)
                                               : selected
@@ -541,7 +541,7 @@ class _ResidentCalendarScreenState
                             Text(
                               upcoming?.sectionTitle ?? "Upcoming Events",
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
+                                fontSize: 19.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.2,
@@ -582,8 +582,8 @@ class _ResidentCalendarScreenState
                                   child: Text(
                                     "No upcoming events",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w400,
+                                      fontSize: 17.sp,
+                                      fontWeight: FontWeight.w500,
                                       color: const Color(0xff777777),
                                     ),
                                   ),
@@ -594,7 +594,7 @@ class _ResidentCalendarScreenState
                               Text(
                                 "Past Events",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 19.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xff777777),
                                   letterSpacing: -0.2,
@@ -641,7 +641,7 @@ class _ResidentCalendarScreenState
             child: Text(
               "Error",
               style: GoogleFonts.outfit(
-                fontSize: 15.sp,
+                fontSize: 17.sp,
                 fontWeight: FontWeight.w500,
                 color: AppColors.heading,
                 letterSpacing: -0.2,
@@ -674,7 +674,7 @@ class _ResidentCalendarScreenState
           Text(
             text,
             style: GoogleFonts.outfit(
-              fontSize: 15.sp,
+              fontSize: 17.sp,
               color: const Color(0xff101C16),
               fontWeight: FontWeight.w500,
               letterSpacing: -0.2,
@@ -712,7 +712,7 @@ class _ResidentCalendarScreenState
                 child: Text(
                   title,
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
+                    fontSize: 19.sp,
                     fontWeight: FontWeight.w500,
                     letterSpacing: -0.2,
                   ),

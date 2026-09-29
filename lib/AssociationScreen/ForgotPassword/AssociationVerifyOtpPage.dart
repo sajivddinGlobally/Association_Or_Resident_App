@@ -110,26 +110,26 @@ class _AssociationVerifyOtpPageState
                     ),
                   ),
                   Positioned(
-                    top: 57.h,
+                    top: 50.h,
                     left: 20.w,
                     child: InkWell(
                       onTap: () {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        height: 41.h,
-                        width: 41.w,
+                        height: 44.h,
+                        width: 44.w,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           border: Border.all(
-                            color: Color.fromRGBO(16, 28, 22, 0.3),
+                            color: const Color.fromRGBO(16, 28, 22, 0.3),
                           ),
                         ),
                         child: Center(
                           child: Icon(
                             Icons.arrow_back,
                             color: const Color(0xff101C16),
-                            size: 18.sp,
+                            size: 20.sp,
                           ),
                         ),
                       ),
@@ -140,11 +140,11 @@ class _AssociationVerifyOtpPageState
             ),
             SizedBox(height: 19.h),
             Container(
-              height: 100.h,
-              width: 100.w,
+              height: 90.h,
+              width: 90.w,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(16, 28, 22, 0.2),
-                borderRadius: BorderRadius.circular(10.r),
+                color: const Color.fromRGBO(16, 28, 22, 0.15),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
                 child: Image.asset(
@@ -158,39 +158,40 @@ class _AssociationVerifyOtpPageState
             Text(
               "VERIFY YOUR NUMBER",
               style: GoogleFonts.outfit(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w700,
                 color: AppColors.heading,
-                letterSpacing: -0.54,
+                letterSpacing: -0.39,
               ),
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 10.h),
             Text(
               "We've sent a 6-digit verification code to",
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
-                color: AppColors.heading,
-                letterSpacing: -0.39,
+                color: const Color(0xff26332D),
+                letterSpacing: -0.2,
               ),
             ),
+            SizedBox(height: 4.h),
             Text(
               getMaskedContact(),
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w700,
                 color: AppColors.heading,
-                letterSpacing: -0.39,
+                letterSpacing: -0.2,
               ),
             ),
-            SizedBox(height: 36.h),
+            SizedBox(height: 28.h),
             Text(
-              "Enter OTP",
+              "ENTER OTP",
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
                 color: AppColors.heading,
-                letterSpacing: -0.39,
+                letterSpacing: -0.2,
               ),
             ),
             SizedBox(height: 14.h),
@@ -211,10 +212,10 @@ class _AssociationVerifyOtpPageState
                   width: 48.w,
                   height: 59.h,
 
-                  textStyle: GoogleFonts.inter(
+                  textStyle: GoogleFonts.outfit(
                     color: const Color(0xff1B1E28),
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
                   ),
 
                   decoration: BoxDecoration(
@@ -231,16 +232,16 @@ class _AssociationVerifyOtpPageState
                   width: 48.w,
                   height: 59.h,
 
-                  textStyle: GoogleFonts.inter(
+                  textStyle: GoogleFonts.outfit(
                     color: const Color(0xff1B1E28),
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
                   ),
 
                   decoration: BoxDecoration(
                     color: AppColors.scaffoldBg,
                     borderRadius: BorderRadius.circular(6.r),
-                    border: Border.all(color: AppColors.heading, width: 1.2.w),
+                    border: Border.all(color: AppColors.heading, width: 1.5.w),
                   ),
                 ),
 
@@ -248,10 +249,10 @@ class _AssociationVerifyOtpPageState
                   width: 48.w,
                   height: 59.h,
 
-                  textStyle: GoogleFonts.inter(
+                  textStyle: GoogleFonts.outfit(
                     color: const Color(0xff1B1E28),
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
                   ),
 
                   decoration: BoxDecoration(
@@ -305,25 +306,25 @@ class _AssociationVerifyOtpPageState
                     ? "Sending OTP..."
                     : "Didn't receive the code? Resend OTP",
                 style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w600,
                   color: seconds == 0
                       ? const Color(0xff101C16)
                       : const Color(0xff999999),
                 ),
               ),
             ),
-            SizedBox(height: 41.h),
+            SizedBox(height: 36.h),
             Padding(
               padding: EdgeInsets.only(left: 20.w, right: 20.w),
               child: SizedBox(
-                height: 41.h,
+                height: 52.h,
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.heading,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
                   onPressed: isLoading
@@ -381,12 +382,12 @@ class _AssociationVerifyOtpPageState
                           ),
                         )
                       : Text(
-                          "Verify",
+                          "Verify OTP",
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w700,
-                            fontSize: 13.sp,
-                            color: Color(0xffFFFFFF),
-                            letterSpacing: -0.24,
+                            fontSize: 17.sp,
+                            color: const Color(0xffFFFFFF),
+                            letterSpacing: -0.2,
                           ),
                         ),
                 ),

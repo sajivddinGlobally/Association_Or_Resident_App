@@ -43,12 +43,12 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "MY PROFILE",
+                  "My Profile",
                   style: GoogleFonts.outfit(
                     fontSize: 18.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xff292832),
-                    letterSpacing: -0.64,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.heading,
+                    letterSpacing: -0.3,
                   ),
                 ),
                 SizedBox(height: 2.h),
@@ -59,8 +59,8 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                   style: GoogleFonts.outfit(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: Color.fromRGBO(42, 41, 51, 0.6),
-                    letterSpacing: -0.24,
+                    color: const Color.fromRGBO(42, 41, 51, 0.7),
+                    letterSpacing: -0.2,
                   ),
                 ),
               ],
@@ -80,8 +80,8 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 22.h),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.4),
-                      border: Border.all(color: Color(0xFF101C16), width: 1.w),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: const Color(0xFF101C16), width: 1.2),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,57 +94,57 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                           child: ClipOval(
                             child: Image.network(
                               data.data?.avatarUrl ?? "",
-                              width: 70.r,
-                              height: 70.r,
+                              width: 76.r,
+                              height: 76.r,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(
-                                  width: 70.r,
-                                  height: 70.r,
+                                  width: 76.r,
+                                  height: 76.r,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: Color(0xFF101C16),
-                                      width: 1.w,
+                                      color: const Color(0xFF101C16),
+                                      width: 1.2,
                                     ),
                                   ),
-                                  child: Icon(Icons.person, size: 30.sp),
+                                  child: Icon(Icons.person, size: 36.sp, color: AppColors.heading),
                                 );
                               },
                             ),
                           ),
                         ),
-                        SizedBox(height: 6.h),
+                        SizedBox(height: 8.h),
                         Text(
                           data.data?.name ?? "MD Sajiv",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
-                            letterSpacing: -0.3,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFF000000),
+                            letterSpacing: -0.2,
                           ),
                         ),
                         SizedBox(height: 2.h),
                         Text(
                           data.data?.email ?? "sajiv@gmail.com",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
-                            letterSpacing: -0.3,
+                            color: const Color.fromRGBO(0, 0, 0, 0.75),
+                            letterSpacing: -0.2,
                           ),
                         ),
-                        SizedBox(height: 6.h),
+                        SizedBox(height: 8.h),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 23.w,
-                            vertical: 3.h,
+                            horizontal: 18.w,
+                            vertical: 4.h,
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50.r),
                             border: Border.all(
-                              color: Color(0xFF000000),
-                              width: 1.w,
+                              color: const Color(0xFF000000),
+                              width: 1.2,
                             ),
                           ),
                           child: Text(
@@ -153,29 +153,29 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                                 : "Resident",
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF000000),
-                              letterSpacing: -0.3,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF000000),
+                              letterSpacing: -0.2,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 27.h),
+                  SizedBox(height: 24.h),
                   Text(
                     "Personal Information",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF000000),
                       letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 10.h),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.heading),
+                      border: Border.all(color: AppColors.heading, width: 1.2),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Column(
@@ -202,15 +202,15 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 27.h),
+                  SizedBox(height: 24.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 13.w,
-                      vertical: 15.h,
+                      horizontal: 14.w,
+                      vertical: 16.h,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.heading),
+                      border: Border.all(color: AppColors.heading, width: 1.2),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Column(
@@ -219,13 +219,13 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                         Row(
                           children: [
                             Container(
-                              width: 40.w,
-                              height: 40.h,
+                              width: 44.w,
+                              height: 44.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
                                 border: Border.all(
-                                  color: Color(0xFF000000),
-                                  width: 1.w,
+                                  color: const Color(0xFF000000),
+                                  width: 1.2,
                                 ),
                               ),
                               child: Center(
@@ -234,7 +234,7 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10.w),
+                            SizedBox(width: 12.w),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -243,15 +243,15 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                                   style: GoogleFonts.outfit(
                                     fontSize: 13.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: Color.fromRGBO(0, 0, 0, 0.6),
+                                    color: const Color.fromRGBO(0, 0, 0, 0.6),
                                   ),
                                 ),
                                 Text(
                                   data.data?.activeComplex?.name ?? "",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF101C16),
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFF101C16),
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -259,9 +259,9 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 10.h),
+                        const Divider(color: Color(0xFFC6C6C6)),
                         SizedBox(height: 8.h),
-                        Divider(color: Color(0xFFC6C6C6)),
-                        SizedBox(height: 6.h),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -300,21 +300,21 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 24.h),
                   Text(
                     "Account Settings",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF101C16),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF101C16),
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.heading),
+                      border: Border.all(color: AppColors.heading, width: 1.2),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Column(
@@ -475,12 +475,12 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
     bool showBottomBorder = true,
   }) {
     return SizedBox(
-      height: 45.h,
+      height: 48.h,
       child: Row(
         children: [
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               decoration: BoxDecoration(
                 border: showBottomBorder
                     ? const Border(
@@ -496,8 +496,8 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                 style: GoogleFonts.outfit(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(42, 41, 51, 0.6),
-                  letterSpacing: -0.24,
+                  color: const Color.fromRGBO(42, 41, 51, 0.75),
+                  letterSpacing: -0.2,
                 ),
               ),
             ),
@@ -519,10 +519,10 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w700,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
                 color: AppColors.heading,
-                letterSpacing: -0.24,
+                letterSpacing: -0.2,
               ),
             ),
           ),
@@ -540,51 +540,51 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
     return InkWell(
       onTap: callback,
       child: Container(
-        padding: EdgeInsets.only(
-          left: 13.w,
-          right: 13.w,
-          top: 10.h,
-          bottom: 8.h,
+        padding: EdgeInsets.symmetric(
+          horizontal: 14.w,
+          vertical: 12.h,
         ),
         child: Row(
           children: [
             Container(
-              width: 37.w,
-              height: 37.h,
+              width: 42.w,
+              height: 42.h,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3.r),
-                border: Border.all(color: Color(0xFF000000), width: 1.w),
+                borderRadius: BorderRadius.circular(6.r),
+                border: Border.all(color: const Color(0xFF000000), width: 1.2),
               ),
               child: Center(child: SvgPicture.asset(image)),
             ),
-            SizedBox(width: 11.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF000000),
-                    letterSpacing: -0.2,
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: GoogleFonts.outfit(
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF000000),
+                      letterSpacing: -0.2,
+                    ),
                   ),
-                ),
-                Text(
-                  title,
-                  style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(0, 0, 0, 0.7),
-                    letterSpacing: -0.3,
+                  SizedBox(height: 2.h),
+                  Text(
+                    title,
+                    style: GoogleFonts.outfit(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(0, 0, 0, 0.75),
+                      letterSpacing: -0.2,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Spacer(),
             Icon(
               Icons.arrow_forward_ios,
-              color: Color(0xFF2A2933),
+              color: const Color(0xFF2A2933),
               size: 18.sp,
             ),
           ],
@@ -602,9 +602,9 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
+            color: const Color.fromRGBO(0, 0, 0, 0.6),
             letterSpacing: -0.2,
           ),
         ),
@@ -614,9 +614,9 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF000000),
             letterSpacing: -0.2,
           ),
         ),
@@ -658,10 +658,10 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                   Text(
                     "Logout",
                     style: GoogleFonts.outfit(
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.heading,
-                      letterSpacing: -0.54,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 10.h),

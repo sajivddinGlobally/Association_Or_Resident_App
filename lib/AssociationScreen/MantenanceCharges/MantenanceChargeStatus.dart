@@ -39,53 +39,52 @@ class _MantenanceChargeStatusState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Maintenance Charge Status",
-                        style: GoogleFonts.outfit(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff292832),
-                          letterSpacing: -0.64,
-                        ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Maintenance Charge Status",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
                       ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        "Residential/Commercial management Team Management",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF2A2933),
-                          letterSpacing: -0.2,
-                        ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Residential/Commercial management Team Management",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -112,16 +111,16 @@ class _MantenanceChargeStatusState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 16.h),
+                SizedBox(height: 20.h),
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(
-                    vertical: 15.h,
-                    horizontal: 12.w,
+                    vertical: 16.h,
+                    horizontal: 14.w,
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: Colors.black, width: 1.w),
+                    border: Border.all(color: AppColors.heading, width: 1.2),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,9 +132,9 @@ class _MantenanceChargeStatusState
                             data.data?.monthlyCollection?.title ??
                                 "MONTHLY COLLECTION",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.heading,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -151,7 +150,7 @@ class _MantenanceChargeStatusState
                           ),
                         ],
                       ),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 12.h),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -164,32 +163,30 @@ class _MantenanceChargeStatusState
                                   style: GoogleFonts.outfit(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                    height: 1.05,
-                                    letterSpacing: -0.3,
+                                    color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                    letterSpacing: -0.2,
                                   ),
                                 ),
                                 SizedBox(height: 3.h),
                                 Text(
                                   "₹ ${data.data?.monthlyCollection?.totalCollected ?? 0}",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                    height: 1.05,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.heading,
                                     letterSpacing: -0.3,
                                   ),
                                 ),
                                 SizedBox(height: 3.h),
                                 Text(
-                                  // "Recorded maintenance charges for the current month",
                                   data.data?.monthlyCollection?.description ??
                                       " N/A",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xFF4A4A4A),
-                                    height: 1.05,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromRGBO(42, 41, 51, 0.75),
                                     letterSpacing: -0.15,
                                   ),
                                 ),
@@ -218,7 +215,7 @@ class _MantenanceChargeStatusState
                                     .toString() ??
                                 "0",
                             "units",
-                            const Color(0xFFC18A00),
+                            const Color(0xFF24B06A),
                           ),
                           _buildSummaryItem(
                             "Pending",
@@ -228,20 +225,20 @@ class _MantenanceChargeStatusState
                             "units",
                             const Color(0xFFC18A00),
                           ),
-                          SizedBox(width: 100.w),
+                          SizedBox(width: 80.w),
                         ],
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 22.h),
                 Text(
                   "Charge Overview",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -257,7 +254,7 @@ class _MantenanceChargeStatusState
                             "0 units recorded",
                       ),
                     ),
-                    SizedBox(width: 20.w),
+                    SizedBox(width: 14.w),
                     Expanded(
                       child: _buildGridCard(
                         Icons.access_time_outlined,
@@ -281,7 +278,7 @@ class _MantenanceChargeStatusState
                             "0 units overdue",
                       ),
                     ),
-                    SizedBox(width: 20.w),
+                    SizedBox(width: 14.w),
                     Expanded(
                       child: _buildGridCard(
                         Icons.attach_money_outlined,
@@ -293,23 +290,23 @@ class _MantenanceChargeStatusState
                     ),
                   ],
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 22.h),
                 Text(
                   "Collection Progress",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: 12.h),
                 // Progress Card
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(
                     vertical: 20.h,
-                    horizontal: 20.w,
+                    horizontal: 18.w,
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xff101C16),
@@ -322,11 +319,10 @@ class _MantenanceChargeStatusState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            // "August Collection",
                             "Monthly Collection",
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
                               color: Colors.white,
                             ),
                           ),
@@ -334,8 +330,8 @@ class _MantenanceChargeStatusState
                             data.data?.collectionProgress?.percentageText ??
                                 "N/A",
                             style: GoogleFonts.outfit(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w700,
                               color: Colors.white,
                             ),
                           ),
@@ -343,11 +339,11 @@ class _MantenanceChargeStatusState
                       ),
                       SizedBox(height: 12.h),
                       Container(
-                        height: 4.h,
+                        height: 6.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(2.r),
+                          borderRadius: BorderRadius.circular(3.r),
                         ),
                         child: FractionallySizedBox(
                           alignment: Alignment.centerLeft,
@@ -359,7 +355,7 @@ class _MantenanceChargeStatusState
                           child: Container(
                             decoration: BoxDecoration(
                               color: const Color(0xFF24B06A), // Green progress
-                              borderRadius: BorderRadius.circular(2.r),
+                              borderRadius: BorderRadius.circular(3.r),
                             ),
                           ),
                         ),
@@ -369,21 +365,19 @@ class _MantenanceChargeStatusState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            // "Collected - ₹8.42L",
                             "Collected - ${data.data?.collectionProgress?.collectedText ?? "N/A"}",
                             style: GoogleFonts.outfit(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white70,
                             ),
                           ),
                           Text(
-                            // "Total Due - ₹10.60L",
                             "Total Due - ${data.data?.collectionProgress?.totalDueText ?? "N/A"}",
                             style: GoogleFonts.outfit(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white70,
                             ),
                           ),
                         ],
@@ -391,13 +385,13 @@ class _MantenanceChargeStatusState
                     ],
                   ),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 22.h),
                 Text(
                   "Payment Status",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -405,7 +399,7 @@ class _MantenanceChargeStatusState
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: Colors.black, width: 1.w),
+                    border: Border.all(color: AppColors.heading, width: 1.2),
                   ),
                   child: Column(
                     children: [
@@ -465,17 +459,17 @@ class _MantenanceChargeStatusState
                   ),
                 ),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 22.h),
                 Text(
                   "Unit-wise Status",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 14.h),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -492,47 +486,8 @@ class _MantenanceChargeStatusState
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: Colors.black, width: 1.w),
+                    border: Border.all(color: AppColors.heading, width: 1.2),
                   ),
-                  // child: Column(
-                  //   children: [
-                  //     _buildUnitItem(
-                  //       imagePath: "assets/unit.png",
-                  //       title: "Flat A-101",
-                  //       subtitle: "Maintenance · August 2026",
-                  //       amount: "₹7,500",
-                  //       statusText: "PAID",
-                  //       statusColor: const Color(0xFF666666),
-                  //     ),
-                  //     _divider(),
-                  //     _buildUnitItem(
-                  //       imagePath: "assets/unit.png",
-                  //       title: "Flat A-204",
-                  //       subtitle: "Maintenance · August 2026",
-                  //       amount: "₹7,500",
-                  //       statusText: "PENDING",
-                  //       statusColor: const Color(0xFFD66060),
-                  //     ),
-                  //     _divider(),
-                  //     _buildUnitItem(
-                  //       imagePath: "assets/unit.png",
-                  //       title: "Flat B-302",
-                  //       subtitle: "Maintenance · August 2026",
-                  //       amount: "₹7,500",
-                  //       statusText: "OVERDUE",
-                  //       statusColor: const Color(0xFF5AB381),
-                  //     ),
-                  //     _divider(),
-                  //     _buildUnitItem(
-                  //       imagePath: "assets/unit.png",
-                  //       title: "Flat C-108",
-                  //       subtitle: "Maintenance · August 2026",
-                  //       amount: "₹7,500",
-                  //       statusText: "PAID",
-                  //       statusColor: const Color(0xFF666666),
-                  //     ),
-                  //   ],
-                  // ),
                   child: records.isEmpty
                       ? Padding(
                           padding: EdgeInsets.all(20.w),
@@ -540,7 +495,8 @@ class _MantenanceChargeStatusState
                             child: Text(
                               "No units found",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.grey,
                               ),
                             ),
@@ -585,8 +541,8 @@ class _MantenanceChargeStatusState
   Widget _divider() {
     return Divider(
       height: 1.h,
-      thickness: 0.8.w,
-      color: const Color.fromRGBO(42, 41, 51, 0.4),
+      thickness: 1,
+      color: const Color.fromRGBO(16, 28, 22, 0.15),
     );
   }
 
@@ -602,9 +558,9 @@ class _MantenanceChargeStatusState
         Text(
           label,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: const Color(0xFF4A4A4A),
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
             letterSpacing: -0.2,
           ),
         ),
@@ -612,18 +568,18 @@ class _MantenanceChargeStatusState
         Text(
           value,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
-        SizedBox(height: 4.h),
+        SizedBox(height: 2.h),
         Text(
           subValue,
           style: GoogleFonts.outfit(
             fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w600,
             color: subValueColor,
             letterSpacing: -0.2,
           ),
@@ -639,11 +595,11 @@ class _MantenanceChargeStatusState
     String subtitle,
   ) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Colors.black, width: 1.w),
+        border: Border.all(color: AppColors.heading, width: 1.2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -654,33 +610,39 @@ class _MantenanceChargeStatusState
               color: const Color.fromRGBO(255, 242, 165, 0.4),
               borderRadius: BorderRadius.circular(6.r),
             ),
-            child: Icon(icon, size: 16.sp, color: const Color(0xFFC18A00)),
+            child: Icon(icon, size: 18.sp, color: const Color(0xFFC18A00)),
           ),
           SizedBox(height: 6.h),
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color.fromRGBO(42, 41, 51, 0.7),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 3.h),
           Text(
             value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.heading,
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 3.h),
           Text(
             subtitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF4A4A4A),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(42, 41, 51, 0.7),
             ),
           ),
         ],
@@ -702,13 +664,13 @@ class _MantenanceChargeStatusState
         child: Row(
           children: [
             Container(
-              width: 38.w,
-              height: 38.w,
+              width: 40.w,
+              height: 40.w,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1.w),
+                border: Border.all(color: AppColors.heading, width: 1.2),
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              child: Icon(icon, size: 18.sp, color: Colors.black),
+              child: Icon(icon, size: 20.sp, color: AppColors.heading),
             ),
             SizedBox(width: 14.w),
             Expanded(
@@ -717,20 +679,24 @@ class _MantenanceChargeStatusState
                 children: [
                   Text(
                     title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF4A4A4A),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -743,17 +709,17 @@ class _MantenanceChargeStatusState
                 Text(
                   value,
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                   ),
                 ),
                 Text(
                   "Units",
                   style: GoogleFonts.outfit(
                     fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0xFF4A4A4A),
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromRGBO(42, 41, 51, 0.7),
                   ),
                 ),
               ],
@@ -786,7 +752,7 @@ class _MantenanceChargeStatusState
           label,
           style: GoogleFonts.outfit(
             fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: isSelected ? Colors.white : Colors.black,
             letterSpacing: -0.2,
           ),
@@ -812,7 +778,7 @@ class _MantenanceChargeStatusState
         );
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 17.h, horizontal: 17.w),
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
         child: Row(
           children: [
             Container(
@@ -823,13 +789,13 @@ class _MantenanceChargeStatusState
                 borderRadius: BorderRadius.circular(5.r),
                 child: Image.asset(
                   imagePath,
-                  width: 30.w,
-                  height: 30.w,
+                  width: 32.w,
+                  height: 32.w,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
-                      width: 30.w,
-                      height: 30.w,
+                      width: 32.w,
+                      height: 32.w,
                       color: Colors.grey[200],
                       child: Icon(
                         Icons.home_work_outlined,
@@ -841,26 +807,31 @@ class _MantenanceChargeStatusState
                 ),
               ),
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 10.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
+                  SizedBox(height: 2.h),
                   Text(
                     subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF4A4A4A),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -873,17 +844,17 @@ class _MantenanceChargeStatusState
                 Text(
                   amount,
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                   ),
                 ),
                 SizedBox(height: 2.h),
                 Text(
                   statusText,
                   style: GoogleFonts.outfit(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
                     color: statusColor,
                     letterSpacing: -0.1,
                   ),

@@ -152,7 +152,7 @@ class _AssociationBottomNavBarState extends State<AssociationBottomNavBar> {
                   colorFilter: ColorFilter.mode(
                     isSelected
                         ? const Color(0xff101C16)
-                        : const Color(0xffA0A5A2),
+                        : const Color(0xFF6F7672),
                     BlendMode.srcIn,
                   ),
                   width: 30.w,
@@ -166,11 +166,11 @@ class _AssociationBottomNavBarState extends State<AssociationBottomNavBar> {
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
                   fontSize: 16.sp,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                   color: isSelected
-                      ? Color(0xFF17221D)
-                      : const Color(0xffA0A5A2),
-                  letterSpacing: -0.4,
+                      ? const Color(0xFF101C16)
+                      : const Color(0xFF6F7672),
+                  letterSpacing: -0.2,
                 ),
               ),
             ],
@@ -205,27 +205,33 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBg,
         automaticallyImplyLeading: false,
+        toolbarHeight: 72.h,
         titleSpacing: 20.w,
         title: Row(
           children: [
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Good Morning",
                     style: GoogleFonts.outfit(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(16, 28, 22, 0.6),
+                      color: const Color.fromRGBO(16, 28, 22, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                   Text(
                     "Hello, ${box.get('name') ?? ''} 👋",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -233,10 +239,13 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                     box.get('role') == "association_head"
                         ? "Association Head"
                         : "",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xffD5A52C),
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xffD5A52C),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -453,10 +462,12 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                             children: [
                               Text(
                                 amcPlan?.title ?? "Annual Maintenance Contract",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 10.sp,
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF2A2933),
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                   height: 1.1,
                                   letterSpacing: -0.2,
                                 ),
@@ -464,10 +475,12 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                               SizedBox(height: 4.h),
                               Text(
                                 amcPlan?.planName ?? "AMC Plan",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF2A2933),
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   height: 1.1,
                                   letterSpacing: -0.2,
                                 ),
@@ -488,10 +501,13 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                           alignment: Alignment.center,
                           child: Text(
                             amcPlan?.status ?? "ACTIVE",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xFF17221D),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF101C16),
+                              letterSpacing: 0.2,
                             ),
                           ),
                         ),
@@ -563,10 +579,10 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.outfit(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17.sp,
+                                            fontWeight: FontWeight.w700,
                                             color: const Color(0xFF101C16),
-                                            height: 1,
+                                            height: 1.1,
                                             letterSpacing: -0.2,
                                           ),
                                         ),
@@ -574,7 +590,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                       SizedBox(width: 5.w),
                                       Container(
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: 3.w,
+                                          horizontal: 4.w,
                                           vertical: 2.h,
                                         ),
                                         decoration: BoxDecoration(
@@ -587,7 +603,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                           propertyAssistant?.badge ?? "AI",
                                           style: GoogleFonts.outfit(
                                             fontSize: 10.sp,
-                                            fontWeight: FontWeight.w500,
+                                            fontWeight: FontWeight.w700,
                                             color: const Color(0xFF101C16),
                                           ),
                                         ),
@@ -601,10 +617,15 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF101C16),
-                                      height: 1,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color.fromRGBO(
+                                        16,
+                                        28,
+                                        22,
+                                        0.8,
+                                      ),
+                                      height: 1.1,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -857,9 +878,9 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF101C16),
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.heading,
                             height: 1,
                             letterSpacing: -0.2,
                           ),
@@ -873,7 +894,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                           style: GoogleFonts.outfit(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w500,
-                            color: const Color(0xFF101C16),
+                            color: const Color.fromRGBO(16, 28, 22, 0.75),
                             height: 1,
                             letterSpacing: -0.2,
                           ),
@@ -920,19 +941,28 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                     children: [
                                       Text(
                                         "Total Properties / Units",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.outfit(
-                                          fontSize: 11.sp,
-                                          color: Colors.white,
+                                          fontSize: 12.sp,
+                                          color: const Color.fromRGBO(
+                                            255,
+                                            255,
+                                            255,
+                                            0.85,
+                                          ),
                                           fontWeight: FontWeight.w500,
+                                          letterSpacing: -0.2,
                                         ),
                                       ),
                                       SizedBox(height: 2.h),
                                       Text(
                                         "$totalUnits",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600,
+                                          fontSize: 19.sp,
+                                          fontWeight: FontWeight.w700,
                                           color: Colors.white,
+                                          letterSpacing: -0.2,
                                         ),
                                       ),
                                     ],
@@ -946,10 +976,18 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                     children: [
                                       Text(
                                         "Occupancy",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.outfit(
-                                          fontSize: 11.sp,
+                                          fontSize: 12.sp,
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.white,
+                                          color: const Color.fromRGBO(
+                                            255,
+                                            255,
+                                            255,
+                                            0.85,
+                                          ),
+                                          letterSpacing: -0.2,
                                         ),
                                       ),
                                       SizedBox(height: 3.h),
@@ -958,9 +996,10 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                             ? occupancyPercent
                                             : "$occupancyPercent%",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xff4D9B51),
+                                          fontSize: 19.sp,
+                                          fontWeight: FontWeight.w700,
+                                          color: const Color(0xff4D9B51),
+                                          letterSpacing: -0.2,
                                         ),
                                       ),
                                       SizedBox(height: 6.h),
@@ -984,10 +1023,18 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                       Text(
                                         complexOverview?.occupancyText ??
                                             "$occupied / $totalUnits Units",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.outfit(
                                           fontSize: 11.sp,
-                                          color: Colors.white,
+                                          color: const Color.fromRGBO(
+                                            255,
+                                            255,
+                                            255,
+                                            0.75,
+                                          ),
                                           fontWeight: FontWeight.w400,
+                                          letterSpacing: -0.2,
                                         ),
                                       ),
                                     ],
@@ -1228,7 +1275,8 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                           style: GoogleFonts.outfit(
                             fontSize: 11.sp,
                             color: Colors.white,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.3,
                           ),
                         ),
                       ],
@@ -1247,10 +1295,11 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 19.sp,
+                          fontWeight: FontWeight.w700,
                           color: Colors.white,
-                          height: 1.1,
+                          height: 1.15,
+                          letterSpacing: -0.3,
                         ),
                       ),
                       SizedBox(height: 2.h),
@@ -1268,8 +1317,15 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 11.sp,
-                                color: Colors.white,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: const Color.fromRGBO(
+                                  255,
+                                  255,
+                                  255,
+                                  0.85,
+                                ),
+                                letterSpacing: -0.2,
                               ),
                             ),
                           ),
@@ -1295,8 +1351,10 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                         Text(
                           "View Complex",
                           style: GoogleFonts.outfit(
-                            fontSize: 11.sp,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
                             color: Colors.white,
+                            letterSpacing: -0.2,
                           ),
                         ),
                         SizedBox(width: 3.w),
@@ -1396,9 +1454,9 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
                   fontSize: 11.sp,
-                  color: Colors.white,
+                  color: const Color.fromRGBO(255, 255, 255, 0.75),
                   fontWeight: FontWeight.w400,
-                  letterSpacing: -0.3,
+                  letterSpacing: -0.2,
                 ),
               ),
 
@@ -1408,8 +1466,8 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                   Text(
                     value,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w700,
                       color: valueColor ?? Colors.white,
                     ),
                   ),
@@ -1437,7 +1495,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
       height: 28.h,
       width: 1,
       color: Colors.white24,
-      margin: EdgeInsets.symmetric(horizontal: 25.w),
+      margin: EdgeInsets.symmetric(horizontal: 10.w),
     );
   }
 
@@ -1470,19 +1528,20 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                   title,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff0D241B),
-                    letterSpacing: -0.3,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xff0D241B),
+                    letterSpacing: -0.2,
                   ),
                 ),
-                // if (subtitle.isNotEmpty)
                 Text(
                   subtitle,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.outfit(
                     fontSize: 13.sp,
-                    color: Color(0xff0D241B),
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xff0D241B),
+                    letterSpacing: -0.2,
                   ),
                 ),
               ],
@@ -1534,15 +1593,14 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                 children: [
                   Text(
                     title,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    softWrap: false,
                     style: GoogleFonts.outfit(
-                      fontSize: 9.sp,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 10.5.sp,
+                      color: const Color.fromRGBO(255, 255, 255, 0.85),
+                      fontWeight: FontWeight.w500,
                       letterSpacing: -0.2,
-                      height: 1.1.h,
+                      height: 1.15,
                     ),
                   ),
                   Text(
@@ -1550,8 +1608,8 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w700,
                       color: color,
                     ),
                   ),
@@ -1663,7 +1721,8 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 11.sp,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600,
                                 color: AppColors.heading,
                                 letterSpacing: -0.3,
                               ),
@@ -1677,7 +1736,8 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                 "View Details",
                                 maxLines: 1,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 11.sp,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
                                   color: const Color(0xFF9B7627),
                                   letterSpacing: -0.3,
                                 ),
@@ -1837,7 +1897,8 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 11.sp,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600,
                                 color: AppColors.heading,
                                 letterSpacing: -0.3,
                               ),
@@ -1923,7 +1984,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 10.sp,
+                                      fontSize: 11.sp,
                                       color: const Color(0xff777777),
                                       letterSpacing: -0.2,
                                     ),
@@ -2041,10 +2102,10 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.outfit(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 11.sp,
+                fontWeight: FontWeight.w600,
                 color: const Color(0xff0D241B),
-                letterSpacing: -0.3,
+                letterSpacing: -0.2,
               ),
             ),
           ],
@@ -2060,7 +2121,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
   ) {
     final title = chargesMonthly?.title ?? "Maintenance Charges (Monthly)";
     final rawStatus =
-        chargesMonthly?.status ?? chargesMonthly?.statusBadge ?? "Active";
+        chargesMonthly?.statusBadge ?? chargesMonthly?.statusBadge ?? "Active";
     final status = rawStatus.toLowerCase() == "tracking" ? "Active" : rawStatus;
     final totalUnits =
         complex?.totalUnits ?? complex?.occupancyOverview?.totalProperties ?? 0;
@@ -2148,8 +2209,8 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
           Text(
             value,
             style: GoogleFonts.outfit(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w600,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w700,
               color: valueColor ?? Color(0xff0D241B),
               letterSpacing: -0.2,
             ),
@@ -2449,7 +2510,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                           TextSpan(
                             text: "$count ",
                             style: GoogleFonts.outfit(
-                              fontSize: 11.sp,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                               color: const Color(0xff0D241B),
                             ),
@@ -2457,7 +2518,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                         TextSpan(
                           text: title,
                           style: GoogleFonts.outfit(
-                            fontSize: 11.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff0D241B),
                           ),
@@ -2519,10 +2580,12 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
               Expanded(
                 child: Text(
                   title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff0D241B),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -2536,7 +2599,8 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
                     Text(
                       action,
                       style: GoogleFonts.outfit(
-                        fontSize: 11.sp,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xFF9B7627),
                         letterSpacing: -0.2,
                       ),

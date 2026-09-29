@@ -130,20 +130,20 @@ class _ResidentvisitorpassrequestState
                   Text(
                     "Visitor Pass Request",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Request entry access for your visitor",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -205,7 +205,7 @@ class _ResidentvisitorpassrequestState
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
                               letterSpacing: -0.2,
@@ -218,7 +218,7 @@ class _ResidentvisitorpassrequestState
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
                               letterSpacing: -0.2,
@@ -240,8 +240,8 @@ class _ResidentvisitorpassrequestState
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
                                 color: const Color(0xFFB8860B),
                                 letterSpacing: -0.2,
                               ),
@@ -256,7 +256,7 @@ class _ResidentvisitorpassrequestState
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -275,7 +275,7 @@ class _ResidentvisitorpassrequestState
                     Text(
                       "Visitor Name",
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.3,
                       ),
@@ -284,7 +284,7 @@ class _ResidentvisitorpassrequestState
                     TextField(
                       controller: visitorNameController,
                       style: GoogleFonts.outfit(
-                        fontSize: 18.sp,
+                        fontSize: 19.sp,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.2,
                       ),
@@ -296,7 +296,7 @@ class _ResidentvisitorpassrequestState
                         ),
                         hintText: "Enter Visitor Name",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: Color.fromRGBO(42, 41, 51, 0.6),
                           letterSpacing: -0.2,
@@ -322,7 +322,7 @@ class _ResidentvisitorpassrequestState
                     Text(
                       "Mobile Number",
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.3,
                       ),
@@ -331,7 +331,7 @@ class _ResidentvisitorpassrequestState
                     TextField(
                       controller: mobileNumberController,
                       style: GoogleFonts.outfit(
-                        fontSize: 18.sp,
+                        fontSize: 19.sp,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.2,
                       ),
@@ -344,7 +344,7 @@ class _ResidentvisitorpassrequestState
                           vertical: 10.h,
                         ),
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: Color.fromRGBO(42, 41, 51, 0.6),
                           letterSpacing: -0.2,
@@ -368,7 +368,7 @@ class _ResidentvisitorpassrequestState
                     Text(
                       "Visitor Type",
                       style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.3,
                       ),
@@ -412,7 +412,7 @@ class _ResidentvisitorpassrequestState
                     Text(
                       "Quick Select Category",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xff777777),
                       ),
@@ -463,7 +463,7 @@ class _ResidentvisitorpassrequestState
                               Text(
                                 item["name"] as String,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                 ),
@@ -484,7 +484,7 @@ class _ResidentvisitorpassrequestState
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -528,7 +528,7 @@ class _ResidentvisitorpassrequestState
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                         letterSpacing: -0.2,
@@ -553,8 +553,8 @@ class _ResidentvisitorpassrequestState
                           hint: Text(
                             "Select purpose",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
                               color: const Color(0xFF666666),
                               letterSpacing: -0.2,
                             ),
@@ -566,7 +566,7 @@ class _ResidentvisitorpassrequestState
                             size: 22.sp,
                           ),
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff101C16),
                             letterSpacing: -0.2,
@@ -577,7 +577,7 @@ class _ResidentvisitorpassrequestState
                               child: Text(
                                 purpose,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: -0.2,
                                 ),
@@ -683,7 +683,7 @@ class _ResidentvisitorpassrequestState
                     : Text(
                         "Submit Visitor Request",
                         style: GoogleFonts.outfit(
-                          fontSize: 15.sp,
+                          fontSize: 17.sp,
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                           letterSpacing: -0.2,
@@ -696,7 +696,7 @@ class _ResidentvisitorpassrequestState
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -711,7 +711,7 @@ class _ResidentvisitorpassrequestState
                       child: Text(
                         "No recent requests",
                         style: GoogleFonts.outfit(
-                          fontSize: 15.sp,
+                          fontSize: 17.sp,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey,
                         ),
@@ -763,7 +763,7 @@ class _ResidentvisitorpassrequestState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
+                                      fontSize: 17.sp,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF101C16),
                                       letterSpacing: -0.2,
@@ -776,8 +776,8 @@ class _ResidentvisitorpassrequestState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w500,
                                       color: const Color(0xFF555555),
                                       letterSpacing: -0.2,
                                     ),
@@ -799,7 +799,7 @@ class _ResidentvisitorpassrequestState
                                 // "Pending",
                                 item.status ?? "N/A",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xFFB8860B),
                                   letterSpacing: -0.2,
@@ -855,7 +855,7 @@ class _ResidentvisitorpassrequestState
           Text(
             title,
             style: GoogleFonts.outfit(
-              fontSize: 15.sp,
+              fontSize: 17.sp,
               color: selected ? Colors.white : const Color(0xff101C16),
               fontWeight: FontWeight.w500,
               letterSpacing: -0.2,
@@ -882,7 +882,7 @@ class _ResidentvisitorpassrequestState
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 15.sp,
+            fontSize: 17.sp,
             fontWeight: FontWeight.w500,
             color: Colors.black,
             letterSpacing: -0.2,
@@ -896,7 +896,7 @@ class _ResidentvisitorpassrequestState
           maxLines: 1,
           textAlignVertical: TextAlignVertical.center,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w500,
             color: isHint ? const Color(0xFF666666) : const Color(0xFF101C16),
             letterSpacing: -0.2,
@@ -917,8 +917,8 @@ class _ResidentvisitorpassrequestState
             ),
             hintText: "DD / MM / YYYY",
             hintStyle: GoogleFonts.outfit(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
               color: const Color(0xFF666666),
               letterSpacing: -0.2,
             ),

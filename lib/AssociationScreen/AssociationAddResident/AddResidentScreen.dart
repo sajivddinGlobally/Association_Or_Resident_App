@@ -54,15 +54,13 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(65.h),
+        preferredSize: Size.fromHeight(70.h),
         child: AppBar(
           backgroundColor: AppColors.scaffoldBg,
           automaticallyImplyLeading: false,
           elevation: 0,
           surfaceTintColor: Colors.transparent,
-
           titleSpacing: 0,
-
           title: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
@@ -73,24 +71,23 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                     Navigator.pop(context);
                   },
                   child: Container(
-                    width: 41.w,
-                    height: 41.h,
+                    width: 44.w,
+                    height: 44.h,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: const Color.fromRGBO(16, 28, 22, 0.3),
                       ),
-                      borderRadius: BorderRadius.circular(4.r),
+                      borderRadius: BorderRadius.circular(6.r),
                     ),
                     child: Icon(
                       Icons.arrow_back,
                       color: const Color(0xff101C16),
-                      size: 16.sp,
+                      size: 20.sp,
                     ),
                   ),
                 ),
-
-                SizedBox(width: 10.w),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -102,14 +99,12 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
                           fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff292832),
-                          letterSpacing: -0.64,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.3,
                         ),
                       ),
-
                       SizedBox(height: 2.h),
-
                       Text(
                         "All Resident Information",
                         maxLines: 1,
@@ -117,14 +112,13 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                         style: GoogleFonts.outfit(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
-                          color: const Color.fromRGBO(42, 41, 51, 0.6),
-                          letterSpacing: -0.24,
+                          color: const Color.fromRGBO(42, 41, 51, 0.7),
+                          letterSpacing: -0.2,
                         ),
                       ),
                     ],
                   ),
                 ),
-
                 SizedBox(width: 10.w),
                 GestureDetector(
                   onTap: () {
@@ -140,9 +134,9 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: const Color(0xffB8860B),
-                      fontSize: 14.sp,
+                      fontSize: 15.sp,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -176,9 +170,10 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF101C16),
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
                         ),
                       ),
 
@@ -295,7 +290,8 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                               size: 20.sp,
                             ),
                             style: GoogleFonts.outfit(
-                              fontSize: 15.sp,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
                               color: const Color(0xff101C16),
                             ),
                             autovalidateMode:
@@ -304,9 +300,9 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                               isDense: true,
                               hintText: 'Select Property Name',
                               hintStyle: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF000000),
+                                color: const Color(0xFF000000),
                                 letterSpacing: -0.3,
                               ),
                               contentPadding: EdgeInsets.symmetric(
@@ -354,8 +350,8 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                                 return Text(
                                   e.propertyName ?? '',
                                   style: GoogleFonts.outfit(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
                                     color: AppColors.heading,
                                     letterSpacing: -0.2,
                                   ),
@@ -369,8 +365,8 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                                 child: Text(
                                   e.propertyName ?? '',
                                   style: GoogleFonts.outfit(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
                                     color: AppColors.heading,
                                     letterSpacing: -0.2,
                                   ),
@@ -546,7 +542,7 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFF101C16),
                               ),
@@ -555,11 +551,11 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                         ],
                       ),
 
-                      SizedBox(height: 15.h),
+                      SizedBox(height: 18.h),
 
                       SizedBox(
                         width: double.infinity,
-                        height: 40.h,
+                        height: 52.h,
                         child: ElevatedButton(
                           onPressed: isLoading
                               ? null
@@ -621,7 +617,7 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                             backgroundColor: const Color(0xFF101C16),
                             elevation: 0,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.r),
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
                           ),
                           child: isLoading
@@ -630,7 +626,7 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                                     width: 20.w,
                                     height: 20.h,
                                     child: CircularProgressIndicator(
-                                      color: AppColors.heading,
+                                      color: Colors.white,
                                       strokeWidth: 1.5,
                                     ),
                                   ),
@@ -640,9 +636,10 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
                                     color: Colors.white,
+                                    letterSpacing: 0.2,
                                   ),
                                 ),
                         ),
@@ -675,6 +672,7 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: GoogleFonts.outfit(
         fontSize: 16.sp,
+        fontWeight: FontWeight.w600,
         color: const Color(0xff101C16),
         letterSpacing: -0.2,
       ),
@@ -682,12 +680,12 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
         isDense: true,
         hintText: hintText,
         hintStyle: GoogleFonts.outfit(
-          fontSize: 14.sp,
+          fontSize: 15.sp,
           fontWeight: FontWeight.w500,
-          color: Color.fromRGBO(0, 0, 0, 0.6),
-          letterSpacing: -0.3,
+          color: const Color.fromRGBO(0, 0, 0, 0.55),
+          letterSpacing: -0.2,
         ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
         suffixIcon: showVisibilityIcon
             ? InkWell(
                 onTap: onVisibilityTap,
@@ -695,34 +693,35 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
                   obscureText
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
-                  size: 18.sp,
+                  size: 22.sp,
                   color: const Color(0xFF000000),
                 ),
               )
             : null,
-        // ⭐ IMPORTANT
         suffixIconConstraints: BoxConstraints(
-          minHeight: 44.h,
-          maxHeight: 44.h,
-          minWidth: 44.w,
-          maxWidth: 44.w,
+          minHeight: 52.h,
+          maxHeight: 52.h,
+          minWidth: 46.w,
+          maxWidth: 46.w,
         ),
-
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
-          borderSide: BorderSide(color: Color(0xFF000000), width: 1.w),
+          borderRadius: BorderRadius.circular(6.r),
+          borderSide: BorderSide(
+            color: const Color.fromRGBO(16, 28, 22, 0.6),
+            width: 1.2.w,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
-          borderSide: BorderSide(color: Color(0xFF000000), width: 1.w),
+          borderRadius: BorderRadius.circular(6.r),
+          borderSide: BorderSide(color: AppColors.heading, width: 1.5.w),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(6.r),
           borderSide: BorderSide(color: Colors.red, width: 1.w),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
-          borderSide: BorderSide(color: Colors.red, width: 1.w),
+          borderRadius: BorderRadius.circular(6.r),
+          borderSide: BorderSide(color: Colors.red, width: 1.5.w),
         ),
       ),
     );
@@ -730,14 +729,14 @@ class _AddresidentscreenState extends ConsumerState<Addresidentscreen> {
 
   Widget fieldLabel(String text) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10.h),
+      padding: EdgeInsets.only(bottom: 8.h),
       child: Text(
         text,
         style: GoogleFonts.outfit(
           fontSize: 14.sp,
-          fontWeight: FontWeight.w500,
-          color: Color(0xFF000000),
-          letterSpacing: -0.3,
+          fontWeight: FontWeight.w600,
+          color: AppColors.heading,
+          letterSpacing: 0.1,
         ),
       ),
     );

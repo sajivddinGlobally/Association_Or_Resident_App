@@ -72,9 +72,9 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                     "DEFAULTERS LIST",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -84,8 +84,8 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF2A2933),
+                      fontWeight: FontWeight.w400,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -136,15 +136,15 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                               overMaintenance?.title ?? "OVERDUE MAINTENANCE",
                               style: GoogleFonts.outfit(
                                 fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                                letterSpacing: -0.2,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.heading,
+                                letterSpacing: -0.1,
                               ),
                             ),
                             Text(
                               overMaintenance?.badge ?? "AUGUST 2026",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 13.sp,
                                 fontWeight: FontWeight.w700,
                                 color: const Color(0xFF24B06A),
                                 letterSpacing: -0.2,
@@ -176,24 +176,28 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                                   Text(
                                     overMaintenance?.sectionTitle ??
                                         "Defaulters",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                      height: 1.05,
-                                      letterSpacing: -0.3,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
+                                      height: 1.1,
+                                      letterSpacing: -0.2,
                                     ),
                                   ),
                                   SizedBox(height: 3.h),
                                   Text(
                                     overMaintenance?.sectionSubtitle ??
                                         "Units with overdue maintenance charges",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0xFF4A4A4A),
-                                      height: 1.05,
-                                      letterSpacing: -0.15,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromRGBO(0, 0, 0, 0.75),
+                                      height: 1.1,
+                                      letterSpacing: -0.2,
                                     ),
                                   ),
                                 ],
@@ -264,34 +268,38 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                   "Defaulters",
                   style: GoogleFonts.outfit(
                     fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
                 Text(
                   unitCount?.defaulters?.countLabel ?? "0",
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0xFF999999),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: const Color.fromRGBO(42, 41, 51, 0.75),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 11.h),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+              height: 52.h,
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: Colors.black, width: 1.w),
+                borderRadius: BorderRadius.circular(6.r),
+                border: Border.all(
+                  color: const Color.fromRGBO(16, 28, 22, 0.6),
+                  width: 1.2,
+                ),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.search,
-                    size: 18.sp,
-                    color: const Color(0xFF666666),
+                    size: 24.sp,
+                    color: AppColors.heading,
                   ),
                   SizedBox(width: 10.w),
                   Expanded(
@@ -303,16 +311,18 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                         });
                       },
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.heading,
+                        letterSpacing: -0.2,
                       ),
                       decoration: InputDecoration(
                         hintText: "Search service or provider..",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xFF666666),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(16, 28, 22, 0.6),
+                          letterSpacing: -0.2,
                         ),
                         border: InputBorder.none,
                         isDense: true,
@@ -467,29 +477,35 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
       children: [
         Text(
           label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: const Color(0xFF999999),
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
             letterSpacing: -0.2,
           ),
         ),
         SizedBox(height: 4.h),
         Text(
           value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
         SizedBox(height: 4.h),
         Text(
           subValue,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w500,
             color: subValueColor,
             letterSpacing: -0.2,
           ),
@@ -500,7 +516,7 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
 
   Widget _buildStatCard(String title, String amount, String subtitle) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(color: Colors.black, width: 1.w),
@@ -510,29 +526,35 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
         children: [
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF666666),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
               letterSpacing: -0.2,
             ),
           ),
           SizedBox(height: 4.h),
           Text(
             amount,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.heading,
             ),
           ),
           SizedBox(height: 4.h),
           Text(
             subtitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF666666),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
             ),
           ),
         ],
@@ -549,7 +571,7 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xff101C16) : Colors.transparent,
           borderRadius: BorderRadius.circular(20.r),
@@ -561,8 +583,8 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
         child: Text(
           label,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w600,
             color: isSelected ? Colors.white : Colors.black,
             letterSpacing: -0.2,
           ),
@@ -623,19 +645,24 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                 children: [
                   Text(
                     title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
+                  SizedBox(height: 2.h),
                   Text(
                     subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF666666),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(0, 0, 0, 0.75),
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -648,18 +675,18 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                 Text(
                   amount,
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                   ),
                 ),
                 SizedBox(height: 2.h),
                 Text(
                   status,
                   style: GoogleFonts.outfit(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0xFF666666),
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFFB8860B),
                     letterSpacing: -0.1,
                   ),
                 ),

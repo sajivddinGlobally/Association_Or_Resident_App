@@ -54,58 +54,61 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
         backgroundColor: AppColors.scaffoldBg,
         automaticallyImplyLeading: false,
         titleSpacing: 20.w,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 41.w,
-                  height: 41.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromRGBO(16, 28, 22, 0.3),
-                    ),
-                    borderRadius: BorderRadius.circular(4.r),
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 44.w,
+                height: 44.h,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromRGBO(16, 28, 22, 0.3),
                   ),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: const Color(0xff101C16),
-                    size: 16.sp,
-                  ),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: const Color(0xff101C16),
+                  size: 20.sp,
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Complaint Details",
+                    "Complaint Status Tracking",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    "View complete complaint information",
+                    "Status timeline & resolution tracking",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: complaintStatusData.when(
@@ -120,13 +123,13 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 11.w,
-                      vertical: 14.h,
+                      horizontal: 16.w,
+                      vertical: 16.h,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
                       border: Border.all(
-                        color: const Color(0xff101C16),
+                        color: AppColors.heading,
                         width: 1,
                       ),
                     ),
@@ -136,76 +139,74 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              data.data.ticketCard.tag,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF000000),
-                                letterSpacing: -0.3,
-                                height: 1.1,
+                            Expanded(
+                              child: Text(
+                                data.data.ticketCard.tag,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.2,
+                                ),
                               ),
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 13.w,
+                                horizontal: 12.w,
                                 vertical: 4.h,
                               ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40.r),
                                 border: Border.all(
-                                  color: Color(0xFFB8860B),
+                                  color: const Color(0xFFB8860B),
                                   width: 1.w,
                                 ),
                               ),
                               child: Text(
                                 data.data.ticketCard.status,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: const Color(0xFFB8860B),
-                                  letterSpacing: -0.3,
-                                  height: 1.0,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 14.h),
                         Text(
                           data.data.ticketCard.title,
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF000000),
-                            letterSpacing: -0.3,
-                            height: 1.0,
+                            fontSize: 19.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.heading,
+                            letterSpacing: -0.2,
                           ),
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 4.h),
                         Text(
                           data.data.ticketCard.subtitle,
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w500,
-                            color: const Color(0xFF000000),
-                            letterSpacing: -0.3,
-                            height: 1.0,
+                            color: const Color.fromRGBO(42, 41, 51, 0.75),
+                            letterSpacing: -0.2,
                           ),
                         ),
-                        SizedBox(height: 13.h),
+                        SizedBox(height: 14.h),
                         Container(
                           width: double.infinity,
                           height: 1.h,
-                          color: Color.fromRGBO(42, 41, 51, 0.6),
+                          color: const Color.fromRGBO(42, 41, 51, 0.25),
                         ),
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 14.h),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -230,12 +231,12 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 17.w,
+                      horizontal: 18.w,
                       vertical: 16.h,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      color: Color.fromRGBO(184, 134, 11, 0.9),
+                      color: const Color.fromRGBO(184, 134, 11, 0.9),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,18 +245,18 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                           "CURRENT STATUS",
                           style: GoogleFonts.outfit(
                             fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
-                            letterSpacing: -0.2,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black87,
+                            letterSpacing: 0.4,
                           ),
                         ),
                         SizedBox(height: 6.h),
                         Text(
                           data.data.ticketCard.status,
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -263,40 +264,40 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                         Text(
                           data.data.currentStatusCard.message,
                           style: GoogleFonts.outfit(
-                            fontSize: 12.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
+                            color: Colors.black87,
                             letterSpacing: -0.2,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Status Timeline",
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF000000),
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.heading,
                           letterSpacing: -0.2,
                         ),
                       ),
                       Text(
                         "4 STAGES",
                         style: GoogleFonts.outfit(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF000000),
-                          letterSpacing: -0.2,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.heading,
+                          letterSpacing: 0.2,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
@@ -305,7 +306,7 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: Colors.black, width: 1.w),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Column(
                       children: List.generate(data.data.statusTimeline.length, (
@@ -322,22 +323,22 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                       }),
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 18.h),
                   Text(
-                    "Complex Details",
+                    "Complaint Details",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.w),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: Color(0xFF000000), width: 1.w),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Column(
                       children: [
@@ -361,28 +362,26 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.w),
+                  SizedBox(height: 18.h),
                   Text(
                     "Latest Update",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.w),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.only(
-                      top: 8.h,
-                      left: 16.w,
-                      bottom: 8.h,
-                      right: 16.w,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 12.h,
+                      horizontal: 14.w,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.r),
-                      border: Border.all(color: Colors.black, width: 1.w),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -390,13 +389,13 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                         Row(
                           children: [
                             Container(
-                              width: 34.w,
-                              height: 34.w,
+                              width: 36.w,
+                              height: 36.w,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.r),
+                                borderRadius: BorderRadius.circular(6.r),
                                 border: Border.all(
                                   color: const Color(0xFF1E5993),
-                                  width: 1.w,
+                                  width: 1.2.w,
                                 ),
                               ),
                               child: Center(
@@ -404,36 +403,37 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                                   "✓",
                                   style: GoogleFonts.outfit(
                                     fontSize: 18.sp,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w600,
                                     color: const Color(0xFF1E5993),
                                     height: 1,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10.w),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     data.data.latestUpdate.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                      height: 1,
-                                      letterSpacing: -0.3,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
+                                      letterSpacing: -0.2,
                                     ),
                                   ),
-                                  SizedBox(height: 2.h),
+                                  SizedBox(height: 3.h),
                                   Text(
                                     data.data.latestUpdate.note,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                      height: 1.25,
+                                      color: AppColors.heading,
+                                      height: 1.35,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -445,7 +445,7 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.w),
+                  SizedBox(height: 24.h),
                 ],
               ),
             ),
@@ -462,7 +462,8 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
               "Something went wrong",
               style: GoogleFonts.outfit(
                 fontSize: 15.sp,
-                color: AppColors.heading,
+                fontWeight: FontWeight.w500,
+                color: const Color.fromRGBO(42, 41, 51, 0.75),
               ),
             ),
           );
@@ -491,9 +492,8 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(42, 41, 51, 0.6),
-            letterSpacing: -0.3,
-            height: 1.0,
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
+            letterSpacing: -0.2,
           ),
         ),
         SizedBox(height: 4.h),
@@ -503,10 +503,9 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF000000),
-            letterSpacing: -0.3,
-            height: 1.0,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
+            letterSpacing: -0.2,
           ),
         ),
       ],
@@ -525,15 +524,15 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
         child: Row(
           children: [
             Container(
-              width: 35.w,
-              height: 35.w,
+              width: 36.w,
+              height: 36.w,
               decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFF000000), width: 1.w),
+                border: Border.all(color: AppColors.heading, width: 1.w),
                 borderRadius: BorderRadius.circular(6.r),
               ),
-              child: Icon(icon, size: 15.sp, color: Color(0xFF000000)),
+              child: Icon(icon, size: 18.sp, color: AppColors.heading),
             ),
-            SizedBox(width: 7.w),
+            SizedBox(width: 10.w),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -546,9 +545,8 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                     style: GoogleFonts.outfit(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(0, 0, 0, 0.7),
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                       letterSpacing: -0.2,
-                      height: 1.h,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -557,9 +555,9 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -573,10 +571,10 @@ class _ComplaintStatusState extends ConsumerState<ComplaintStatus> {
   }
 
   Widget _buildDivider() {
-    return Divider(
-      height: 0.8.h,
-      thickness: 0.7.w,
-      color: Color.fromRGBO(41, 41, 51, 0.7),
+    return const Divider(
+      height: 1,
+      thickness: 1,
+      color: Color.fromRGBO(41, 41, 51, 0.2),
     );
   }
 }
@@ -606,7 +604,6 @@ class _TimelineItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(
-            // width: 42.w,
             child: Column(
               children: [
                 _buildCircle(isCompleted: isCompleted, isCurrent: isCurrent),
@@ -614,16 +611,16 @@ class _TimelineItem extends StatelessWidget {
                   Expanded(
                     child: Container(
                       width: 1.w,
-                      color: Color.fromRGBO(16, 28, 22, 0.5),
+                      color: const Color.fromRGBO(16, 28, 22, 0.35),
                     ),
                   ),
               ],
             ),
           ),
-          SizedBox(width: 8.w),
+          SizedBox(width: 12.w),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(top: 0.h, bottom: isLast ? 0.h : 28.h),
+              padding: EdgeInsets.only(top: 0.h, bottom: isLast ? 0.h : 22.h),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -633,22 +630,24 @@ class _TimelineItem extends StatelessWidget {
                       children: [
                         Text(
                           title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
-                            height: 1.05,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
-                        SizedBox(height: 3.h),
+                        SizedBox(height: 4.h),
                         Text(
                           description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(0, 0, 0, 0.6),
-                            height: 1.2,
+                            color: const Color.fromRGBO(42, 41, 51, 0.75),
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -658,13 +657,13 @@ class _TimelineItem extends StatelessWidget {
                   if (date.isNotEmpty) ...[
                     SizedBox(width: 8.w),
                     Padding(
-                      padding: EdgeInsets.only(top: 13.h),
+                      padding: EdgeInsets.only(top: 2.h),
                       child: Text(
                         date,
                         style: GoogleFonts.outfit(
                           fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF7C7C7C),
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFFC38A00),
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -682,22 +681,22 @@ class _TimelineItem extends StatelessWidget {
   Widget _buildCircle({required bool isCompleted, required bool isCurrent}) {
     if (isCompleted) {
       return Container(
-        width: 25.w,
-        height: 25.w,
+        width: 26.w,
+        height: 26.w,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Color(0xFF00A955),
         ),
         child: Center(
-          child: Icon(Icons.check, color: Colors.white, size: 20.sp),
+          child: Icon(Icons.check, color: Colors.white, size: 18.sp),
         ),
       );
     }
     if (isCurrent) {
       return Container(
-        width: 25.w,
-        height: 25.w,
-        decoration: BoxDecoration(
+        width: 26.w,
+        height: 26.w,
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Color.fromRGBO(184, 134, 11, 0.9),
         ),
@@ -714,11 +713,11 @@ class _TimelineItem extends StatelessWidget {
       );
     }
     return Container(
-      width: 25.w,
-      height: 25.w,
+      width: 26.w,
+      height: 26.w,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.black, width: 1.w),
+        border: Border.all(color: AppColors.heading, width: 1.w),
       ),
     );
   }

@@ -36,53 +36,52 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "MAINTENANCE CHARGES",
-                        style: GoogleFonts.outfit(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff292832),
-                          letterSpacing: -0.64,
-                        ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "MAINTENANCE CHARGES",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
                       ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        "Residential/Commercial management Team Management",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF2A2933),
-                          letterSpacing: -0.2,
-                        ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Residential/Commercial management Team Management",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -95,16 +94,16 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 16.h),
+                SizedBox(height: 20.h),
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(
-                    vertical: 15.h,
-                    horizontal: 12.w,
+                    vertical: 16.h,
+                    horizontal: 14.w,
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: Colors.black, width: 1.w),
+                    border: Border.all(color: AppColors.heading, width: 1.2),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,14 +114,13 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                           Text(
                             "MONTHLY CHARGES OVERVIEW",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.heading,
                               letterSpacing: -0.2,
                             ),
                           ),
                           Text(
-                            // "AUGUST 2026",
                             data.data?.monthlyChargesOverview?.badge ?? "N/A",
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
@@ -138,19 +136,19 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: 35.w,
-                            height: 35.w,
+                            width: 42.w,
+                            height: 42.w,
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(255, 242, 165, 0.55),
-                              borderRadius: BorderRadius.circular(5.r),
+                              borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: Icon(
                               Icons.business_center_outlined,
-                              size: 19.sp,
+                              size: 20.sp,
                               color: const Color(0xFF9D8422),
                             ),
                           ),
-                          SizedBox(width: 14.w),
+                          SizedBox(width: 12.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,27 +156,25 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                                 Text(
                                   data.data?.monthlyChargesOverview?.title ??
                                       "Maintenance Charges",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                    height: 1.05,
-                                    letterSpacing: -0.3,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.heading,
+                                    letterSpacing: -0.2,
                                   ),
                                 ),
                                 SizedBox(height: 3.h),
                                 Text(
-                                  // "Track monthly collection and outstanding dues",
-                                  data
-                                          .data
-                                          ?.monthlyChargesOverview
-                                          ?.description ??
+                                  data.data?.monthlyChargesOverview?.description ??
                                       "N/A",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xFF4A4A4A),
-                                    height: 1.05,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromRGBO(42, 41, 51, 0.75),
                                     letterSpacing: -0.15,
                                   ),
                                 ),
@@ -227,7 +223,7 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                                     ?.collected
                                     ?.label ??
                                 "August 2026",
-                            const Color(0xFFC18A00),
+                            const Color(0xFF24B06A),
                           ),
                           _buildSummaryItem(
                             "Outstanding",
@@ -247,68 +243,25 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                                 "August 2026",
                             const Color(0xFFC18A00),
                           ),
-                          SizedBox(width: 100.w),
+                          SizedBox(width: 80.w),
                         ],
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 22.h),
                 Text(
                   "Charge Overview",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
                 SizedBox(height: 14.h),
 
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: _buildGridCard(
-                //         Icons.check,
-                //         "Paid Units",
-                //         "94",
-                //         "Charges recorded",
-                //       ),
-                //     ),
-                //     SizedBox(width: 20.w),
-                //     Expanded(
-                //       child: _buildGridCard(
-                //         Icons.access_time_outlined,
-                //         "Pending Units",
-                //         "15",
-                //         "Payment not recorded",
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // SizedBox(height: 14.h),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: _buildGridCard(
-                //         Icons.warning_amber_rounded,
-                //         "Defaulters",
-                //         "11",
-                //         "Past due date",
-                //       ),
-                //     ),
-                //     SizedBox(width: 20.w),
-                //     Expanded(
-                //       child: _buildGridCard(
-                //         Icons.attach_money_outlined,
-                //         "Outstanding",
-                //         "₹2.18L",
-                //         "Total pending amount",
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -329,7 +282,7 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                       itemCount: data.data?.chargeOverview?.cards?.length ?? 0,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        crossAxisSpacing: 20.w,
+                        crossAxisSpacing: 16.w,
                         mainAxisSpacing: 14.h,
                         childAspectRatio: 1.35,
                       ),
@@ -346,23 +299,23 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 22.h),
                 Text(
                   "Collection Progress",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: 12.h),
                 // Progress Card
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(
                     vertical: 20.h,
-                    horizontal: 20.w,
+                    horizontal: 18.w,
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xff101C16),
@@ -375,11 +328,10 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            // "August Collection",
                             data.data?.collectionProgress?.label ?? "N/A",
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
                               color: Colors.white,
                             ),
                           ),
@@ -387,8 +339,8 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                             data.data?.collectionProgress?.percentageText ??
                                 "N/A",
                             style: GoogleFonts.outfit(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w700,
                               color: Colors.white,
                             ),
                           ),
@@ -396,11 +348,11 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                       ),
                       SizedBox(height: 12.h),
                       Container(
-                        height: 4.h,
+                        height: 6.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(2.r),
+                          borderRadius: BorderRadius.circular(3.r),
                         ),
                         child: FractionallySizedBox(
                           alignment: Alignment.centerLeft,
@@ -412,7 +364,7 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: const Color(0xFF24B06A), // Green progress
-                              borderRadius: BorderRadius.circular(2.r),
+                              borderRadius: BorderRadius.circular(3.r),
                             ),
                           ),
                         ),
@@ -422,21 +374,19 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            // "Collected - ₹8.42L",
                             "Collected - ${data.data?.collectionProgress?.collectedText ?? "N/A"}",
                             style: GoogleFonts.outfit(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white70,
                             ),
                           ),
                           Text(
-                            // "Total Due - ₹10.60L",
                             "Total Due - ${data.data?.collectionProgress?.totalDueText ?? "N/A"}",
                             style: GoogleFonts.outfit(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white70,
                             ),
                           ),
                         ],
@@ -444,13 +394,13 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                     ],
                   ),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 22.h),
                 Text(
                   "Complaint Information",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -458,16 +408,16 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                 Text(
                   "View maintenance payment status and outstanding dues",
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0xFF999999),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromRGBO(42, 41, 51, 0.75),
                   ),
                 ),
                 SizedBox(height: 16.h),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: Colors.black, width: 1.w),
+                    border: Border.all(color: AppColors.heading, width: 1.2),
                   ),
                   child: Column(
                     children: [
@@ -534,8 +484,8 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
   Widget _divider() {
     return Divider(
       height: 1.h,
-      thickness: 0.8.w,
-      color: const Color.fromRGBO(42, 41, 51, 0.4),
+      thickness: 1,
+      color: const Color.fromRGBO(16, 28, 22, 0.15),
     );
   }
 
@@ -551,9 +501,9 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
         Text(
           label,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: const Color(0xFF4A4A4A),
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
             letterSpacing: -0.2,
           ),
         ),
@@ -561,18 +511,18 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
         Text(
           value,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
-        SizedBox(height: 4.h),
+        SizedBox(height: 2.h),
         Text(
           subValue,
           style: GoogleFonts.outfit(
             fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w600,
             color: subValueColor,
             letterSpacing: -0.2,
           ),
@@ -607,11 +557,11 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
     String subtitle,
   ) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Colors.black, width: 1.w),
+        border: Border.all(color: AppColors.heading, width: 1.2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -622,33 +572,39 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
               color: const Color.fromRGBO(255, 242, 165, 0.4),
               borderRadius: BorderRadius.circular(6.r),
             ),
-            child: Icon(icon, size: 16.sp, color: const Color(0xFFC18A00)),
+            child: Icon(icon, size: 18.sp, color: const Color(0xFFC18A00)),
           ),
           SizedBox(height: 6.h),
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color.fromRGBO(42, 41, 51, 0.7),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 3.h),
           Text(
             value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.heading,
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 3.h),
           Text(
             subtitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF4A4A4A),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(42, 41, 51, 0.7),
             ),
           ),
         ],
@@ -669,13 +625,13 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
         child: Row(
           children: [
             Container(
-              width: 38.w,
-              height: 38.w,
+              width: 40.w,
+              height: 40.w,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1.w),
+                border: Border.all(color: AppColors.heading, width: 1.2),
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              child: Icon(icon, size: 18.sp, color: Colors.black),
+              child: Icon(icon, size: 20.sp, color: AppColors.heading),
             ),
             SizedBox(width: 14.w),
             Expanded(
@@ -684,27 +640,31 @@ class _MantenanceChargesState extends ConsumerState<MantenanceCharges> {
                 children: [
                   Text(
                     title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF4A4A4A),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                       letterSpacing: -0.2,
                     ),
                   ),
                 ],
               ),
             ),
-            Icon(Icons.chevron_right, size: 22.sp, color: Colors.black),
+            Icon(Icons.chevron_right, size: 22.sp, color: AppColors.heading),
           ],
         ),
       ),

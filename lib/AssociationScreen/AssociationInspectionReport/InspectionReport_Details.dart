@@ -29,43 +29,43 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 12.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "INSPECTION REPORT DETAILS",
+                    "Inspection Details",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    "INSPECTION REPORT DETAILS",
+                    "PROPERTY INSPECTION REPORT",
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -82,7 +82,7 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
             children: [
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 15.h),
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
                 margin: EdgeInsets.only(bottom: 20.h),
                 decoration: BoxDecoration(
                   color: const Color(0xffFFFDF0),
@@ -99,14 +99,14 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 36.w,
-                          height: 36.h,
+                          width: 42.w,
+                          height: 42.h,
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: const Color(0xff101C16),
-                              width: 1.1,
+                              width: 1.2,
                             ),
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Center(
                             child: Icon(
@@ -116,8 +116,7 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                             ),
                           ),
                         ),
-
-                        SizedBox(width: 10.w),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,44 +125,41 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                                 "Property Inspection Report",
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: const Color(0xff101C16),
                                   letterSpacing: -0.2,
                                 ),
                               ),
-
-                              SizedBox(height: 6.h),
-
+                              SizedBox(height: 4.h),
                               Text(
                                 "15 August 2026",
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromRGBO(16, 28, 22, 0.6),
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(16, 28, 22, 0.75),
                                   letterSpacing: -0.2,
                                 ),
                               ),
                             ],
                           ),
                         ),
-
-                        SizedBox(width: 10.w),
+                        SizedBox(width: 8.w),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 20.w,
-                            vertical: 5.h,
+                            horizontal: 14.w,
+                            vertical: 4.h,
                           ),
                           decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xff101C16)),
+                            border: Border.all(color: const Color(0xff101C16), width: 1.2),
                             borderRadius: BorderRadius.circular(25.r),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             "Completed",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
                               color: const Color(0xff101C16),
                               letterSpacing: -0.2,
                             ),
@@ -177,8 +173,7 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                       thickness: 1,
                       color: const Color(0xff777970),
                     ),
-
-                    SizedBox(height: 17.h),
+                    SizedBox(height: 16.h),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -188,7 +183,6 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                             value: "Green Valley",
                           ),
                         ),
-
                         SizedBox(width: 15.w),
                         Expanded(
                           child: _infoItem(
@@ -208,7 +202,6 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                             value: "15 Aug 2026",
                           ),
                         ),
-
                         SizedBox(width: 15.w),
                         Expanded(
                           child: _infoItem(title: "Status", value: "Completed"),
@@ -218,27 +211,27 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                   ],
                 ),
               ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 20.h),
               Text(
                 "Inspection Checklist",
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
                   color: const Color(0xff101C16),
                   letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 14.h),
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 17.h),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: const Color(0xff999999),
-                    width: 1.5,
+                    width: 1.2,
                   ),
-                  borderRadius: BorderRadius.circular(18.r),
+                  borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Column(
                   children: [
@@ -247,16 +240,12 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                       title: "Corridors — Passed",
                       description: "Clean and properly maintained",
                     ),
-
                     SizedBox(height: 12.h),
-
-                    // Divider
                     Container(
                       width: double.infinity,
                       height: 1.h,
-                      color: const Color(0xff202820),
+                      color: const Color(0xffD0D2CE),
                     ),
-
                     SizedBox(height: 12.h),
                     _auditItem(
                       icon: "!",
@@ -264,14 +253,12 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                       description:
                           "Minor maintenance attention is recommended for the identified area.",
                     ),
-
                     SizedBox(height: 12.h),
                     Container(
                       width: double.infinity,
                       height: 1.h,
-                      color: const Color(0xff202820),
+                      color: const Color(0xffD0D2CE),
                     ),
-
                     SizedBox(height: 12.h),
                     _auditItem(
                       icon: "✓",
@@ -282,22 +269,23 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                   ],
                 ),
               ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 24.h),
               Text(
                 "Recommendations",
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
                   color: const Color(0xff101C16),
                   letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 14.h),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 15.w),
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 16.w),
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.heading),
+                  border: Border.all(color: AppColors.heading, width: 1.2),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Column(
@@ -308,26 +296,26 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
-                        fontSize: 13.sp,
+                        fontSize: 14.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
                     SizedBox(height: 14.h),
                     Container(
                       padding: EdgeInsets.symmetric(
-                        vertical: 5.h,
-                        horizontal: 21.w,
+                        vertical: 7.h,
+                        horizontal: 20.w,
                       ),
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.heading),
+                        border: Border.all(color: AppColors.heading, width: 1.2),
                         borderRadius: BorderRadius.circular(50.r),
                       ),
                       child: Text(
                         "Review Recommended Actions",
                         style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           color: AppColors.heading,
-                          fontSize: 13.sp,
+                          fontSize: 14.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -335,64 +323,62 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                   ],
                 ),
               ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 24.h),
               Text(
                 "Attached Documents",
                 style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 14.h),
               Row(
                 children: [
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 33.w,
+                        horizontal: 16.w,
                         vertical: 14.h,
                       ),
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.heading, width: 1),
+                        border: Border.all(color: AppColors.heading, width: 1.2),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 32.w,
-                            height: 32.h,
+                            width: 36.w,
+                            height: 36.h,
                             decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.heading),
+                              border: Border.all(color: AppColors.heading, width: 1.2),
+                              borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: const Icon(
                               Icons.description_outlined,
-                              size: 16,
+                              size: 20,
                               color: Color(0xff17231F),
                             ),
                           ),
-
-                          SizedBox(height: 5.h),
-
+                          SizedBox(height: 6.h),
                           Text(
                             "Audit Report",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
+                            style: GoogleFonts.outfit(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
                               color: AppColors.heading,
                             ),
                           ),
-
                           Text(
                             "PDF",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              fontSize: 16.sp,
+                            style: GoogleFonts.outfit(
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.heading,
+                              color: const Color.fromRGBO(16, 28, 22, 0.75),
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -400,62 +386,53 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                       ),
                     ),
                   ),
-
-                  SizedBox(width: 20.w),
-
-                  // Audit Images
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 33.w,
+                        horizontal: 16.w,
                         vertical: 14.h,
                       ),
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.heading, width: 1),
+                        border: Border.all(color: AppColors.heading, width: 1.2),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 32.w,
-                            height: 32.h,
+                            width: 36.w,
+                            height: 36.h,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: AppColors.heading,
-                                width: 1.5,
+                                width: 1.2,
                               ),
+                              borderRadius: BorderRadius.circular(6.r),
                             ),
-                            child: Center(
-                              child: Container(
-                                height: 6.h,
-                                width: 6.w,
-                                decoration: BoxDecoration(
-                                  color: AppColors.heading,
-                                ),
-                              ),
+                            child: const Icon(
+                              Icons.image_outlined,
+                              size: 20,
+                              color: Color(0xff17231F),
                             ),
                           ),
-
-                          SizedBox(height: 5.h),
-
+                          SizedBox(height: 6.h),
                           Text(
                             "Audit Images",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
+                            style: GoogleFonts.outfit(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
                               color: AppColors.heading,
                             ),
                           ),
-
                           Text(
                             "Images",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              fontSize: 16.sp,
+                            style: GoogleFonts.outfit(
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.heading,
+                              color: const Color.fromRGBO(16, 28, 22, 0.75),
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -465,53 +442,57 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                   ),
                 ],
               ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 24.h),
               Row(
                 children: [
                   Expanded(
                     child: SizedBox(
                       width: double.infinity,
-                      height: 41.h,
+                      height: 52.h,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.scaffoldBg,
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(color: AppColors.heading),
-                            borderRadius: BorderRadius.circular(8.r),
+                            side: BorderSide(color: AppColors.heading, width: 1.2),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
                         onPressed: () {},
                         child: Text(
                           "View Full Report",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w700,
                             color: AppColors.heading,
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 20.w),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: SizedBox(
                       width: double.infinity,
-                      height: 41.h,
+                      height: 52.h,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.heading,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
                         onPressed: () {},
                         child: Text(
                           "Download Report",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
-                            fontSize: 12.sp,
+                            fontSize: 15.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -535,21 +516,19 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(16, 28, 22, 0.6),
+            color: const Color.fromRGBO(16, 28, 22, 0.75),
             letterSpacing: -0.2,
           ),
         ),
-
-        SizedBox(height: 2.h),
-
+        SizedBox(height: 3.h),
         Text(
           value,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
             fontSize: 15.sp,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: AppColors.heading,
             letterSpacing: -0.2,
           ),
@@ -570,23 +549,20 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
           width: 36.w,
           height: 36.h,
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(16, 28, 22, 0.2),
-            borderRadius: BorderRadius.circular(3.r),
+            color: const Color.fromRGBO(16, 28, 22, 0.15),
+            borderRadius: BorderRadius.circular(6.r),
           ),
           alignment: Alignment.center,
           child: Text(
             icon,
             style: GoogleFonts.outfit(
               fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w700,
               color: AppColors.heading,
             ),
           ),
         ),
-
-        SizedBox(width: 8.w),
-
-        // IMPORTANT: Expanded
+        SizedBox(width: 10.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -596,23 +572,21 @@ class _InspectionreportDetailsState extends State<InspectionreportDetails> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
-
               SizedBox(height: 4.h),
-
               Text(
                 description,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 11.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: const Color.fromRGBO(42, 41, 51, 0.5),
+                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                   letterSpacing: -0.2,
                 ),
               ),

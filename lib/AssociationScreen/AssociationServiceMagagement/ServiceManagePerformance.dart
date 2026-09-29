@@ -42,46 +42,52 @@ class _ServiceManagePerformanceState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Service Details",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Service Details",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "Service Performance",
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Service Performance",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -113,10 +119,12 @@ class _ServiceManagePerformanceState
                             Expanded(
                               child: Text(
                                 "PERFORMANCE OVERVIEW",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -136,8 +144,8 @@ class _ServiceManagePerformanceState
                               child: Text(
                                 data.data.performanceOverview.badge,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: const Color(0xFFB8860B),
                                   letterSpacing: -0.2,
                                 ),
@@ -149,8 +157,8 @@ class _ServiceManagePerformanceState
                         Row(
                           children: [
                             Container(
-                              width: 30.w,
-                              height: 30.w,
+                              width: 32.w,
+                              height: 32.w,
                               decoration: const BoxDecoration(
                                 color: Color(0xFFB8860B),
                                 shape: BoxShape.circle,
@@ -158,7 +166,7 @@ class _ServiceManagePerformanceState
                               child: Icon(
                                 Icons.trending_up,
                                 color: Colors.black,
-                                size: 15.sp,
+                                size: 16.sp,
                               ),
                             ),
                             SizedBox(width: 10.w),
@@ -168,22 +176,31 @@ class _ServiceManagePerformanceState
                                 children: [
                                   Text(
                                     data.data.performanceOverview.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF000000),
-                                      height: 1.05,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
+                                      height: 1.1,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
                                   SizedBox(height: 3.h),
                                   Text(
                                     data.data.performanceOverview.subtitle,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color(0xFF000000),
-                                      height: 1.1,
+                                      color: const Color.fromRGBO(
+                                        42,
+                                        41,
+                                        51,
+                                        0.75,
+                                      ),
+                                      height: 1.15,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -208,10 +225,17 @@ class _ServiceManagePerformanceState
                                 children: [
                                   Text(
                                     "Overall Performance",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color(0xFF000000),
+                                      color: const Color.fromRGBO(
+                                        42,
+                                        41,
+                                        51,
+                                        0.75,
+                                      ),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -222,8 +246,8 @@ class _ServiceManagePerformanceState
                                         .performanceOverview
                                         .overallPerformance,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w700,
                                       color: const Color(0xFFB8860B),
                                     ),
                                   ),
@@ -244,9 +268,9 @@ class _ServiceManagePerformanceState
                                 Text(
                                   data.data.performanceOverview.statusRating,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF403F3F),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.heading,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -261,10 +285,9 @@ class _ServiceManagePerformanceState
                   Text(
                     "Performance Metrics",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
-                      height: 1.05,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -381,10 +404,9 @@ class _ServiceManagePerformanceState
                   Text(
                     "Service Snapshot",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
-                      height: 1.05,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -395,7 +417,7 @@ class _ServiceManagePerformanceState
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisSpacing: 20.w,
                     mainAxisSpacing: 11.h,
-                    childAspectRatio: 1.8,
+                    childAspectRatio: 1.8.h,
                     children: [
                       _statCard(
                         icon: Icons.check,
@@ -430,10 +452,9 @@ class _ServiceManagePerformanceState
                   Text(
                     "Performance Trend",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
-                      height: 1.05,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -443,10 +464,9 @@ class _ServiceManagePerformanceState
                   Text(
                     "Recent Service Issues",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
-                      height: 1.05,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -505,9 +525,11 @@ class _ServiceManagePerformanceState
                             Expanded(
                               child: Text(
                                 "Performance Summary",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                   letterSpacing: -0.2,
                                 ),
@@ -517,8 +539,8 @@ class _ServiceManagePerformanceState
                               data.data.performanceSummary.monthBadge,
                               style: GoogleFonts.outfit(
                                 fontSize: 13.sp,
-                                fontWeight: FontWeight.w200,
-                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white70,
                                 letterSpacing: -0.2,
                               ),
                             ),
@@ -528,9 +550,10 @@ class _ServiceManagePerformanceState
                         Text(
                           data.data.performanceSummary.summaryText,
                           style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(255, 255, 2555, 0.6),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white.withOpacity(0.85),
+                            height: 1.35,
                           ),
                         ),
                         SizedBox(height: 11.h),
@@ -617,10 +640,12 @@ class _ServiceManagePerformanceState
             Expanded(
               child: Text(
                 title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF3F3F3F),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.heading,
                   height: 1,
                   letterSpacing: -0.2,
                 ),
@@ -629,9 +654,9 @@ class _ServiceManagePerformanceState
             Text(
               "$percentage%",
               style: GoogleFonts.outfit(
-                fontSize: 13.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF000000),
+                color: AppColors.heading,
                 height: 1,
                 letterSpacing: -0.2,
               ),
@@ -654,10 +679,12 @@ class _ServiceManagePerformanceState
             Expanded(
               child: Text(
                 description,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF3F3F3F),
+                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                   height: 1,
                   letterSpacing: -0.2,
                 ),
@@ -667,8 +694,8 @@ class _ServiceManagePerformanceState
               status,
               style: GoogleFonts.outfit(
                 fontSize: 13.sp,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xFF3F3F3F),
+                fontWeight: FontWeight.w600,
+                color: AppColors.heading,
                 height: 1,
                 letterSpacing: -0.2,
               ),
@@ -686,7 +713,7 @@ class _ServiceManagePerformanceState
     required String subtitle,
   }) {
     return Container(
-      padding: EdgeInsets.only(left: 20.w, right: 12.w, top: 5.h, bottom: 5.h),
+      padding: EdgeInsets.only(left: 14.w, right: 10.w, top: 8.h, bottom: 8.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: Colors.black, width: 1.w),
@@ -695,14 +722,14 @@ class _ServiceManagePerformanceState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 36.w,
-            height: 36.w,
+            width: 34.w,
+            height: 34.w,
             decoration: BoxDecoration(
               color: Color.fromRGBO(255, 242, 165, 0.3),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Center(
-              child: Icon(icon, size: 15.sp, color: const Color(0xFFC58B00)),
+              child: Icon(icon, size: 16.sp, color: const Color(0xFFC58B00)),
             ),
           ),
           const Spacer(),
@@ -712,36 +739,36 @@ class _ServiceManagePerformanceState
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
+              fontSize: 13.sp,
               fontWeight: FontWeight.w500,
-              color: Color.fromRGBO(0, 0, 0, 0.6),
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
               height: 1,
               letterSpacing: -0.1,
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 4.h),
           // Value
           Text(
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.heading,
               height: 1,
               letterSpacing: -0.2,
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 4.h),
           Text(
             subtitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 12.sp,
+              fontSize: 13.sp,
               fontWeight: FontWeight.w500,
-              color: Color.fromRGBO(0, 0, 0, 0.6),
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
               height: 1,
               letterSpacing: -0.1,
             ),
@@ -759,7 +786,7 @@ class _ServiceManagePerformanceState
     required Color statusColor,
   }) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       child: Row(
         children: [
           Container(
@@ -773,7 +800,7 @@ class _ServiceManagePerformanceState
               child: Icon(icon, size: 18.sp, color: Colors.black),
             ),
           ),
-          SizedBox(width: 8.w),
+          SizedBox(width: 10.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -783,10 +810,10 @@ class _ServiceManagePerformanceState
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                    height: 1,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.heading,
+                    height: 1.1,
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -798,8 +825,8 @@ class _ServiceManagePerformanceState
                   style: GoogleFonts.outfit(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(0, 0, 0, 0.6),
-                    height: 1,
+                    color: const Color.fromRGBO(42, 41, 51, 0.75),
+                    height: 1.1,
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -808,7 +835,7 @@ class _ServiceManagePerformanceState
           ),
           SizedBox(width: 8.w),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
             decoration: BoxDecoration(
               border: Border.all(color: statusColor, width: 1.w),
               borderRadius: BorderRadius.circular(15.r),
@@ -816,8 +843,8 @@ class _ServiceManagePerformanceState
             child: Text(
               status,
               style: GoogleFonts.outfit(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
                 color: statusColor,
                 height: 1,
               ),
@@ -839,7 +866,7 @@ class _ServiceManagePerformanceState
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: const Color(0xFF939393),
+            color: Colors.white70,
             height: 1,
           ),
         ),
@@ -849,8 +876,8 @@ class _ServiceManagePerformanceState
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
             color: Colors.white,
             height: 1,
           ),
@@ -885,9 +912,9 @@ class _ServiceManagePerformanceState
               Text(
                 trend.title.isNotEmpty ? trend.title : "Monthly Performance",
                 style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -895,8 +922,8 @@ class _ServiceManagePerformanceState
                 Text(
                   "${trend.trendValues.last}%",
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
                     color: const Color(0xFFB8860B),
                   ),
                 ),
@@ -909,16 +936,6 @@ class _ServiceManagePerformanceState
             width: double.infinity,
             child: _buildFlChart(trend),
           ),
-          /*
-          // Previous CustomPainter code:
-          SizedBox(
-            height: 70.h,
-            width: double.infinity,
-            child: CustomPaint(
-              painter: _PerformanceChartPainter(values: trend.trendValues),
-            ),
-          ),
-          */
           SizedBox(height: 10.h),
           if (trend.months.isNotEmpty)
             Row(
@@ -927,9 +944,9 @@ class _ServiceManagePerformanceState
                 return Text(
                   month,
                   style: GoogleFonts.outfit(
-                    fontSize: 11.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
-                    color: const Color(0xFF464545),
+                    color: const Color.fromRGBO(42, 41, 51, 0.75),
                   ),
                 );
               }).toList(),

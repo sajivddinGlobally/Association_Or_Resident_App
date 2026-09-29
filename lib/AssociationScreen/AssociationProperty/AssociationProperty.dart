@@ -110,11 +110,12 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                       "Property / Unit List",
                       style: GoogleFonts.outfit(
                         fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xff292832),
-                        letterSpacing: -0.64,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
                       ),
                     ),
+                    SizedBox(height: 2.h),
                     Text(
                       "View and monitor all units in your complex",
                       maxLines: 1,
@@ -122,8 +123,8 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                       style: GoogleFonts.outfit(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
-                        color: const Color(0xFF2A2933),
-                        letterSpacing: -0.24,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
                       ),
                     ),
                   ],
@@ -270,12 +271,13 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                                       TextOverflow.ellipsis,
                                                   style: GoogleFonts.outfit(
                                                     color: Colors.white,
-                                                    fontSize: 17.sp,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18.sp,
+                                                    fontWeight: FontWeight.w700,
                                                     height: 1.1,
                                                     letterSpacing: -0.2,
                                                   ),
                                                 ),
+                                                SizedBox(height: 2.h),
                                                 Text(
                                                   complex?.address ??
                                                       'Sector 45 · Noida, Uttar Pradesh',
@@ -283,9 +285,9 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: GoogleFonts.outfit(
-                                                    color: Colors.white,
+                                                    color: Colors.white.withOpacity(0.9),
                                                     fontSize: 14.sp,
-                                                    fontWeight: FontWeight.w400,
+                                                    fontWeight: FontWeight.w500,
                                                     height: 1.1,
                                                     letterSpacing: -0.2,
                                                   ),
@@ -295,8 +297,10 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                           ),
                                           SizedBox(width: 8.w),
                                           Container(
-                                            width: 79.w,
-                                            height: 28.h,
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 10.w,
+                                              vertical: 4.h,
+                                            ),
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
                                               border: Border.all(
@@ -310,8 +314,8 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                               complex?.status ?? 'Active',
                                               style: GoogleFonts.outfit(
                                                 color: const Color(0xFF24B06A),
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500,
+                                                fontSize: 13.sp,
+                                                fontWeight: FontWeight.w600,
                                                 letterSpacing: -0.2,
                                               ),
                                             ),
@@ -361,28 +365,34 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                     SizedBox(height: 20.h),
                     Container(
                       margin: EdgeInsets.only(left: 20.w, right: 20.w),
-                      height: 45.h,
+                      height: 52.h,
                       width: double.infinity,
-                      padding: EdgeInsets.only(left: 16.w, right: 10.w),
+                      padding: EdgeInsets.symmetric(horizontal: 14.w),
                       decoration: BoxDecoration(
                         color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(8.r),
+                        borderRadius: BorderRadius.circular(6.r),
                         border: Border.all(
-                          color: const Color(0xff101C16),
-                          width: 1,
+                          color: const Color.fromRGBO(16, 28, 22, 0.6),
+                          width: 1.2,
                         ),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.search,
-                            size: 25.sp,
-                            color: const Color(0xff8B8D8B),
+                            size: 24.sp,
+                            color: AppColors.heading,
                           ),
                           SizedBox(width: 10.w),
                           Expanded(
                             child: TextField(
                               controller: searchController,
+                              style: GoogleFonts.outfit(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.heading,
+                                letterSpacing: -0.2,
+                              ),
                               onChanged: (val) {
                                 setState(() {
                                   searchQuery = val.trim();
@@ -392,10 +402,10 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                               decoration: InputDecoration(
                                 hintText: "Search service or provider...",
                                 hintStyle: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: const Color(0xff8B8D8B),
-                                  letterSpacing: -0.3,
+                                  color: const Color.fromRGBO(16, 28, 22, 0.6),
+                                  letterSpacing: -0.2,
                                 ),
                                 border: InputBorder.none,
                                 enabledBorder: InputBorder.none,
@@ -415,8 +425,8 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                               },
                               child: Icon(
                                 Icons.close,
-                                size: 18.sp,
-                                color: const Color(0xff8B8D8B),
+                                size: 20.sp,
+                                color: AppColors.heading,
                               ),
                             ),
                         ],
@@ -440,29 +450,29 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 200),
                                 padding: EdgeInsets.symmetric(
-                                  vertical: 6.h,
-                                  horizontal: 14.w,
+                                  vertical: 8.h,
+                                  horizontal: 16.w,
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
                                       ? const Color(0xff101C16)
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(4),
+                                  borderRadius: BorderRadius.circular(40.r),
                                   border: Border.all(
                                     color: const Color(0xff101C16),
-                                    width: 1,
+                                    width: 1.w,
                                   ),
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
                                   dynamicFilters[index],
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w600,
                                     color: isSelected
                                         ? Colors.white
                                         : const Color(0xff101C16),
-                                    letterSpacing: -0.3,
+                                    letterSpacing: -0.2,
                                   ),
                                 ),
                               ),
@@ -536,9 +546,9 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                   block.blockTitle?.toUpperCase() ??
                                       '${block.blockName ?? "BLOCK"} · ${block.units?.length ?? 0} UNITS',
                                   style: GoogleFonts.outfit(
-                                    color: const Color.fromRGBO(0, 0, 0, 0.7),
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromRGBO(0, 0, 0, 0.75),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -627,11 +637,11 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                           disclaimer ??
                               "Showing registered properties and units assigned to this association. Select any unit to view its details.",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
-                            color: const Color.fromRGBO(0, 0, 0, 0.6),
+                            color: const Color.fromRGBO(0, 0, 0, 0.75),
                             letterSpacing: -0.2,
-                            height: 1.1,
+                            height: 1.2,
                           ),
                         ),
                       ),
@@ -652,16 +662,16 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
           value,
           style: GoogleFonts.outfit(
             color: Colors.white,
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w700,
             letterSpacing: -0.2,
           ),
         ),
         Text(
           title,
           style: GoogleFonts.outfit(
-            color: const Color.fromRGBO(255, 255, 255, 0.6),
-            fontSize: 14.sp,
+            color: const Color.fromRGBO(255, 255, 255, 0.75),
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
             letterSpacing: -0.2,
           ),
@@ -740,8 +750,8 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                     // Unit Number
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 5.w,
-                        vertical: 6.h,
+                        horizontal: 6.w,
+                        vertical: 4.h,
                       ),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -749,14 +759,14 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                           color: const Color(0xFFEAD408),
                           width: 1.w,
                         ),
-                        borderRadius: BorderRadius.circular(3.r),
+                        borderRadius: BorderRadius.circular(4.r),
                       ),
                       child: Text(
                         unitNumber,
                         style: GoogleFonts.outfit(
                           color: const Color(0xFFEAD408),
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -772,17 +782,17 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
                               color: Colors.white,
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w500,
-                              height: 1.05,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600,
+                              height: 1.1,
                             ),
                           ),
                           SizedBox(height: 2.h),
                           Text(
                             blockName,
                             style: GoogleFonts.outfit(
-                              color: const Color.fromRGBO(255, 255, 255, 0.8),
-                              fontSize: 13.sp,
+                              color: const Color.fromRGBO(255, 255, 255, 0.85),
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
                               height: 1,
                             ),
@@ -792,8 +802,10 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                     ),
                     SizedBox(width: 5.w),
                     Container(
-                      width: 84.w,
-                      height: 24.h,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 3.h,
+                      ),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -807,7 +819,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                         style: GoogleFonts.outfit(
                           color: const Color(0xFFEAD408),
                           fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -825,9 +837,9 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                           Text(
                             "PROPERTY OWNER",
                             style: GoogleFonts.outfit(
-                              color: const Color.fromRGBO(255, 255, 255, 0.5),
+                              color: const Color.fromRGBO(255, 255, 255, 0.65),
                               fontSize: 12.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -839,7 +851,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                             style: GoogleFonts.outfit(
                               color: Colors.white,
                               fontSize: 15.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               height: 1,
                               letterSpacing: -0.2,
                             ),
@@ -855,9 +867,9 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                           Text(
                             "RESIDENT",
                             style: GoogleFonts.outfit(
-                              color: const Color.fromRGBO(255, 255, 255, 0.5),
+                              color: const Color.fromRGBO(255, 255, 255, 0.65),
                               fontSize: 12.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -869,7 +881,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                             style: GoogleFonts.outfit(
                               color: Colors.white,
                               fontSize: 15.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               height: 1,
                               letterSpacing: -0.2,
                             ),
@@ -885,7 +897,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                           Text(
                             "PROPERTY STATUS",
                             style: GoogleFonts.outfit(
-                              color: const Color.fromRGBO(255, 255, 255, 0.5),
+                              color: const Color.fromRGBO(255, 255, 255, 0.65),
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                               letterSpacing: -0.2,
@@ -899,7 +911,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                             style: GoogleFonts.outfit(
                               color: Colors.white,
                               fontSize: 15.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               height: 1,
                               letterSpacing: -0.2,
                             ),
@@ -928,7 +940,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                         style: GoogleFonts.outfit(
                           color: const Color(0xFFEAD408),
                           fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w700,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -938,7 +950,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                         style: GoogleFonts.outfit(
                           color: const Color(0xFFEAD408),
                           fontSize: 15.sp,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w700,
                           letterSpacing: -0.2,
                         ),
                       ),

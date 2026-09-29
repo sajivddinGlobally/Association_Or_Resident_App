@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,22 +97,22 @@ class _ResidentnotificationScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 12.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,10 +120,10 @@ class _ResidentnotificationScreenState
                   Text(
                     header?.title ?? "Notifications",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -133,8 +132,8 @@ class _ResidentnotificationScreenState
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: const Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -165,8 +164,8 @@ class _ResidentnotificationScreenState
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
                         padding: EdgeInsets.symmetric(
-                          vertical: 5.h,
-                          horizontal: 13.w,
+                          vertical: 7.h,
+                          horizontal: 16.w,
                         ),
                         decoration: BoxDecoration(
                           color: isSelected
@@ -175,19 +174,19 @@ class _ResidentnotificationScreenState
                           borderRadius: BorderRadius.circular(40.r),
                           border: Border.all(
                             color: const Color(0xff101C16),
-                            width: 1,
+                            width: 1.2,
                           ),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           defaultFilters[index],
                           style: GoogleFonts.outfit(
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                             color: isSelected
                                 ? Colors.white
                                 : const Color(0xff101C16),
-                            letterSpacing: -0.3,
+                            letterSpacing: -0.2,
                           ),
                         ),
                       ),
@@ -237,8 +236,8 @@ class _ResidentnotificationScreenState
                               Text(
                                 section.title ?? "Recent",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
@@ -249,8 +248,8 @@ class _ResidentnotificationScreenState
                                 Text(
                                   section.badge!,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
                                     color: AppColors.heading,
                                     letterSpacing: -0.2,
                                   ),
@@ -272,7 +271,7 @@ class _ResidentnotificationScreenState
                         child: Text(
                           "No notifications found",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             color: const Color.fromRGBO(42, 41, 51, 0.6),
                           ),
                         ),
@@ -300,7 +299,7 @@ class _ResidentnotificationScreenState
                       child: Text(
                         "No notifications found",
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           color: const Color.fromRGBO(42, 41, 51, 0.6),
                         ),
                       ),
@@ -335,7 +334,7 @@ class _ResidentnotificationScreenState
                         Text(
                           "Failed to load notifications",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
                           ),
@@ -352,7 +351,7 @@ class _ResidentnotificationScreenState
                             "Retry",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                             ),
                           ),
                         ),
@@ -376,28 +375,28 @@ class _ResidentnotificationScreenState
   Widget _buildNotificationCard(notif_model.Notification item) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
       margin: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
         color: Colors.transparent,
-        border: Border.all(color: const Color(0xff101010), width: 1),
+        border: Border.all(color: const Color(0xff101010), width: 1.2),
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 42.w,
-            height: 42.h,
+            width: 46.w,
+            height: 46.h,
             decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xff101010), width: 1.1),
-              borderRadius: BorderRadius.circular(4.r),
+              border: Border.all(color: const Color(0xff101010), width: 1.2),
+              borderRadius: BorderRadius.circular(6.r),
             ),
             child: Center(
               child: Icon(
                 _getNotificationIcon(item.iconType),
                 color: AppColors.heading,
-                size: 18.sp,
+                size: 22.sp,
               ),
             ),
           ),
@@ -416,10 +415,10 @@ class _ResidentnotificationScreenState
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w600,
                           color: AppColors.heading,
-                          letterSpacing: -0.3,
+                          letterSpacing: -0.2,
                         ),
                       ),
                     ),
@@ -427,9 +426,9 @@ class _ResidentnotificationScreenState
                     Text(
                       item.time ?? "",
                       style: GoogleFonts.outfit(
-                        fontSize: 11.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
+                        color: const Color.fromRGBO(42, 41, 51, 0.75),
                       ),
                     ),
                   ],
@@ -440,9 +439,9 @@ class _ResidentnotificationScreenState
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w400,
-                    color: const Color.fromRGBO(0, 0, 0, 0.7),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromRGBO(0, 0, 0, 0.75),
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -450,7 +449,7 @@ class _ResidentnotificationScreenState
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 14.w,
-                    vertical: 3.h,
+                    vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xff101010)),
@@ -459,8 +458,8 @@ class _ResidentnotificationScreenState
                   child: Text(
                     item.tag ?? "General",
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
                       color: const Color(0xff101010),
                       letterSpacing: -0.2,
                     ),

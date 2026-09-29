@@ -34,46 +34,52 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Account",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Account",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "Manage your account and profile",
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Manage your account and profile",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -140,29 +146,25 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    // "Ahmed Rahman",
                                     data.data?.resident?.name ?? "",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w700,
                                       color: Colors.white,
-                                      letterSpacing: -0.2,
+                                      letterSpacing: -0.3,
                                     ),
                                   ),
-
                                   SizedBox(height: 2.h),
-
                                   Text(
-                                    // "Resident · Apartment A-204",
                                     "${data.data?.resident?.role ?? ""} · ${data.data?.resident?.unitNumber ?? ""}",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.white,
+                                      color: Colors.white.withValues(alpha: 0.85),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -176,7 +178,7 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
 
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 20.w,
+                            horizontal: 16.w,
                             vertical: 6.h,
                           ),
                           decoration: BoxDecoration(
@@ -188,9 +190,9 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xFFB8860B),
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFFE5C158),
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -202,8 +204,8 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
                   Text(
                     "Current Access",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
@@ -231,9 +233,9 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF101C16),
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -251,8 +253,8 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
                               child: Text(
                                 data.data?.resident?.status ?? "",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w600,
                                   color: const Color(0xFFB8860B),
                                 ),
                               ),
@@ -319,7 +321,7 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
 
   Widget _accessItem(String title, String value) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF7C9),
         borderRadius: BorderRadius.circular(14.r),
@@ -334,8 +336,8 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
               fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xFF666666),
+              fontWeight: FontWeight.w600,
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
               letterSpacing: -0.2,
             ),
           ),
@@ -348,8 +350,8 @@ class _ManageaccountprofileState extends ConsumerState<Manageaccountprofile> {
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
               fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xFF101C16),
+              fontWeight: FontWeight.w700,
+              color: AppColors.heading,
               letterSpacing: -0.2,
             ),
           ),

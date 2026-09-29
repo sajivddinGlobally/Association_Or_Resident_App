@@ -59,59 +59,61 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
         backgroundColor: AppColors.scaffoldBg,
         automaticallyImplyLeading: false,
         titleSpacing: 20.w,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 41.w,
-                  height: 41.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromRGBO(16, 28, 22, 0.3),
-                    ),
-                    borderRadius: BorderRadius.circular(4.r),
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 44.w,
+                height: 44.h,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromRGBO(16, 28, 22, 0.3),
                   ),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: const Color(0xff101C16),
-                    size: 16.sp,
-                  ),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: const Color(0xff101C16),
+                  size: 20.sp,
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Ticket Status Tracking",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    // "Service Request · SR-1024",
                     headers?.subtitle ?? "Service Request · SR-1024",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: getServiceRequestStatusState.when(
@@ -140,12 +142,13 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                           children: [
                             Expanded(
                               child: Text(
-                                // "TICKET · SR-1024",
                                 data.data?.ticketBanner?.tag ?? "N/A",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -163,11 +166,10 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                                 borderRadius: BorderRadius.circular(50.r),
                               ),
                               child: Text(
-                                // "In Progress",
                                 data.data?.ticketBanner?.status ?? "N/A",
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   color: const Color(0xFFB8860B),
                                   letterSpacing: -0.2,
                                 ),
@@ -179,43 +181,43 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                         Row(
                           children: [
                             Container(
-                              width: 36.w,
-                              height: 36.w,
+                              width: 38.w,
+                              height: 38.w,
                               decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 242, 165, 0.3),
+                                color: const Color.fromRGBO(255, 242, 165, 0.3),
                                 borderRadius: BorderRadius.circular(50.r),
                               ),
                               child: Icon(
                                 Icons.trending_up,
-                                color: Color(0xFFB8860B),
-                                size: 15.sp,
+                                color: const Color(0xFFB8860B),
+                                size: 18.sp,
                               ),
                             ),
-                            SizedBox(width: 10.w),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    // "Water Leakage",
                                     data.data?.ticketBanner?.title ?? "N/A",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF000000),
-                                      height: 1.05,
+                                      fontSize: 19.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
                                   SizedBox(height: 3.h),
                                   Text(
-                                    // "Plumbing Service Request",
                                     data.data?.ticketBanner?.subtitle ?? "N/A",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(0, 0, 0, 0.6),
-                                      height: 1.1,
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -228,7 +230,7 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                         Container(
                           height: 1.h,
                           width: double.infinity,
-                          color: Color(0xFFC6C6C6),
+                          color: const Color(0xFFC6C6C6),
                         ),
                         SizedBox(height: 15.h),
                         Row(
@@ -240,22 +242,25 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                                 children: [
                                   Text(
                                     "Raised On",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(42, 41, 51, 0.6),
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
                                   SizedBox(height: 3.h),
                                   Text(
-                                    // "24 Aug 2026",
                                     data.data?.ticketBanner?.raisedDate ??
                                         "N/A",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
                                       fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF000000),
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                     ),
                                   ),
                                 ],
@@ -267,22 +272,25 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                                 children: [
                                   Text(
                                     "Last Updated",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(42, 41, 51, 0.6),
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
                                   SizedBox(height: 3.h),
                                   Text(
-                                    // "05 Aug 2026",
                                     data.data?.ticketBanner?.lastUpdate ??
                                         "N/A",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
                                       fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF000000),
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                     ),
                                   ),
                                 ],
@@ -294,21 +302,24 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                                 children: [
                                   Text(
                                     "Priority",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(42, 41, 51, 0.6),
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
                                   SizedBox(height: 3.h),
                                   Text(
-                                    // "High",
                                     data.data?.ticketBanner?.priority ?? "N/A",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
                                       fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF000000),
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                     ),
                                   ),
                                 ],
@@ -319,26 +330,26 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Text(
-                    "Current Status",
+                    "Ticket Progress",
                     style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 15.w,
-                      vertical: 12.h,
+                      horizontal: 16.w,
+                      vertical: 14.h,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: Colors.black, width: 1.w),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Column(
                       children: [
@@ -346,11 +357,11 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              width: 30.w,
-                              height: 30.w,
-                              decoration: BoxDecoration(
+                              width: 34.w,
+                              height: 34.w,
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Color.fromRGBO(36, 176, 106, 0.1),
+                                color: Color.fromRGBO(36, 176, 106, 0.12),
                               ),
                               child: Center(
                                 child: Icon(
@@ -360,7 +371,7 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10.w),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -369,10 +380,9 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                                     "TICKET PROGRESS",
                                     style: GoogleFonts.outfit(
                                       fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                      height: 1,
-                                      color: Color.fromRGBO(0, 0, 0, 0.6),
-                                      letterSpacing: -0.2,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                      letterSpacing: 0.2,
                                     ),
                                   ),
                                   SizedBox(height: 2.h),
@@ -381,10 +391,9 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w500,
-                                      height: 1,
-                                      color: Colors.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -392,19 +401,20 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                               ),
                             ),
                             Container(
-                              width: 68.w,
-                              height: 21.h,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 4.h,
+                              ),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: const Color(0xFF24B06A),
                                 borderRadius: BorderRadius.circular(30.r),
                               ),
                               child: Text(
-                                // "ACTIVE",
                                 data.data?.ticketProgress?.statusBadge ?? "N/A",
                                 style: GoogleFonts.outfit(
                                   fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                   letterSpacing: -0.2,
                                 ),
@@ -412,28 +422,29 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 12.h),
                         SizedBox(
-                          height: 4.h,
+                          height: 5.h,
                           child: Stack(
                             children: [
                               Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFC6C6C6),
+                                  color: const Color(0xFFE0E0E0),
                                   borderRadius: BorderRadius.circular(3.r),
                                 ),
                               ),
                               FractionallySizedBox(
                                 widthFactor:
-                                    double.parse(
-                                      data
-                                              .data
-                                              ?.ticketProgress
-                                              ?.progressPercentage
-                                              .toString() ??
-                                          "0",
-                                    ) /
+                                    (double.tryParse(
+                                          data
+                                                  .data
+                                                  ?.ticketProgress
+                                                  ?.progressPercentage
+                                                  .toString() ??
+                                              "0",
+                                        ) ??
+                                        0) /
                                     100,
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -446,92 +457,64 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                           ),
                         ),
                         SizedBox(height: 10.h),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     _statusLabel(
-                        //       title: "Raised",
-                        //       alignment: Alignment.centerLeft,
-                        //     ),
-                        //     _statusLabel(
-                        //       title: "In Progress",
-                        //       alignment: Alignment.center,
-                        //     ),
-                        //     _statusLabel(
-                        //       title: "Resolved",
-                        //       alignment: Alignment.centerRight,
-                        //     ),
-                        //   ],
-                        // ),
-                        Row(
-                          children: List.generate(
-                            data.data!.ticketProgress!.steps!.length,
-                            (index) {
-                              final step =
-                                  data.data!.ticketProgress!.steps![index];
+                        if (data.data?.ticketProgress?.steps != null)
+                          Row(
+                            children: List.generate(
+                              data.data!.ticketProgress!.steps!.length,
+                              (index) {
+                                final step =
+                                    data.data!.ticketProgress!.steps![index];
 
-                              return _statusLabel(
-                                title: step,
-                                alignment: index == 0
-                                    ? Alignment.centerLeft
-                                    : index ==
-                                          data
-                                                  .data!
-                                                  .ticketProgress!
-                                                  .steps!
-                                                  .length -
-                                              1
-                                    ? Alignment.centerRight
-                                    : Alignment.center,
-                                isActive:
-                                    index <=
-                                    data.data!.ticketProgress!.steps!.indexOf(
-                                      data.data!.ticketProgress!.currentStep ??
-                                          "N/A",
-                                    ),
-                              );
-                            },
+                                return _statusLabel(
+                                  title: step,
+                                  alignment: index == 0
+                                      ? Alignment.centerLeft
+                                      : index ==
+                                              data
+                                                      .data!
+                                                      .ticketProgress!
+                                                      .steps!
+                                                      .length -
+                                                  1
+                                          ? Alignment.centerRight
+                                          : Alignment.center,
+                                  isActive:
+                                      index <=
+                                      data.data!.ticketProgress!.steps!.indexOf(
+                                        data.data!.ticketProgress!.currentStep ??
+                                            "N/A",
+                                      ),
+                                );
+                              },
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Text(
-                    "Current Status",
+                    "Lifecycle Stages",
                     style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 19.w,
-                      vertical: 15.h,
+                      horizontal: 18.w,
+                      vertical: 16.h,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: Colors.black, width: 1.w),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
-                    // child: Column(
-                    //   children: List.generate(timeline.length, (index) {
-                    //     final item = timeline[index];
-                    //     return _TimelineItem(
-                    //       title: item['title'],
-                    //       description: item['description'],
-                    //       date: item['date'],
-                    //       completed: item['completed'],
-                    //       isLast: index == timeline.length - 1,
-                    //     );
-                    //   }),
-                    // ),
                     child: Column(
                       children: List.generate(
-                        data.data!.lifecycleStages!.length,
+                        data.data?.lifecycleStages?.length ?? 0,
                         (index) {
                           final item = data.data!.lifecycleStages![index];
                           return _TimelineItem(
@@ -540,31 +523,32 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                             date: item.date ?? "Pending",
                             completed: item.isCompleted ?? false,
                             isLast:
-                                index == data.data!.lifecycleStages!.length - 1,
+                                index ==
+                                (data.data!.lifecycleStages!.length - 1),
                           );
                         },
                       ),
                     ),
                   ),
-                  SizedBox(height: 26.h),
+                  SizedBox(height: 18.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
+                      horizontal: 14.w,
                       vertical: 14.h,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 1.2.w),
-                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Row(
                       children: [
                         Container(
-                          width: 36.w,
-                          height: 36.w,
+                          width: 38.w,
+                          height: 38.w,
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(255, 242, 165, 0.3),
-                            borderRadius: BorderRadius.circular(4.r),
+                            color: const Color.fromRGBO(255, 242, 165, 0.3),
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Center(
                             child: Icon(
@@ -574,14 +558,13 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 7.w),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                // 'ABC Plumbing Services',
                                 data
                                         .data
                                         ?.assignedServiceProvider
@@ -590,36 +573,33 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  height: 1,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
                               ),
-                              SizedBox(height: 4.h),
-
+                              SizedBox(height: 3.h),
                               Text(
-                                // 'Assigned for SR-1024',
                                 data.data?.assignedServiceProvider?.subtitle ??
                                     "N/A",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromRGBO(0, 0, 0, 0.6),
-                                  height: 1,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                   letterSpacing: -0.2,
                                 ),
                               ),
                             ],
                           ),
                         ),
-
                         SizedBox(width: 8.w),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 4.h,
+                            horizontal: 12.w,
+                            vertical: 5.h,
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -630,11 +610,10 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            // 'ACTIVE',
                             data.data?.assignedServiceProvider?.status ?? "N/A",
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w700,
                               color: const Color(0xFF1E5993),
                             ),
                           ),
@@ -649,7 +628,16 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
           );
         },
         error: (error, stackTrace) {
-          return Center(child: Text('Error loading service request details'));
+          return Center(
+            child: Text(
+              'Error loading service request details',
+              style: GoogleFonts.outfit(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+                color: const Color.fromRGBO(42, 41, 51, 0.75),
+              ),
+            ),
+          );
         },
         loading: () {
           return Center(
@@ -672,10 +660,8 @@ class _ServiceRequestStatusState extends ConsumerState<ServiceRequestStatus> {
           title,
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
-            // fontWeight: FontWeight.w500,
-            // color: Colors.black,
-            color: isActive ? Colors.green : Colors.grey,
-            fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+            color: isActive ? const Color(0xFF24B06A) : const Color.fromRGBO(42, 41, 51, 0.7),
+            fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
             letterSpacing: -0.1,
           ),
         ),
@@ -708,8 +694,8 @@ class _TimelineItem extends StatelessWidget {
           Column(
             children: [
               Container(
-                width: 30.w,
-                height: 30.w,
+                width: 32.w,
+                height: 32.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: completed
@@ -720,12 +706,12 @@ class _TimelineItem extends StatelessWidget {
                   child: completed
                       ? Icon(
                           Icons.check,
-                          size: 17.sp,
+                          size: 18.sp,
                           color: const Color(0xFF111111),
                         )
                       : Container(
-                          width: 5.w,
-                          height: 5.w,
+                          width: 6.w,
+                          height: 6.w,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color(0xFFC38A00),
@@ -733,20 +719,19 @@ class _TimelineItem extends StatelessWidget {
                         ),
                 ),
               ),
-          
               if (!isLast)
                 Expanded(
                   child: Container(
                     width: 1.w,
-                    color: Color.fromRGBO(16, 28, 22, 0.5),
+                    color: const Color.fromRGBO(16, 28, 22, 0.35),
                   ),
                 ),
             ],
           ),
-          SizedBox(width: 12.w),
+          SizedBox(width: 14.w),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(top: 0.h, bottom: isLast ? 0 : 9.h),
+              padding: EdgeInsets.only(top: 0.h, bottom: isLast ? 0 : 14.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -755,10 +740,9 @@ class _TimelineItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      height: 1.h,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -768,19 +752,19 @@ class _TimelineItem extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(0, 0, 0, 0.6),
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                     ),
                   ),
                   if (date.isNotEmpty) ...[
-                    SizedBox(height: 3.h),
+                    SizedBox(height: 4.h),
                     Text(
                       date,
                       style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(0, 0, 0, 0.6),
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFFC38A00),
                       ),
                     ),
                   ],

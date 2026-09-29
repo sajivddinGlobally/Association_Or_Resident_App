@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,33 +52,33 @@ class _ResidentchangepasswordState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 12.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "SECURITY & PASSWORD",
+                    "Security & Password",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -88,8 +87,8 @@ class _ResidentchangepasswordState
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -107,24 +106,24 @@ class _ResidentchangepasswordState
               SizedBox(height: 20.h),
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 10.w,
-                  vertical: 8.5.h,
+                  horizontal: 14.w,
+                  vertical: 12.h,
                 ),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.r),
-                  border: Border.all(color: Color(0xFF000000), width: 1.w),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: AppColors.heading, width: 1.2),
                 ),
                 child: Row(
                   children: [
                     Container(
-                      width: 37.w,
-                      height: 37.h,
+                      width: 42.w,
+                      height: 42.h,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3.r),
+                        borderRadius: BorderRadius.circular(6.r),
                         border: Border.all(
-                          color: Color(0xFF000000),
-                          width: 1.w,
+                          color: AppColors.heading,
+                          width: 1.2,
                         ),
                       ),
                       child: Center(
@@ -133,7 +132,7 @@ class _ResidentchangepasswordState
                         ),
                       ),
                     ),
-                    SizedBox(width: 11.w),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -143,18 +142,19 @@ class _ResidentchangepasswordState
                             "Security & Password",
                             style: GoogleFonts.outfit(
                               fontSize: 17.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF000000),
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.heading,
                               letterSpacing: -0.2,
                             ),
                           ),
+                          SizedBox(height: 2.h),
                           Text(
                             "Manage password and account security",
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
-                              color: Color.fromRGBO(0, 0, 0, 0.7),
-                              letterSpacing: -0.3,
+                              color: const Color.fromRGBO(0, 0, 0, 0.75),
+                              letterSpacing: -0.2,
                             ),
                           ),
                         ],
@@ -163,14 +163,14 @@ class _ResidentchangepasswordState
                     SizedBox(width: 8.w),
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 6.h,
+                        horizontal: 14.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30.r),
                         border: Border.all(
-                          color: Color(0xFF000000),
-                          width: 1.w,
+                          color: AppColors.heading,
+                          width: 1.2,
                         ),
                       ),
                       child: Center(
@@ -178,8 +178,8 @@ class _ResidentchangepasswordState
                           "Secure",
                           style: GoogleFonts.outfit(
                             fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF000000),
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -188,13 +188,13 @@ class _ResidentchangepasswordState
                   ],
                 ),
               ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 24.h),
               Text(
                 "Change Password",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF101C16),
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -250,12 +250,12 @@ class _ResidentchangepasswordState
               SizedBox(height: 30.h),
               SizedBox(
                 width: double.infinity,
-                height: 36.h,
+                height: 52.h,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff000000),
+                    backgroundColor: const Color(0xff000000),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3.r),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
                   onPressed: () async {
@@ -294,15 +294,26 @@ class _ResidentchangepasswordState
                       });
                     }
                   },
-                  child: Text(
-                    "Update Password",
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xffFFFFFF),
-                      fontSize: 15.sp,
-                      letterSpacing: -0.34,
-                    ),
-                  ),
+                  child: isLoading
+                      ? const Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          "Update Password",
+                          style: GoogleFonts.outfit(
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xffFFFFFF),
+                            fontSize: 17.sp,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
                 ),
               ),
             ],
@@ -325,67 +336,66 @@ class _ResidentchangepasswordState
         Text(
           label,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF000000),
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),
-
-        SizedBox(height: 7.h),
+        SizedBox(height: 8.h),
         Container(
-          height: 40.h,
+          height: 52.h,
           decoration: const BoxDecoration(color: Colors.transparent),
           child: TextField(
+            style: GoogleFonts.outfit(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xff101C16),
+              letterSpacing: -0.2,
+            ),
             controller: controller,
             cursorColor: AppColors.heading,
-            cursorHeight: 18.h,
+            cursorHeight: 20.h,
             cursorWidth: 1.5.w,
             obscureText: !isPasswordVisible,
             textAlignVertical: TextAlignVertical.center,
-
             decoration: InputDecoration(
               isDense: true,
-
               hintText: hintText,
-
               hintStyle: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color.fromRGBO(16, 28, 22, 0.6),
               ),
-
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.r),
-                borderSide: BorderSide(color: AppColors.heading),
-              ),
-
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.r),
+                borderRadius: BorderRadius.circular(6.r),
                 borderSide: const BorderSide(
-                  color: Color.fromRGBO(16, 28, 22, 0.6),
+                  color: AppColors.heading,
+                  width: 1.5,
                 ),
               ),
-
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: const BorderSide(
+                  color: Color.fromRGBO(16, 28, 22, 0.6),
+                  width: 1.2,
+                ),
+              ),
               suffixIcon: IconButton(
                 padding: EdgeInsets.zero,
-
-                constraints: BoxConstraints(minWidth: 40.w, minHeight: 44.h),
-
+                constraints: BoxConstraints(minWidth: 46.w, minHeight: 52.h),
                 onPressed: onVisibilityChanged,
-
                 icon: Icon(
                   isPasswordVisible
                       ? Icons.visibility_outlined
                       : Icons.visibility_off_outlined,
                   color: AppColors.heading,
-                  size: 16.sp,
+                  size: 22.sp,
                 ),
               ),
-
               contentPadding: EdgeInsets.symmetric(
-                horizontal: 10.w,
-                vertical: 0,
+                horizontal: 14.w,
+                vertical: 14.h,
               ),
             ),
           ),

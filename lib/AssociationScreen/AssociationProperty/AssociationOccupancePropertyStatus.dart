@@ -24,63 +24,66 @@ class _AssociationOccupancePropertyStatusState
         backgroundColor: AppColors.scaffoldBg,
         automaticallyImplyLeading: false,
         titleSpacing: 20.w,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 41.w,
-                  height: 41.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromRGBO(16, 28, 22, 0.3),
-                    ),
-                    borderRadius: BorderRadius.circular(4.r),
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 44.w,
+                height: 44.h,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromRGBO(16, 28, 22, 0.3),
                   ),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: const Color(0xff101C16),
-                    size: 16.sp,
-                  ),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: const Color(0xff101C16),
+                  size: 20.sp,
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Occupancy / Property Status",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Complex-wide occupancy and property status",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -89,7 +92,7 @@ class _AssociationOccupancePropertyStatusState
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xFF000000), width: 1.w),
+                  border: Border.all(color: AppColors.heading, width: 1.w),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Column(
@@ -98,24 +101,24 @@ class _AssociationOccupancePropertyStatusState
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          height: 36.h,
-                          width: 36.w,
+                          height: 38.h,
+                          width: 38.w,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Color(0xFF000000),
+                              color: AppColors.heading,
                               width: 1.w,
                             ),
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Center(
                             child: Icon(
                               Icons.home_outlined,
-                              color: Color(0xFF000000),
-                              size: 16.sp,
+                              color: AppColors.heading,
+                              size: 18.sp,
                             ),
                           ),
                         ),
-                        SizedBox(width: 6.w),
+                        SizedBox(width: 10.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,19 +126,22 @@ class _AssociationOccupancePropertyStatusState
                               Text(
                                 "Complex",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(0, 0, 0, 0.7),
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                   letterSpacing: -0.2,
                                   height: 1.h,
                                 ),
                               ),
+                              SizedBox(height: 2.h),
                               Text(
                                 "Green Valley Residency",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF101C16),
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -149,17 +155,17 @@ class _AssociationOccupancePropertyStatusState
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: const Color(0xFF000000),
+                              color: AppColors.heading,
                               width: 1.w,
                             ),
-                            borderRadius: BorderRadius.circular(7.r),
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Text(
                             "Active",
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF000000),
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.heading,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -169,12 +175,12 @@ class _AssociationOccupancePropertyStatusState
                   ],
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 18.h),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xFF000000), width: 1.w),
+                  border: Border.all(color: AppColors.heading, width: 1.w),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Column(
@@ -183,45 +189,49 @@ class _AssociationOccupancePropertyStatusState
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          height: 36.h,
-                          width: 36.w,
+                          height: 38.h,
+                          width: 38.w,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Color(0xFF000000),
+                              color: AppColors.heading,
                               width: 1.w,
                             ),
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Center(
                             child: Icon(
                               Icons.radio_button_checked,
-                              color: Color(0xFF000000),
-                              size: 16.sp,
+                              color: const Color(0xFFB8860B),
+                              size: 18.sp,
                             ),
                           ),
                         ),
-                        SizedBox(width: 6.w),
+                        SizedBox(width: 10.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Overall Occupancy",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
                               ),
+                              SizedBox(height: 2.h),
                               Text(
                                 "Current complex occupancy status",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF000000),
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                   letterSpacing: -0.2,
-                                  height: 1.1,
                                 ),
                               ),
                             ],
@@ -233,20 +243,19 @@ class _AssociationOccupancePropertyStatusState
                             Text(
                               "91%",
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
+                                fontSize: 19.sp,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.heading,
                                 letterSpacing: -0.2,
                               ),
                             ),
                             Text(
                               "116 / 128 units",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 13.sp,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF000000),
+                                color: const Color.fromRGBO(42, 41, 51, 0.75),
                                 letterSpacing: -0.2,
-                                height: 1.1,
                               ),
                             ),
                           ],
@@ -258,14 +267,14 @@ class _AssociationOccupancePropertyStatusState
                       borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: 0.91,
-                        minHeight: 3.h,
+                        minHeight: 5.h,
                         backgroundColor: const Color(0xFFA8A8A8),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF101C16),
                         ),
                       ),
                     ),
-                    SizedBox(height: 5.h),
+                    SizedBox(height: 8.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -273,8 +282,8 @@ class _AssociationOccupancePropertyStatusState
                           "116 Occupied",
                           style: GoogleFonts.outfit(
                             fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -282,8 +291,8 @@ class _AssociationOccupancePropertyStatusState
                           "12 Vacant",
                           style: GoogleFonts.outfit(
                             fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -292,7 +301,7 @@ class _AssociationOccupancePropertyStatusState
                   ],
                 ),
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 18.h),
               Row(
                 children: [
                   Expanded(
@@ -302,7 +311,7 @@ class _AssociationOccupancePropertyStatusState
                       title: "Occupied",
                     ),
                   ),
-                  SizedBox(width: 15.w),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: _statCard(
                       icon: Icons.circle_outlined,
@@ -310,7 +319,7 @@ class _AssociationOccupancePropertyStatusState
                       title: "Vacant",
                     ),
                   ),
-                  SizedBox(width: 15.w),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: _statCard(
                       icon: Icons.priority_high,
@@ -320,31 +329,31 @@ class _AssociationOccupancePropertyStatusState
                   ),
                 ],
               ),
-              SizedBox(height: 19.h),
+              SizedBox(height: 22.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Unit Status',
                     style: GoogleFonts.outfit(
-                      color: Color(0xFF000000),
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
+                      color: AppColors.heading,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -0.2,
                     ),
                   ),
                   Text(
                     '128 UNITS',
                     style: GoogleFonts.outfit(
-                      color: Color(0xFF000000),
+                      color: AppColors.heading,
                       fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: -0.2,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.2,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 14.h),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -361,16 +370,16 @@ class _AssociationOccupancePropertyStatusState
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           padding: EdgeInsets.symmetric(
-                            vertical: 6.h,
-                            horizontal: 14.w,
+                            vertical: 8.h,
+                            horizontal: 16.w,
                           ),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? const Color(0xff101C16)
+                                ? AppColors.heading
                                 : Colors.transparent,
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(6.r),
                             border: Border.all(
-                              color: const Color(0xff101C16),
+                              color: AppColors.heading,
                               width: 1,
                             ),
                           ),
@@ -379,11 +388,13 @@ class _AssociationOccupancePropertyStatusState
                             filters[index],
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: isSelected
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
                               color: isSelected
                                   ? Colors.white
-                                  : const Color(0xff101C16),
-                              letterSpacing: -0.3,
+                                  : AppColors.heading,
+                              letterSpacing: -0.2,
                             ),
                           ),
                         ),
@@ -392,31 +403,32 @@ class _AssociationOccupancePropertyStatusState
                   }),
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 18.h),
               Text(
                 'BLOCK A',
                 style: GoogleFonts.outfit(
-                  color: Color(0xFF000000),
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: -0.2,
+                  color: AppColors.heading,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.4,
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 12.h),
               _buildBlock(),
               _buildBlock(),
               SizedBox(height: 16.h),
               Text(
                 'BLOCK B',
                 style: GoogleFonts.outfit(
-                  color: Color(0xFF000000),
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: -0.2,
+                  color: AppColors.heading,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.4,
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 12.h),
               _buildBlock(),
+              SizedBox(height: 24.h),
             ],
           ),
         ),
@@ -430,45 +442,45 @@ class _AssociationOccupancePropertyStatusState
     required String title,
   }) {
     return Container(
-      padding: EdgeInsets.only(left: 8.w, top: 7.h, right: 8.w, bottom: 7.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF000000), width: 1.w),
-        borderRadius: BorderRadius.circular(4.r),
+        border: Border.all(color: AppColors.heading, width: 1.w),
+        borderRadius: BorderRadius.circular(6.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 30.h,
-            width: 30.w,
+            height: 32.h,
+            width: 32.w,
             decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFF000000), width: 1.w),
+              border: Border.all(color: AppColors.heading, width: 1.w),
               borderRadius: BorderRadius.circular(4.r),
             ),
-            child: Icon(icon, size: 13.sp, color: Colors.black),
+            child: Icon(icon, size: 14.sp, color: AppColors.heading),
           ),
-          SizedBox(height: 3.h),
+          SizedBox(height: 6.h),
           Text(
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.heading,
               letterSpacing: -0.2,
             ),
           ),
+          SizedBox(height: 2.h),
           Text(
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
               fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
               letterSpacing: -0.2,
-              height: 1.h,
             ),
           ),
         ],
@@ -478,9 +490,9 @@ class _AssociationOccupancePropertyStatusState
 
   Widget _buildBlock() {
     return Container(
-      margin: EdgeInsets.only(bottom: 10.h),
+      margin: EdgeInsets.only(bottom: 12.h),
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.heading),
         borderRadius: BorderRadius.circular(10.r),
@@ -491,8 +503,8 @@ class _AssociationOccupancePropertyStatusState
           Row(
             children: [
               Container(
-                width: 40.w,
-                height: 40.h,
+                width: 44.w,
+                height: 44.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
@@ -503,71 +515,73 @@ class _AssociationOccupancePropertyStatusState
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Apartment A-204",
-                    style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF000000),
-                      letterSpacing: -0.2,
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Apartment A-204",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.heading,
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "Block A · 3 BHK",
-                    style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(42, 41, 51, 0.7),
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Block A · 3 BHK",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(42, 41, 51, 0.75),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Spacer(),
+              SizedBox(width: 8.w),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: const Color(0xFF000000),
+                    color: AppColors.heading,
                     width: 1.w,
                   ),
-                  borderRadius: BorderRadius.circular(7.r),
+                  borderRadius: BorderRadius.circular(6.r),
                 ),
                 child: Text(
                   "Occupied",
                   style: GoogleFonts.outfit(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF000000),
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.heading,
                     letterSpacing: -0.2,
                   ),
                 ),
               ),
             ],
           ),
+          SizedBox(height: 10.h),
+          const Divider(color: Color(0xFFC6C6C6)),
           SizedBox(height: 8.h),
-          Divider(color: Color(0xFFC6C6C6)),
-          SizedBox(height: 6.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Role
               Expanded(
                 child: _associationInfoItem(
                   title: "OWNER",
                   value: "Arjun Sharma",
                 ),
               ),
-
-              // Total Units
               Expanded(
                 child: _associationInfoItem(title: "PROPERTY", value: "Active"),
               ),
-
-              // Blocks
               Expanded(
                 child: _associationInfoItem(title: "SCORE", value: "8.6 / 10"),
               ),
@@ -587,20 +601,21 @@ class _AssociationOccupancePropertyStatusState
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
             letterSpacing: -0.2,
           ),
         ),
+        SizedBox(height: 2.h),
         Text(
           value,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
             letterSpacing: -0.2,
           ),
         ),

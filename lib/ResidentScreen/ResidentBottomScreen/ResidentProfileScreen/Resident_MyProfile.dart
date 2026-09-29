@@ -175,10 +175,10 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff292832),
-                          letterSpacing: -0.64,
+                          fontSize: 19.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.3,
                         ),
                       ),
                       SizedBox(height: 2.h),
@@ -187,10 +187,10 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: const Color.fromRGBO(42, 41, 51, 0.6),
-                          letterSpacing: -0.24,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(42, 41, 51, 0.65),
+                          letterSpacing: -0.2,
                         ),
                       ),
                     ],
@@ -213,7 +213,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                 //     style: GoogleFonts.outfit(
                 //       fontWeight: FontWeight.w500,
                 //       color: const Color(0xffB8860B),
-                //       fontSize: 14.sp,
+                //       fontSize: 16.sp,
                 //       letterSpacing: -0.2,
                 //     ),
                 //   ),
@@ -343,7 +343,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.outfit(
-                                            fontSize: 17.sp,
+                                            fontSize: 19.sp,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white,
                                             letterSpacing: -0.2,
@@ -363,7 +363,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white,
                                       letterSpacing: -0.2,
@@ -389,8 +389,8 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
                               color: const Color(0xFFB8860B),
                               letterSpacing: -0.2,
                             ),
@@ -403,7 +403,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                   Text(
                     "Personal Information",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -457,7 +457,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                                       Text(
                                         "Full Name",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 13.sp,
+                                          fontSize: 15.sp,
                                           fontWeight: FontWeight.w500,
                                           color: const Color(0xff777777),
                                           letterSpacing: -0.2,
@@ -471,7 +471,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                                           setState(() {});
                                         },
                                         style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
+                                          fontSize: 18.sp,
                                           fontWeight: FontWeight.w500,
                                           color: AppColors.heading,
                                           letterSpacing: -0.2,
@@ -482,7 +482,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                                           border: InputBorder.none,
                                           hintText: "Enter Full Name",
                                           hintStyle: GoogleFonts.outfit(
-                                            fontSize: 15.sp,
+                                            fontSize: 17.sp,
                                             color: const Color(0xffAAAAAA),
                                           ),
                                         ),
@@ -541,7 +541,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                   Text(
                     "Current Access",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -583,7 +583,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                           : Text(
                               "Save Changes",
                               style: GoogleFonts.outfit(
-                                fontSize: 15.sp,
+                                fontSize: 17.sp,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.2,
@@ -601,7 +601,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
           child: Text(
             "Failed to load profile",
             style: GoogleFonts.outfit(
-              fontSize: 15.sp,
+              fontSize: 17.sp,
               color: AppColors.heading,
             ),
           ),
@@ -644,7 +644,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff777777),
                       letterSpacing: -0.2,
@@ -656,7 +656,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -708,7 +708,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 16.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF101C16),
                     letterSpacing: -0.2,
@@ -724,7 +724,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
                 child: Text(
                   status.toUpperCase(),
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFFB8860B),
                   ),
@@ -769,7 +769,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 13.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF666666),
               letterSpacing: -0.2,
@@ -781,7 +781,7 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
@@ -809,12 +809,12 @@ class _ResidentMyprofileState extends ConsumerState<ResidentMyprofile> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(isOwner ? "👑" : "📄", style: TextStyle(fontSize: 11.sp)),
+          Text(isOwner ? "👑" : "📄", style: TextStyle(fontSize: 15.sp)),
           SizedBox(width: 4.w),
           Text(
             isOwner ? "Owner" : "Tenant",
             style: GoogleFonts.outfit(
-              fontSize: 11.sp,
+              fontSize: 13.sp,
               fontWeight: FontWeight.w600,
               color: isOwner
                   ? const Color(0xFF2E7D32)

@@ -87,20 +87,20 @@ class _CommunitycontactsscreenState
                   Text(
                     "Community Contacts",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Contact your community support team",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -134,7 +134,7 @@ class _CommunitycontactsscreenState
                             Text(
                               sec.sectionTitle,
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
+                                fontSize: 19.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.2,
@@ -160,7 +160,7 @@ class _CommunitycontactsscreenState
                     Text(
                       data.data.caretaker.sectionTitle,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 19.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -179,7 +179,7 @@ class _CommunitycontactsscreenState
                     Text(
                       data.data.associationRepresentative.sectionTitle,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 19.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -249,7 +249,7 @@ class _CommunitycontactsscreenState
                     Text(
                       name,
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                       ),
@@ -257,7 +257,7 @@ class _CommunitycontactsscreenState
                     Text(
                       role,
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         color: const Color.fromRGBO(16, 28, 22, 0.6),
                       ),
                     ),
@@ -273,7 +273,7 @@ class _CommunitycontactsscreenState
                 child: Text(
                   badge,
                   style: GoogleFonts.outfit(
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xffB8860B),
                   ),
@@ -290,7 +290,7 @@ class _CommunitycontactsscreenState
               Text(
                 phone,
                 style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
+                  fontSize: 16.sp,
                   color: const Color.fromRGBO(16, 28, 22, 0.6),
                 ),
               ),
@@ -320,7 +320,7 @@ class _CommunitycontactsscreenState
                       Text(
                         "Call",
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),

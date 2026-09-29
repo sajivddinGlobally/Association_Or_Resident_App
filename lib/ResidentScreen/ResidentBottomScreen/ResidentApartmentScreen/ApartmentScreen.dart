@@ -63,10 +63,10 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff292832),
-                          letterSpacing: -0.64,
+                          fontSize: 19.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.3,
                         ),
                       ),
 
@@ -77,10 +77,10 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
-                          color: Color.fromRGBO(42, 41, 51, 0.6),
-                          letterSpacing: -0.24,
+                          color: const Color.fromRGBO(42, 41, 51, 0.65),
+                          letterSpacing: -0.2,
                         ),
                       ),
                     ],
@@ -168,7 +168,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                                   style: GoogleFonts.outfit(
                                     fontWeight: FontWeight.w500,
                                     color: const Color(0xffFFFFFF),
-                                    fontSize: 13.sp,
+                                    fontSize: 15.sp,
                                     letterSpacing: -0.24,
                                   ),
                                 ),
@@ -184,7 +184,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xffFFFFFF),
-                                fontSize: 17.sp,
+                                fontSize: 19.sp,
                                 letterSpacing: -0.54,
                               ),
                             ),
@@ -194,7 +194,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w500,
                                 color: Color.fromRGBO(255, 255, 255, 0.6),
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 letterSpacing: -0.34,
                               ),
                             ),
@@ -211,7 +211,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
-                          fontSize: 17.sp,
+                          fontSize: 19.sp,
                           letterSpacing: -0.34,
                         ),
                       ),
@@ -221,7 +221,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                       //   style: GoogleFonts.outfit(
                       //     fontWeight: FontWeight.w500,
                       //     color: AppColors.heading,
-                      //     fontSize: 14.sp,
+                      //     fontSize: 16.sp,
                       //     letterSpacing: -0.34,
                       //   ),
                       // ),
@@ -255,7 +255,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
-                      fontSize: 17.sp,
+                      fontSize: 19.sp,
                       letterSpacing: -0.34,
                     ),
                   ),
@@ -266,7 +266,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                     mainAxisSpacing: 22.h,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    childAspectRatio: 1.50,
+                    childAspectRatio: 1.6.h,
                     children: [
                       _infoCard(
                         icon: Icons.home_outlined,
@@ -334,15 +334,14 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
+                              letterSpacing: -0.39,
                             ),
                           ),
                         ),
                       ),
-
-                      SizedBox(width: 25.w),
-
+                      SizedBox(width: 18.w),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
@@ -369,8 +368,9 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
+                              letterSpacing: -0.39,
                             ),
                           ),
                         ),
@@ -421,7 +421,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
                   color: Color.fromRGBO(42, 41, 51, 0.6),
                   letterSpacing: -0.24,
@@ -446,7 +446,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.heading,
                 letterSpacing: -0.24,
@@ -486,7 +486,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 15.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.w500,
               color: AppColors.heading,
               letterSpacing: -0.54,
@@ -499,7 +499,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
               color: Color.fromRGBO(41, 42, 51, 0.6),
               letterSpacing: -0.34,
@@ -517,29 +517,22 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
       decoration: BoxDecoration(
-        color: isOwner
-            ? const Color(0xFFE8F5E9)
-            : const Color(0xFFFFF3E0),
+        color: isOwner ? const Color(0xFFE8F5E9) : const Color(0xFFFFF3E0),
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          color: isOwner
-              ? const Color(0xFF81C784)
-              : const Color(0xFFFFB74D),
+          color: isOwner ? const Color(0xFF81C784) : const Color(0xFFFFB74D),
           width: 1,
         ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            isOwner ? "👑" : "📄",
-            style: TextStyle(fontSize: 10.sp),
-          ),
+          Text(isOwner ? "👑" : "📄", style: TextStyle(fontSize: 14.sp)),
           SizedBox(width: 4.w),
           Text(
             isOwner ? "Owner" : "Tenant",
             style: GoogleFonts.outfit(
-              fontSize: 11.sp,
+              fontSize: 13.sp,
               fontWeight: FontWeight.w600,
               color: isOwner
                   ? const Color(0xFF2E7D32)

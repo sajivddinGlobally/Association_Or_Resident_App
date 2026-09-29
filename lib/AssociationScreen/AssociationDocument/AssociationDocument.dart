@@ -81,11 +81,12 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                           "DOCUMENTS",
                           style: GoogleFonts.outfit(
                             fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xff292832),
-                            letterSpacing: -0.64,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                            letterSpacing: -0.3,
                           ),
                         ),
+                        SizedBox(height: 2.h),
                         Text(
                           "Residential/Commercial management team",
                           maxLines: 1,
@@ -93,8 +94,8 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                           style: GoogleFonts.outfit(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
-                            color: Color(0xFF2A2933),
-                            letterSpacing: -0.24,
+                            color: const Color.fromRGBO(42, 41, 51, 0.7),
+                            letterSpacing: -0.2,
                           ),
                         ),
                       ],
@@ -150,10 +151,10 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                           Text(
                             "DOCUMENT CENTRE",
                             style: GoogleFonts.outfit(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF000000),
-                              letterSpacing: -0.2,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.heading,
+                              letterSpacing: -0.1,
                             ),
                           ),
                           SizedBox(height: 13.h),
@@ -186,10 +187,10 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 17.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: const Color(0xFF000000),
-                                        letterSpacing: -0.3,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.heading,
+                                        letterSpacing: -0.2,
                                         height: 1.1,
                                       ),
                                     ),
@@ -200,10 +201,10 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: Color.fromRGBO(0, 0, 0, 0.6),
-                                        letterSpacing: -0.3,
+                                        color: const Color.fromRGBO(0, 0, 0, 0.75),
+                                        letterSpacing: -0.2,
                                         height: 1.1,
                                       ),
                                     ),
@@ -254,24 +255,33 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                     ),
               SizedBox(height: 16.h),
               Container(
-                height: 55.h,
+                height: 52.h,
                 width: double.infinity,
-                padding: EdgeInsets.only(left: 16.w, right: 10.w),
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: Color(0xff101C16), width: 1),
+                  borderRadius: BorderRadius.circular(6.r),
+                  border: Border.all(
+                    color: const Color.fromRGBO(16, 28, 22, 0.6),
+                    width: 1.2,
+                  ),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.search,
-                      size: 25.sp,
-                      color: const Color(0xff8B8D8B),
+                      size: 24.sp,
+                      color: AppColors.heading,
                     ),
                     SizedBox(width: 10.w),
                     Expanded(
                       child: TextField(
+                        style: GoogleFonts.outfit(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
+                        ),
                         onChanged: (value) {
                           setState(() {
                             search = value;
@@ -281,10 +291,10 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                         decoration: InputDecoration(
                           hintText: "Search service or provider...",
                           hintStyle: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
-                            color: const Color(0xff8B8D8B),
-                            letterSpacing: -0.3,
+                            color: const Color.fromRGBO(16, 28, 22, 0.6),
+                            letterSpacing: -0.2,
                           ),
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -314,8 +324,8 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           padding: EdgeInsets.symmetric(
-                            vertical: 5.h,
-                            horizontal: 13.w,
+                            vertical: 8.h,
+                            horizontal: 16.w,
                           ),
                           decoration: BoxDecoration(
                             color: isSelected
@@ -324,19 +334,19 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                             borderRadius: BorderRadius.circular(40.r),
                             border: Border.all(
                               color: const Color(0xff101C16),
-                              width: 1,
+                              width: 1.w,
                             ),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             filters[index],
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
                               color: isSelected
                                   ? Colors.white
                                   : const Color(0xff101C16),
-                              letterSpacing: -0.3,
+                              letterSpacing: -0.2,
                             ),
                           ),
                         ),
@@ -349,10 +359,10 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
               Text(
                 "Featured Document",
                 style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xff101C16),
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
                   fontSize: 17.sp,
-                  letterSpacing: -0.54,
+                  letterSpacing: -0.2,
                 ),
               ),
               SizedBox(height: 16.h),
@@ -424,11 +434,11 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF000000),
-            letterSpacing: -0.3,
-            height: 1.0,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
+            letterSpacing: -0.2,
+            height: 1.1,
           ),
         ),
         SizedBox(height: 4.h),
@@ -439,9 +449,9 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
           style: GoogleFonts.outfit(
             fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(42, 41, 51, 0.6),
-            letterSpacing: -0.3,
-            height: 1.0,
+            color: const Color.fromRGBO(42, 41, 51, 0.75),
+            letterSpacing: -0.2,
+            height: 1.1,
           ),
         ),
       ],
@@ -467,7 +477,7 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10.h),
-        padding: EdgeInsets.symmetric(vertical: 16.w, horizontal: 12.w),
+        padding: EdgeInsets.symmetric(vertical: 16.w, horizontal: 14.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.r),
           border: Border.all(color: Color.fromRGBO(16, 28, 22, 0.6)),
@@ -492,36 +502,43 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                     ),
                   ),
                 ),
-                SizedBox(width: 8.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      // "Property Ownership Document",
-                      title,
-                      style: GoogleFonts.outfit(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17.sp,
-                        color: Color(0xFF000000),
-                        letterSpacing: -0.3,
+                SizedBox(width: 10.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        // "Property Ownership Document",
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.outfit(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18.sp,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
+                        ),
                       ),
-                    ),
-                    Text(
-                      // "Association · Updated 18 Aug 2026",
-                      subtitle,
-                      style: GoogleFonts.outfit(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13.sp,
-                        color: Color.fromRGBO(0, 0, 0, 0.6),
-                        letterSpacing: -0.2,
+                      SizedBox(height: 2.h),
+                      Text(
+                        // "Association · Updated 18 Aug 2026",
+                        subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.outfit(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.sp,
+                          color: const Color.fromRGBO(0, 0, 0, 0.75),
+                          letterSpacing: -0.2,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 10.h),
-            Divider(color: Color(0xFFC6C6C6)),
+            Divider(color: Color(0xFFE0E0E0)),
             SizedBox(height: 10.h),
             Row(
               children: [
@@ -530,20 +547,20 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                   fileType,
                   style: GoogleFonts.outfit(
                     fontWeight: FontWeight.w500,
-                    fontSize: 13.sp,
-                    color: Color(0xFF000000),
-                    letterSpacing: -0.3,
+                    fontSize: 14.sp,
+                    color: AppColors.heading,
+                    letterSpacing: -0.2,
                   ),
                 ),
-                SizedBox(width: 42.h),
+                SizedBox(width: 42.w),
                 Text(
                   // "3.8 MB",
                   filteSize,
                   style: GoogleFonts.outfit(
                     fontWeight: FontWeight.w500,
-                    fontSize: 13.sp,
-                    color: Color(0xFF000000),
-                    letterSpacing: -0.3,
+                    fontSize: 14.sp,
+                    color: AppColors.heading,
+                    letterSpacing: -0.2,
                   ),
                 ),
                 Spacer(),
@@ -561,7 +578,7 @@ class _AssociationDocumentState extends ConsumerState<AssociationDocument> {
                     budget,
                     style: GoogleFonts.outfit(
                       fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: Color(0xFF1E5993),
                       letterSpacing: -0.2,
                     ),

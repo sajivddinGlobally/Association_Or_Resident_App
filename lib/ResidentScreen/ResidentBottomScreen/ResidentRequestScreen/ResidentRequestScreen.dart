@@ -76,20 +76,20 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                   Text(
                     "My Requests",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Track your complaint history",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -148,7 +148,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                               data.data?.registeredApartment?.label ??
                                   "REGISTERED APARTMENT",
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.2,
@@ -158,7 +158,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                             Text(
                               data.data?.registeredApartment?.text ?? "N/A",
                               style: GoogleFonts.outfit(
-                                fontSize: 15.sp,
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.2,
@@ -194,7 +194,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                       child: Text(
                         "No Complaint requests found",
                         style: GoogleFonts.outfit(
-                          fontSize: 15.sp,
+                          fontSize: 17.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
                           letterSpacing: -0.2,
@@ -335,7 +335,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                             request?.tokenNumber ??
                                             "N/A",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 14.sp,
+                                          fontSize: 16.sp,
                                           fontWeight: FontWeight.w600,
                                           color: AppColors.heading,
                                           letterSpacing: -0.2,
@@ -360,14 +360,14 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                               Text(
                                                 "🔴 ",
                                                 style: TextStyle(
-                                                  fontSize: 10.sp,
+                                                  fontSize: 12.sp,
                                                 ),
                                               ),
                                             ],
                                             Text(
                                               statusLabel,
                                               style: GoogleFonts.outfit(
-                                                fontSize: 13.sp,
+                                                fontSize: 15.sp,
                                                 fontWeight: FontWeight.w600,
                                                 color: badgeText,
                                                 letterSpacing: -0.2,
@@ -385,7 +385,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                         child: Text(
                                           request?.title ?? "N/A",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 16.sp,
+                                            fontSize: 18.sp,
                                             fontWeight: FontWeight.w600,
                                             color: AppColors.heading,
                                             letterSpacing: -0.2,
@@ -416,7 +416,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                           child: Text(
                                             "${isCommonArea ? '🏢 ' : '🏠 '}$areaLabel",
                                             style: GoogleFonts.outfit(
-                                              fontSize: 11.sp,
+                                              fontSize: 13.sp,
                                               fontWeight: FontWeight.w600,
                                               color: isCommonArea
                                                   ? const Color(0xFF1D4ED8)
@@ -440,7 +440,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                         child: Text(
                                           request?.location ?? "N/A",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 13.sp,
+                                            fontSize: 15.sp,
                                             fontWeight: FontWeight.w500,
                                             color: AppColors.heading,
                                             letterSpacing: -0.2,
@@ -450,7 +450,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                       Text(
                                         "View Details  →",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 14.sp,
+                                          fontSize: 16.sp,
                                           fontWeight: FontWeight.w500,
                                           color: const Color(0xffB8860B),
                                           letterSpacing: -0.2,
@@ -503,7 +503,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
           child: Text(
             title,
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
               color: selected
                   ? Colors.white

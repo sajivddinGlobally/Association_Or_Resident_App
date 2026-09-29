@@ -31,58 +31,61 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
         backgroundColor: AppColors.scaffoldBg,
         automaticallyImplyLeading: false,
         titleSpacing: 20.w,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 41.w,
-                  height: 41.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromRGBO(16, 28, 22, 0.3),
-                    ),
-                    borderRadius: BorderRadius.circular(4.r),
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 44.w,
+                height: 44.h,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromRGBO(16, 28, 22, 0.3),
                   ),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: const Color(0xff101C16),
-                    size: 16.sp,
-                  ),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: const Color(0xff101C16),
+                  size: 20.sp,
                 ),
               ),
-              SizedBox(width: 10.w),
-              Column(
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Request Details",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Service Request",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: serviceDetailState.when(
@@ -111,12 +114,13 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                           children: [
                             Expanded(
                               child: Text(
-                                // "TICKET · SR-1024",
                                 data.data?.ticketBanner?.tag ?? "",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -137,7 +141,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                 data.data?.ticketBanner?.status ?? "N/A",
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   color: const Color(0xFFB8860B),
                                   letterSpacing: -0.2,
                                 ),
@@ -149,41 +153,43 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                         Row(
                           children: [
                             Container(
-                              width: 36.w,
-                              height: 36.w,
+                              width: 38.w,
+                              height: 38.w,
                               decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 242, 165, 0.3),
+                                color: const Color.fromRGBO(255, 242, 165, 0.3),
                                 borderRadius: BorderRadius.circular(50.r),
                               ),
                               child: Icon(
                                 Icons.trending_up,
-                                color: Color(0xFFB8860B),
-                                size: 15.sp,
+                                color: const Color(0xFFB8860B),
+                                size: 18.sp,
                               ),
                             ),
-                            SizedBox(width: 10.w),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     data.data?.ticketBanner?.title ?? "N/A",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF000000),
-                                      height: 1.05,
+                                      fontSize: 19.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
                                   SizedBox(height: 3.h),
                                   Text(
                                     data.data?.ticketBanner?.subtitle ?? "N/A",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(0, 0, 0, 0.6),
-                                      height: 1.1,
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -196,7 +202,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                         Container(
                           height: 1.h,
                           width: double.infinity,
-                          color: Color(0xFFC6C6C6),
+                          color: const Color(0xFFC6C6C6),
                         ),
                         SizedBox(height: 15.h),
                         Row(
@@ -208,20 +214,24 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                 children: [
                                   Text(
                                     "Raised On",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(42, 41, 51, 0.6),
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
                                   SizedBox(height: 3.h),
                                   Text(
                                     data.data?.ticketBanner?.raisedOn ?? "N/A",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
                                       fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF000000),
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                     ),
                                   ),
                                 ],
@@ -233,10 +243,12 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                 children: [
                                   Text(
                                     "Last Updated",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 12.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(42, 41, 51, 0.6),
+                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -244,10 +256,12 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                   Text(
                                     data.data?.ticketBanner?.lastUpdated ??
                                         "N/A",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
                                       fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF000000),
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
                                     ),
                                   ),
                                 ],
@@ -258,13 +272,13 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Text(
                     "Raised By",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -277,31 +291,31 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: Color(0xFF000000), width: 1.w),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Row(
                       children: [
                         Container(
-                          width: 35.w,
-                          height: 35.h,
+                          width: 38.w,
+                          height: 38.h,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(6.r),
                             border: Border.all(
-                              color: Color(0xFF000000),
+                              color: AppColors.heading,
                               width: 1.w,
                             ),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(5.r),
                             child: Image.network(
                               data.data?.raisedBy?.avatar ?? "N/A",
-                              width: 35.w,
-                              height: 35.h,
+                              width: 38.w,
+                              height: 38.h,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Icon(
                                   Icons.person,
-                                  size: 18.sp,
+                                  size: 20.sp,
                                   color: Colors.black87,
                                 );
                               },
@@ -315,24 +329,24 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                             children: [
                               Text(
                                 data.data?.raisedBy?.name ?? "N/A",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF000000),
-                                  height: 1,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.1,
                                 ),
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                // "Apartment Resident",
                                 data.data?.raisedBy?.role ?? "N/A",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(0, 0, 0, 0.6),
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                   letterSpacing: -0.1,
                                 ),
                               ),
@@ -350,14 +364,13 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               color: const Color(0xFFB8860B),
                               width: 1.w,
                             ),
-                            borderRadius: BorderRadius.circular(3.r),
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Text(
-                            // "B-302",
                             data.data?.raisedBy?.unitBadge ?? "N/A",
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               color: const Color(0xFFB8860B),
                               letterSpacing: -0.2,
                             ),
@@ -366,17 +379,17 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 18.w),
+                  SizedBox(height: 18.h),
                   Text(
                     "Request Information",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.w),
+                  SizedBox(height: 12.h),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: AppColors.heading),
@@ -405,52 +418,53 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                           value:
                               data.data?.requestInformation?.preferredVisit ??
                               "N/A",
+                          showBottomBorder: false,
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 16.w),
+                  SizedBox(height: 18.h),
                   Text(
                     "Issue Description",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 12.w),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      vertical: 10.h,
-                      horizontal: 9.w,
+                      vertical: 12.h,
+                      horizontal: 14.w,
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(color: AppColors.heading),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Text(
-                      // "Water leakage has been noticed near the bathroom pipeline. The resident has requested inspection and necessary plumbing repair.",
                       data.data?.issueDescription?.description ?? "N/A",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
-                        color: const Color(0xFF000000),
+                        color: AppColors.heading,
+                        height: 1.35,
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Text(
                     "Priority",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
@@ -459,13 +473,13 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: Color(0xFF000000), width: 1.w),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Row(
                       children: [
                         Icon(
                           Icons.radio_button_checked,
-                          color: Color(0xFFB8860B),
+                          color: const Color(0xFFB8860B),
                           size: 22.sp,
                         ),
                         SizedBox(width: 12.w),
@@ -474,26 +488,25 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                // 'Requires Attention',
                                 data.data?.priority?.title ?? "N/A",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF000000),
-                                  height: 1,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.heading,
                                   letterSpacing: -0.1,
                                 ),
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                // "Request needs action from the service team",
                                 data.data?.priority?.subtitle ?? "N/A",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(0, 0, 0, 0.6),
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                   letterSpacing: -0.1,
                                 ),
                               ),
@@ -511,14 +524,13 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               color: const Color(0xFFE3240F),
                               width: 1.w,
                             ),
-                            borderRadius: BorderRadius.circular(3.r),
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Text(
-                            // "HIGH",
                             data.data?.priority?.level ?? "N/A",
                             style: GoogleFonts.outfit(
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w700,
                               color: const Color(0xFFE3240F),
                               letterSpacing: -0.2,
                             ),
@@ -528,17 +540,17 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                     ),
                   ),
 
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Text(
                     "Assigned Service",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   GestureDetector(
                     onTap: () {
                       _showAssignedServiceBottomSheet(
@@ -555,23 +567,23 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
-                          color: const Color(0xFF000000),
+                          color: AppColors.heading,
                           width: 1.w,
                         ),
                       ),
                       child: Row(
                         children: [
                           Container(
-                            width: 36.w,
-                            height: 36.w,
+                            width: 38.w,
+                            height: 38.w,
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(255, 242, 165, 0.3),
-                              borderRadius: BorderRadius.circular(4.r),
+                              borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: Icon(
                               Icons.push_pin_outlined,
                               color: const Color(0xFFB8860B),
-                              size: 15.sp,
+                              size: 18.sp,
                             ),
                           ),
                           SizedBox(width: 12.w),
@@ -580,27 +592,26 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  // 'ABC Plumbing Services',
                                   data.data?.assignedService?.providerName ??
                                       "N/A",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF000000),
-                                    height: 1,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.heading,
                                     letterSpacing: -0.1,
                                   ),
                                 ),
                                 SizedBox(height: 2.h),
                                 Text(
-                                  // "Assigned Service Provider",
                                   data.data?.assignedService?.subtitle ?? "N/A",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 15.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: const Color.fromRGBO(0, 0, 0, 0.6),
+                                    color: const Color.fromRGBO(42, 41, 51, 0.75),
                                     letterSpacing: -0.1,
                                   ),
                                 ),
@@ -610,8 +621,8 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                           SizedBox(width: 10.w),
                           Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 4.h,
+                              horizontal: 12.w,
+                              vertical: 5.h,
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -624,7 +635,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               data.data?.assignedService?.actionText ?? "View",
                               style: GoogleFonts.outfit(
                                 fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w700,
                                 color: const Color(0xFF1E5993),
                                 letterSpacing: -0.2,
                               ),
@@ -634,26 +645,26 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Text(
                     "Current Status",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF000000),
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 16.w),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
                       horizontal: 20.w,
-                      vertical: 13.h,
+                      vertical: 14.h,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: Color(0xFF000000), width: 1.w),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: AppColors.heading, width: 1.w),
                     ),
                     child: Column(
                       children:
@@ -678,8 +689,9 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               Text(
                                 "No status available",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  color: Colors.grey,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
                                 ),
                               ),
                             ],
@@ -688,7 +700,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                   SizedBox(height: 22.h),
                   SizedBox(
                     width: double.infinity,
-                    height: 49.h,
+                    height: 52.h,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -700,27 +712,27 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF101C16),
+                        backgroundColor: AppColors.heading,
                         foregroundColor: Colors.white,
                         elevation: 0,
                         padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderRadius: BorderRadius.circular(6.r),
                         ),
                       ),
                       child: Text(
                         "VIEW FULL TICKET STATUS",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
                           color: Colors.white,
-                          letterSpacing: -0.2,
+                          letterSpacing: 0.2,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 21.w),
+                  SizedBox(height: 24.h),
                 ],
               ),
             ),
@@ -730,9 +742,9 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
           child: Text(
             "Error loading service request",
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w500,
-              color: Color.fromRGBO(0, 0, 0, 0.6),
+              color: const Color.fromRGBO(42, 41, 51, 0.75),
               letterSpacing: -0.2,
             ),
           ),
@@ -748,55 +760,43 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
     required String value,
     bool showBottomBorder = true,
   }) {
-    return SizedBox(
-      height: 40.h,
+    return Container(
+      constraints: BoxConstraints(minHeight: 44.h),
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+      decoration: BoxDecoration(
+        border: showBottomBorder
+            ? const Border(
+                bottom: BorderSide(color: Color(0xFFC8C8C1), width: 1),
+              )
+            : null,
+      ),
       child: Row(
         children: [
           Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              decoration: BoxDecoration(
-                border: showBottomBorder
-                    ? const Border(
-                        bottom: BorderSide(color: Color(0xFFC8C8C1), width: 1),
-                      )
-                    : null,
-              ),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(42, 41, 51, 0.6),
-                  letterSpacing: -0.24,
-                ),
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.outfit(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: const Color.fromRGBO(42, 41, 51, 0.75),
+                letterSpacing: -0.2,
               ),
             ),
           ),
-          Container(
-            height: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            decoration: BoxDecoration(
-              border: showBottomBorder
-                  ? const Border(
-                      bottom: BorderSide(color: Color(0xFFC8C8C1), width: 1),
-                    )
-                  : null,
-            ),
-            alignment: Alignment.centerRight,
+          SizedBox(width: 10.w),
+          Expanded(
             child: Text(
               value,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.heading,
-                letterSpacing: -0.24,
+                letterSpacing: -0.2,
               ),
             ),
           ),
@@ -840,12 +840,17 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Service Provider Details",
-                      style: GoogleFonts.outfit(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF101C16),
+                    Expanded(
+                      child: Text(
+                        "Service Provider Details",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.outfit(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
+                        ),
                       ),
                     ),
                     GestureDetector(
@@ -901,9 +906,9 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.heading,
                               ),
                             ),
                             SizedBox(height: 3.h),
@@ -912,9 +917,9 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w400,
-                                color: const Color.fromRGBO(0, 0, 0, 0.6),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(42, 41, 51, 0.75),
                               ),
                             ),
                           ],
@@ -947,7 +952,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                         Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: 15.w,
-                            vertical: 8.h,
+                            vertical: 10.h,
                           ),
                           child: Row(
                             children: [
@@ -956,18 +961,18 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: const Color.fromRGBO(42, 41, 51, 0.6),
-                                  letterSpacing: -0.24,
+                                  color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                  letterSpacing: -0.2,
                                 ),
                               ),
                               const Spacer(),
                               Text(
                                 service.contact!,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.heading,
-                                  letterSpacing: -0.24,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
                               SizedBox(width: 8.w),
@@ -1036,13 +1041,13 @@ class _StatusItem extends StatelessWidget {
           Column(
             children: [
               Container(
-                width: 30.w,
-                height: 30.w,
+                width: 32.w,
+                height: 32.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: isCompleted
-                      ? Color.fromRGBO(36, 176, 106, 0.1)
-                      : Color.fromRGBO(184, 134, 11, 0.1),
+                      ? const Color.fromRGBO(36, 176, 106, 0.12)
+                      : const Color.fromRGBO(184, 134, 11, 0.12),
                 ),
                 child: Center(
                   child: isCompleted
@@ -1052,8 +1057,8 @@ class _StatusItem extends StatelessWidget {
                           size: 18.sp,
                         )
                       : Container(
-                          width: 5.w,
-                          height: 5.w,
+                          width: 6.w,
+                          height: 6.w,
                           decoration: const BoxDecoration(
                             color: Color(0xFFB8860B),
                             shape: BoxShape.circle,
@@ -1065,15 +1070,15 @@ class _StatusItem extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: 1.w,
-                    color: Color.fromRGBO(16, 28, 22, 0.5),
+                    color: const Color.fromRGBO(16, 28, 22, 0.35),
                   ),
                 ),
             ],
           ),
-          SizedBox(width: 10.w),
+          SizedBox(width: 12.w),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(top: 0.h, bottom: isLast ? 0 : 9.h),
+              padding: EdgeInsets.only(top: 0.h, bottom: isLast ? 0 : 12.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1083,23 +1088,21 @@ class _StatusItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      height: 1.1,
-                      color: Colors.black,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: 3.h),
                   Text(
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      height: 1.05,
-                      color: Color.fromRGBO(0, 0, 0, 0.6),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
                       letterSpacing: -0.2,
                     ),
                   ),

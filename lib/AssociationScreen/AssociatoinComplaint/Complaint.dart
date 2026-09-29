@@ -109,19 +109,21 @@ class _ComplaintState extends ConsumerState<Complaint> {
                     "Open Complaints",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Review and monitor complaints across the complex",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -193,16 +195,14 @@ class _ComplaintState extends ConsumerState<Complaint> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF000000),
-                                      letterSpacing: -0.3,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.heading,
+                                      letterSpacing: -0.2,
                                       height: 1.1,
                                     ),
                                   ),
-
                                   SizedBox(height: 3.h),
-
                                   Text(
                                     complaintState?.subtitle ?? "",
                                     maxLines: 1,
@@ -210,34 +210,32 @@ class _ComplaintState extends ConsumerState<Complaint> {
                                     style: GoogleFonts.outfit(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: const Color.fromRGBO(0, 0, 0, 0.6),
-                                      letterSpacing: -0.3,
+                                      color: const Color.fromRGBO(0, 0, 0, 0.75),
+                                      letterSpacing: -0.2,
                                       height: 1.1,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
                                   summary?.totalCount.toString() ?? "0",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF000000),
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.heading,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
-
                                 Text(
                                   "Total Complaint",
                                   style: GoogleFonts.outfit(
                                     fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF000000),
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.heading,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -290,25 +288,31 @@ class _ComplaintState extends ConsumerState<Complaint> {
             ),
             SizedBox(height: 16.h),
             Container(
-              height: 45.h,
+              height: 52.h,
               margin: EdgeInsets.symmetric(horizontal: 20.w),
               width: double.infinity,
               padding: EdgeInsets.only(left: 16.w, right: 10.w),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: Color(0xff101C16), width: 1),
+                border: Border.all(color: const Color(0xff101C16), width: 1.2),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.search,
-                    size: 25.sp,
-                    color: const Color(0xff8B8D8B),
+                    size: 26.sp,
+                    color: const Color(0xff101C16),
                   ),
                   SizedBox(width: 10.w),
                   Expanded(
                     child: TextField(
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff101C16),
+                        letterSpacing: -0.2,
+                      ),
                       controller: searchController,
                       onChanged: (value) {
                         setState(() {
@@ -319,10 +323,10 @@ class _ComplaintState extends ConsumerState<Complaint> {
                       decoration: InputDecoration(
                         hintText: "Search service or provider...",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 15.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xff8B8D8B),
-                          letterSpacing: -0.3,
+                          letterSpacing: -0.2,
                         ),
                         border: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -353,29 +357,29 @@ class _ComplaintState extends ConsumerState<Complaint> {
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
                         padding: EdgeInsets.symmetric(
-                          vertical: 5.h,
-                          horizontal: 13.w,
+                          vertical: 8.h,
+                          horizontal: 16.w,
                         ),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? const Color(0xff101C16)
                               : Colors.transparent,
-                          borderRadius: BorderRadius.circular(6.r),
+                          borderRadius: BorderRadius.circular(8.r),
                           border: Border.all(
                             color: const Color(0xff101C16),
-                            width: 1,
+                            width: 1.2,
                           ),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           filters[index],
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w600,
                             color: isSelected
                                 ? Colors.white
                                 : const Color(0xff101C16),
-                            letterSpacing: -0.3,
+                            letterSpacing: -0.2,
                           ),
                         ),
                       ),
@@ -496,11 +500,11 @@ class _ComplaintState extends ConsumerState<Complaint> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF000000),
-            letterSpacing: -0.3,
-            height: 1.0,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
+            letterSpacing: -0.2,
+            height: 1.1,
           ),
         ),
         SizedBox(height: 4.h),
@@ -509,11 +513,11 @@ class _ComplaintState extends ConsumerState<Complaint> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(42, 41, 51, 0.6),
-            letterSpacing: -0.3,
-            height: 1.0,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: const Color.fromRGBO(42, 41, 51, 0.8),
+            letterSpacing: -0.2,
+            height: 1.1,
           ),
         ),
       ],
@@ -591,190 +595,190 @@ class ServiceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF000000),
-                          height: 1.h,
-                          letterSpacing: -0.2,
+                        Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.outfit(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                            height: 1.1,
+                            letterSpacing: -0.2,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        subtitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF000000),
-                          height: 1.1,
-                          letterSpacing: -0.2,
+                        SizedBox(height: 4.h),
+                        Text(
+                          subtitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromRGBO(0, 0, 0, 0.75),
+                            height: 1.1,
+                            letterSpacing: -0.2,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Builder(
-                  builder: (context) {
-                    final p = (priority ?? "HIGH").toUpperCase();
-                    Color badgeBg;
-                    Color badgeText;
-                    Color badgeBorder;
+                  Builder(
+                    builder: (context) {
+                      final p = (priority ?? "HIGH").toUpperCase();
+                      Color badgeBg;
+                      Color badgeText;
+                      Color badgeBorder;
 
-                    if (p.contains("HIGH") ||
-                        p.contains("URGENT") ||
-                        p.contains("EMERGENCY")) {
-                      badgeBg = const Color(0xFFFFEBEE);
-                      badgeText = const Color(0xFFD32F2F);
-                      badgeBorder = const Color(0xFFEF9A9A);
-                    } else if (p.contains("MEDIUM") || p.contains("MED")) {
-                      badgeBg = const Color(0xFFFFF3E0);
-                      badgeText = const Color(0xFFE65100);
-                      badgeBorder = const Color(0xFFFFB74D);
-                    } else if (p.contains("LOW")) {
-                      badgeBg = const Color(0xFFE8F5E9);
-                      badgeText = const Color(0xFF2E7D32);
-                      badgeBorder = const Color(0xFFA5D6A7);
-                    } else {
-                      badgeBg = const Color(0xFFF5F5F5);
-                      badgeText = const Color(0xFF333333);
-                      badgeBorder = const Color(0xFFD9D9D0);
-                    }
+                      if (p.contains("HIGH") ||
+                          p.contains("URGENT") ||
+                          p.contains("EMERGENCY")) {
+                        badgeBg = const Color(0xFFFFEBEE);
+                        badgeText = const Color(0xFFD32F2F);
+                        badgeBorder = const Color(0xFFEF9A9A);
+                      } else if (p.contains("MEDIUM") || p.contains("MED")) {
+                        badgeBg = const Color(0xFFFFF3E0);
+                        badgeText = const Color(0xFFE65100);
+                        badgeBorder = const Color(0xFFFFB74D);
+                      } else if (p.contains("LOW")) {
+                        badgeBg = const Color(0xFFE8F5E9);
+                        badgeText = const Color(0xFF2E7D32);
+                        badgeBorder = const Color(0xFFA5D6A7);
+                      } else {
+                        badgeBg = const Color(0xFFF5F5F5);
+                        badgeText = const Color(0xFF333333);
+                        badgeBorder = const Color(0xFFD9D9D0);
+                      }
 
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 4.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: badgeBg,
-                        borderRadius: BorderRadius.circular(4.r),
-                        border: Border.all(color: badgeBorder, width: 1.w),
-                      ),
-                      child: Text(
-                        p,
-                        style: GoogleFonts.outfit(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          color: badgeText,
-                          letterSpacing: -0.2,
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 4.h,
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 14.h),
-            Divider(height: 1, thickness: 1, color: Color(0xFF000000)),
-            SizedBox(height: 14.h),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _infoItem(label: providerLabel, value: providerName),
-                ),
-                SizedBox(width: 20.w),
-                Expanded(
-                  child: _infoItem(label: scheduleLabel, value: schedule),
-                ),
-              ],
-            ),
-            SizedBox(height: 17.h),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _infoItem(label: issueLabel, value: issues),
-                ),
-                SizedBox(width: 20.w),
-                Expanded(
-                  child: _infoItem(label: lastServiceLabel, value: lastService),
-                ),
-              ],
-            ),
-            SizedBox(height: 14.h),
-            Row(
-              children: [
-                Icon(Icons.circle, size: 8.sp, color: Color(0xFF1E5993)),
-                SizedBox(width: 4.w),
-                Text(
-                  status,
-                  style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF1E5993),
-                    height: 1.1,
-                    letterSpacing: -0.2,
+                        decoration: BoxDecoration(
+                          color: badgeBg,
+                          borderRadius: BorderRadius.circular(4.r),
+                          border: Border.all(color: badgeBorder, width: 1.w),
+                        ),
+                        child: Text(
+                          p,
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w600,
+                            color: badgeText,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-                Spacer(),
-                InkWell(
-                  onTap: onTap,
-                  child: Row(
-                    children: [
-                      Text(
-                        "View Details",
-                        style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
+                ],
+              ),
+              SizedBox(height: 14.h),
+              Divider(height: 1, thickness: 1, color: Color(0xFFE0E0E0)),
+              SizedBox(height: 14.h),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _infoItem(label: providerLabel, value: providerName),
+                  ),
+                  SizedBox(width: 20.w),
+                  Expanded(
+                    child: _infoItem(label: scheduleLabel, value: schedule),
+                  ),
+                ],
+              ),
+              SizedBox(height: 17.h),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _infoItem(label: issueLabel, value: issues),
+                  ),
+                  SizedBox(width: 20.w),
+                  Expanded(
+                    child: _infoItem(label: lastServiceLabel, value: lastService),
+                  ),
+                ],
+              ),
+              SizedBox(height: 14.h),
+              Row(
+                children: [
+                  Icon(Icons.circle, size: 8.sp, color: Color(0xFF1E5993)),
+                  SizedBox(width: 4.w),
+                  Text(
+                    status,
+                    style: GoogleFonts.outfit(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF1E5993),
+                      height: 1.1,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  Spacer(),
+                  InkWell(
+                    onTap: onTap,
+                    child: Row(
+                      children: [
+                        Text(
+                          "View Details",
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Color.fromRGBO(184, 134, 11, 0.9),
+                            height: 1.1,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                        SizedBox(width: 4.w),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 15.sp,
                           color: Color.fromRGBO(184, 134, 11, 0.9),
-                          height: 1.1,
-                          letterSpacing: -0.2,
                         ),
-                      ),
-                      SizedBox(width: 4.w),
-                      Icon(
-                        Icons.arrow_forward,
-                        size: 15.sp,
-                        color: Color.fromRGBO(184, 134, 11, 0.9),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
-  Widget _infoItem({required String label, required String value}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: GoogleFonts.outfit(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-            color: Color.fromRGBO(42, 41, 51, 0.6),
-            height: 1.1,
-            letterSpacing: -0.2,
+    Widget _infoItem({required String label, required String value}) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.outfit(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+              color: Color.fromRGBO(42, 41, 51, 0.75),
+              height: 1.1,
+              letterSpacing: -0.2,
+            ),
           ),
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          value,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF000000),
-            height: 1.1,
-            letterSpacing: -0.2,
+          SizedBox(height: 4.h),
+          Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.outfit(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.heading,
+              height: 1.1,
+              letterSpacing: -0.2,
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    }
   }
-}

@@ -87,20 +87,20 @@ class _EmergencyContactscreenState
                   Text(
                     "Emergency Contact",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     "Need immediate assistance",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.65),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -151,7 +151,7 @@ class _EmergencyContactscreenState
                               Text(
                                 data.data.card.badge,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xffD22424),
                                   letterSpacing: -0.2,
@@ -161,7 +161,7 @@ class _EmergencyContactscreenState
                               Text(
                                 data.data.card.title,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -171,7 +171,7 @@ class _EmergencyContactscreenState
                               Text(
                                 data.data.card.subtitle.toString(),
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -181,7 +181,7 @@ class _EmergencyContactscreenState
                               Text(
                                 data.data.card.phone,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 12.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -221,7 +221,7 @@ class _EmergencyContactscreenState
                               Text(
                                 "Call Now",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 17.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: -0.2,
