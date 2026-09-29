@@ -13,7 +13,6 @@ import 'package:property_association_or_resident/Core/AuthService/AuthServicePro
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentHomeScreen.dart';
-import 'package:svg_flutter/svg_flutter.dart';
 
 class AssociationLogin extends ConsumerStatefulWidget {
   const AssociationLogin({super.key});
@@ -26,7 +25,7 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
   bool isPasswordVisible = false;
   bool rememberMe = false;
   bool isLoading = false;
-  int? selectIndex; // 0: Association Head, 1: Resident
+  int? selectIndex; // 0: Association Head, 1: Resident/
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   @override
@@ -39,7 +38,7 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
           children: [
             SizedBox(
               width: double.infinity,
-              height: 170.h,
+              height: 150.h,
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -67,11 +66,8 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
             Center(
               child: ClipOval(
                 child: Image.asset(
-                  // "assets/property_img.png",
-                  // "assets/logo.png",
-                  // "assets/newlogo.jpeg",
-                  // "assets/updatelogo.png",
-                  "assets/new logo.png",
+                  // "assets/new logo.png",
+                  "assets/updatelogo.jpeg",
                   width: 110.w,
                   height: 110.w,
                   fit: BoxFit.cover,
@@ -85,7 +81,7 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
             //     height: 150.w,
             //   ),
             // ),
-            SizedBox(height: 70.h),
+            SizedBox(height: 50.h),
             Padding(
               padding: EdgeInsets.only(left: 20.w, right: 20.w),
               child: Column(
@@ -94,9 +90,9 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                   Text(
                     "WELCOME BACK",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 18.sp,
+                      fontSize: 22.sp,
                       letterSpacing: -0.39,
                     ),
                   ),
@@ -105,12 +101,12 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                     "Sign in to manage and monitor your property.",
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      fontSize: 14.sp,
+                      color: const Color(0xff26332D),
+                      fontSize: 15.sp,
                       letterSpacing: -0.39,
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 22.h),
                   Row(
                     children: [
                       Expanded(
@@ -130,7 +126,7 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                           },
                         ),
                       ),
-                      SizedBox(width: 16.w),
+                      SizedBox(width: 14.w),
                       Expanded(
                         child: _buildRoleButton(
                           title: "Resident",
@@ -154,19 +150,20 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                   Text(
                     "EMAIL OR MOBILE NUMBER",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 14.sp,
-                      letterSpacing: -0.3,
+                      fontSize: 15.sp,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 10.h),
                   Container(
-                    height: 44.h,
+                    height: 52.h,
                     decoration: const BoxDecoration(color: Colors.transparent),
                     child: TextField(
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xff101C16),
                         letterSpacing: -0.2,
                       ),
@@ -175,64 +172,63 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         isDense: true,
-
                         prefixIcon: Padding(
-                          padding: EdgeInsets.only(left: 10.w),
+                          padding: EdgeInsets.only(left: 12.w, right: 8.w),
                           child: Icon(
                             Icons.mail_outline,
-                            color: const Color(0xff26332D),
-                            size: 21.sp,
+                            color: const Color(0xff101C16),
+                            size: 24.sp,
                           ),
                         ),
-
                         prefixIconConstraints: BoxConstraints(
-                          minWidth: 41.w, // 10 left + 21 icon + 10 right
-                          minHeight: 44.h,
+                          minWidth: 48.w,
+                          minHeight: 52.h,
                         ),
-
                         hintText: "Enter Email or mobile number",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(16, 28, 22, 0.6),
                         ),
-
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
-                          borderSide: BorderSide(color: AppColors.heading),
-                        ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            color: AppColors.heading,
+                            width: 1.5,
                           ),
                         ),
-
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.r),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            width: 1.2,
+                          ),
+                        ),
                         contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 0,
+                          horizontal: 14.w,
+                          vertical: 14.h,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Text(
                     "PASSWORD",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 14.sp,
-                      letterSpacing: -0.39,
+                      fontSize: 15.sp,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 10.h),
                   Container(
-                    height: 44.h,
+                    height: 52.h,
                     decoration: const BoxDecoration(color: Colors.transparent),
                     child: TextField(
                       style: GoogleFonts.outfit(
-                        fontSize: 16.sp,
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xff101C16),
                         letterSpacing: -0.2,
                       ),
@@ -242,43 +238,42 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                       decoration: InputDecoration(
                         isDense: true,
                         prefixIcon: Padding(
-                          padding: EdgeInsets.only(left: 10.w),
+                          padding: EdgeInsets.only(left: 12.w, right: 8.w),
                           child: Icon(
                             Icons.lock_outline,
-                            color: const Color(0xff26332D),
-                            size: 18.sp,
+                            color: const Color(0xff101C16),
+                            size: 22.sp,
                           ),
                         ),
-
                         prefixIconConstraints: BoxConstraints(
-                          minWidth: 38.w, // 10 left + 18 icon + 10 gap
-                          minHeight: 44.h,
+                          minWidth: 46.w,
+                          minHeight: 52.h,
                         ),
-
                         hintText: "Enter your Password",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(16, 28, 22, 0.6),
                         ),
-
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
-                          borderSide: BorderSide(color: AppColors.heading),
-                        ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            color: AppColors.heading,
+                            width: 1.5,
                           ),
                         ),
-
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.r),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            width: 1.2,
+                          ),
+                        ),
                         suffixIcon: IconButton(
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(
-                            minWidth: 40.w,
-                            minHeight: 44.h,
+                            minWidth: 46.w,
+                            minHeight: 52.h,
                           ),
                           onPressed: () {
                             setState(() {
@@ -290,30 +285,30 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined,
                             color: AppColors.heading,
-                            size: 16.sp,
+                            size: 22.sp,
                           ),
                         ),
-
                         contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 0,
+                          horizontal: 14.w,
+                          vertical: 14.h,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 14.h),
+                  SizedBox(height: 16.h),
                   Padding(
-                    padding: EdgeInsets.only(left: 5.w),
+                    padding: EdgeInsets.only(left: 2.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
                             SizedBox(
-                              width: 12.w,
-                              height: 12.h,
+                              width: 22.w,
+                              height: 22.h,
                               child: Checkbox(
                                 value: rememberMe,
+                                activeColor: AppColors.heading,
                                 onChanged: (value) {
                                   setState(() {
                                     rememberMe = value ?? false;
@@ -324,25 +319,22 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                                 visualDensity: VisualDensity.compact,
                                 side: const BorderSide(
                                   color: AppColors.heading,
-                                  width: 1.2,
+                                  width: 1.5,
                                 ),
                               ),
                             ),
-
-                            SizedBox(width: 10.w),
-
+                            SizedBox(width: 8.w),
                             Text(
                               "Remember me",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
                                 color: AppColors.heading,
-                                letterSpacing: -0.39,
+                                letterSpacing: -0.2,
                               ),
                             ),
                           ],
                         ),
-
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -356,25 +348,26 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                           child: Text(
                             "Forgot Password?",
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
                               color: const Color(0xff101C16),
-                              letterSpacing: -0.39,
+                              letterSpacing: -0.2,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 32.h),
                   SizedBox(
-                    height: 41.h,
+                    height: 52.h,
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.heading,
+                        elevation: 2,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
 
@@ -463,9 +456,9 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                               "Login",
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 13.sp,
-                                color: Color(0xffFFFFFF),
-                                letterSpacing: -0.24,
+                                fontSize: 16.sp,
+                                color: const Color(0xffFFFFFF),
+                                letterSpacing: 0.2,
                               ),
                             ),
                     ),
@@ -589,24 +582,24 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
     required VoidCallback onTap,
   }) {
     return SizedBox(
-      height: 40.h,
+      height: 48.h,
       width: double.infinity,
       child: OutlinedButton(
         onPressed: onTap,
         style: OutlinedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
-          side: BorderSide(color: borderColor, width: 1.w),
+          side: BorderSide(color: borderColor, width: 1.5.w),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6.r),
+            borderRadius: BorderRadius.circular(10.r),
           ),
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.symmetric(horizontal: 4.w),
         ),
         child: Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w600,
             letterSpacing: -0.2,
           ),
         ),

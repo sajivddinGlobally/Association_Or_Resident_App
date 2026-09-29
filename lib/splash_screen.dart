@@ -28,7 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => (role != null &&
+            builder: (context) =>
+                (role != null &&
                     role.toString().toLowerCase().contains("resident"))
                 ? const ResidentBottomNavBar()
                 : const AssociationBottomNavBar(),
@@ -66,7 +67,8 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Center(
                 child: ClipOval(
                   child: Image.asset(
-                    "assets/logo.png",
+                    // "assets/logo.png",
+                    "assets/updatelogo.jpeg",
                     width: 223.w,
                     height: 223.w,
                     fit: BoxFit.cover,
@@ -79,7 +81,6 @@ class _SplashScreenState extends State<SplashScreen> {
               clipBehavior: Clip.none,
               children: [
                 Image.asset(
-                  // "assets/splase_img.png",
                   "assets/splash.png",
                   width: double.infinity,
                   fit: BoxFit.cover,

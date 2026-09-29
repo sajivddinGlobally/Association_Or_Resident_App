@@ -517,7 +517,7 @@ class QuickAction {
 class ServicePerformance {
   String? title;
   String? score;
-  int? scoreValue;
+  num? scoreValue;
   String? label;
   String? rating;
   String? message;

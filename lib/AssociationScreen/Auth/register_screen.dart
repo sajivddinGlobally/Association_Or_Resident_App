@@ -107,11 +107,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Center(
                       child: ClipOval(
                         child: Image.asset(
-                          // "assets/property_img.png",
-                          // "assets/logo.png",
-                          // "assets/newlogo.jpeg",
-                          // "assets/updatelogo.png",
-                          "assets/new logo.png",
+                          // "assets/new logo.png",
+                          "assets/updatelogo.jpeg",
                           width: 110.w,
                           height: 110.w,
                           fit: BoxFit.cover,

@@ -369,15 +369,26 @@ class _AssociationVerifyOtpPageState
                             }
                           }
                         },
-                  child: Text(
-                    "Verify",
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13.sp,
-                      color: Color(0xffFFFFFF),
-                      letterSpacing: -0.24,
-                    ),
-                  ),
+                  child: isLoading
+                      ? Center(
+                          child: SizedBox(
+                            width: 20.w,
+                            height: 20.h,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          "Verify",
+                          style: GoogleFonts.outfit(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 13.sp,
+                            color: Color(0xffFFFFFF),
+                            letterSpacing: -0.24,
+                          ),
+                        ),
                 ),
               ),
             ),

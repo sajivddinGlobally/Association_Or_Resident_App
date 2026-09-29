@@ -71,13 +71,24 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 ],
               ),
             ),
+            // Center(
+            //   child: ClipOval(
+            //     child: Image.asset(
+            //       // "assets/property_img.png",
+            //       "assets/logo.png",
+            //       width: 75.w,
+            //       height: 75.w,
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
             Center(
               child: ClipOval(
                 child: Image.asset(
-                  // "assets/property_img.png",
-                  "assets/logo.png",
-                  width: 75.w,
-                  height: 75.w,
+                  // "assets/new logo.png",
+                  "assets/updatelogo.jpeg",
+                  width: 110.w,
+                  height: 110.w,
                   fit: BoxFit.cover,
                 ),
               ),

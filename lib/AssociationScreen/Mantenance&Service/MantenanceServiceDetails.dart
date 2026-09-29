@@ -87,48 +87,48 @@ class _MantenanceServiceDetailsState
             ],
           ),
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 16.w),
-            child: maintananceState.whenOrNull(
-              data: (data) => InkWell(
-                onTap: () {
-                  _showUpdateStatusModal(
-                    context,
-                    data.data?.header?.statusBadge ??
-                        data.data?.maintenanceDetails?.status ??
-                        "Pending",
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
-                    vertical: 6.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xff101C16),
-                    borderRadius: BorderRadius.circular(6.r),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.edit_note, color: Colors.white, size: 16.sp),
-                      SizedBox(width: 4.w),
-                      Text(
-                        "Status",
-                        style: GoogleFonts.outfit(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: EdgeInsets.only(right: 16.w),
+        //     child: maintananceState.whenOrNull(
+        //       data: (data) => InkWell(
+        //         onTap: () {
+        //           _showUpdateStatusModal(
+        //             context,
+        //             data.data?.header?.statusBadge ??
+        //                 data.data?.maintenanceDetails?.status ??
+        //                 "Pending",
+        //           );
+        //         },
+        //         child: Container(
+        //           padding: EdgeInsets.symmetric(
+        //             horizontal: 10.w,
+        //             vertical: 6.h,
+        //           ),
+        //           decoration: BoxDecoration(
+        //             color: const Color(0xff101C16),
+        //             borderRadius: BorderRadius.circular(6.r),
+        //           ),
+        //           child: Row(
+        //             mainAxisSize: MainAxisSize.min,
+        //             children: [
+        //               Icon(Icons.edit_note, color: Colors.white, size: 16.sp),
+        //               SizedBox(width: 4.w),
+        //               Text(
+        //                 "Status",
+        //                 style: GoogleFonts.outfit(
+        //                   fontSize: 12.sp,
+        //                   fontWeight: FontWeight.w500,
+        //                   color: Colors.white,
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ],
       ),
       body: maintananceState.when(
         data: (data) {
@@ -261,14 +261,14 @@ class _MantenanceServiceDetailsState
                   ),
                 ),
                 SizedBox(height: 18.h),
-                _buildProgressStepper(
-                  data.data?.header?.statusBadge ??
-                      data.data?.maintenanceDetails?.status ??
-                      "Pending",
-                ),
-                SizedBox(height: 24.h),
-                _sectionHeader("Request Information", "DETAILS"),
-                SizedBox(height: 10.h),
+                // _buildProgressStepper(
+                //   data.data?.header?.statusBadge ??
+                //       data.data?.maintenanceDetails?.status ??
+                //       "Pending",
+                // ),
+                // SizedBox(height: 24.h),
+                // _sectionHeader("Request Information", "DETAILS"),
+                // SizedBox(height: 10.h),
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.fromLTRB(21.w, 20.h, 21.w, 18.h),
