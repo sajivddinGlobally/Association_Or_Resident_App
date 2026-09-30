@@ -451,47 +451,43 @@ class _AssociationEditProfileState
           ),
         ),
         SizedBox(height: 7.h),
-        Container(
-          height: 52.h,
-          decoration: const BoxDecoration(color: Colors.transparent),
-          child: TextField(
-            controller: controller,
-            cursorHeight: 22.h,
-            cursorColor: AppColors.heading,
-            cursorWidth: 1.5.w,
-            keyboardType: keyboardType,
-            textAlignVertical: TextAlignVertical.center,
-            readOnly: isReadOnly ?? false,
-            style: GoogleFonts.outfit(
-              fontSize: 18.sp,
+        TextField(
+          controller: controller,
+          cursorHeight: 22.h,
+          cursorColor: AppColors.heading,
+          cursorWidth: 1.5.w,
+          keyboardType: keyboardType,
+          textAlignVertical: TextAlignVertical.center,
+          readOnly: isReadOnly ?? false,
+          style: GoogleFonts.outfit(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w500,
+            color: AppColors.heading,
+            letterSpacing: -0.2,
+          ),
+          decoration: InputDecoration(
+            isDense: true,
+            hintText: hintText,
+            hintStyle: GoogleFonts.outfit(
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
-              color: AppColors.heading,
+              color: const Color.fromRGBO(16, 28, 22, 0.6),
               letterSpacing: -0.2,
             ),
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: hintText,
-              hintStyle: GoogleFonts.outfit(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-                color: const Color.fromRGBO(16, 28, 22, 0.6),
-                letterSpacing: -0.2,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: BorderSide(color: AppColors.heading, width: 1.5),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: const BorderSide(
+                color: Color.fromRGBO(16, 28, 22, 0.6),
+                width: 1.2,
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: BorderSide(color: AppColors.heading, width: 1.5),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: const BorderSide(
-                  color: Color.fromRGBO(16, 28, 22, 0.6),
-                  width: 1.2,
-                ),
-              ),
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 14.w,
-                vertical: 14.h,
-              ),
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 14.w,
+              vertical: 12.h,
             ),
           ),
         ),

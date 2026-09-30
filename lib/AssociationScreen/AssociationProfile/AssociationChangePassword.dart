@@ -106,10 +106,7 @@ class _AssociationChangePasswordState
             children: [
               SizedBox(height: 20.h),
               Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 14.w,
-                  vertical: 12.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
@@ -344,60 +341,62 @@ class _AssociationChangePasswordState
           ),
         ),
         SizedBox(height: 8.h),
-        Container(
-          height: 52.h,
-          decoration: const BoxDecoration(color: Colors.transparent),
-          child: TextField(
-            style: GoogleFonts.outfit(
-              fontSize: 18.sp,
+        TextField(
+          style: GoogleFonts.outfit(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xff101C16),
+            letterSpacing: -0.2,
+          ),
+          controller: controller,
+          cursorColor: AppColors.heading,
+          cursorHeight: 20.h,
+          cursorWidth: 1.5.w,
+          obscureText: !isPasswordVisible,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+            isDense: true,
+            hintText: hintText,
+            hintStyle: GoogleFonts.outfit(
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
-              color: const Color(0xff101C16),
-              letterSpacing: -0.2,
+              color: const Color.fromRGBO(16, 28, 22, 0.6),
             ),
-            controller: controller,
-            cursorColor: AppColors.heading,
-            cursorHeight: 20.h,
-            cursorWidth: 1.5.w,
-            obscureText: !isPasswordVisible,
-            textAlignVertical: TextAlignVertical.center,
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: hintText,
-              hintStyle: GoogleFonts.outfit(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-                color: const Color.fromRGBO(16, 28, 22, 0.6),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: const BorderSide(
+                color: AppColors.heading,
+                width: 1.5,
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: const BorderSide(
-                  color: AppColors.heading,
-                  width: 1.5,
-                ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: const BorderSide(
+                color: Color.fromRGBO(16, 28, 22, 0.6),
+                width: 1.2,
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: const BorderSide(
-                  color: Color.fromRGBO(16, 28, 22, 0.6),
-                  width: 1.2,
-                ),
+            ),
+            suffixIconConstraints: BoxConstraints(
+              minHeight: 52.h,
+              maxHeight: 52.h,
+              minWidth: 46.w,
+              maxWidth: 46.w,
+            ),
+            suffixIcon: IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(minWidth: 46.w, minHeight: 52.h),
+              onPressed: onVisibilityChanged,
+              icon: Icon(
+                isPasswordVisible
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined,
+                color: AppColors.heading,
+                size: 20.sp,
               ),
-              suffixIcon: IconButton(
-                padding: EdgeInsets.zero,
-                constraints: BoxConstraints(minWidth: 46.w, minHeight: 52.h),
-                onPressed: onVisibilityChanged,
-                icon: Icon(
-                  isPasswordVisible
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                  color: AppColors.heading,
-                  size: 22.sp,
-                ),
-              ),
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 14.w,
-                vertical: 14.h,
-              ),
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 14.w,
+              vertical: 12.h,
             ),
           ),
         ),
