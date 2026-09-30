@@ -266,7 +266,7 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
                     mainAxisSpacing: 22.h,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    childAspectRatio: 1.6.h,
+                    childAspectRatio: 1.5.h,
                     children: [
                       _infoCard(
                         icon: Icons.home_outlined,

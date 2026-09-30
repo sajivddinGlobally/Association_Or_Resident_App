@@ -12,6 +12,7 @@ import 'package:property_association_or_resident/AssociationScreen/ForgotPasswor
 import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:property_association_or_resident/GuardScreen/GuradHomeScreen/GuardHomeScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentHomeScreen.dart';
 
 class AssociationLogin extends ConsumerStatefulWidget {
@@ -140,6 +141,30 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                           onTap: () {
                             setState(() {
                               selectIndex = 1;
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 14.w),
+                      Expanded(
+                        child: _buildRoleButton(
+                          title: "Guard",
+                          backgroundColor: selectIndex == 2
+                              ? const Color(0xFF101C16)
+                              : Colors.transparent,
+                          borderColor: const Color(0xFF101C16),
+                          textColor: selectIndex == 2
+                              ? Colors.white
+                              : const Color(0xFF101C16),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => GuardBottomNavState(),
+                              ),
+                            );
+                            setState(() {
+                              selectIndex = 2;
                             });
                           },
                         ),
