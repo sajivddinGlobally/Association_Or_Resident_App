@@ -13,7 +13,7 @@ class Residentloginscreen extends StatefulWidget {
 }
 
 class _ResidentloginscreenState extends State<Residentloginscreen> {
-   bool isPasswordVisible = false;
+  bool isPasswordVisible = false;
   bool rememberMe = false;
   @override
   Widget build(BuildContext context) {
