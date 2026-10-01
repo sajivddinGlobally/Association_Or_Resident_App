@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +11,6 @@ import 'package:property_association_or_resident/AssociationScreen/ForgotPasswor
 import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
-import 'package:property_association_or_resident/GuardScreen/GuradHomeScreen/GuardHomeScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentHomeScreen.dart';
 
 class AssociationLogin extends ConsumerStatefulWidget {
@@ -145,24 +143,24 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                           },
                         ),
                       ),
-                      SizedBox(width: 14.w),
-                      Expanded(
-                        child: _buildRoleButton(
-                          title: "Guard",
-                          backgroundColor: selectIndex == 2
-                              ? const Color(0xFF101C16)
-                              : Colors.transparent,
-                          borderColor: const Color(0xFF101C16),
-                          textColor: selectIndex == 2
-                              ? Colors.white
-                              : const Color(0xFF101C16),
-                          onTap: () {
-                            setState(() {
-                              selectIndex = 2;
-                            });
-                          },
-                        ),
-                      ),
+                      // SizedBox(width: 14.w),
+                      // Expanded(
+                      //   child: _buildRoleButton(
+                      //     title: "Guard",
+                      //     backgroundColor: selectIndex == 2
+                      //         ? const Color(0xFF101C16)
+                      //         : Colors.transparent,
+                      //     borderColor: const Color(0xFF101C16),
+                      //     textColor: selectIndex == 2
+                      //         ? Colors.white
+                      //         : const Color(0xFF101C16),
+                      //     onTap: () {
+                      //       setState(() {
+                      //         selectIndex = 2;
+                      //       });
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(height: 24.h),
@@ -442,9 +440,7 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                                       MaterialPageRoute(
                                         builder: (context) => selectIndex == 0
                                             ? const AssociationBottomNavBar()
-                                            : selectIndex == 1
-                                            ? const ResidentBottomNavBar()
-                                            : const GuardBottomNavState(),
+                                            : const ResidentBottomNavBar(),
                                       ),
                                       (route) => false,
                                     );
@@ -517,59 +513,7 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                       ),
                     ),
                   ),
-                  // SizedBox(height: 30.h),
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: Container(
-                  //         margin: EdgeInsets.only(left: 38.w),
-                  //         height: 2.h,
-                  //         color: const Color(0xffB8BCB8),
-                  //       ),
-                  //     ),
 
-                  //     SizedBox(width: 17.w),
-
-                  //     Text(
-                  //       "OR",
-                  //       style: GoogleFonts.outfit(
-                  //         fontSize: 17.sp,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: const Color(0xff101C16),
-                  //       ),
-                  //     ),
-
-                  //     SizedBox(width: 17.w),
-
-                  //     Expanded(
-                  //       child: Container(
-                  //         margin: EdgeInsets.only(right: 38.w),
-                  //         height: 2.h,
-                  //         color: const Color(0xffB8BCB8),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(height: 30.h),
-                  // Container(
-                  //   height: 41.h,
-                  //   width: double.infinity,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(8.r),
-                  //     border: Border.all(color: AppColors.heading),
-                  //   ),
-                  //   child: Center(
-                  //     child: Text(
-                  //       "LOGIN WITH OTP",
-                  //       style: GoogleFonts.outfit(
-                  //         fontWeight: FontWeight.w700,
-                  //         fontSize: 13.sp,
-                  //         color: AppColors.heading,
-                  //         letterSpacing: -0.24,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   SizedBox(height: 80.h),
                   Align(
                     alignment: Alignment.center,

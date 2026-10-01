@@ -20,6 +20,8 @@ import '../../ResidentScreen/Model/ResidentEmergencyContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
 import '../../ResidentScreen/Model/ResidentPropertyDetailsResModel.dart';
 import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
+import '../../ResidentScreen/Model/closeComplaintBodyModel.dart';
+import '../../ResidentScreen/Model/complainCloseResModel.dart';
 import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
 import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintListModel.dart';
@@ -637,13 +639,17 @@ class AuthService {
     }
   }
 
-  Future<void> markMultipleNotificationsRead({
+  Future<MarkNotificationReadResModel?> markMultipleNotificationsRead({
     required List<String> ids,
   }) async {
+    if (ids.isEmpty) return null;
     try {
-      await Future.wait(ids.map((id) => api.markNotificationRead(id)));
+      final joinedIds = ids.join(',');
+      final response = await api.markNotificationRead(joinedIds);
+      return response;
     } catch (e) {
       log("Error marking notifications as read: $e");
+      return null;
     }
   }
 
@@ -904,6 +910,23 @@ class AuthService {
   Future<ResidentEmergencyContactResModel> emergencyContactData() async {
     try {
       final response = await api.emergencyContact();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ComplainCloseResModel> closeComplant({
+    required String id,
+    String? reason,
+    String? remarks,
+  }) async {
+    try {
+      final body = ComplainCloseBodyModel(
+        status: "closed",
+        residentStatus: "closed",
+      );
+      final response = await api.closeComplant(id, body);
       return response;
     } catch (e) {
       rethrow;

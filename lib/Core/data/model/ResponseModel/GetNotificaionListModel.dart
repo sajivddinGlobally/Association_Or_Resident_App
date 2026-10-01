@@ -94,7 +94,7 @@ class Notification {
     String? time;
     bool? isRead;
     String? createdAt;
-    TimeAgo? timeAgo;
+    String? timeAgo;
 
     Notification({
         this.id,
@@ -119,7 +119,7 @@ class Notification {
         time: json["time"],
         isRead: json["is_read"],
         createdAt: json["created_at"],
-        timeAgo: timeAgoValues.map[json["time_ago"]],
+        timeAgo: json["time_ago"]?.toString(),
     );
 
     Map<String, dynamic> toJson() => {
@@ -132,21 +132,9 @@ class Notification {
         "time": time,
         "is_read": isRead,
         "created_at": createdAt,
-        "time_ago": timeAgoValues.reverse[timeAgo],
+        "time_ago": timeAgo,
     };
 }
-
-enum TimeAgo {
-    THE_1_DAY_AGO,
-    THE_1_HOUR_AGO,
-    THE_3_HOURS_AGO
-}
-
-final timeAgoValues = EnumValues({
-    "1 day ago": TimeAgo.THE_1_DAY_AGO,
-    "1 hour ago": TimeAgo.THE_1_HOUR_AGO,
-    "3 hours ago": TimeAgo.THE_3_HOURS_AGO
-});
 
 class Section {
     String? title;

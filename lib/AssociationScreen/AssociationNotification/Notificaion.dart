@@ -9,9 +9,9 @@ import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/GetNotificaionListModel.dart'
     as notif_model
     show Notification;
-import 'package:property_association_or_resident/Core/data/model/ResponseModel/GetNotificaionListModel.dart';
 
 import 'provider/getNotificationProvider.dart';
+import 'provider/markNotificationReadProvider.dart';
 
 class Notification extends ConsumerStatefulWidget {
   const Notification({super.key});
@@ -51,42 +51,23 @@ class _NotificationState extends ConsumerState<Notification> {
     }
   }
 
-  void _markUnreadNotificationsAsRead(GetNotificaionListModel? data) {
-    if (data?.data == null) return;
-    final resData = data!.data;
-    final unreadIds = <String>[];
+  Future<void> markNotificationsRead(
+    List<notif_model.Notification> notifications,
+  ) async {
+    final unreadIds = notifications
+        .where((item) => item.isRead != true && item.id != null)
+        .map((item) => item.id.toString())
+        .where((id) => !_readRequestedIds.contains(id))
+        .toSet()
+        .toList();
 
-    if (resData?.sections != null) {
-      for (final sec in resData!.sections!) {
-        for (final item in sec.items ?? []) {
-          final idStr = item.id?.toString();
-          if (idStr != null &&
-              item.isRead != true &&
-              !_readRequestedIds.contains(idStr)) {
-            unreadIds.add(idStr);
-          }
-        }
-      }
-    }
+    if (unreadIds.isEmpty) return;
+    _readRequestedIds.addAll(unreadIds);
 
-    if (resData?.notifications != null) {
-      for (final item in resData!.notifications!) {
-        final idStr = item.id?.toString();
-        if (idStr != null &&
-            item.isRead != true &&
-            !_readRequestedIds.contains(idStr)) {
-          unreadIds.add(idStr);
-        }
-      }
-    }
-
-    final uniqueIds = unreadIds.toSet().toList();
-    if (uniqueIds.isNotEmpty) {
-      _readRequestedIds.addAll(uniqueIds);
-      log("Marking notifications as read: $uniqueIds");
-      ref
-          .read(authServiceProvider)
-          .markMultipleNotificationsRead(ids: uniqueIds);
+    try {
+      await ref.read(markMultipleNotificationsReadProvider(unreadIds).future);
+    } catch (e) {
+      debugPrint("Mark notifications read error: $e");
     }
   }
 
@@ -97,7 +78,9 @@ class _NotificationState extends ConsumerState<Notification> {
         !_readRequestedIds.contains(idStr)) {
       _readRequestedIds.add(idStr);
       try {
-        await ref.read(authServiceProvider).markNotificationRead(id: idStr);
+        await ref
+            .read(authServiceProvider)
+            .markMultipleNotificationsRead(ids: [idStr]);
       } catch (e) {
         log("Error marking notification $idStr as read: $e");
       }
@@ -110,32 +93,11 @@ class _NotificationState extends ConsumerState<Notification> {
       getNotificaionListProvider(defaultFilters[selectedFilter]),
     );
 
-    ref.listen(getNotificaionListProvider(defaultFilters[selectedFilter]), (
-      prev,
-      next,
-    ) {
-      next.whenData((data) {
-        _markUnreadNotificationsAsRead(data);
-      });
-    });
-
-    getNotificaionState.whenData((data) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          _markUnreadNotificationsAsRead(data);
-        }
-      });
-    });
-
     final apiData = getNotificaionState.valueOrNull?.data;
     final header = apiData?.header;
     final filters = (apiData?.filters != null && apiData!.filters!.isNotEmpty)
         ? apiData.filters!
         : defaultFilters;
-
-    final selectedFilterText = selectedFilter < filters.length
-        ? filters[selectedFilter]
-        : "All";
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
@@ -237,7 +199,9 @@ class _NotificationState extends ConsumerState<Notification> {
                           filters[index],
                           style: GoogleFonts.outfit(
                             fontSize: 14.sp,
-                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                            fontWeight: isSelected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                             color: isSelected
                                 ? Colors.white
                                 : const Color(0xff101C16),
@@ -257,27 +221,24 @@ class _NotificationState extends ConsumerState<Notification> {
                   final resData = data.data;
                   final sections = resData?.sections ?? [];
                   final allNotifications = resData?.notifications ?? [];
+                  final List<notif_model.Notification> allItems = [
+                    ...allNotifications,
+                    for (final sec in sections) ...?sec.items,
+                  ];
 
-                  bool matchesFilter(notif_model.Notification item) {
-                    if (selectedFilterText.toLowerCase() == "all") return true;
-                    final tag = item.tag?.toLowerCase() ?? "";
-                    final type = item.type?.toLowerCase() ?? "";
-                    final filter = selectedFilterText.toLowerCase();
-                    return tag.contains(filter) ||
-                        filter.contains(tag) ||
-                        type.contains(filter) ||
-                        filter.contains(type);
-                  }
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (mounted) {
+                      markNotificationsRead(allItems);
+                    }
+                  });
 
                   if (sections.isNotEmpty) {
                     final validSections = <Widget>[];
 
                     for (final section in sections) {
-                      final filteredItems = (section.items ?? [])
-                          .where(matchesFilter)
-                          .toList();
+                      final items = section.items ?? [];
 
-                      if (filteredItems.isEmpty) continue;
+                      if (items.isEmpty) continue;
 
                       validSections.add(
                         Padding(
@@ -310,7 +271,7 @@ class _NotificationState extends ConsumerState<Notification> {
                         ),
                       );
 
-                      for (final item in filteredItems) {
+                      for (final item in items) {
                         validSections.add(_buildNotificationCard(item));
                       }
 
@@ -341,11 +302,7 @@ class _NotificationState extends ConsumerState<Notification> {
                     );
                   }
 
-                  final filteredList = allNotifications
-                      .where(matchesFilter)
-                      .toList();
-
-                  if (filteredList.isEmpty) {
+                  if (allNotifications.isEmpty) {
                     return Center(
                       child: Text(
                         "No notifications found",
@@ -363,10 +320,10 @@ class _NotificationState extends ConsumerState<Notification> {
                       ref.invalidate(getNotificaionListProvider);
                     },
                     child: ListView.builder(
-                      itemCount: filteredList.length,
+                      itemCount: allNotifications.length,
                       physics: const AlwaysScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return _buildNotificationCard(filteredList[index]);
+                        return _buildNotificationCard(allNotifications[index]);
                       },
                     ),
                   );
@@ -505,7 +462,10 @@ class _NotificationState extends ConsumerState<Notification> {
                       vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xff101010), width: 1),
+                      border: Border.all(
+                        color: const Color(0xff101010),
+                        width: 1,
+                      ),
                       borderRadius: BorderRadius.circular(25.r),
                     ),
                     child: Text(

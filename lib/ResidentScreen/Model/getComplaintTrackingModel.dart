@@ -37,12 +37,14 @@ class Data {
     ComplaintTokenCard? complaintTokenCard;
     ComplaintProgress? complaintProgress;
     CurrentStatusBanner? currentStatusBanner;
+    Resolution? resolution;
 
     Data({
         this.header,
         this.complaintTokenCard,
         this.complaintProgress,
         this.currentStatusBanner,
+        this.resolution,
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -50,6 +52,7 @@ class Data {
         complaintTokenCard: json["complaint_token_card"] == null ? null : ComplaintTokenCard.fromJson(json["complaint_token_card"]),
         complaintProgress: json["complaint_progress"] == null ? null : ComplaintProgress.fromJson(json["complaint_progress"]),
         currentStatusBanner: json["current_status_banner"] == null ? null : CurrentStatusBanner.fromJson(json["current_status_banner"]),
+        resolution: json["resolution"] == null ? null : Resolution.fromJson(json["resolution"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -57,6 +60,7 @@ class Data {
         "complaint_token_card": complaintTokenCard?.toJson(),
         "complaint_progress": complaintProgress?.toJson(),
         "current_status_banner": currentStatusBanner?.toJson(),
+        "resolution": resolution?.toJson(),
     };
 }
 
@@ -192,20 +196,48 @@ class ComplaintTokenCard {
 class Detail {
     String? label;
     String? value;
+    String? type;
 
     Detail({
         this.label,
         this.value,
+        this.type,
     });
 
     factory Detail.fromJson(Map<String, dynamic> json) => Detail(
         label: json["label"],
         value: json["value"],
+        type: json["type"],
     );
 
     Map<String, dynamic> toJson() => {
         "label": label,
         "value": value,
+        "type": type,
+    };
+}
+
+class Resolution {
+    String? photo;
+    String? notes;
+    String? resolvedAt;
+
+    Resolution({
+        this.photo,
+        this.notes,
+        this.resolvedAt,
+    });
+
+    factory Resolution.fromJson(Map<String, dynamic> json) => Resolution(
+        photo: json["photo"],
+        notes: json["notes"],
+        resolvedAt: json["resolved_at"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "photo": photo,
+        "notes": notes,
+        "resolved_at": resolvedAt,
     };
 }
 
