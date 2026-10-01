@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/GuaredHistoryScreen.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardParcelScreen/GuardParcelRegisterScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/GuardVisitorScreen.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -15,7 +17,12 @@ class GuardBottomNavState extends StatefulWidget {
 
 class _GuardBottomNavStateState extends State<GuardBottomNavState> {
   int selectedBottomIndex = 0;
-  List<Widget> get pages => [Guardhomescreen(), Guardvisitorscreen()];
+  List<Widget> get pages => [
+    Guardhomescreen(),
+    Guardvisitorscreen(),
+    Guardparcelregisterscreen(),
+    Guaredhistoryscreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

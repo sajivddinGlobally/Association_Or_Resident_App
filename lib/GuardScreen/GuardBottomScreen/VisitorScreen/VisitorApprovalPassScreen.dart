@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/FrequentVisitorsScreen.dart';
 
 class Visitorapprovalpassscreen extends StatefulWidget {
   const Visitorapprovalpassscreen({super.key});
@@ -326,118 +328,22 @@ class _VisitorapprovalpassscreenState extends State<Visitorapprovalpassscreen> {
               ),
               SizedBox(height: 20.h),
               Container(
+                padding: EdgeInsets.symmetric(vertical: 29.h),
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: AppColors.heading,
-                  borderRadius: BorderRadius.circular(16.r),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Visitor Pass',
-                          style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-
-                        Text(
-                          'VERIFIED PASS',
-                          style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFFFFC800),
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ],
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.r),
+                    child: Image.asset(
+                      "assets/lence_img.png",
+                      height: 120.h,
+                      width: 120.w,
+                      fit: BoxFit.cover,
                     ),
-
-                    SizedBox(height: 12.h),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.asset(
-                          'assets/Frame 1092.png',
-                          width: 75.w,
-                          height: 75.w,
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(width: 16.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'PASS CODE',
-                                style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                  letterSpacing: -0.2,
-                                ),
-                              ),
-                              SizedBox(height: 5.h),
-                              Text(
-                                'VG-4827',
-                                style: GoogleFonts.outfit(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFFFFC800),
-                                  letterSpacing: -0.2,
-                                ),
-                              ),
-
-                              SizedBox(height: 5.h),
-
-                              Text(
-                                'Scan this QR code or enter the pass code to verify the visitor.',
-                                style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                  letterSpacing: -0.2,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 12.h),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 36.h,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: const Color(0xFF0D1C16),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                        ),
-                        child: Text(
-                          'Share / View Pass Code',
-                          style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.heading,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               SizedBox(height: 20.h),
@@ -543,12 +449,12 @@ class _VisitorapprovalpassscreenState extends State<Visitorapprovalpassscreen> {
                     ),
                   ),
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   CupertinoPageRoute(
-                    //     builder: (context) => Visitorapprovalpassscreen(),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => Frequentvisitorsscreen(),
+                      ),
+                    );
                   },
                   child: Text(
                     'Mark Visitor Out-Time',
@@ -613,3 +519,123 @@ class _VisitorapprovalpassscreenState extends State<Visitorapprovalpassscreen> {
     );
   }
 }
+
+
+
+
+
+// Container(
+              //   width: double.infinity,
+              //   padding: EdgeInsets.all(16),
+              //   decoration: BoxDecoration(
+              //     color: AppColors.heading,
+              //     borderRadius: BorderRadius.circular(16.r),
+              //   ),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Text(
+              //             'Visitor Pass',
+              //             style: GoogleFonts.outfit(
+              //               fontSize: 17.sp,
+              //               fontWeight: FontWeight.w500,
+              //               color: Colors.white,
+              //               letterSpacing: -0.2,
+              //             ),
+              //           ),
+
+              //           Text(
+              //             'VERIFIED PASS',
+              //             style: GoogleFonts.outfit(
+              //               fontSize: 15.sp,
+              //               fontWeight: FontWeight.w500,
+              //               color: const Color(0xFFFFC800),
+              //               letterSpacing: -0.2,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+
+              //       SizedBox(height: 12.h),
+              //       Row(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Image.asset(
+              //             'assets/Frame 1092.png',
+              //             width: 75.w,
+              //             height: 75.w,
+              //             fit: BoxFit.contain,
+              //           ),
+              //           SizedBox(width: 16.w),
+              //           Expanded(
+              //             child: Column(
+              //               crossAxisAlignment: CrossAxisAlignment.start,
+              //               children: [
+              //                 Text(
+              //                   'PASS CODE',
+              //                   style: GoogleFonts.outfit(
+              //                     fontSize: 13.sp,
+              //                     fontWeight: FontWeight.w500,
+              //                     color: Colors.white,
+              //                     letterSpacing: -0.2,
+              //                   ),
+              //                 ),
+              //                 SizedBox(height: 5.h),
+              //                 Text(
+              //                   'VG-4827',
+              //                   style: GoogleFonts.outfit(
+              //                     fontSize: 18.sp,
+              //                     fontWeight: FontWeight.w500,
+              //                     color: const Color(0xFFFFC800),
+              //                     letterSpacing: -0.2,
+              //                   ),
+              //                 ),
+
+              //                 SizedBox(height: 5.h),
+
+              //                 Text(
+              //                   'Scan this QR code or enter the pass code to verify the visitor.',
+              //                   style: GoogleFonts.outfit(
+              //                     fontSize: 13.sp,
+              //                     fontWeight: FontWeight.w500,
+              //                     color: Colors.white,
+              //                     letterSpacing: -0.2,
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+
+              //       SizedBox(height: 12.h),
+              //       SizedBox(
+              //         width: double.infinity,
+              //         height: 36.h,
+              //         child: ElevatedButton(
+              //           onPressed: () {},
+              //           style: ElevatedButton.styleFrom(
+              //             backgroundColor: Colors.white,
+              //             foregroundColor: const Color(0xFF0D1C16),
+              //             elevation: 0,
+              //             shape: RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.circular(12.r),
+              //             ),
+              //           ),
+              //           child: Text(
+              //             'Share / View Pass Code',
+              //             style: GoogleFonts.outfit(
+              //               fontSize: 15.sp,
+              //               fontWeight: FontWeight.w500,
+              //               color: AppColors.heading,
+              //               letterSpacing: -0.2,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // )
