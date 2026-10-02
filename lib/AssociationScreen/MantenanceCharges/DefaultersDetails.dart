@@ -792,7 +792,7 @@ class _DefaultersDetailsState extends ConsumerState<DefaultersDetails> {
       ref.invalidate(getDefaulterDetailsProvider(widget.id));
       showSuccessSnackBar(msg);
     } catch (e) {
-      showErrorSnackBar("Failed to toggle status: $e");
+      // showErrorSnackBar("Failed to toggle status: $e");
     } finally {
       if (mounted) setState(() => _isTogglingStatus = false);
     }
