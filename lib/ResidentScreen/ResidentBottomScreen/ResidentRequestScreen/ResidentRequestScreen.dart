@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:property_association_or_resident/Core/AuthService/AuthService.dart';
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintListModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentBottomScreen/ResidentRequestScreen/provider/getComplaintListProvider.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/ResidentComplantStatus.dart';
@@ -447,6 +450,142 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                           ),
                                         ),
                                       ),
+                                      if (request?.status == 'Resolved') ...[
+                                        GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder: (dialogContext) {
+                                                bool isDialogLoading = false;
+                                                return StatefulBuilder(
+                                                  builder: (context, setDialogState) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                        "Close Request",
+                                                      ),
+                                                      content: Text(
+                                                        "Are you sure you want to close this request?",
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed:
+                                                              isDialogLoading
+                                                              ? null
+                                                              : () => Navigator.pop(
+                                                                  dialogContext,
+                                                                ),
+                                                          child: Text("Cancel"),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed:
+                                                              isDialogLoading
+                                                              ? null
+                                                              : () async {
+                                                                  setDialogState(
+                                                                    () {
+                                                                      isDialogLoading =
+                                                                          true;
+                                                                    },
+                                                                  );
+                                                                  try {
+                                                                    final service =
+                                                                        ref.read(
+                                                                          authServiceProvider,
+                                                                        );
+                                                                    final res = await service.closeComplant(
+                                                                      id: request!
+                                                                          .id
+                                                                          .toString(),
+                                                                    );
+                                                                    if (res.status ==
+                                                                        true) {
+                                                                      ref.invalidate(
+                                                                        getComplaintListProvider,
+                                                                      );
+                                                                      if (dialogContext
+                                                                          .mounted) {
+                                                                        Navigator.pop(
+                                                                          dialogContext,
+                                                                        );
+                                                                      }
+                                                                      showSuccessSnackBar(
+                                                                        res.message ??
+                                                                            "Request closed successfully",
+                                                                      );
+                                                                    } else {
+                                                                      showSuccessSnackBar(
+                                                                        res.message ??
+                                                                            "Failed to close request",
+                                                                      );
+                                                                    }
+                                                                  } catch (e) {
+                                                                    showSuccessSnackBar(
+                                                                      "Failed to close request",
+                                                                    );
+                                                                  } finally {
+                                                                    if (dialogContext
+                                                                        .mounted) {
+                                                                      setDialogState(() {
+                                                                        isDialogLoading =
+                                                                            false;
+                                                                      });
+                                                                    }
+                                                                  }
+                                                                },
+                                                          child: isDialogLoading
+                                                              ? SizedBox(
+                                                                  width: 18.w,
+                                                                  height: 18.h,
+                                                                  child: CircularProgressIndicator(
+                                                                    strokeWidth:
+                                                                        2.w,
+                                                                    color: AppColors
+                                                                        .heading,
+                                                                  ),
+                                                                )
+                                                              : Text("Close"),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 10.w,
+                                              vertical: 5.h,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xff071811),
+                                              borderRadius:
+                                                  BorderRadius.circular(6.r),
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.close,
+                                                  color: Colors.white,
+                                                  size: 13.sp,
+                                                ),
+                                                SizedBox(width: 4.w),
+                                                Text(
+                                                  "Close",
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: 13.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                      SizedBox(width: 10.w),
                                       Text(
                                         "View Details  →",
                                         style: GoogleFonts.outfit(

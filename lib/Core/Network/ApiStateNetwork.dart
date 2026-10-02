@@ -22,6 +22,8 @@ import '../../ResidentScreen/Model/ResidentEmergencyContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
 import '../../ResidentScreen/Model/ResidentPropertyDetailsResModel.dart';
 import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
+import '../../ResidentScreen/Model/closeComplaintBodyModel.dart';
+import '../../ResidentScreen/Model/complainCloseResModel.dart';
 import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
@@ -329,4 +331,10 @@ abstract class ApiStateNetwork {
 
   @GET("/api/v1/resident/emergency-contact")
   Future<ResidentEmergencyContactResModel> emergencyContact();
+
+  @POST("/api/v1/resident/complaints/{id}/close")
+  Future<ComplainCloseResModel> closeComplant(
+    @Path("id") String id,
+    @Body() ComplainCloseBodyModel body,
+  );
 }

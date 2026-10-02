@@ -237,7 +237,9 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                         CupertinoPageRoute(
                           builder: (context) => ResidentnotificationScreen(),
                         ),
-                      );
+                      ).then((value) {
+                        ref.invalidate(residentDashboardProvider);
+                      });
                     },
                     child: Container(
                       width: 40.w,

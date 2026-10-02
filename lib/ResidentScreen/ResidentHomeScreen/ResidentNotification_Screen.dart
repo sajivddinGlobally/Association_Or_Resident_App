@@ -48,19 +48,23 @@ class _ResidentnotificationScreenState
     }
   }
 
-  bool isMarkingRead = false;
+  final Set<String> _readRequestedIds = {};
 
   Future<void> markNotificationsRead(
     List<notif_model.Notification> notifications,
   ) async {
-    if (isMarkingRead || notifications.isEmpty) return;
-    isMarkingRead = true;
-    final List<String> ids = notifications
+    final unreadIds = notifications
+        .where((item) => item.isRead != true && item.id != null)
         .map((item) => item.id.toString())
+        .where((id) => !_readRequestedIds.contains(id))
+        .toSet()
         .toList();
+
+    if (unreadIds.isEmpty) return;
+    _readRequestedIds.addAll(unreadIds);
+
     try {
-      await ref.read(markMultipleNotificationsReadProvider(ids).future);
-      ref.invalidate(getNotificaionListProvider);
+      await ref.read(markMultipleNotificationsReadProvider(unreadIds).future);
     } catch (e) {
       debugPrint("Mark notifications read error: $e");
     }
@@ -74,13 +78,6 @@ class _ResidentnotificationScreenState
 
     final apiData = getNotificaionState.valueOrNull?.data;
     final header = apiData?.header;
-    final filters = (apiData?.filters != null && apiData!.filters!.isNotEmpty)
-        ? apiData.filters!
-        : defaultFilters;
-
-    final selectedFilterText = selectedFilter < filters.length
-        ? filters[selectedFilter]
-        : "All";
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
@@ -182,7 +179,9 @@ class _ResidentnotificationScreenState
                           defaultFilters[index],
                           style: GoogleFonts.outfit(
                             fontSize: 14.sp,
-                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                            fontWeight: isSelected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                             color: isSelected
                                 ? Colors.white
                                 : const Color(0xff101C16),
@@ -202,31 +201,24 @@ class _ResidentnotificationScreenState
                   final resData = data.data;
                   final sections = resData?.sections ?? [];
                   final allNotifications = resData?.notifications ?? [];
+                  final List<notif_model.Notification> allItems = [
+                    ...allNotifications,
+                    for (final sec in sections) ...?sec.items,
+                  ];
 
-                  if (!isMarkingRead) {
-                    markNotificationsRead(allNotifications);
-                  }
-
-                  bool matchesFilter(notif_model.Notification item) {
-                    if (selectedFilterText.toLowerCase() == "all") return true;
-                    final tag = item.tag?.toLowerCase() ?? "";
-                    final type = item.type?.toLowerCase() ?? "";
-                    final filter = selectedFilterText.toLowerCase();
-                    return tag.contains(filter) ||
-                        filter.contains(tag) ||
-                        type.contains(filter) ||
-                        filter.contains(type);
-                  }
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (mounted) {
+                      markNotificationsRead(allItems);
+                    }
+                  });
 
                   if (sections.isNotEmpty) {
                     final validSections = <Widget>[];
 
                     for (final section in sections) {
-                      final filteredItems = (section.items ?? [])
-                          .where(matchesFilter)
-                          .toList();
+                      final items = section.items ?? [];
 
-                      if (filteredItems.isEmpty) continue;
+                      if (items.isEmpty) continue;
 
                       validSections.add(
                         Padding(
@@ -259,7 +251,7 @@ class _ResidentnotificationScreenState
                         ),
                       );
 
-                      for (final item in filteredItems) {
+                      for (final item in items) {
                         validSections.add(_buildNotificationCard(item));
                       }
 
@@ -290,11 +282,7 @@ class _ResidentnotificationScreenState
                     );
                   }
 
-                  final filteredList = allNotifications
-                      .where(matchesFilter)
-                      .toList();
-
-                  if (filteredList.isEmpty) {
+                  if (allNotifications.isEmpty) {
                     return Center(
                       child: Text(
                         "No notifications found",
@@ -312,10 +300,10 @@ class _ResidentnotificationScreenState
                       ref.invalidate(getNotificaionListProvider);
                     },
                     child: ListView.builder(
-                      itemCount: filteredList.length,
+                      itemCount: allNotifications.length,
                       physics: const AlwaysScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return _buildNotificationCard(filteredList[index]);
+                        return _buildNotificationCard(allNotifications[index]);
                       },
                     ),
                   );

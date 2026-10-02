@@ -6,6 +6,7 @@ import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/GuaredHistoryScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardParcelScreen/GuardParcelRegisterScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/GuardVisitorScreen.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/GuardVehicleScreen.dart';
 import 'package:svg_flutter/svg.dart';
 
 class GuardBottomNavState extends StatefulWidget {
@@ -440,6 +441,14 @@ class _GuardhomescreenState extends State<Guardhomescreen> {
                         icon: Icons.directions_car_outlined,
                         title: "Vehicle Search",
                         subtitle: "Search vehicle number & owner details  ",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => Guardvehiclescreen(),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -622,49 +631,55 @@ class _GuardhomescreenState extends State<Guardhomescreen> {
     required String title,
     required String subtitle,
     double iconSize = 20,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: EdgeInsets.only(
-        left: 15.w,
-        right: 12.w,
-        top: 10.h,
-        bottom: 10.h,
-      ),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.heading),
-        borderRadius: BorderRadius.circular(11.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: iconSize.sp, color: AppColors.heading),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.only(
+          left: 15.w,
+          right: 12.w,
+          top: 10.h,
+          bottom: 10.h,
+        ),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.heading),
+          borderRadius: BorderRadius.circular(11.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, size: iconSize.sp, color: AppColors.heading),
 
-          SizedBox(height: 8.h),
-          Text(
-            title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.heading,
-              letterSpacing: -0.54,
-            ),
-          ),
+            SizedBox(height: 8.h),
 
-          SizedBox(height: 6.h),
-          Text(
-            subtitle,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              color: Color.fromRGBO(41, 42, 51, 0.6),
-              letterSpacing: -0.34,
+            Text(
+              title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.inter(
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.heading,
+                letterSpacing: -0.54,
+              ),
             ),
-          ),
-        ],
+
+            SizedBox(height: 6.h),
+
+            Text(
+              subtitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.inter(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: const Color.fromRGBO(41, 42, 51, 0.6),
+                letterSpacing: -0.34,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

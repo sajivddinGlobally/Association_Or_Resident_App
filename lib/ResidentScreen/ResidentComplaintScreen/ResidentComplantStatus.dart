@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 
+import '../../Core/AuthService/AuthServiceProvider.dart';
+import '../../Core/Utils/showMessage.dart';
+import '../ResidentBottomScreen/ResidentRequestScreen/provider/getComplaintListProvider.dart';
 import '../ResidentBottomScreen/ResidentRequestScreen/provider/getComplaintTrackingProvider.dart';
 
 class Residentcomplantstatus extends ConsumerStatefulWidget {
@@ -45,6 +47,8 @@ class _ResidentcomplantstatusState
       "status": "pending",
     },
   ];
+  String? status;
+
   @override
   Widget build(BuildContext context) {
     final getComplaintStatus = ref.watch(
@@ -114,13 +118,16 @@ class _ResidentcomplantstatusState
         data: (data) {
           final timeline = data.data?.complaintProgress?.timeline ?? [];
           final tokenCard = data.data?.complaintTokenCard;
-          final isOverdue = tokenCard?.isOverdue == true ||
-              (tokenCard?.statusBadge ?? "")
-                  .toLowerCase()
-                  .contains("overdue") ||
-              (tokenCard?.statusBadge ?? "")
-                  .toLowerCase()
-                  .contains("emergency");
+          final isOverdue =
+              tokenCard?.isOverdue == true ||
+              (tokenCard?.statusBadge ?? "").toLowerCase().contains(
+                "overdue",
+              ) ||
+              (tokenCard?.statusBadge ?? "").toLowerCase().contains(
+                "emergency",
+              );
+
+          status = data.data?.complaintTokenCard?.statusBadge;
 
           return SingleChildScrollView(
             child: Padding(
@@ -197,6 +204,20 @@ class _ResidentcomplantstatusState
                         ) {
                           final label = item.label ?? "";
                           final value = item.value ?? "N/A";
+                          final type = item.type ?? "";
+
+                          final bool isImage =
+                              type == "image" ||
+                              label.toLowerCase().contains("photo") ||
+                              label.toLowerCase().contains("image") ||
+                              value.endsWith(".jpg") ||
+                              value.endsWith(".jpeg") ||
+                              value.endsWith(".png") ||
+                              value.endsWith(".webp");
+
+                          if (isImage) {
+                            return _imageInfo(label, value);
+                          }
 
                           IconData icon;
 
@@ -205,12 +226,22 @@ class _ResidentcomplantstatusState
                               icon = Icons.home_outlined;
                               break;
 
+                            case "area / location":
+                            case "location":
+                              icon = Icons.location_on_outlined;
+                              break;
+
                             case "status":
                               icon = Icons.info_outline;
                               break;
 
                             case "submitted":
                               icon = Icons.calendar_month_outlined;
+                              break;
+
+                            case "resolution deadline":
+                            case "deadline":
+                              icon = Icons.timer_outlined;
                               break;
 
                             default:
@@ -306,7 +337,7 @@ class _ResidentcomplantstatusState
                                 isOverdue
                                     ? "OVERDUE / EMERGENCY ACTION"
                                     : (data.data?.currentStatusBanner?.label ??
-                                        "CURRENT STATUS"),
+                                          "CURRENT STATUS"),
                                 style: GoogleFonts.outfit(
                                   fontSize: 15.sp,
                                   fontWeight: FontWeight.w600,
@@ -320,8 +351,11 @@ class _ResidentcomplantstatusState
                               Text(
                                 isOverdue
                                     ? "Action deadline has passed without resolution. Escalated to Association Committee for emergency intervention."
-                                    : (data.data?.currentStatusBanner?.message ??
-                                        "Your complaint is In Progress"),
+                                    : (data
+                                              .data
+                                              ?.currentStatusBanner
+                                              ?.message ??
+                                          "Your complaint is In Progress"),
                                 style: GoogleFonts.outfit(
                                   fontSize: isOverdue ? 13.sp : 16.sp,
                                   fontWeight: FontWeight.w500,
@@ -337,6 +371,183 @@ class _ResidentcomplantstatusState
                       ],
                     ),
                   ),
+
+                  // Resolution Details (Dynamic - only displayed when resolution data is present)
+                  // if (data.data?.resolution != null &&
+                  //     ((data.data?.resolution?.notes != null &&
+                  //             data.data!.resolution!.notes!
+                  //                 .trim()
+                  //                 .isNotEmpty) ||
+                  //         (data.data?.resolution?.photo != null &&
+                  //             data.data!.resolution!.photo!
+                  //                 .trim()
+                  //                 .isNotEmpty) ||
+                  //         (data.data?.resolution?.resolvedAt != null &&
+                  //             data.data!.resolution!.resolvedAt!
+                  //                 .trim()
+                  //                 .isNotEmpty))) ...[
+                  //   SizedBox(height: 20.h),
+                  //   Container(
+                  //     width: double.infinity,
+                  //     padding: EdgeInsets.all(16.w),
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.white,
+                  //       border: Border.all(
+                  //         color: const Color(0xff071811),
+                  //         width: 1,
+                  //       ),
+                  //       borderRadius: BorderRadius.circular(13.r),
+                  //     ),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                  //             Container(
+                  //               width: 36.w,
+                  //               height: 36.w,
+                  //               decoration: BoxDecoration(
+                  //                 color: const Color(0xFFE8F5E9),
+                  //                 borderRadius: BorderRadius.circular(10.r),
+                  //               ),
+                  //               child: Icon(
+                  //                 Icons.check_circle_outline,
+                  //                 color: const Color(0xFF22C55E),
+                  //                 size: 20.sp,
+                  //               ),
+                  //             ),
+                  //             SizedBox(width: 10.w),
+                  //             Expanded(
+                  //               child: Column(
+                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                  //                 children: [
+                  //                   Text(
+                  //                     "Resolution Details",
+                  //                     style: GoogleFonts.outfit(
+                  //                       fontSize: 18.sp,
+                  //                       fontWeight: FontWeight.w600,
+                  //                       color: AppColors.heading,
+                  //                       letterSpacing: -0.2,
+                  //                     ),
+                  //                   ),
+                  //                   if (data.data?.resolution?.resolvedAt !=
+                  //                           null &&
+                  //                       data.data!.resolution!.resolvedAt!
+                  //                           .trim()
+                  //                           .isNotEmpty)
+                  //                     Text(
+                  //                       "Resolved: ${data.data!.resolution!.resolvedAt!}",
+                  //                       style: GoogleFonts.outfit(
+                  //                         fontSize: 14.sp,
+                  //                         fontWeight: FontWeight.w500,
+                  //                         color: Colors.grey,
+                  //                         letterSpacing: -0.2,
+                  //                       ),
+                  //                     ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         if (data.data?.resolution?.notes != null &&
+                  //             data.data!.resolution!.notes!
+                  //                 .trim()
+                  //                 .isNotEmpty) ...[
+                  //           SizedBox(height: 14.h),
+                  //           Text(
+                  //             "Resolution Notes",
+                  //             style: GoogleFonts.outfit(
+                  //               fontSize: 14.sp,
+                  //               fontWeight: FontWeight.w500,
+                  //               color: Colors.grey,
+                  //             ),
+                  //           ),
+                  //           SizedBox(height: 4.h),
+                  //           Container(
+                  //             width: double.infinity,
+                  //             padding: EdgeInsets.all(12.w),
+                  //             decoration: BoxDecoration(
+                  //               color: const Color(0xffF8F6ED),
+                  //               borderRadius: BorderRadius.circular(8.r),
+                  //               border: Border.all(
+                  //                 color: const Color.fromRGBO(16, 28, 22, 0.1),
+                  //               ),
+                  //             ),
+                  //             child: Text(
+                  //               data.data!.resolution!.notes!,
+                  //               style: GoogleFonts.outfit(
+                  //                 fontSize: 15.sp,
+                  //                 fontWeight: FontWeight.w500,
+                  //                 color: AppColors.heading,
+                  //                 letterSpacing: -0.2,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //         if (data.data?.resolution?.photo != null &&
+                  //             data.data!.resolution!.photo!
+                  //                 .trim()
+                  //                 .isNotEmpty) ...[
+                  //           SizedBox(height: 14.h),
+                  //           Text(
+                  //             "Finished Work Photo",
+                  //             style: GoogleFonts.outfit(
+                  //               fontSize: 14.sp,
+                  //               fontWeight: FontWeight.w500,
+                  //               color: Colors.grey,
+                  //             ),
+                  //           ),
+                  //           SizedBox(height: 8.h),
+                  //           GestureDetector(
+                  //             onTap: () {
+                  //               _showFullImageDialog(
+                  //                 context,
+                  //                 data.data!.resolution!.photo!,
+                  //               );
+                  //             },
+                  //             child: ClipRRect(
+                  //               borderRadius: BorderRadius.circular(10.r),
+                  //               child: Image.network(
+                  //                 data.data!.resolution!.photo!,
+                  //                 height: 160.h,
+                  //                 width: double.infinity,
+                  //                 fit: BoxFit.cover,
+                  //                 errorBuilder: (context, error, stackTrace) =>
+                  //                     Container(
+                  //                       height: 80.h,
+                  //                       alignment: Alignment.center,
+                  //                       decoration: BoxDecoration(
+                  //                         color: Colors.grey[200],
+                  //                         borderRadius: BorderRadius.circular(
+                  //                           10.r,
+                  //                         ),
+                  //                       ),
+                  //                       child: Row(
+                  //                         mainAxisAlignment:
+                  //                             MainAxisAlignment.center,
+                  //                         children: [
+                  //                           const Icon(
+                  //                             Icons.broken_image,
+                  //                             color: Colors.grey,
+                  //                           ),
+                  //                           SizedBox(width: 8.w),
+                  //                           Text(
+                  //                             "Photo unavailable",
+                  //                             style: GoogleFonts.outfit(
+                  //                               color: Colors.grey,
+                  //                             ),
+                  //                           ),
+                  //                         ],
+                  //                       ),
+                  //                     ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ],
                   SizedBox(height: 30.h),
                 ],
               ),
@@ -352,6 +563,125 @@ class _ResidentcomplantstatusState
           );
         },
       ),
+      bottomNavigationBar: status == "Resolved"
+          ? Container(
+              margin: EdgeInsets.all(14.h),
+              width: double.infinity,
+              height: 48.h,
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (dialogContext) {
+                      bool isDialogLoading = false;
+                      return StatefulBuilder(
+                        builder: (context, setDialogState) {
+                          return AlertDialog(
+                            title: Text("Close Request"),
+                            content: Text(
+                              "Are you sure you want to close this request?",
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: isDialogLoading
+                                    ? null
+                                    : () => Navigator.pop(dialogContext),
+                                child: Text("Cancel"),
+                              ),
+                              TextButton(
+                                onPressed: isDialogLoading
+                                    ? null
+                                    : () async {
+                                        setDialogState(() {
+                                          isDialogLoading = true;
+                                        });
+                                        try {
+                                          final service = ref.read(
+                                            authServiceProvider,
+                                          );
+                                          final res = await service
+                                              .closeComplant(
+                                                id: widget.complainID,
+                                              );
+                                          if (res.status == true) {
+                                            ref.invalidate(
+                                              getComplaintTrackingProvider(
+                                                widget.complainID,
+                                              ),
+                                            );
+                                            ref.invalidate(
+                                              getComplaintListProvider,
+                                            );
+                                            if (dialogContext.mounted) {
+                                              Navigator.pop(dialogContext);
+                                            }
+                                            showSuccessSnackBar(
+                                              res.message ??
+                                                  "Request closed successfully",
+                                            );
+                                          } else {
+                                            showSuccessSnackBar(
+                                              res.message ??
+                                                  "Failed to close request",
+                                            );
+                                          }
+                                        } catch (e) {
+                                          showSuccessSnackBar(
+                                            "Failed to close request",
+                                          );
+                                        } finally {
+                                          if (dialogContext.mounted) {
+                                            setDialogState(() {
+                                              isDialogLoading = false;
+                                            });
+                                          }
+                                        }
+                                      },
+                                child: isDialogLoading
+                                    ? SizedBox(
+                                        width: 18.w,
+                                        height: 18.h,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.w,
+                                          color: AppColors.heading,
+                                        ),
+                                      )
+                                    : Text("Close"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff071811),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  elevation: 0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.close, color: Colors.white, size: 18.sp),
+                    SizedBox(width: 8.w),
+                    Text(
+                      "Close Request",
+                      style: GoogleFonts.outfit(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : null,
     );
   }
 
@@ -389,9 +719,98 @@ class _ResidentcomplantstatusState
     );
   }
 
+  Widget _imageInfo(String title, String imageUrl) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(),
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(9.w),
+              decoration: BoxDecoration(
+                color: const Color(0xffE9D8A9),
+                borderRadius: BorderRadius.circular(5.r),
+              ),
+              child: const Icon(Icons.image_outlined, color: Color(0xffC29424)),
+            ),
+            SizedBox(width: 12.w),
+            Text(
+              title,
+              style: GoogleFonts.outfit(fontSize: 15.sp, color: Colors.grey),
+            ),
+          ],
+        ),
+        SizedBox(height: 10.h),
+        GestureDetector(
+          onTap: () {
+            _showFullImageDialog(context, imageUrl);
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.r),
+            child: Image.network(
+              imageUrl,
+              height: 150.h,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                height: 80.h,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.broken_image, color: Colors.grey),
+                    SizedBox(width: 8.w),
+                    Text(
+                      "Photo unavailable",
+                      style: GoogleFonts.outfit(color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showFullImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.all(16.w),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: InteractiveViewer(
+                child: Image.network(imageUrl, fit: BoxFit.contain),
+              ),
+            ),
+            IconButton(
+              icon: const CircleAvatar(
+                backgroundColor: Colors.black54,
+                child: Icon(Icons.close, color: Colors.white, size: 20),
+              ),
+              onPressed: () => Navigator.pop(ctx),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _status(String text, {bool isOverdue = false}) {
     final lower = text.toLowerCase();
-    final overdue = isOverdue || lower.contains("overdue") || lower.contains("emergency");
+    final overdue =
+        isOverdue || lower.contains("overdue") || lower.contains("emergency");
     final resolved = lower.contains("resolved") || lower.contains("completed");
 
     Color bg;
