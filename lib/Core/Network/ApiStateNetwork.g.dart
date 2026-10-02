@@ -1366,6 +1366,83 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
+  Future<AddGuardResModel> addGuard(
+    String name,
+    String phone,
+    String password,
+    String guardPostId,
+    String shiftId,
+    String email,
+    MultipartFile? image,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry('name', name));
+    _data.fields.add(MapEntry('phone', phone));
+    _data.fields.add(MapEntry('password', password));
+    _data.fields.add(MapEntry('guard_post', guardPostId));
+    _data.fields.add(MapEntry('shift_id', shiftId));
+    _data.fields.add(MapEntry('email', email));
+    if (image != null) {
+      _data.files.add(MapEntry('avatar', image));
+    }
+    final _options = _setStreamType<AddGuardResModel>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            '/api/v1/committee/guards',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AddGuardResModel _value;
+    try {
+      _value = AddGuardResModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<GetGuardShiftsModel> getGuardShifts() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<GetGuardShiftsModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/committee/shifts',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetGuardShiftsModel _value;
+    try {
+      _value = GetGuardShiftsModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<ResidentDashbordModel> getResidentDashbordData() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

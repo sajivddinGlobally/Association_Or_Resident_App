@@ -11,6 +11,9 @@ import 'package:property_association_or_resident/AssociationScreen/ForgotPasswor
 import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+
+import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/GuardHomeScreen.dart';
+
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentHomeScreen.dart';
 
 class AssociationLogin extends ConsumerStatefulWidget {
@@ -374,6 +377,101 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                     ),
                   ),
                   SizedBox(height: 32.h),
+
+                  // SizedBox(
+                  //   height: 52.h,
+                  //   width: double.infinity,
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: AppColors.heading,
+                  //       elevation: 2,
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(10.r),
+                  //       ),
+                  //     ),
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         CupertinoPageRoute(
+                  //           builder: (context) => GuardBottomNavState(),
+                  //         ),
+                  //       );
+                  //     },
+
+                  //     // onPressed: isLoading
+                  //     //     ? null
+                  //     //     : () async {
+                  //     //         if (selectIndex == null) {
+                  //     //           showErrorSnackBar("Please select role");
+                  //     //           return;
+                  //     //         }
+                  //     //         if (emailController.text.trim().isEmpty) {
+                  //     //           return;
+                  //     //         }
+                  //     //         if (passwordController.text.trim().isEmpty) {
+                  //     //           return;
+                  //     //         }
+                  //     //         if (rememberMe == false) {
+                  //     //           showErrorSnackBar("Please checked Remember Me");
+                  //     //           return;
+                  //     //         }
+
+                  //     //         try {
+                  //     //           setState(() {
+                  //     //             isLoading = true;
+                  //     //           });
+                  //     //           final service = ref.read(authServiceProvider);
+                  //     //           final selectedRole = selectIndex == 0
+                  //     //               ? "association_head"
+                  //     //               : "apartment_resident";
+                  //     //           final response = await service.login(
+                  //     //             email: emailController.text.trim(),
+                  //     //             password: passwordController.text.trim(),
+                  //     //             role: selectedRole,
+                  //     //           );
+                  //     //           if (response.status == true) {
+                  //     //             var box = Hive.box("associationdata");
+                  //     //             await box.put("token", response.data!.token);
+                  //     //             await box.put("id", response.data!.user!.id);
+                  //     //             await box.put(
+                  //     //               "name",
+                  //     //               response.data!.user!.name,
+                  //     //             );
+                  //     //             final userRole =
+                  //     //                 (response.data?.user?.role != null &&
+                  //     //                     response.data!.user!.role!
+                  //     //                         .toString()
+                  //     //                         .trim()
+                  //     //                         .isNotEmpty)
+                  //     //                 ? response.data!.user!.role
+                  //     //                 : selectedRole;
+                  //     //             await box.put("role", userRole);
+                  //     //             if (context.mounted) {
+                  //     //               Navigator.pushAndRemoveUntil(
+                  //     //                 context,
+                  //     //                 MaterialPageRoute(
+                  //     //                   builder: (context) => selectIndex == 0
+                  //     //                       ? const AssociationBottomNavBar()
+                  //     //                       : selectIndex == 1
+                  //     //                       ? const ResidentBottomNavBar()
+                  //     //                       : const GuardBottomNavState(),
+                  //     //                 ),
+                  //     //                 (route) => false,
+                  //     //               );
+                  //     //             }
+                  //     //           }
+                  //     //         } catch (e) {
+                  //     //           log(e.toString());
+                  //     //         } finally {
+                  //     //           if (mounted) {
+                  //     //             setState(() {
+                  //     //               isLoading = false;
+                  //     //             });
+                  //     //           }
+                  //     //         }
+                  //     //       },
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 52.h,
                     width: double.infinity,
@@ -385,99 +483,27 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => GuardBottomNavState(),
+                          ),
+                        );
+                      },
 
-                      onPressed: isLoading
-                          ? null
-                          : () async {
-                              if (selectIndex == null) {
-                                showErrorSnackBar("Please select role");
-                                return;
-                              }
-                              if (emailController.text.trim().isEmpty) {
-                                return;
-                              }
-                              if (passwordController.text.trim().isEmpty) {
-                                return;
-                              }
-                              if (rememberMe == false) {
-                                showErrorSnackBar("Please checked Remember Me");
-                                return;
-                              }
-
-                              try {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                final service = ref.read(authServiceProvider);
-                                final selectedRole = selectIndex == 0
-                                    ? "association_head"
-                                    : "apartment_resident";
-                                final response = await service.login(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
-                                  role: selectedRole,
-                                );
-                                if (response.status == true) {
-                                  var box = Hive.box("associationdata");
-                                  await box.put("token", response.data!.token);
-                                  await box.put("id", response.data!.user!.id);
-                                  await box.put(
-                                    "name",
-                                    response.data!.user!.name,
-                                  );
-                                  final userRole =
-                                      (response.data?.user?.role != null &&
-                                          response.data!.user!.role!
-                                              .toString()
-                                              .trim()
-                                              .isNotEmpty)
-                                      ? response.data!.user!.role
-                                      : selectedRole;
-                                  await box.put("role", userRole);
-                                  if (context.mounted) {
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => selectIndex == 0
-                                            ? const AssociationBottomNavBar()
-                                            : const ResidentBottomNavBar(),
-                                      ),
-                                      (route) => false,
-                                    );
-                                  }
-                                }
-                              } catch (e) {
-                                log(e.toString());
-                              } finally {
-                                if (mounted) {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                }
-                              }
-                            },
-                      child: isLoading
-                          ? Center(
-                              child: SizedBox(
-                                width: 20.w,
-                                height: 20.h,
-                                child: CircularProgressIndicator(
-                                  color: AppColors.heading,
-                                  strokeWidth: 1.5,
-                                ),
-                              ),
-                            )
-                          : Text(
-                              "Login",
-                              style: GoogleFonts.outfit(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16.sp,
-                                color: const Color(0xffFFFFFF),
-                                letterSpacing: 0.2,
-                              ),
-                            ),
+                      child: Text(
+                        "Login",
+                        style: GoogleFonts.outfit(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15.sp,
+                          color: Color(0xffFFFFFF),
+                          letterSpacing: -0.24,
+                        ),
+                      ),
                     ),
                   ),
+
                   SizedBox(height: 8.h),
                   InkWell(
                     onTap: () {
