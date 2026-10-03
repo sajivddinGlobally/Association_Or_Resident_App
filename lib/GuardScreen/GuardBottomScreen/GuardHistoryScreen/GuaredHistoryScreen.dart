@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/data/model/ResponseModel/addGuardResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/Provider/HistoryRecordsProvider.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/Provider/historyGuardProvider.dart';
 
 class Guaredhistoryscreen extends StatefulWidget {
   const Guaredhistoryscreen({super.key});
@@ -489,7 +491,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
               ),
               SizedBox(height: 20.h),
               ListView.builder(
-                itemCount: data.data?.records?.length ??0,
+                itemCount: data.data?.records?.length ?? 0,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
@@ -515,7 +517,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10.r),
                               child: Image.network(
-                                "hello",
+                                item?.avatarUrl ?? "",
                                 height: 60.h,
                                 width: 60.w,
                                 fit: BoxFit.cover,
@@ -533,7 +535,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                                       size: 30.sp,
                                     ),
                                   );
-                                }
+                                },
                               ),
                             ),
                             SizedBox(width: 9.w),
@@ -543,7 +545,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Rahul Sharma",
+                                    item?.visitorName ?? "",
                                     style: GoogleFonts.outfit(
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.w600,
@@ -553,7 +555,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                                   ),
                                   SizedBox(height: 4.h),
                                   Text(
-                                    "Visitor · Flat A-204",
+                                    item?.categoryLabel ?? "",
                                     style: GoogleFonts.outfit(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
@@ -582,7 +584,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                               ),
                               child: Center(
                                 child: Text(
-                                  "COMPLETED",
+                                  item?.badge ?? "",
                                   style: GoogleFonts.outfit(
                                     fontSize: 13.sp,
                                     fontWeight: FontWeight.w600,
@@ -600,7 +602,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                             Expanded(
                               child: _visitInfoCard(
                                 title: 'IN-TIME',
-                                value: '09:32 AM',
+                                value: item?.inTime ?? "",
                               ),
                             ),
 
@@ -609,7 +611,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                             Expanded(
                               child: _visitInfoCard(
                                 title: 'OUT-TIME',
-                                value: '10:18 AM',
+                                value: item?.outTime ?? "",
                               ),
                             ),
                           ],
@@ -620,7 +622,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                             Expanded(
                               child: _visitInfoCard(
                                 title: 'DATE',
-                                value: 'Today',
+                                value: item?.date ?? "",
                               ),
                             ),
 
@@ -629,7 +631,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                             Expanded(
                               child: _visitInfoCard(
                                 title: 'APPROVAL',
-                                value: 'Resident Approved',
+                                value: item?.statusNote ?? "",
                               ),
                             ),
                           ],
@@ -720,123 +722,174 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
   }
 }
 
-class GuardsTab extends StatelessWidget {
+class GuardsTab extends ConsumerStatefulWidget {
   const GuardsTab({super.key});
 
   @override
+  ConsumerState<GuardsTab> createState() => _GuardsTabState();
+}
+
+class _GuardsTabState extends ConsumerState<GuardsTab> {
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Guards on Duty",
-            style: GoogleFonts.outfit(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.heading,
-              letterSpacing: -0.2,
-            ),
-          ),
-          SizedBox(height: 16.h),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: 4,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 10.h),
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 14.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: const Color(0xffE1E1E1), width: 1),
+    final guard = ref.watch(historyGuardProvider);
+    return guard.when(
+      data: (data) {
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Guards on Duty",
+                style: GoogleFonts.outfit(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 42.h,
-                      width: 42.w,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffEEEEEE),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Center(
-                        child: Text("👮", style: TextStyle(fontSize: 20.sp)),
+              ),
+              SizedBox(height: 16.h),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: data.data?.guards?.length,
+                itemBuilder: (context, index) {
+                  final guard = data.data?.guards?[index];
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 10.h),
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 14.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: const Color(0xffE1E1E1),
+                        width: 1,
                       ),
                     ),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: Image.network(
+                            guard?.avatarUrl ?? "",
+                            height: 40.h,
+                            width: 40.w,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: 40.w,
+                                height: 40.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(50.r),
+                                ),
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 30.sp,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                guard?.name ?? "",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
 
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Rakesh Kumar",
-                            style: GoogleFonts.outfit(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.heading,
-                              letterSpacing: -0.2,
+                              SizedBox(height: 2.h),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "${guard?.post ?? ''}  ",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color(0xff555555),
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: guard?.status ?? '',
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color(0xff555555),
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 30.h,
+                            width: 30.w,
+                            decoration: BoxDecoration(
+                              color: const Color(0xff0B211A),
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Icon(
+                              Icons.phone_outlined,
+                              color: Colors.white,
+                              size: 18.sp,
                             ),
                           ),
+                        ),
 
-                          SizedBox(height: 2.h),
-
-                          Text(
-                            "Main Gate · Online",
-                            style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xff555555),
-                              letterSpacing: -0.2,
+                        SizedBox(width: 6.w),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 30.h,
+                            width: 30.w,
+                            decoration: BoxDecoration(
+                              color: const Color(0xff0B211A),
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Icon(
+                              Icons.chat_bubble_outline,
+                              color: Colors.white,
+                              size: 18.sp,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 30.h,
-                        width: 30.w,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff0B211A),
-                          borderRadius: BorderRadius.circular(6.r),
-                        ),
-                        child: Icon(
-                          Icons.phone_outlined,
-                          color: Colors.white,
-                          size: 18.sp,
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(width: 6.w),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 30.h,
-                        width: 30.w,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff0B211A),
-                          borderRadius: BorderRadius.circular(6.r),
-                        ),
-                        child: Icon(
-                          Icons.chat_bubble_outline,
-                          color: Colors.white,
-                          size: 18.sp,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
+      error: (error, stackTrace) {
+        return const Center(child: Text("Something went wrong"));
+      },
+      loading: () {
+        return const Center(
+          child: CircularProgressIndicator(color: AppColors.heading),
+        );
+      },
     );
   }
 }

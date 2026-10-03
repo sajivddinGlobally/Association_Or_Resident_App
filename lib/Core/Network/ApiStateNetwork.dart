@@ -13,7 +13,9 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/m
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/maintananceDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/outstandingPendingModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/VehicleSearchResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/guardDashbordModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/historyGuardResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintListModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintTrackingModel.dart';
@@ -366,4 +368,10 @@ abstract class ApiStateNetwork {
 
   @GET("/api/v1/guard/history?filter=all")
   Future<HistoryRecordsResModel>  historyRecords();
+
+  @GET("/api/v1/guard/vehicles/search?vehicle_number=RJ14 AB 1234")
+  Future<VehicleSearchResModel>  vehicleSearch();
+
+  @GET("/api/v1/guard/guards-on-duty")
+  Future<HistoryGuardResModel>  historyGuard();
 }

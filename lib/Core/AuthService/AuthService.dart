@@ -14,7 +14,9 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/g
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitListModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/VehicleSearchResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/guardDashbordModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/historyGuardResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
@@ -986,6 +988,24 @@ class AuthService {
   Future<HistoryRecordsResModel>  historyRecordsData() async{
     try{
       final response = await api.historyRecords();
+      return response;
+    } catch (e){
+      rethrow;
+    }
+  }
+
+   Future<VehicleSearchResModel>  vehicleSearchData() async{
+    try{
+      final response = await api.vehicleSearch();
+      return response;
+    } catch (e){
+      rethrow;
+    }
+  }
+
+    Future<HistoryGuardResModel>  historyGuardData() async{
+    try{
+      final response = await api.historyGuard();
       return response;
     } catch (e){
       rethrow;
