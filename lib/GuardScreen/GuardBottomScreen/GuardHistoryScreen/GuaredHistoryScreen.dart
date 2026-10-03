@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/Provider/HistoryRecordsProvider.dart';
 
 class Guaredhistoryscreen extends StatefulWidget {
   const Guaredhistoryscreen({super.key});
@@ -175,14 +177,14 @@ class _GuaredhistoryscreenState extends State<Guaredhistoryscreen>
   // }
 }
 
-class HistoryTab extends StatefulWidget {
+class HistoryTab extends ConsumerStatefulWidget {
   const HistoryTab({super.key});
 
   @override
-  State<HistoryTab> createState() => _HistoryTabState();
+  ConsumerState<HistoryTab> createState() => _HistoryTabState();
 }
 
-class _HistoryTabState extends State<HistoryTab> {
+class _HistoryTabState extends ConsumerState<HistoryTab> {
   int index = 0;
   void showExitRecordedPopup(BuildContext context) {
     showDialog(
@@ -359,275 +361,323 @@ class _HistoryTabState extends State<HistoryTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(color: const Color(0xffE1E1E1), width: 1.5),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        index = 0;
-                      });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5.h),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: index == 0
-                            ? const Color(0xffE7F8ED)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(
-                          color: index == 0
-                              ? Colors.black
-                              : const Color(0xffE1E1E1),
-                          width: index == 0 ? 1.2 : 1,
-                        ),
-                      ),
-                      child: Text(
-                        "All",
-                        style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff101C16),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+    final historyRecords = ref.watch(historyRecordsProvider);
 
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        index = 1;
-                      });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5.h),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: index == 1
-                            ? const Color(0xffE7F8ED)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(
-                          color: index == 1
-                              ? Colors.black
-                              : const Color(0xffE1E1E1),
-                          width: index == 1 ? 1.2 : 1,
-                        ),
-                      ),
-                      child: Text(
-                        "Visitor",
-                        style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff101C16),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        index = 2;
-                      });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5.h),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: index == 2
-                            ? const Color(0xffE7F8ED)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(
-                          color: index == 2
-                              ? Colors.black
-                              : const Color(0xffE1E1E1),
-                          width: index == 2 ? 1.2 : 1,
-                        ),
-                      ),
-                      child: Text(
-                        "Parcel",
-                        style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff101C16),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20.h),
-          ListView.builder(
-            itemCount: 4,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 16.h),
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+    // final records = historyRecords.valueOrNull?.data?.records;
+    return historyRecords.when(
+      data: (data) {
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+                  border: Border.all(
+                    color: const Color(0xffE1E1E1),
+                    width: 1.5,
+                  ),
                 ),
-                child: Column(
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10.r),
-                          child: Image.asset(
-                            "assets/SvgImage/person _img.png",
-                            height: 60.h,
-                            width: 60.w,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(width: 9.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Rahul Sharma",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.heading,
-                                  letterSpacing: -0.3,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                "Visitor · Flat A-204",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color.fromRGBO(42, 41, 51, 0.65),
-                                  letterSpacing: -0.3,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 15.w),
-                        Container(
-                          // width: 80.w,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 4.h,
-                          ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            index = 0;
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5.h),
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(17, 197, 80, 0.2),
-                            borderRadius: BorderRadius.circular(50.r),
+                            color: index == 0
+                                ? const Color(0xffE7F8ED)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(
+                              color: index == 0
+                                  ? Colors.black
+                                  : const Color(0xffE1E1E1),
+                              width: index == 0 ? 1.2 : 1,
+                            ),
                           ),
-                          child: Center(
-                            child: Text(
-                              "COMPLETED",
-                              style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff24B06A),
-                                letterSpacing: -0.3,
-                              ),
+                          child: Text(
+                            "All",
+                            style: GoogleFonts.outfit(
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xff101C16),
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                    SizedBox(height: 16.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _visitInfoCard(
-                            title: 'IN-TIME',
-                            value: '09:32 AM',
-                          ),
-                        ),
 
-                        SizedBox(width: 22.w),
-
-                        Expanded(
-                          child: _visitInfoCard(
-                            title: 'OUT-TIME',
-                            value: '10:18 AM',
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _visitInfoCard(title: 'DATE', value: 'Today'),
-                        ),
-
-                        SizedBox(width: 22.w),
-
-                        Expanded(
-                          child: _visitInfoCard(
-                            title: 'APPROVAL',
-                            value: 'Resident Approved',
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    SizedBox(
-                      height: 37.h,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          showExitRecordedPopup(context);
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            index = 1;
+                          });
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF0D1C16),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.r),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5.h),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: index == 1
+                                ? const Color(0xffE7F8ED)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(
+                              color: index == 1
+                                  ? Colors.black
+                                  : const Color(0xffE1E1E1),
+                              width: index == 1 ? 1.2 : 1,
+                            ),
+                          ),
+                          child: Text(
+                            "Visitor",
+                            style: GoogleFonts.outfit(
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xff101C16),
+                            ),
                           ),
                         ),
-                        child: Text(
-                          'MARK EXIT',
-                          style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            letterSpacing: -0.2,
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            index = 2;
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5.h),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: index == 2
+                                ? const Color(0xffE7F8ED)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(
+                              color: index == 2
+                                  ? Colors.black
+                                  : const Color(0xffE1E1E1),
+                              width: index == 2 ? 1.2 : 1,
+                            ),
+                          ),
+                          child: Text(
+                            "Parcel",
+                            style: GoogleFonts.outfit(
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xff101C16),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-              );
-            },
+              ),
+              SizedBox(height: 20.h),
+              ListView.builder(
+                itemCount: data.data?.records?.length ??0,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final item = data.data?.records?[index];
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 16.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 20.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(
+                        color: const Color(0xFFE0E0E0),
+                        width: 1,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10.r),
+                              child: Image.network(
+                                "hello",
+                                height: 60.h,
+                                width: 60.w,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 58.w,
+                                    height: 58.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.circular(50.r),
+                                    ),
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                      size: 30.sp,
+                                    ),
+                                  );
+                                }
+                              ),
+                            ),
+                            SizedBox(width: 9.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Rahul Sharma",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.heading,
+                                      letterSpacing: -0.3,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    "Visitor · Flat A-204",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromRGBO(
+                                        42,
+                                        41,
+                                        51,
+                                        0.65,
+                                      ),
+                                      letterSpacing: -0.3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 15.w),
+                            Container(
+                              // width: 80.w,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 4.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(17, 197, 80, 0.2),
+                                borderRadius: BorderRadius.circular(50.r),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "COMPLETED",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff24B06A),
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _visitInfoCard(
+                                title: 'IN-TIME',
+                                value: '09:32 AM',
+                              ),
+                            ),
+
+                            SizedBox(width: 22.w),
+
+                            Expanded(
+                              child: _visitInfoCard(
+                                title: 'OUT-TIME',
+                                value: '10:18 AM',
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _visitInfoCard(
+                                title: 'DATE',
+                                value: 'Today',
+                              ),
+                            ),
+
+                            SizedBox(width: 22.w),
+
+                            Expanded(
+                              child: _visitInfoCard(
+                                title: 'APPROVAL',
+                                value: 'Resident Approved',
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.h),
+                        SizedBox(
+                          height: 37.h,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              showExitRecordedPopup(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF0D1C16),
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                            ),
+                            child: Text(
+                              'MARK EXIT',
+                              style: GoogleFonts.outfit(
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
+      error: (error, stackTrace) {
+        return const Center(child: Text("Something went wrong"));
+      },
+      loading: () {
+        return const Center(
+          child: CircularProgressIndicator(color: AppColors.heading),
+        );
+      },
     );
   }
 

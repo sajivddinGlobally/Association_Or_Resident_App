@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationAddResident/AddResidentScreen.dart';
+import 'package:property_association_or_resident/AssociationScreen/AssociationAddResident/GuardScreen/addGuardScreen.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationAuditReport/AssociationReport.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationCalender/AssociationCalender.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationNotification/Notificaion.dart';
@@ -81,7 +82,10 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                     padding: EdgeInsets.symmetric(vertical: 22.h),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: const Color(0xFF101C16), width: 1.2),
+                      border: Border.all(
+                        color: const Color(0xFF101C16),
+                        width: 1.2,
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,7 +112,11 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                                       width: 1.2,
                                     ),
                                   ),
-                                  child: Icon(Icons.person, size: 36.sp, color: AppColors.heading),
+                                  child: Icon(
+                                    Icons.person,
+                                    size: 36.sp,
+                                    color: AppColors.heading,
+                                  ),
                                 );
                               },
                             ),
@@ -377,13 +385,21 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                             );
                           },
                         ),
-                        // Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
-                        // _accountSettingTab(
-                        //   image: "assets/SvgImage/history.svg",
-                        //   name: "Maintenance History",
-                        //   title: "Audit Reports history",
-                        //   callback: () {},
-                        // ),
+                        Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
+                        _accountSettingTab(
+                          // image: "assets/SvgImage/history.svg",
+                          image: "assets/SvgImage/add.svg",
+                          name: "Add Guard",
+                          title: "All  Guard Add/List",
+                          callback: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => AddGuardScreen(),
+                              ),
+                            );
+                          },
+                        ),
                         Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
                         _accountSettingTab(
                           image: "assets/SvgImage/history.svg",
@@ -540,10 +556,7 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
     return InkWell(
       onTap: callback,
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 14.w,
-          vertical: 12.h,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
         child: Row(
           children: [
             Container(

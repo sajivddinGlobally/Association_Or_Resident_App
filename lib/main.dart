@@ -8,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationHome/AssociationHome.dart';
 import 'package:property_association_or_resident/Core/Utils/key.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/GuardHomeScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentHomeScreen.dart';
 import 'package:property_association_or_resident/splash_screen.dart';
 
@@ -50,12 +51,15 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               ),
-              home: token == null
-                  ? const SplashScreen()
-                  : (role != null &&
-                            role.toString().toLowerCase().contains("resident")
-                        ? const ResidentBottomNavBar()
-                        : const AssociationBottomNavBar()),
+            home: token == null
+    ? const SplashScreen()
+    : (role != null &&
+            role.toString().toLowerCase().contains("resident")
+        ? const ResidentBottomNavBar()
+        : (role != null &&
+                role.toString().toLowerCase().contains("security")
+            ? GuardBottomNavState()
+            : const AssociationBottomNavBar())),
             ),
           ),
         );

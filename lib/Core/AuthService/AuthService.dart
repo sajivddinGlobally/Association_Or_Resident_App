@@ -14,6 +14,8 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/g
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitListModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/guardDashbordModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentEmergencyContactResModel.dart';
@@ -38,10 +40,12 @@ import '../data/model/BodyModel/loginBodyModel.dart';
 import '../data/model/BodyModel/registerBodyModel.dart';
 import '../data/model/BodyModel/updateTicketStatusBodyModel.dart';
 import '../data/model/BodyModel/verifyOtpBodyModel.dart';
+import '../data/model/ResponseModel/GetGuardShiftsModel.dart';
 import '../data/model/ResponseModel/GetNotificaionListModel.dart';
 import '../data/model/ResponseModel/MarkNotificationReadResModel.dart';
 import '../data/model/ResponseModel/ServiceManagementPerformanceResModel.dart';
 import '../data/model/ResponseModel/ServiceManagementResModel.dart';
+import '../data/model/ResponseModel/addGuardResModel.dart';
 import '../data/model/ResponseModel/addResidentResModel.dart';
 import '../data/model/ResponseModel/assocationComplaintResModel.dart';
 import '../data/model/ResponseModel/associationCalenderresModel.dart';
@@ -762,6 +766,41 @@ class AuthService {
       rethrow;
     }
   }
+
+  Future<AddGuardResModel> addGuardData({
+    required String name,
+    required String phone,
+    required String password,
+    required String guardPost,
+    required String shiftId,
+    required String email,
+    required MultipartFile? image,
+  }) async {
+    try {
+      final response = await api.addGuard(
+        name,
+        phone,
+        password,
+        guardPost,
+        shiftId,
+        email,
+        image,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GetGuardShiftsModel> getGuardShifts() async {
+    try {
+      final response = await api.getGuardShifts();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   //////////////////////////  resident dashboard   //////////////////////
 
   Future<ResidentDashbordModel> getResidentDashboardData() async {
@@ -929,6 +968,26 @@ class AuthService {
       final response = await api.closeComplant(id, body);
       return response;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  ////////////////// Guard //////////////////////
+  
+  Future<GuardDashBoardModel> guardDashBoardData() async {
+    try {
+      final response = await api.guardDashBoard();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<HistoryRecordsResModel>  historyRecordsData() async{
+    try{
+      final response = await api.historyRecords();
+      return response;
+    } catch (e){
       rethrow;
     }
   }

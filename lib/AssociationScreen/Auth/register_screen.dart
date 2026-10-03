@@ -311,7 +311,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                       style: GoogleFonts.outfit(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                        color: const Color.fromRGBO(
+                                          42,
+                                          41,
+                                          51,
+                                          0.75,
+                                        ),
                                         letterSpacing: -0.2,
                                       ),
                                     ),
@@ -854,7 +859,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       ),
     );
   }
-
 
   Widget sectionHeader({required String number, required String title}) {
     return Row(

@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/data/model/ResponseModel/maintananceOverviewModel.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/GuaredHistoryScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardParcelScreen/GuardParcelRegisterScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/GuardVisitorScreen.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/Provider/guardDashBoardProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/GuardVehicleScreen.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -150,16 +154,19 @@ class _GuardBottomNavStateState extends State<GuardBottomNavState> {
   }
 }
 
-class Guardhomescreen extends StatefulWidget {
+class Guardhomescreen extends ConsumerStatefulWidget {
   const Guardhomescreen({super.key});
 
   @override
-  State<Guardhomescreen> createState() => _GuardhomescreenState();
+  ConsumerState<Guardhomescreen> createState() => _GuardhomescreenState();
 }
 
-class _GuardhomescreenState extends State<Guardhomescreen> {
+class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
   @override
   Widget build(BuildContext context) {
+    final guardDashboard = ref.watch(guardDashboardProvider);
+    final todaysactivity = guardDashboard.valueOrNull?.data?.todaysActivity;
+    var box = Hive.box("associationdata");
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -184,7 +191,7 @@ class _GuardhomescreenState extends State<Guardhomescreen> {
                     ),
                   ),
                   Text(
-                    "Hello, Rajesh 👋",
+                    "Hello, ${box.get("name") ?? ''}  👋",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
@@ -269,359 +276,400 @@ class _GuardhomescreenState extends State<Guardhomescreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20.h),
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30.r),
-                bottomRight: Radius.circular(30.r),
-              ),
-              child: Stack(
-                children: [
-                  Image.asset(
-                    "assets/home_img.png",
-                    height: 190.h,
+      body: guardDashboard.when(
+        data: (data) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 20.h),
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.r),
+                    bottomRight: Radius.circular(30.r),
+                  ),
+                  child: SizedBox(
+                    height: 252.h,
                     width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withOpacity(0.75),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    left: 20.w,
-                    bottom: 65.h,
-                    right: 20.w,
-                    child: Row(
+                    child: Stack(
                       children: [
-                        Container(
-                          height: 20.w,
-                          width: 20.w,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(17, 197, 80, 0.2),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Container(
-                              height: 14.w,
-                              width: 14.w,
-                              decoration: const BoxDecoration(
-                                color: Color(0xff11C550),
-                                shape: BoxShape.circle,
+                        Image.network(
+                          // "assets/ResidentHome.png",
+                          data.data?.shiftCard?.backgroundImage ?? "",
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: double.infinity,
+                              height: 252.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30.r),
+                                  bottomRight: Radius.circular(30.r),
+                                ),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Color(0xff101C16).withOpacity(0.0),
+                                    Color(0xff101C16).withOpacity(0.4),
+                                    Color(0xff101C16).withOpacity(0.9),
+                                    Color(0xff101C16),
+                                  ],
+                                  stops: const [0.0, 0.4, 0.75, 1.0],
+                                ),
+                              ),
+                              child: Center(
+                                child: Icon(Icons.broken_image, size: 20.w),
+                              ),
+                            );
+                          },
+                        ),
+
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withOpacity(0.75),
+                                ],
                               ),
                             ),
                           ),
                         ),
 
-                        SizedBox(width: 8.w),
-
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        Positioned(
+                          left: 20.w,
+                          bottom: 65.h,
+                          right: 20.w,
+                          child: Row(
                             children: [
-                              Text(
-                                "Morning Shift",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 18.sp,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.3,
+                              Container(
+                                height: 20.w,
+                                width: 20.w,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(17, 197, 80, 0.2),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Container(
+                                    height: 14.w,
+                                    width: 14.w,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xff11C550),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
                                 ),
                               ),
-                              Text(
-                                "08:00 AM – 04:00 PM",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey,
-                                  letterSpacing: -0.2,
+
+                              SizedBox(width: 8.w),
+
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data.data?.shiftCard?.shiftName ?? "",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 18.sp,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.3,
+                                      ),
+                                    ),
+                                    Text(
+                                      data.data?.shiftCard?.timings ?? "",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey,
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              SizedBox(width: 8.w),
+
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 17.w,
+                                  vertical: 10.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50.r),
+                                  color: Colors.white,
+                                ),
+                                child: Text(
+                                  data.data?.shiftCard?.statusLabel ?? "",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    color: AppColors.heading,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.3,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-
-                        SizedBox(width: 8.w),
-
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 17.w,
-                            vertical: 10.h,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.r),
-                            color: Colors.white,
-                          ),
-                          child: Text(
-                            "ON DUTY",
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "Quick Actions",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 17.sp,
                               color: AppColors.heading,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.3,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Quick Actions",
-                        style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          color: AppColors.heading,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        "Live",
-                        style: GoogleFonts.outfit(
-                          fontSize: 16.sp,
-                          color: AppColors.heading,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
-                  GridView.count(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16.w,
-                    mainAxisSpacing: 16.h,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    childAspectRatio: 1.5,
-                    children: [
-                      _infoCard(
-                        icon: Icons.person_outline,
-                        title: "Register Visitor",
-                        subtitle:
-                            "Add visitor photo, flat details & request approval",
-                      ),
-                      _infoCard(
-                        icon: Icons.inventory_2_outlined,
-                        title: "Register Parcel",
-                        subtitle: "Capture parcel details & request approval",
-                      ),
-                      _infoCard(
-                        icon: Icons.circle,
-                        title: "Scan Visitor Pass",
-                        subtitle: "Scan QR code or visitor pass code",
-                      ),
-                      _infoCard(
-                        icon: Icons.directions_car_outlined,
-                        title: "Vehicle Search",
-                        subtitle: "Search vehicle number & owner details  ",
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => Guardvehiclescreen(),
+                          Spacer(),
+                          Text(
+                            "Live",
+                            style: GoogleFonts.outfit(
+                              fontSize: 16.sp,
+                              color: AppColors.heading,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.3,
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
+                      SizedBox(height: 16.h),
+                      GridView.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16.w,
+                        mainAxisSpacing: 16.h,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        childAspectRatio: 1.5,
+                        children: [
+                          _infoCard(
+                            icon: Icons.person_outline,
+                            title: "Register Visitor",
+                            subtitle:
+                                "Add visitor photo, flat details & request approval",
+                          ),
+                          _infoCard(
+                            icon: Icons.inventory_2_outlined,
+                            title: "Register Parcel",
+                            subtitle:
+                                "Capture parcel details & request approval",
+                          ),
+                          _infoCard(
+                            icon: Icons.circle,
+                            title: "Scan Visitor Pass",
+                            subtitle: "Scan QR code or visitor pass code",
+                          ),
+                          _infoCard(
+                            icon: Icons.directions_car_outlined,
+                            title: "Vehicle Search",
+                            subtitle: "Search vehicle number & owner details  ",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => Guardvehiclescreen(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.h),
+                      Row(
+                        children: [
+                          Text(
+                            "Today's Activity",
+                            style: GoogleFonts.outfit(
+                              fontSize: 17.sp,
+                              color: AppColors.heading,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            "Live",
+                            style: GoogleFonts.outfit(
+                              fontSize: 16.sp,
+                              color: AppColors.heading,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.h),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 18.w,
+                          vertical: 12.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: ListView.builder(
+                          itemCount: todaysactivity?.items?.length ?? 0,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final item = todaysactivity!.items![index];
+
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 14.h),
+                              child: _approvalItem(
+                                title: item.title ?? "",
+                                subtitle: item.subtitle ?? "",
+                                status: item.badge ?? "",
+                                statusColor: item.badge == "APPROVED"
+                                    ? const Color(0xff24B06A)
+                                    : item.badge == "PENDING"
+                                    ? const Color(0xFFE2B509)
+                                    : item.badge == "VERIFIED"
+                                    ? const Color(0xFF1E5993)
+                                    : Colors.grey,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 17.w,
+                          vertical: 16.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0D1C16),
+                          borderRadius: BorderRadius.circular(22.r),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              data.data?.vehicleSearchWidget?.title ?? "",
+                              style: GoogleFonts.outfit(
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+
+                            SizedBox(height: 8.h),
+
+                            Text(
+                              data.data?.vehicleSearchWidget?.description ?? "",
+                              style: GoogleFonts.outfit(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+
+                            SizedBox(height: 8.h),
+
+                            Container(
+                              height: 38.h,
+                              width: double.infinity,
+                              padding: EdgeInsets.only(left: 12.w, right: 10.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "",
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 10.h,
+                                        ),
+                                      ),
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 17.sp,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 28.h,
+                                    width: 68.w,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        // Search action
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(
+                                          0xFFE8B900,
+                                        ),
+                                        foregroundColor: Colors.black,
+                                        elevation: 0,
+                                        padding: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            7.r,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Search",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.heading,
+                                          letterSpacing: -0.2,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 35.h),
                     ],
                   ),
-                  SizedBox(height: 20.h),
-                  Row(
-                    children: [
-                      Text(
-                        "Today's Activity",
-                        style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          color: AppColors.heading,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        "Live",
-                        style: GoogleFonts.outfit(
-                          fontSize: 16.sp,
-                          color: AppColors.heading,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 18.w,
-                      vertical: 12.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Column(
-                      children: [
-                        _approvalItem(
-                          icon: Icons.person_outline,
-                          title: "Visitor Approval",
-                          subtitle: "Flat A-204 • 10:18 AM",
-                          status: "APPROVED",
-                          statusColor: const Color(0xFF20B66B),
-                        ),
-
-                        SizedBox(height: 14.h),
-
-                        _approvalItem(
-                          icon: Icons.inventory_2_outlined,
-                          title: "Parcel Approval",
-                          subtitle: "Flat B-102 • 10:06 AM",
-                          status: "PENDING",
-                          statusColor: const Color(0xFFE9B800),
-                        ),
-
-                        SizedBox(height: 14.h),
-
-                        _approvalItem(
-                          icon: Icons.directions_car_outlined,
-                          title: "Vehicle Entry",
-                          subtitle: "RJ14 AB 1234 • 09:42 AM",
-                          status: "VERIFIED",
-                          statusColor: const Color(0xFF21639D),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 17.w,
-                      vertical: 16.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0D1C16),
-                      borderRadius: BorderRadius.circular(22.r),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Vehicle Search",
-                          style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-
-                        SizedBox(height: 8.h),
-
-                        Text(
-                          "Search a vehicle using its registration number to find the associated nresident and apartment.",
-                          style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-
-                        SizedBox(height: 8.h),
-
-                        Container(
-                          height: 38.h,
-                          width: double.infinity,
-                          padding: EdgeInsets.only(left: 12.w, right: 10.w),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "",
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.h,
-                                    ),
-                                  ),
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 28.h,
-                                width: 68.w,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Search action
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFE8B900),
-                                    foregroundColor: Colors.black,
-                                    elevation: 0,
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(7.r),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "Search",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.heading,
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 35.h),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
+        error: (error, stackTrace) {
+          return const Center(child: Text("Something went wrong"));
+        },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.heading),
+          );
+        },
       ),
     );
   }
@@ -685,7 +733,6 @@ class _GuardhomescreenState extends State<Guardhomescreen> {
   }
 
   Widget _approvalItem({
-    required IconData icon,
     required String title,
     required String subtitle,
     required String status,
@@ -702,9 +749,13 @@ class _GuardhomescreenState extends State<Guardhomescreen> {
             border: Border.all(color: const Color(0xFF222222), width: 1),
             borderRadius: BorderRadius.circular(10.r),
           ),
-          child: Icon(icon, size: 18.sp, color: const Color(0xFF222222)),
+          child: Icon(
+            Icons.person,
+            size: 18.sp,
+            color: const Color(0xFF222222),
+          ),
         ),
-        SizedBox(width: 9.w),
+        SizedBox(width: 6.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -723,7 +774,7 @@ class _GuardhomescreenState extends State<Guardhomescreen> {
               SizedBox(height: 2.h),
               Text(
                 subtitle,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
                   fontSize: 14.sp,
@@ -738,8 +789,7 @@ class _GuardhomescreenState extends State<Guardhomescreen> {
 
         SizedBox(width: 8.w),
         Container(
-          width: 113.w,
-          height: 28.h,
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: statusColor,

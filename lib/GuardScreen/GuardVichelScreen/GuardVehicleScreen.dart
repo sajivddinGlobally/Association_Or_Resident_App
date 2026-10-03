@@ -12,6 +12,23 @@ class Guardvehiclescreen extends StatefulWidget {
 }
 
 class _GuardvehiclescreenState extends State<Guardvehiclescreen> {
+  final List<Map<String, dynamic>> recentSearches = [
+    {
+      "vehicle": "🚘",
+      "flat": "RJ14 AB 1234",
+      "time": "Flat A-204 Searched today",
+    },
+    {
+      "vehicle": "🚙",
+      "flat": "RJ14 CD 5678",
+      "time": "Flat B-102 Searched yesterday",
+    },
+    {
+      "vehicle": "🚘",
+      "flat": "RJ14 EF 9012",
+      "time": "Flat C-301 Searched 2 days ago",
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,7 +160,7 @@ class _GuardvehiclescreenState extends State<Guardvehiclescreen> {
 
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 5.w,
-                        vertical: 12.h,
+                        vertical: 10.h,
                       ),
                       filled: true,
                       fillColor: Colors.white,
@@ -162,6 +179,105 @@ class _GuardvehiclescreenState extends State<Guardvehiclescreen> {
                         ),
                       ),
                     ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 25.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(22.r),
+                border: Border.all(color: const Color(0xffDEDEDE), width: 1),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title
+                  Text(
+                    "Recent Searches",
+                    style: GoogleFonts.outfit(
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xff111111),
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // List
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: recentSearches.length,
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: const Color(0xffE1E1E1),
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      final item = recentSearches[index];
+
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.h),
+                        child: Row(
+                          children: [
+                            // Vehicle Icon
+                            Container(
+                              height: 40.h,
+                              width: 40.w,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffF3F0E9),
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  item["vehicle"],
+                                  style: TextStyle(fontSize: 18.sp),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(width: 12.w),
+
+                            // Vehicle Details
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item["flat"],
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xff111111),
+                                      letterSpacing: -0.4,
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 2.h),
+
+                                  Text(
+                                    item["time"],
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff666666),
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

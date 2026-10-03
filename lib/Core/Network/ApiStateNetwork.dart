@@ -13,6 +13,8 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/m
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/maintananceDetailsModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/outstandingPendingModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/guardDashbordModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintListModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintTrackingModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
@@ -40,10 +42,12 @@ import '../data/model/BodyModel/resetPassBodyModel.dart'
     show ResetPassBodyModel;
 import '../data/model/BodyModel/updateTicketStatusBodyModel.dart';
 import '../data/model/BodyModel/verifyOtpBodyModel.dart';
+import '../data/model/ResponseModel/GetGuardShiftsModel.dart';
 import '../data/model/ResponseModel/GetNotificaionListModel.dart';
 import '../data/model/ResponseModel/MarkNotificationReadResModel.dart';
 import '../data/model/ResponseModel/ServiceManagementPerformanceResModel.dart';
 import '../data/model/ResponseModel/ServiceManagementResModel.dart';
+import '../data/model/ResponseModel/addGuardResModel.dart';
 import '../data/model/ResponseModel/addResidentResModel.dart';
 import '../data/model/ResponseModel/assocationComplaintResModel.dart';
 import '../data/model/ResponseModel/associationCalenderresModel.dart';
@@ -277,6 +281,21 @@ abstract class ApiStateNetwork {
     @Query("search") String? search,
   );
 
+  @MultiPart()
+  @POST("/api/v1/committee/guards")
+  Future<AddGuardResModel> addGuard(
+    @Part(name: "name") String name,
+    @Part(name: "phone") String phone,
+    @Part(name: "password") String password,
+    @Part(name: "guard_post") String guardPostId,
+    @Part(name: "shift_id") String shiftId,
+    @Part(name: "email") String email,
+    @Part(name: "avatar") MultipartFile? image,
+  );
+
+  @GET("/api/v1/committee/shifts")
+  Future<GetGuardShiftsModel> getGuardShifts();
+
   /////////////////////////////// resident dashbord ////////////////
   @GET("/api/v1/resident/dashboard")
   Future<ResidentDashbordModel> getResidentDashbordData();
@@ -337,4 +356,14 @@ abstract class ApiStateNetwork {
     @Path("id") String id,
     @Body() ComplainCloseBodyModel body,
   );
+
+
+  /////////////// Guard ///////////////////
+  
+
+  @GET("/api/v1/guard/dashboard")
+  Future<GuardDashBoardModel>  guardDashBoard();
+
+  @GET("/api/v1/guard/history?filter=all")
+  Future<HistoryRecordsResModel>  historyRecords();
 }
