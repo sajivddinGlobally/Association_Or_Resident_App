@@ -816,7 +816,7 @@ class _GuardsTabState extends ConsumerState<GuardsTab> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: "${guard?.post ?? ''}  ",
+                                      text: "${guard?.post ?? ''} 0 ",
                                       style: GoogleFonts.outfit(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
