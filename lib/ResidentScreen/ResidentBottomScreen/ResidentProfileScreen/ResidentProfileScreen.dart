@@ -221,7 +221,37 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
                         menuItem(
                           icon: Icons.home_outlined,
                           title: "My Apartment",
-                          subtitle: "Green Valley · Building A · A-204",
+                          subtitle:
+                              ([
+                                    data.data?.currentAccess?.property ??
+                                        data.data?.communityName,
+                                    data.data?.currentAccess?.building ??
+                                        data.data?.building,
+                                    data.data?.currentAccess?.apartment ??
+                                        data.data?.unitNumber,
+                                  ]
+                                  .where(
+                                    (e) =>
+                                        e != null &&
+                                        e.toString().trim().isNotEmpty,
+                                  )
+                                  .join(" · ")
+                                  .isNotEmpty)
+                              ? [
+                                      data.data?.currentAccess?.property ??
+                                          data.data?.communityName,
+                                      data.data?.currentAccess?.building ??
+                                          data.data?.building,
+                                      data.data?.currentAccess?.apartment ??
+                                          data.data?.unitNumber,
+                                    ]
+                                    .where(
+                                      (e) =>
+                                          e != null &&
+                                          e.toString().trim().isNotEmpty,
+                                    )
+                                    .join(" · ")
+                              : "Apartment details not linked",
                           onTap: () {
                             Navigator.push(
                               context,
@@ -765,8 +795,14 @@ class _ResidentprofilescreenState extends ConsumerState<Residentprofilescreen> {
   }
 
   Widget _buildOccupancyBadge(String? type) {
-    final isTenant = (type ?? "").toLowerCase() == "tenant";
-    final isOwner = !isTenant;
+    if (type == null || type.trim().isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final isTenant = type.toLowerCase() == "tenant";
+    final isOwner = type.toLowerCase() == "owner";
+    if (!isTenant && !isOwner) {
+      return const SizedBox.shrink();
+    }
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),

@@ -228,7 +228,7 @@ abstract class ApiStateNetwork {
   @GET("/api/v1/committee/residents")
   Future<GetResidentListModel> getResidentList();
 
-  @GET("/api/v1/committee/residents/121")
+  @GET("/api/v1/committee/residents/{id}")
   Future<GetResidentDetailsModel> getResidentDetails(@Path('id') String id);
 
   @GET("/api/v1/committee/alerts")
@@ -359,19 +359,19 @@ abstract class ApiStateNetwork {
     @Body() ComplainCloseBodyModel body,
   );
 
-
   /////////////// Guard ///////////////////
-  
 
   @GET("/api/v1/guard/dashboard")
-  Future<GuardDashBoardModel>  guardDashBoard();
+  Future<GuardDashBoardModel> guardDashBoard();
 
-  @GET("/api/v1/guard/history?filter=all")
-  Future<HistoryRecordsResModel>  historyRecords();
+  @GET("/api/v1/guard/history")
+  Future<HistoryRecordsResModel> historyRecords(@Query("filter") String filter);
 
-  @GET("/api/v1/guard/vehicles/search?vehicle_number=RJ14 AB 1234")
-  Future<VehicleSearchResModel>  vehicleSearch();
+  @GET("/api/v1/guard/vehicles/search")
+  Future<VehicleSearchResModel> vehicleSearch(
+    @Query("vehicle_number") String vehicleNumber,
+  );
 
   @GET("/api/v1/guard/guards-on-duty")
-  Future<HistoryGuardResModel>  historyGuard();
+  Future<HistoryGuardResModel> historyGuard();
 }

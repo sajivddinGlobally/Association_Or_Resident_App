@@ -402,7 +402,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                 borderRadius: BorderRadius.circular(50.r),
                               ),
                               child: Text(
-                                data.data?.myResidence?.unitBadge ?? "A-204",
+                                data.data?.myResidence?.unitBadge ??
+                                    "Not Assigned",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
