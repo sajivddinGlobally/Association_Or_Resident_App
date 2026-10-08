@@ -13,6 +13,9 @@ import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/Pro
 import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/GuardVehicleScreen.dart';
 import 'package:svg_flutter/svg.dart';
 
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/FrequentVisitorsScreen.dart';
 import '../GuardBottomScreen/GuardProfileScreen/guardProfileScreen.dart';
 
 class GuardBottomNavState extends StatefulWidget {
@@ -229,6 +232,112 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
         actions: [
           Row(
             children: [
+              InkWell(
+                onTap: () async {
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      title: Row(
+                        children: [
+                          Icon(
+                            Icons.warning_amber_rounded,
+                            color: const Color(0xFFD22424),
+                            size: 24.sp,
+                          ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            "Emergency SOS",
+                            style: GoogleFonts.outfit(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18.sp,
+                              color: const Color(0xFFD22424),
+                            ),
+                          ),
+                        ],
+                      ),
+                      content: Text(
+                        "Broadcast an emergency security alert to committee & residents from gate?",
+                        style: GoogleFonts.outfit(fontSize: 14.sp),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          child: Text(
+                            "Cancel",
+                            style: GoogleFonts.outfit(
+                              color: Colors.grey,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFD22424),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          ),
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: Text(
+                            "TRIGGER SOS",
+                            style: GoogleFonts.outfit(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (confirm == true) {
+                    try {
+                      final res = await ref
+                          .read(authServiceProvider)
+                          .sendGuardSosData(reason: "Emergency Gate Alert");
+                      showSuccessSnackBar(
+                        res.message ?? "Emergency SOS alert triggered!",
+                      );
+                    } catch (e) {
+                      showErrorSnackBar("Failed to send SOS alert: $e");
+                    }
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 7.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD22424),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.warning_amber_rounded,
+                        size: 15.sp,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        "SOS",
+                        style: GoogleFonts.outfit(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 8.w),
               Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -418,22 +527,59 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
 
                               SizedBox(width: 8.w),
 
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 17.w,
-                                  vertical: 10.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50.r),
-                                  color: Colors.white,
-                                ),
-                                child: Text(
-                                  data.data?.shiftCard?.statusLabel ?? "",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    color: AppColors.heading,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 0.3,
+                              InkWell(
+                                onTap: () async {
+                                  try {
+                                    final res = await ref
+                                        .read(authServiceProvider)
+                                        .toggleGuardShiftData();
+                                    showSuccessSnackBar(
+                                      res.message ??
+                                          "Shift status updated successfully",
+                                    );
+                                    ref.invalidate(guardDashboardProvider);
+                                  } catch (e) {
+                                    showErrorSnackBar(
+                                      "Failed to toggle shift: $e",
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 17.w,
+                                    vertical: 10.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50.r),
+                                    color: Colors.white,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.sync,
+                                        size: 14.sp,
+                                        color: AppColors.heading,
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(
+                                        data.data?.shiftCard?.statusLabel ??
+                                            "Toggle Shift",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 14.sp,
+                                          color: AppColors.heading,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.3,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -522,6 +668,20 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                                 context,
                                 CupertinoPageRoute(
                                   builder: (context) => Guardvehiclescreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          _infoCard(
+                            icon: Icons.repeat_rounded,
+                            title: "Frequent Visitors",
+                            subtitle: "1-Tap entry for maids, milkman & daily staff",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) =>
+                                      const Frequentvisitorsscreen(),
                                 ),
                               );
                             },

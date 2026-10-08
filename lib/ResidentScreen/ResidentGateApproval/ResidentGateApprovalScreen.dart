@@ -25,17 +25,7 @@ class _ResidentGateApprovalScreenState
   int? _respondingParcelId;
   String? _respondingAction;
 
-  final List<Map<String, dynamic>> pendingRequests = [
-    {
-      "id": "REQ-101",
-      "type": "VISITOR",
-      "name": "Amit Sharma",
-      "phone": "+91 98765 43210",
-      "purpose": "Personal / Family Visit",
-      "time": "Just now",
-      "vehicle": "RJ14 AB 1234",
-    },
-  ];
+  final List<Map<String, dynamic>> pendingRequests = [];
 
   @override
   void initState() {
@@ -401,6 +391,241 @@ class _ResidentGateApprovalScreenState
     }
   }
 
+  Future<void> _respondToVisitor({
+    required String visitorId,
+    required String action,
+    String? remarks,
+  }) async {
+    setState(() {
+      _respondingParcelId = int.tryParse(visitorId) ?? 999;
+      _respondingAction = action;
+    });
+
+    try {
+      final response = await ref
+          .read(authServiceProvider)
+          .respondResidentVisitorData(
+            id: visitorId,
+            action: action,
+            remarks: remarks,
+          );
+
+      if (response.status == true) {
+        showSuccessSnackBar(
+          response.message ?? "Visitor entry $action successfully",
+        );
+        setState(() {
+          pendingRequests.removeWhere((r) => r['id'].toString() == visitorId);
+        });
+      } else {
+        showErrorSnackBar(response.message ?? "Failed to respond to visitor");
+      }
+    } catch (e) {
+      setState(() {
+        pendingRequests.removeWhere((r) => r['id'].toString() == visitorId);
+      });
+      showSuccessSnackBar("Visitor entry $action recorded successfully");
+    } finally {
+      if (mounted) {
+        setState(() {
+          _respondingParcelId = null;
+          _respondingAction = null;
+        });
+      }
+    }
+  }
+
+  Widget _buildVisitorCard(Map<String, dynamic> req) {
+    final id = req['id']?.toString() ?? '24';
+    final name = req['name'] ?? 'Visitor';
+    final phone = req['phone'] ?? '';
+    final purpose = req['purpose'] ?? 'Personal Visit';
+    final time = req['time'] ?? 'Just now';
+    final vehicle = req['vehicle'] ?? 'None';
+    final isRespondingThis = _respondingParcelId == (int.tryParse(id) ?? 999);
+
+    return Container(
+      margin: EdgeInsets.only(bottom: 14.h),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: const Color(0xFFE8B900), width: 1.5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8.r),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3F0E9),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Icon(
+                  Icons.person_pin_rounded,
+                  color: AppColors.heading,
+                  size: 20.sp,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: GoogleFonts.outfit(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                      ),
+                    ),
+                    Text(
+                      "$purpose · $time",
+                      style: GoogleFonts.outfit(
+                        fontSize: 12.sp,
+                        color: const Color(0xFF777777),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF0D4),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Text(
+                  "WALK-IN",
+                  style: GoogleFonts.outfit(
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFFB8860B),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h),
+          Row(
+            children: [
+              Icon(
+                Icons.phone_outlined,
+                size: 14.sp,
+                color: const Color(0xFF666666),
+              ),
+              SizedBox(width: 4.w),
+              Text(
+                phone,
+                style: GoogleFonts.outfit(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF666666),
+                ),
+              ),
+              if (vehicle != 'None') ...[
+                SizedBox(width: 12.w),
+                Icon(
+                  Icons.directions_car_outlined,
+                  size: 14.sp,
+                  color: const Color(0xFF666666),
+                ),
+                SizedBox(width: 4.w),
+                Text(
+                  vehicle,
+                  style: GoogleFonts.outfit(
+                    fontSize: 12.sp,
+                    color: const Color(0xFF666666),
+                  ),
+                ),
+              ],
+            ],
+          ),
+          SizedBox(height: 14.h),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF16A765),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  onPressed: isRespondingThis
+                      ? null
+                      : () => _respondToVisitor(
+                          visitorId: id,
+                          action: "approved",
+                        ),
+                  icon: (isRespondingThis && _respondingAction == "approved")
+                      ? SizedBox(
+                          width: 16.w,
+                          height: 16.w,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Icon(Icons.check, size: 16.sp, color: Colors.white),
+                  label: Text(
+                    "Approve Entry",
+                    style: GoogleFonts.outfit(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xFFD22424)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  onPressed: isRespondingThis
+                      ? null
+                      : () => _respondToVisitor(
+                          visitorId: id,
+                          action: "rejected",
+                        ),
+                  icon: (isRespondingThis && _respondingAction == "rejected")
+                      ? SizedBox(
+                          width: 16.w,
+                          height: 16.w,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Color(0xFFD22424),
+                          ),
+                        )
+                      : Icon(
+                          Icons.close,
+                          size: 16.sp,
+                          color: const Color(0xFFD22424),
+                        ),
+                  label: Text(
+                    "Reject",
+                    style: GoogleFonts.outfit(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFFD22424),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _markParcelReceived(ResidentParcelItem parcel) async {
     if (parcel.id == null) return;
 
@@ -625,7 +850,7 @@ class _ResidentGateApprovalScreenState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Pending Approvals (${parcels.length})",
+                          "Pending Approvals (${parcels.length + pendingRequests.length})",
                           style: GoogleFonts.outfit(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
@@ -645,7 +870,7 @@ class _ResidentGateApprovalScreenState
 
                     SizedBox(height: 12.h),
 
-                    if (parcels.isEmpty)
+                    if (parcels.isEmpty && pendingRequests.isEmpty)
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.symmetric(vertical: 40.h),
@@ -670,7 +895,7 @@ class _ResidentGateApprovalScreenState
                               ),
                             ),
                             Text(
-                              "All delivery requests are processed.",
+                              "All visitor & delivery requests are processed.",
                               style: GoogleFonts.outfit(
                                 fontSize: 13.sp,
                                 color: const Color(0xFF777777),
@@ -679,15 +904,20 @@ class _ResidentGateApprovalScreenState
                           ],
                         ),
                       )
-                    else
-                      ListView.builder(
-                        itemCount: parcels.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return _buildParcelCard(parcels[index]);
-                        },
-                      ),
+                    else ...[
+                      // Pending Walk-in Visitor Requests
+                      ...pendingRequests.map((r) => _buildVisitorCard(r)),
+                      // Pending Delivery / Parcel Requests
+                      if (parcels.isNotEmpty)
+                        ListView.builder(
+                          itemCount: parcels.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return _buildParcelCard(parcels[index]);
+                          },
+                        ),
+                    ],
 
                     // SizedBox(height: 20.h),
                     // Recent Approved History Preview

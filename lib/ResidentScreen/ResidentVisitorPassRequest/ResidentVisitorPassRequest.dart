@@ -7,8 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../Core/AuthService/AuthServiceProvider.dart';
+import 'ResidentVisitorPassListScreen.dart';
 import 'provider/getVisitorPassListProvider.dart';
 
 class Residentvisitorpassrequest extends ConsumerStatefulWidget {
@@ -86,6 +89,320 @@ class _ResidentvisitorpassrequestState
     "Official / Business",
     "Other",
   ];
+
+  void _showQrPassDialog({
+    required String passCode,
+    required String visitorName,
+    required String visitDate,
+    required String visitTime,
+    required String purpose,
+    String? status,
+    VoidCallback? onDone,
+  }) {
+    bool hasCompleted = false;
+    void triggerDone() {
+      if (!hasCompleted) {
+        hasCompleted = true;
+        if (onDone != null) onDone();
+      }
+    }
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24.r),
+              topRight: Radius.circular(24.r),
+            ),
+          ),
+          padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 28.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Container(
+                  width: 44.w,
+                  height: 4.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xffD9D9D9),
+                    borderRadius: BorderRadius.circular(2.r),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Pre-Approved Gate Pass",
+                          style: GoogleFonts.outfit(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          "Share this QR code with your visitor",
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF666666),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 5.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD4F5E1),
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Text(
+                      status ?? "APPROVED",
+                      style: GoogleFonts.outfit(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF16A765),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 18.h),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(16.w),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF9F8F3),
+                  borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(
+                    color: const Color(0xFFE5E0D5),
+                    width: 1.5,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12.w),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.06),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: QrImageView(
+                        data: passCode,
+                        version: QrVersions.auto,
+                        size: 160.w,
+                        gapless: false,
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 6.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.heading,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "PASS CODE: ",
+                            style: GoogleFonts.outfit(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            passCode,
+                            style: GoogleFonts.outfit(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFFE8B900),
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(14.w),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF4F6F4),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Visitor Name",
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF777777),
+                          ),
+                        ),
+                        Text(
+                          visitorName,
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(height: 16.h, color: const Color(0xFFE2E4E2)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Expected Arrival",
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF777777),
+                          ),
+                        ),
+                        Text(
+                          visitTime.isEmpty
+                              ? visitDate
+                              : "$visitDate · $visitTime",
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(height: 16.h, color: const Color(0xFFE2E4E2)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Purpose",
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF777777),
+                          ),
+                        ),
+                        Text(
+                          purpose,
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 18.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 46.h,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF16A765),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        ),
+                        onPressed: () {
+                          Share.share(
+                            "🏠 Visitor Gate Pass\n"
+                            "Visitor: $visitorName\n"
+                            "Pass Code: $passCode\n"
+                            "Date: $visitDate ${visitTime.isNotEmpty ? 'at $visitTime' : ''}\n"
+                            "Purpose: $purpose\n\n"
+                            "Please show this pass code or QR code to the security guard at the gate for fast entry.",
+                          );
+                        },
+                        icon: Icon(
+                          Icons.share_rounded,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                        label: Text(
+                          "Share Pass With Guest",
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  SizedBox(
+                    height: 46.h,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: AppColors.heading),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        triggerDone();
+                      },
+                      child: Text(
+                        "Done",
+                        style: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    ).then((_) {
+      triggerDone();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -639,6 +956,19 @@ class _ResidentvisitorpassrequestState
                       purposeOfVisit: selectedPurpose!,
                     );
                     if (res.status == true) {
+                      final rawPassCode =
+                          res.data?.rawPass?.passCode ??
+                          res.data?.token ??
+                          "VP-${res.data?.id ?? '1024'}";
+                      final generatedPassCode = rawPassCode
+                          .replaceAll('#', '')
+                          .trim();
+                      final vName =
+                          res.data?.visitorName ?? visitorNameController.text;
+                      final vDate = dateText;
+                      final vTime = timeText1;
+                      final vPurpose = selectedPurpose!;
+
                       visitorNameController.clear();
                       mobileNumberController.clear();
                       setState(() {
@@ -650,6 +980,27 @@ class _ResidentvisitorpassrequestState
                       ref.invalidate(getVisitorListProvider);
                       showSuccessSnackBar(
                         res.message ?? "Pass created successfully",
+                      );
+                      _showQrPassDialog(
+                        passCode: generatedPassCode,
+                        visitorName: vName,
+                        visitDate: vDate,
+                        visitTime: vTime,
+                        purpose: vPurpose,
+                        status: res.data?.status ?? "APPROVED",
+                        onDone: () {
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          } else {
+                            Navigator.pushReplacement(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    const ResidentVisitorPassListScreen(),
+                              ),
+                            );
+                          }
+                        },
                       );
                     } else {
                       showErrorSnackBar(res.message ?? "Failed to create pass");
@@ -690,136 +1041,7 @@ class _ResidentvisitorpassrequestState
                         ),
                       ),
               ),
-              SizedBox(height: 20.h),
-              Text(
-                "Recent Request",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.outfit(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.heading,
-                  letterSpacing: -0.2,
-                ),
-              ),
-              SizedBox(height: 12.h),
-              state.when(
-                data: (data) {
-                  final request = data.data!.recentRequests?.requests ?? [];
-                  if (request.isEmpty) {
-                    return Center(
-                      child: Text(
-                        "No recent requests",
-                        style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    itemCount: request.length,
-                    itemBuilder: (context, index) {
-                      final item = request[index];
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 10.h),
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 14.w,
-                          vertical: 14.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFDF8E2),
-                          borderRadius: BorderRadius.circular(14.r),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 38.w,
-                              height: 38.w,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF101C16),
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.check,
-                                size: 20.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    // "Visitor Request #VP-1024",
-                                    item.title ?? "N/A",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF101C16),
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
-                                  SizedBox(height: 3.h),
-                                  Text(
-                                    // "Sarah Ahmed · Today, 06:30 PM",
-                                    item.subtitle ?? "N/A",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF555555),
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: 10.w),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 6.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFEBD9A5),
-                                borderRadius: BorderRadius.circular(6.r),
-                              ),
-                              child: Text(
-                                // "Pending",
-                                item.status ?? "N/A",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFFB8860B),
-                                  letterSpacing: -0.2,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-                error: (error, stackTrace) {
-                  return Text("Something went wrong");
-                },
-                loading: () => Center(
-                  child: CircularProgressIndicator(color: AppColors.heading),
-                ),
-              ),
-              SizedBox(height: 25.h),
+              SizedBox(height: 30.h),
             ],
           ),
         ),

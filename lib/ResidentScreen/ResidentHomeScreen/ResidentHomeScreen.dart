@@ -15,8 +15,9 @@ import 'package:property_association_or_resident/ResidentScreen/ResidentComplain
 import 'package:property_association_or_resident/ResidentScreen/ResidentEmergencyContactScreen/Emergency_ContactScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentNotification_Screen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentGateApproval/ResidentGateApprovalScreen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentGateApproval/ResidentVisitorApprovalScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentMmcStatusScreen/MMC_StatusScreen.dart';
-import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassRequest.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassListScreen.dart';
 import 'package:svg_flutter/svg.dart';
 
 import 'provider/residentDashboardProvider.dart';
@@ -538,7 +539,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      "Gate Approvals",
+                                      "Parcel & Delivery Approvals",
                                       style: GoogleFonts.outfit(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.w600,
@@ -558,7 +559,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                         ),
                                       ),
                                       child: Text(
-                                        "2 Pending",
+                                        "Parcels",
                                         style: GoogleFonts.outfit(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w600,
@@ -570,7 +571,207 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                 ),
                                 SizedBox(height: 2.h),
                                 Text(
-                                  "Visitor & delivery approval requests at Gate 1",
+                                  "Approve deliveries & leave at gate options",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF666666),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14.sp,
+                            color: AppColors.heading,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  // Visitor Request Approvals (Calls /api/v1/resident/visitor-pass)
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              const ResidentVisitorApprovalScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF0FDF4),
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: const Color(0xFF16A34A),
+                          width: 1.2,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8.r),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFDCFCE7),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.badge_outlined,
+                              color: const Color(0xFF16A34A),
+                              size: 18.sp,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Visitor Request Approvals",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.heading,
+                                      ),
+                                    ),
+                                    SizedBox(width: 6.w),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w,
+                                        vertical: 2.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF16A34A),
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Visitor Pass",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  "Gate passes & visitor entry requests created by guard",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF666666),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14.sp,
+                            color: AppColors.heading,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  // Pre-Approve Visitor / Create Visitor Pass (Process 2: QR Pass)
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              const ResidentVisitorPassListScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEFF6FF),
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: const Color(0xFF2563EB),
+                          width: 1.2,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8.r),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFDBEAFE),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.qr_code_2_rounded,
+                              color: const Color(0xFF2563EB),
+                              size: 18.sp,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Pre-Approve Visitor",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.heading,
+                                      ),
+                                    ),
+                                    SizedBox(width: 6.w),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w,
+                                        vertical: 2.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2563EB),
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "QR Pass",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  "Create guest pass & get QR code to share with visitor",
                                   style: GoogleFonts.outfit(
                                     fontSize: 12.sp,
                                     color: const Color(0xFF666666),
@@ -1372,7 +1573,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => Residentvisitorpassrequest(),
+                          builder: (context) =>
+                              const ResidentVisitorPassListScreen(),
                         ),
                       );
                     },

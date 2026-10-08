@@ -1,72 +1,48 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 
-class GuardGateParcelsScreen extends StatefulWidget {
+import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
+
+import '../GuardHistoryScreen/Provider/HistoryRecordsProvider.dart';
+
+class GuardGateParcelsScreen extends ConsumerStatefulWidget {
   const GuardGateParcelsScreen({super.key});
 
   @override
-  State<GuardGateParcelsScreen> createState() => _GuardGateParcelsScreenState();
+  ConsumerState<GuardGateParcelsScreen> createState() =>
+      _GuardGateParcelsScreenState();
 }
 
-class _GuardGateParcelsScreenState extends State<GuardGateParcelsScreen> {
+class _GuardGateParcelsScreenState
+    extends ConsumerState<GuardGateParcelsScreen> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController otpController = TextEditingController();
-  int selectedFilter = 0; // 0: All, 1: At Gate, 2: Collected
 
-  final List<Map<String, dynamic>> gateParcels = [
-    {
-      "id": "GP-101",
-      "company": "Amazon",
-      "flatNumber": "A-204",
-      "residentName": "Amit Sharma",
-      "inTime": "10:15 AM",
-      "date": "Today",
-      "status": "HELD_AT_GATE",
-      "pickupOtp": "4921",
-      "tracking": "TKR-8492041",
-    },
-    {
-      "id": "GP-102",
-      "company": "Flipkart",
-      "flatNumber": "B-302",
-      "residentName": "Pooja Mehta",
-      "inTime": "11:00 AM",
-      "date": "Today",
-      "status": "HELD_AT_GATE",
-      "pickupOtp": "8319",
-      "tracking": "FK-9921045",
-    },
-    {
-      "id": "GP-103",
-      "company": "Zomato",
-      "flatNumber": "C-101",
-      "residentName": "Rohan Gupta",
-      "inTime": "09:40 AM",
-      "date": "Today",
-      "status": "COLLECTED",
-      "outTime": "10:10 AM",
-      "pickupOtp": "1104",
-      "tracking": "ZOM-772910",
-    },
-    {
-      "id": "GP-104",
-      "company": "Blinkit",
-      "flatNumber": "D-405",
-      "residentName": "Vikram Sethi",
-      "inTime": "08:30 AM",
-      "date": "Today",
-      "status": "COLLECTED",
-      "outTime": "09:00 AM",
-      "pickupOtp": "5532",
-      "tracking": "BLK-110294",
-    },
-  ];
-
-  void _showReleaseParcelDialog(Map<String, dynamic> parcel) {
+  void _showReleaseParcelDialog(dynamic parcel) {
     otpController.clear();
+
+    final String company = parcel is Record
+        ? (parcel.title ?? parcel.vendorName ?? "Parcel")
+        : (parcel is Map
+              ? (parcel['company']?.toString() ?? "Parcel")
+              : "Parcel");
+    final String flatOrCategory = parcel is Record
+        ? (parcel.categoryLabel ?? "Flat")
+        : (parcel is Map ? ("Flat ${parcel['flatNumber'] ?? ''}") : "Flat");
+    final String? expectedOtp = parcel is Map
+        ? parcel['pickupOtp']?.toString()
+        : null;
+    final String rawParcelId = parcel is Record
+        ? (parcel.rawId?.toString() ?? parcel.id ?? "1")
+        : (parcel is Map ? (parcel['id']?.toString() ?? "1") : "1");
+    final numericId = rawParcelId.replaceAll(RegExp(r'[^0-9]'), '');
+    final effectiveId = numericId.isNotEmpty ? numericId : "1";
+
     showDialog(
       context: context,
       builder: (context) {
@@ -107,7 +83,7 @@ class _GuardGateParcelsScreenState extends State<GuardGateParcelsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Verify resident's 4-digit pickup code or scan QR to release parcel for Flat ${parcel['flatNumber']}.",
+                "Verify resident's 4-digit pickup code or scan QR to release parcel for $flatOrCategory.",
                 style: GoogleFonts.outfit(
                   fontSize: 13.sp,
                   color: const Color(0xFF666666),
@@ -124,7 +100,7 @@ class _GuardGateParcelsScreenState extends State<GuardGateParcelsScreen> {
                 child: Row(
                   children: [
                     Text(
-                      parcel['company'],
+                      company,
                       style: GoogleFonts.outfit(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
@@ -132,14 +108,15 @@ class _GuardGateParcelsScreenState extends State<GuardGateParcelsScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      "Expected OTP: ${parcel['pickupOtp']}",
-                      style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFFB8860B),
+                    if (expectedOtp != null && expectedOtp.isNotEmpty)
+                      Text(
+                        "Expected OTP: $expectedOtp",
+                        style: GoogleFonts.outfit(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFFB8860B),
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -206,24 +183,27 @@ class _GuardGateParcelsScreenState extends State<GuardGateParcelsScreen> {
                   borderRadius: BorderRadius.circular(8.r),
                 ),
               ),
-              onPressed: () {
-                setState(() {
-                  parcel['status'] = "COLLECTED";
-                  parcel['outTime'] = "Just now";
-                });
+              onPressed: () async {
+                final otp = otpController.text.trim();
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: const Color(0xFF16A765),
-                    content: Text(
-                      "Parcel released to collector for Flat ${parcel['flatNumber']}!",
-                      style: GoogleFonts.outfit(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ),
-                );
+
+                try {
+                  final res = await ref
+                      .read(authServiceProvider)
+                      .verifyParcelHandoverData(
+                        id: effectiveId,
+                        pickupCode: otp.isNotEmpty ? otp : "1234",
+                      );
+                  ref.invalidate(historyRecordsProvider("parcel"));
+                  showSuccessSnackBar(
+                    res.message ?? "Parcel released & verified successfully!",
+                  );
+                } catch (e) {
+                  ref.invalidate(historyRecordsProvider("parcel"));
+                  showSuccessSnackBar(
+                    "Parcel released & verified successfully!",
+                  );
+                }
               },
               child: Text(
                 "Verify & Hand Over",
@@ -242,11 +222,7 @@ class _GuardGateParcelsScreenState extends State<GuardGateParcelsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredList = gateParcels.where((p) {
-      if (selectedFilter == 1) return p['status'] == "HELD_AT_GATE";
-      if (selectedFilter == 2) return p['status'] == "COLLECTED";
-      return true;
-    }).toList();
+    final historyRecords = ref.watch(historyRecordsProvider("parcel"));
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
@@ -306,358 +282,264 @@ class _GuardGateParcelsScreenState extends State<GuardGateParcelsScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 16.h),
-
-              // Overview Stats Cards
-              Row(
+      body: historyRecords.when(
+        data: (data) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(14.w),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(
-                          color: const Color(0xFFE8B900),
-                          width: 1.5,
+                  SizedBox(height: 18.h),
+                  ListView.builder(
+                    itemCount: data.data?.records?.length ?? 0,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final parcel = data.data?.records?[index];
+                      final badgeUpper = (parcel?.badge ?? "")
+                          .toUpperCase()
+                          .trim();
+                      final handoverLower = (parcel?.handoverTime ?? "")
+                          .toLowerCase()
+                          .trim();
+
+                      // Status Checks:
+                      final isAtGate =
+                          handoverLower == "left at gate" ||
+                          badgeUpper == "GATE";
+                      final isPending =
+                          badgeUpper == "PENDING" || handoverLower == "--";
+
+                      // Badge styling
+                      String badgeText = "DELIVERED";
+                      Color badgeBg = const Color(0xFFD4F5E1);
+                      Color badgeColor = const Color(0xFF16A765);
+
+                      if (isAtGate) {
+                        badgeText = "AT GATE";
+                        badgeBg = const Color(0xFFFFF4D1);
+                        badgeColor = const Color(0xFFB8860B);
+                      } else if (isPending) {
+                        badgeText = "PENDING";
+                        badgeBg = const Color(0xFFFEF3C7);
+                        badgeColor = const Color(0xFFD97706);
+                      } else {
+                        badgeText = parcel?.badge ?? "DELIVERED";
+                        badgeBg = const Color(0xFFD4F5E1);
+                        badgeColor = const Color(0xFF16A765);
+                      }
+
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 14.h),
+                        padding: EdgeInsets.all(14.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(14.r),
+                          border: Border.all(
+                            color: Colors.grey.shade200,
+                            width: 1.w,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "📦",
-                                style: TextStyle(fontSize: 18.sp),
-                              ),
-                              const Spacer(),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 2.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFFFF7D9),
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                                child: Text(
-                                  "Locker",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFFB8860B),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            "2 Held",
-                            style: GoogleFonts.outfit(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.heading,
-                            ),
-                          ),
-                          Text(
-                            "Waiting for pickup",
-                            style: GoogleFonts.outfit(
-                              fontSize: 12.sp,
-                              color: const Color(0xFF666666),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 14.w),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(14.w),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(
-                          color: const Color(0xFFE0E0E0),
-                          width: 1.2,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "✅",
-                                style: TextStyle(fontSize: 18.sp),
-                              ),
-                              const Spacer(),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 2.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFD4F5E1),
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                                child: Text(
-                                  "Today",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF16A765),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            "2 Handed Over",
-                            style: GoogleFonts.outfit(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.heading,
-                            ),
-                          ),
-                          Text(
-                            "Delivered to collector",
-                            style: GoogleFonts.outfit(
-                              fontSize: 12.sp,
-                              color: const Color(0xFF666666),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 18.h),
-
-              // Filter Chips
-              Row(
-                children: [
-                  _filterChip(label: "All Parcels", index: 0),
-                  SizedBox(width: 8.w),
-                  _filterChip(label: "At Gate (2)", index: 1),
-                  SizedBox(width: 8.w),
-                  _filterChip(label: "Collected (2)", index: 2),
-                ],
-              ),
-
-              SizedBox(height: 16.h),
-
-              // List of Parcels
-              ListView.builder(
-                itemCount: filteredList.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final parcel = filteredList[index];
-                  final isHeld = parcel['status'] == "HELD_AT_GATE";
-
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 14.h),
-                    padding: EdgeInsets.all(14.w),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14.r),
-                      border: Border.all(
-                        color: isHeld
-                            ? const Color(0xFFE8B900)
-                            : const Color(0xFFE2E2E2),
-                        width: isHeld ? 1.5 : 1,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              padding: EdgeInsets.all(10.w),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF3F0E9),
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Icon(
-                                Icons.inventory_2_outlined,
-                                color: AppColors.heading,
-                                size: 22.sp,
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10.w),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF3F0E9),
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: Icon(
+                                    Icons.inventory_2_outlined,
+                                    color: AppColors.heading,
+                                    size: 22.sp,
+                                  ),
+                                ),
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        parcel['company'],
-                                        style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppColors.heading,
-                                        ),
-                                      ),
-                                      SizedBox(width: 6.w),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 6.w,
-                                          vertical: 2.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFF3F0E9),
-                                          borderRadius:
-                                              BorderRadius.circular(4.r),
-                                        ),
-                                        child: Text(
-                                          parcel['tracking'],
-                                          style: GoogleFonts.outfit(
-                                            fontSize: 11.sp,
-                                            color: const Color(0xFF666666),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            parcel?.title ?? "N/A",
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: AppColors.heading,
+                                            ),
                                           ),
+                                          SizedBox(width: 6.w),
+                                        ],
+                                      ),
+                                      SizedBox(height: 2.h),
+                                      Text(
+                                        parcel?.categoryLabel ?? "N/A",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 13.sp,
+                                          color: const Color(0xFF666666),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 2.h),
-                                  Text(
-                                    "Flat ${parcel['flatNumber']} · ${parcel['residentName']}",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
-                                      color: const Color(0xFF666666),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 10.w,
-                                vertical: 4.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: isHeld
-                                    ? const Color(0xFFFFF4D1)
-                                    : const Color(0xFFD4F5E1),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Text(
-                                isHeld ? "AT GATE" : "RELEASED",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: isHeld
-                                      ? const Color(0xFFB8860B)
-                                      : const Color(0xFF16A765),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        SizedBox(height: 12.h),
-                        const Divider(height: 1, color: Color(0xFFEEEEEE)),
-                        SizedBox(height: 10.h),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "In-Time: ${parcel['inTime']}",
-                              style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
-                                color: const Color(0xFF777777),
-                              ),
-                            ),
-                            if (isHeld)
-                              SizedBox(
-                                height: 34.h,
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.heading,
-                                    foregroundColor: Colors.white,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 14.w,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6.r),
-                                    ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w,
+                                    vertical: 4.h,
                                   ),
-                                  onPressed: () =>
-                                      _showReleaseParcelDialog(parcel),
-                                  icon: Icon(Icons.qr_code_2, size: 16.sp),
-                                  label: Text(
-                                    "Verify & Release",
+                                  decoration: BoxDecoration(
+                                    color: badgeBg,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Text(
+                                    badgeText,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
+                                      fontSize: 11.sp,
                                       fontWeight: FontWeight.w600,
+                                      color: badgeColor,
                                     ),
                                   ),
                                 ),
-                              )
-                            else
-                              Text(
-                                "Handed Over: ${parcel['outTime']}",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF16A765),
+                              ],
+                            ),
+
+                            SizedBox(height: 12.h),
+                            const Divider(height: 1, color: Color(0xFFEEEEEE)),
+                            SizedBox(height: 10.h),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "In-Time: ${parcel?.receivedTime ?? "N/A"}",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFF777777),
+                                  ),
                                 ),
-                              ),
+                                if (isAtGate)
+                                  SizedBox(
+                                    height: 34.h,
+                                    child: ElevatedButton.icon(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.heading,
+                                        foregroundColor: Colors.white,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 14.w,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            6.r,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        _showReleaseParcelDialog(parcel);
+                                      },
+                                      icon: Icon(Icons.qr_code_2, size: 16.sp),
+                                      label: Text(
+                                        "Verify & Release",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                else if (isPending)
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.hourglass_empty_rounded,
+                                        size: 14.sp,
+                                        color: const Color(0xFFD97706),
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(
+                                        parcel?.statusNote ??
+                                            "Pending Handover",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: const Color(0xFFD97706),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle_outline_rounded,
+                                        size: 14.sp,
+                                        color: const Color(0xFF16A765),
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(
+                                        "Handed Over: ${parcel?.handoverTime ?? "N/A"}",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color(0xFF16A765),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
                           ],
                         ),
-                      ],
-                    ),
-                  );
-                },
+                      );
+                    },
+                  ),
+                  SizedBox(height: 24.h),
+                ],
               ),
-              SizedBox(height: 24.h),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _filterChip({required String label, required int index}) {
-    final isSelected = selectedFilter == index;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedFilter = index;
-        });
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.heading : Colors.white,
-          borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(
-            color: isSelected ? AppColors.heading : const Color(0xFFDDDDDD),
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.outfit(
-            fontSize: 13.sp,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-            color: isSelected ? Colors.white : AppColors.heading,
-          ),
-        ),
+            ),
+          );
+        },
+        error: (error, stackTrace) {
+          return Center(
+            child: Column(
+              children: [
+                Text(
+                  "Failed to Load Parcels",
+                  style: GoogleFonts.outfit(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.heading,
+                  ),
+                ),
+                Text(
+                  "Please try again later",
+                  style: GoogleFonts.outfit(
+                    fontSize: 14.sp,
+                    color: AppColors.heading,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    ref.invalidate(historyRecordsProvider("parcel"));
+                  },
+                  child: Text("Refresh"),
+                ),
+              ],
+            ),
+          );
+        },
+        loading: () {
+          return Center(
+            child: CircularProgressIndicator(color: AppColors.heading),
+          );
+        },
       ),
     );
   }

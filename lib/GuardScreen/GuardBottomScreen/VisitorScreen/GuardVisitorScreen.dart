@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/GuardScanPassScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/Provider/getFlatApartmentProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/VisitorApprovalPassScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/getFlatApartmentModel.dart';
@@ -210,70 +211,49 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
             ),
           ],
         ),
-
         actions: [
-          Row(
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  InkWell(
-                    onTap: () {},
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Container(
-                      width: 40.w,
-                      height: 40.w,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color: const Color(0xffE8E5DC)),
-                      ),
-                      child: Icon(
-                        Icons.notifications_none_rounded,
-                        size: 21.sp,
-                        color: const Color(0xff0D241B),
+          Padding(
+            padding: EdgeInsets.only(right: 18.w),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => const GuardScanPassScreen(),
+                  ),
+                );
+              },
+              borderRadius: BorderRadius.circular(8.r),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10.w,
+                  vertical: 7.h,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.heading,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.qr_code_scanner_rounded,
+                      color: Colors.white,
+                      size: 17.sp,
+                    ),
+                    SizedBox(width: 5.w),
+                    Text(
+                      "Scan Pass",
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
                       ),
                     ),
-                  ),
-
-                  Positioned(
-                    right: 0.w,
-                    top: -2.h,
-                    child: Container(
-                      width: 8.w,
-                      height: 8.w,
-                      decoration: const BoxDecoration(
-                        color: Color(0xffD5A52C),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(width: 8.w),
-
-              InkWell(
-                onTap: () {},
-                borderRadius: BorderRadius.circular(10.r),
-                child: Container(
-                  width: 40.w,
-                  height: 40.w,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: const Color(0xffE8E5DC)),
-                  ),
-                  child: Icon(
-                    Icons.person_outline_rounded,
-                    size: 21.sp,
-                    color: const Color(0xff0D241B),
-                  ),
+                  ],
                 ),
               ),
-
-              SizedBox(width: 20.w),
-            ],
+            ),
           ),
         ],
       ),
@@ -282,7 +262,7 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             children: [
-              SizedBox(height: 10.h),
+              SizedBox(height: 12.h),
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 14.w),
@@ -1535,7 +1515,7 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                             );
 
                             if (context.mounted) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 CupertinoPageRoute(
                                   builder: (context) =>

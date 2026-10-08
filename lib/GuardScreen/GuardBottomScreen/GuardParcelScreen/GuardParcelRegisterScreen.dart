@@ -214,34 +214,77 @@ class _GuardparcelregisterscreenState
           child: Row(
             children: [
               SizedBox(width: 20.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Parcel Registration",
-                    style: GoogleFonts.outfit(
-                      fontSize: 19.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.heading,
-                      letterSpacing: -0.3,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Parcel Registration",
+                      style: GoogleFonts.outfit(
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "Register incoming parcel for resident approval",
-                    style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromRGBO(42, 41, 51, 0.65),
-                      letterSpacing: -0.2,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Register incoming parcel for resident approval",
+                      style: GoogleFonts.outfit(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(42, 41, 51, 0.65),
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 16.w),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => const GuardGateParcelsScreen(),
+                  ),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFFDF0),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: const Color(0xFFE8B900)),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.inventory_2_outlined,
+                      size: 16.sp,
+                      color: AppColors.heading,
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      "Gate Parcels",
+                      style: GoogleFonts.outfit(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

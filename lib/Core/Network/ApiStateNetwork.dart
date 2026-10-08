@@ -38,14 +38,21 @@ import '../../ResidentScreen/Model/addResidentComplainResModel.dart';
 import '../../ResidentScreen/Model/closeComplaintBodyModel.dart';
 import '../../ResidentScreen/Model/complainCloseResModel.dart';
 import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
-import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
 import '../../ResidentScreen/Model/getResidentCalenderModel.dart';
 import '../../ResidentScreen/Model/getResidentParcelModel.dart';
 import '../../ResidentScreen/Model/residentParcelRespondBodyModel.dart';
 import '../../ResidentScreen/Model/residentParcelRespondResModel.dart';
+import '../../ResidentScreen/Model/residentVisitorPassResModel.dart';
+import '../../ResidentScreen/Model/residentVisitorRespondResModel.dart';
 import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
+import '../../GuardScreen/Model/guardCommonResModel.dart';
+import '../../GuardScreen/Model/frequentVisitorsResModel.dart';
+import '../../GuardScreen/Model/scanPassResModel.dart';
+import '../../GuardScreen/Model/visitorFormDataResModel.dart';
+import '../../GuardScreen/Model/parcelFormDataResModel.dart';
+import '../../GuardScreen/Model/recentVehicleSearchesResModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
 import '../data/model/BodyModel/assocationCalenderBodyModel.dart';
 import '../data/model/BodyModel/changePasswordBodyModel.dart';
@@ -380,10 +387,22 @@ abstract class ApiStateNetwork {
     @Body() ResidentParcelRespondBodyModel body,
   );
 
+  @POST("/api/v1/resident/visitors/{id}/respond")
+  Future<ResidentVisitorRespondResModel> respondResidentVisitor(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @GET("/api/v1/resident/visitor-pass")
+  Future<ResidnetVisitorPassResModel> getresideitVisitorPass();
+
   /////////////// Guard ///////////////////
 
   @GET("/api/v1/guard/dashboard")
   Future<GuardDashBoardModel> guardDashBoard();
+
+  @POST("/api/v1/guard/shift/toggle")
+  Future<GuardCommonResModel> toggleGuardShift();
 
   @GET("/api/v1/guard/history")
   Future<HistoryRecordsResModel> historyRecords(@Query("filter") String filter);
@@ -393,8 +412,17 @@ abstract class ApiStateNetwork {
     @Query("vehicle_number") String vehicleNumber,
   );
 
+  @GET("/api/v1/guard/vehicles/recent-searches")
+  Future<RecentVehicleSearchesResModel> getRecentVehicleSearches();
+
+  @POST("/api/v1/guard/sos")
+  Future<GuardCommonResModel> sendGuardSos(@Body() Map<String, dynamic> body);
+
   @GET("/api/v1/guard/guards-on-duty")
   Future<HistoryGuardResModel> historyGuard();
+
+  @GET("/api/v1/guard/visitors/form-data")
+  Future<VisitorFormDataResModel> getGuardVisitorFormData();
 
   @POST('/api/v1/guard/visitors')
   @MultiPart()
@@ -410,8 +438,29 @@ abstract class ApiStateNetwork {
     @Part(name: 'frequent_role') String? frequentRole,
   });
 
+  @POST("/api/v1/guard/visitors/scan-pass")
+  Future<ScanPassResModel> scanVisitorPass(@Body() Map<String, dynamic> body);
+
+  @GET("/api/v1/guard/frequent-visitors")
+  Future<FrequentVisitorsResModel> getFrequentVisitors();
+
+  @POST("/api/v1/guard/frequent-visitors/{id}/quick-entry")
+  Future<GuardCommonResModel> quickEntryFrequentVisitor(@Path("id") String id);
+
   @GET('/api/v1/guard/visitors/{id}/pass')
   Future<VisitorPassResModel> getVisitorPassGuard(@Path("id") String id);
+
+  @POST("/api/v1/guard/visitors/{id}/verbal-approve")
+  Future<GuardCommonResModel> verbalApproveVisitor(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST("/api/v1/guard/visitors/{id}/respond")
+  Future<GuardCommonResModel> respondGuardVisitor(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
 
   @GET("/api/v1/guard/properties")
   Future<GetFlatApartmentModel> getFlatApartment();
@@ -421,6 +470,9 @@ abstract class ApiStateNetwork {
 
   @POST("/api/v1/guard/visitors/{id}/mark-out")
   Future<MarkOutResModel> markOut(@Path("id") String id);
+
+  @GET("/api/v1/guard/parcels/form-data")
+  Future<ParcelFormDataResModel> getGuardParcelFormData();
 
   @MultiPart()
   @POST('/api/v1/guard/parcels')
@@ -438,6 +490,12 @@ abstract class ApiStateNetwork {
 
   @POST('/api/v1/guard/parcels/{id}/verify-handover')
   Future<ParcelHandoverResModel> verifyParcelHandover(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST('/api/v1/guard/parcels/{id}/respond')
+  Future<GuardCommonResModel> respondGuardParcel(
     @Path("id") String id,
     @Body() Map<String, dynamic> body,
   );

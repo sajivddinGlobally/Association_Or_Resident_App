@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/Provider/recentVehicleSearchesProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/Provider/vehicleSearchProvider.dart';
 
 class Guardvehiclescreen extends ConsumerStatefulWidget {
@@ -42,6 +43,22 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
   @override
   Widget build(BuildContext context) {
     final search = ref.watch(vehicleSearchProvider(searchQuery));
+    final recentSearchesAsync = ref.watch(recentVehicleSearchesProvider);
+    final apiRecent = recentSearchesAsync.valueOrNull?.data ?? [];
+    final displayRecent = apiRecent.isNotEmpty
+        ? apiRecent
+            .map((e) => {
+                  "vehicle": (e.vehicleType?.toLowerCase() == "bike" ||
+                              e.vehicleType?.toLowerCase() == "two_wheeler")
+                      ? "🛵"
+                      : "🚘",
+                  "flat": e.vehicleNumber ?? "",
+                  "time":
+                      "${e.flatNumber != null ? 'Flat ${e.flatNumber} · ' : ''}${e.ownerName ?? 'Owner'}",
+                })
+            .toList()
+        : recentSearches;
+
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -237,7 +254,7 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
                         ),
                       ),
                       SizedBox(height: 16.h),
-                      ...recentSearches.map(
+                      ...displayRecent.map(
                         (item) => GestureDetector(
                           onTap: () {
                             searchController.text = item["flat"] ?? "";

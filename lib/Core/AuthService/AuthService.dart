@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:property_association_or_resident/AssociationScreen/MantenanceCharges/outStandingPending.dart';
 import 'package:property_association_or_resident/Core/Network/ApiStateNetwork.dart';
 import 'package:property_association_or_resident/Core/data/model/BodyModel/aiAssistanceBodyModel.dart';
 import 'package:property_association_or_resident/Core/data/model/BodyModel/resetPassBodyModel.dart';
@@ -36,14 +35,21 @@ import '../../ResidentScreen/Model/complainCloseResModel.dart';
 import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
 import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintListModel.dart';
-import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/getComplaintTrackingModel.dart';
 import '../../ResidentScreen/Model/getResidentCalenderModel.dart';
 import '../../ResidentScreen/Model/getResidentParcelModel.dart';
 import '../../ResidentScreen/Model/residentParcelRespondBodyModel.dart';
 import '../../ResidentScreen/Model/residentParcelRespondResModel.dart';
+import '../../ResidentScreen/Model/residentVisitorPassResModel.dart';
+import '../../ResidentScreen/Model/residentVisitorRespondResModel.dart';
 import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
+import '../../GuardScreen/Model/guardCommonResModel.dart';
+import '../../GuardScreen/Model/frequentVisitorsResModel.dart';
+import '../../GuardScreen/Model/scanPassResModel.dart';
+import '../../GuardScreen/Model/visitorFormDataResModel.dart';
+import '../../GuardScreen/Model/parcelFormDataResModel.dart';
+import '../../GuardScreen/Model/recentVehicleSearchesResModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
 import '../data/model/BodyModel/assocationCalenderBodyModel.dart';
 import '../data/model/BodyModel/changePasswordBodyModel.dart';
@@ -1012,6 +1018,15 @@ class AuthService {
     }
   }
 
+  Future<ResidnetVisitorPassResModel> getresideitVisitorPassData() async {
+    try {
+      final response = await api.getresideitVisitorPass();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   ////////////////// Guard //////////////////////
 
   Future<GuardDashBoardModel> guardDashBoardData() async {
@@ -1149,12 +1164,168 @@ class AuthService {
 
   Future<ParcelHandoverResModel> verifyParcelHandoverData({
     required String id,
-    required String otp,
+    String? otp,
+    String? pickupCode,
   }) async {
     try {
+      final code = otp ?? pickupCode ?? "";
       final response = await api.verifyParcelHandover(id, {
-        "otp": otp,
-        "pickup_code": otp,
+        "otp": code,
+        "pickup_code": code,
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GuardCommonResModel> toggleGuardShiftData() async {
+    try {
+      final response = await api.toggleGuardShift();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<VisitorFormDataResModel> getGuardVisitorFormData() async {
+    try {
+      final response = await api.getGuardVisitorFormData();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ScanPassResModel> scanVisitorPassData({
+    required String passCode,
+    String? qrData,
+  }) async {
+    try {
+      String cleanCode = passCode.trim();
+      if (cleanCode.contains('PASS:')) {
+        cleanCode = cleanCode.split('PASS:').last.split('|').first;
+      }
+      cleanCode = cleanCode.replaceAll('#', '').trim();
+
+      final response = await api.scanVisitorPass({
+        "pass_code": cleanCode,
+        "code": cleanCode,
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<FrequentVisitorsResModel> getFrequentVisitorsData() async {
+    try {
+      final response = await api.getFrequentVisitors();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GuardCommonResModel> quickEntryFrequentVisitorData(String id) async {
+    try {
+      final response = await api.quickEntryFrequentVisitor(id);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<RecentVehicleSearchesResModel> getRecentVehicleSearchesData() async {
+    try {
+      final response = await api.getRecentVehicleSearches();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GuardCommonResModel> sendGuardSosData({
+    String reason = "Security Alert Triggered at Gate",
+  }) async {
+    try {
+      final response = await api.sendGuardSos({
+        "alert_type": "EMERGENCY_SOS",
+        "reason": reason,
+        "triggered_at": DateTime.now().toIso8601String(),
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GuardCommonResModel> verbalApproveVisitorData({
+    required String id,
+    String action = "approved",
+    String? remarks,
+  }) async {
+    try {
+      final response = await api.verbalApproveVisitor(id, {
+        "status": action,
+        "action": action,
+        if (remarks != null) "remarks": remarks,
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GuardCommonResModel> respondGuardVisitorData({
+    required String id,
+    required String action,
+  }) async {
+    try {
+      final response = await api.respondGuardVisitor(id, {
+        "action": action,
+        "status": action,
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ParcelFormDataResModel> getGuardParcelFormData() async {
+    try {
+      final response = await api.getGuardParcelFormData();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GuardCommonResModel> respondGuardParcelData({
+    required String id,
+    required String action,
+  }) async {
+    try {
+      final response = await api.respondGuardParcel(id, {
+        "action": action,
+        "status": action,
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ResidentVisitorRespondResModel> respondResidentVisitorData({
+    required String id,
+    required String action,
+    String? remarks,
+  }) async {
+    try {
+      final response = await api.respondResidentVisitor(id, {
+        "action": action,
+        "status": action,
+        if (remarks != null) "remarks": remarks,
       });
       return response;
     } catch (e) {
