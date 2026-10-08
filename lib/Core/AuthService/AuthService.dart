@@ -15,10 +15,17 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/g
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitListModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/VehicleSearchResModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/VisitorPassResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/guardDashbordModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/historyGuardResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
+import '../../GuardScreen/Model/addParcelResModel.dart';
+import '../../GuardScreen/Model/addVisitorResModel.dart';
+import '../../GuardScreen/Model/getFlatApartmentModel.dart';
+import '../../GuardScreen/Model/guardProfileModel.dart';
+import '../../GuardScreen/Model/markOutResModel.dart';
+import '../../GuardScreen/Model/parcelHandoverResModel.dart';
 import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentEmergencyContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
@@ -32,6 +39,9 @@ import '../../ResidentScreen/Model/getComplaintListModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/getComplaintTrackingModel.dart';
 import '../../ResidentScreen/Model/getResidentCalenderModel.dart';
+import '../../ResidentScreen/Model/getResidentParcelModel.dart';
+import '../../ResidentScreen/Model/residentParcelRespondBodyModel.dart';
+import '../../ResidentScreen/Model/residentParcelRespondResModel.dart';
 import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
@@ -974,6 +984,34 @@ class AuthService {
     }
   }
 
+  Future<GetResidentParcelModel> getResidentParcel() async {
+    try {
+      final response = await api.getResidentParcel();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ResidentParcelRespondResModel> respondResidentParcelData({
+    required String parcelId,
+    required String action,
+    String? deliveryMode,
+    String? remarks,
+  }) async {
+    try {
+      final body = ResidentParcelRespondBodyModel(
+        action: action,
+        deliveryMode: deliveryMode,
+        remarks: remarks,
+      );
+      final response = await api.respondResidentParcel(parcelId, body);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   ////////////////// Guard //////////////////////
 
   Future<GuardDashBoardModel> guardDashBoardData() async {
@@ -1006,6 +1044,118 @@ class AuthService {
   Future<HistoryGuardResModel> historyGuardData() async {
     try {
       final response = await api.historyGuard();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<AddVisitorResModel> addVisitorData({
+    required String visitorName,
+    required String visitorPhone,
+    required String flatNumber,
+    required String visitType,
+    required String vehicleNumber,
+    required String purpose,
+    File? visitorPhoto,
+    String? isFrequent,
+    String? frequentRole,
+  }) async {
+    try {
+      final response = await api.addVisitor(
+        visitorName: visitorName,
+        visitorPhone: visitorPhone,
+        flatNumber: flatNumber,
+        visitType: visitType,
+        vehicleNumber: vehicleNumber,
+        purpose: purpose,
+        visitorPhoto: visitorPhoto,
+        isFrequent: isFrequent,
+        frequentRole: frequentRole,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GetFlatApartmentModel> getFlatApartmentData() async {
+    try {
+      final response = await api.getFlatApartment();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<VisitorPassResModel> getVisitorPassDataGuard(String id) async {
+    try {
+      final response = await api.getVisitorPassGuard(id);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GuardProfileModel> guardProfileData() async {
+    try {
+      final response = await api.guardProfileData();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<MarkOutResModel> markOutData(String id) async {
+    try {
+      final response = await api.markOut(id);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<AddParcelResModel> addParcelData({
+    required String vendorName,
+    required String flatNumber,
+    required String parcelType,
+    required String trackingNumber,
+    required String handlingType,
+    required File parcelPhoto,
+  }) async {
+    try {
+      final response = await api.addParcel(
+        vendorName: vendorName,
+        flatNumber: flatNumber,
+        parcelType: parcelType,
+        trackingNumber: trackingNumber,
+        handlingType: handlingType,
+        parcelPhoto: parcelPhoto,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ParcelHandoverResModel> parcelHandoverData(String id) async {
+    try {
+      final response = await api.parcelHandover(id);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ParcelHandoverResModel> verifyParcelHandoverData({
+    required String id,
+    required String otp,
+  }) async {
+    try {
+      final response = await api.verifyParcelHandover(id, {
+        "otp": otp,
+        "pickup_code": otp,
+      });
       return response;
     } catch (e) {
       rethrow;

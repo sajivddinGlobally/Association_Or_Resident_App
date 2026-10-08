@@ -1,22 +1,157 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/FrequentVisitorsScreen.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/Provider/visitorPassProvider.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/VisitorPassResModel.dart';
 
-class Visitorapprovalpassscreen extends StatefulWidget {
-  const Visitorapprovalpassscreen({super.key});
+class Visitorapprovalpassscreen extends ConsumerStatefulWidget {
+  final String visitorId;
+  final String? visitorName;
+  final String? flatNumber;
+  final String? visitorPhone;
+  final String? visitType;
+  final String? vehicleNumber;
+  final String? purpose;
+  final String? initialStatus;
+  final String? inTime;
+
+  const Visitorapprovalpassscreen({
+    super.key,
+    required this.visitorId,
+    this.visitorName,
+    this.flatNumber,
+    this.visitorPhone,
+    this.visitType,
+    this.vehicleNumber,
+    this.purpose,
+    this.initialStatus,
+    this.inTime,
+  });
 
   @override
-  State<Visitorapprovalpassscreen> createState() =>
+  ConsumerState<Visitorapprovalpassscreen> createState() =>
       _VisitorapprovalpassscreenState();
 }
 
-class _VisitorapprovalpassscreenState extends State<Visitorapprovalpassscreen> {
+class _VisitorapprovalpassscreenState
+    extends ConsumerState<Visitorapprovalpassscreen> {
+  late String
+  currentStatus; // 'PENDING', 'APPROVED', 'REJECTED', 'NO_RESPONSE_CALL'
+  int secondsRemaining = 60;
+  Timer? _countdownTimer;
+  String? inTime;
+  String? outTime;
+  bool isStatusInitializedFromApi = false;
+
+  String _formatCurrentTime() {
+    final now = DateTime.now();
+    final hour = now.hour == 0
+        ? 12
+        : (now.hour > 12 ? now.hour - 12 : now.hour);
+    final minute = now.minute.toString().padLeft(2, '0');
+    final period = now.hour >= 12 ? "PM" : "AM";
+    return "$hour:$minute $period";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    currentStatus = widget.initialStatus ?? 'PENDING';
+    inTime = widget.inTime ?? _formatCurrentTime();
+    if (currentStatus == 'PENDING') {
+      _startCountdown();
+    }
+  }
+
+  void _startCountdown() {
+    _countdownTimer?.cancel();
+    secondsRemaining = 60;
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (secondsRemaining > 0) {
+        setState(() {
+          secondsRemaining--;
+        });
+      } else {
+        timer.cancel();
+        setState(() {
+          currentStatus = 'NO_RESPONSE_CALL';
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _countdownTimer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final vId = widget.visitorId;
+    final visitorPassAsync = ref.watch(visitorPassProvider(vId));
+    final VisitorPassData? passData = visitorPassAsync.value?.data;
+
+    // Sync status if API returns an explicit badge on load
+    if (passData != null && !isStatusInitializedFromApi) {
+      isStatusInitializedFromApi = true;
+      final badge = passData.approvalStatusCard?.badge?.toUpperCase();
+      if (badge == 'APPROVED') {
+        currentStatus = 'APPROVED';
+        _countdownTimer?.cancel();
+      } else if (badge == 'REJECTED') {
+        currentStatus = 'REJECTED';
+        _countdownTimer?.cancel();
+      }
+    }
+
+    final vName =
+        passData?.visitorDetails?.name ?? widget.visitorName ?? 'Amit Sharma';
+    final vFlat =
+        passData?.visitorDetails?.apartment ?? widget.flatNumber ?? 'A-204';
+    final vPhone =
+        passData?.visitorDetails?.visitorMobile ??
+        widget.visitorPhone ??
+        '+91 98765 43210';
+    final vType =
+        passData?.visitorDetails?.typeLabel ??
+        widget.visitType ??
+        'Personal Visit';
+    final vVehicle =
+        passData?.visitorDetails?.vehicle ??
+        widget.vehicleNumber ??
+        'RJ14 AB 1234';
+    final vPurpose =
+        passData?.visitorDetails?.purpose ??
+        widget.purpose ??
+        'Visiting resident';
+    final vPhotoUrl = passData?.visitorDetails?.photoUrl;
+    final vRequestedAt = passData?.visitorDetails?.requestedAt ?? '10:18 AM';
+
+    final residentName = passData?.residentApproval?.residentName ?? 'Resident';
+    final residentPhone =
+        passData?.residentApproval?.residentPhone ?? '+91 95089 37828';
+
+    final passCode = passData?.visitorPassCard?.passCode ?? 'VG-1524';
+    final qrCodeUrl = passData?.visitorPassCard?.qrCodeUrl;
+    final passBadge = passData?.visitorPassCard?.badge ?? 'VERIFIED PASS';
+    final passInstruction =
+        passData?.visitorPassCard?.instruction ??
+        'Scan this QR code or enter this pass code to verify the visitor.';
+
+    final effectiveInTime =
+        passData?.timings?.inTime ?? inTime ?? _formatCurrentTime();
+    final effectiveOutTime = passData?.timings?.outTime ?? outTime;
+
+    final headerTitle = passData?.header?.title ?? "Visitor Approval & Pass";
+    final headerSubtitle =
+        passData?.header?.subtitle ?? "View approval status and visitor pass";
+
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -48,275 +183,720 @@ class _VisitorapprovalpassscreenState extends State<Visitorapprovalpassscreen> {
                 ),
               ),
               SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Visitor Approval & Pass",
-                    style: GoogleFonts.outfit(
-                      fontSize: 19.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.heading,
-                      letterSpacing: -0.3,
-                    ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "View approval status and visitor pass",
-                    style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromRGBO(42, 41, 51, 0.65),
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            children: [
-              SizedBox(height: 20.h),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
-                ),
+              Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Approval Status',
-                            style: GoogleFonts.outfit(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xFF666666),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 6.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFD4F5E1),
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: Text(
-                            'APPROVED',
-                            style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF16A765),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 10.h),
                     Text(
-                      'Resident Approved Visitor',
+                      headerTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.heading,
-                        letterSpacing: -0.2,
+                        letterSpacing: -0.3,
                       ),
                     ),
-
-                    SizedBox(height: 3.h),
+                    SizedBox(height: 2.h),
                     Text(
-                      'Visitor is approved for entry. The visitor pass can now be verified.',
+                      headerSubtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
-                        color: const Color(0xFF777777),
+                        color: const Color.fromRGBO(42, 41, 51, 0.65),
                         letterSpacing: -0.2,
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 20.h),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Visitor Details',
-                      style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
+            ],
+          ),
+        ),
+        actions: [
+          IconButton(
+            tooltip: "Refresh status",
+            icon: Icon(
+              Icons.refresh_rounded,
+              color: AppColors.heading,
+              size: 22.sp,
+            ),
+            onPressed: () {
+              ref.invalidate(visitorPassProvider(vId));
+            },
+          ),
+          SizedBox(width: 8.w),
+        ],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          ref.invalidate(visitorPassProvider(vId));
+          await ref.read(visitorPassProvider(vId).future);
+        },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (visitorPassAsync.isLoading) ...[
+                  SizedBox(height: 4.h),
+                  const LinearProgressIndicator(
+                    color: AppColors.heading,
+                    backgroundColor: Color(0xFFE0E0E0),
+                  ),
+                ],
 
-                    SizedBox(height: 20.h),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 50.w,
-                          height: 50.h,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFD2D5D3),
-                            borderRadius: BorderRadius.circular(10.r),
+                SizedBox(height: 16.h),
+
+                // Interactive Status Simulator Filter
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 8.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(color: const Color(0xFFE0E0E0)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _statusChip("Pending", "PENDING"),
+                      _statusChip("Approved", "APPROVED"),
+                      _statusChip("Call Flow", "NO_RESPONSE_CALL"),
+                      _statusChip("Rejected", "REJECTED"),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 16.h),
+
+                // Status Banner Card
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 16.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14.r),
+                    border: Border.all(
+                      color: currentStatus == 'APPROVED'
+                          ? const Color(0xFF16A765)
+                          : currentStatus == 'NO_RESPONSE_CALL'
+                          ? const Color(0xFFE8B900)
+                          : currentStatus == 'REJECTED'
+                          ? const Color(0xFFD22424)
+                          : const Color(0xFFE0E0E0),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Approval Status',
+                              style: GoogleFonts.outfit(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF666666),
+                              ),
+                            ),
                           ),
-                          child: Icon(
-                            Icons.person,
-                            size: 25.sp,
-                            color: const Color(0xFF07100D),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 5.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: currentStatus == 'APPROVED'
+                                  ? const Color(0xFFD4F5E1)
+                                  : currentStatus == 'NO_RESPONSE_CALL'
+                                  ? const Color(0xFFFFF4D1)
+                                  : currentStatus == 'REJECTED'
+                                  ? const Color(0xFFFFE5E5)
+                                  : const Color(0xFFE8F1FF),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              currentStatus == 'APPROVED'
+                                  ? 'APPROVED'
+                                  : currentStatus == 'NO_RESPONSE_CALL'
+                                  ? 'NO RESPONSE (CALL)'
+                                  : currentStatus == 'REJECTED'
+                                  ? 'REJECTED'
+                                  : 'WAITING ($secondsRemaining s)',
+                              style: GoogleFonts.outfit(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600,
+                                color: currentStatus == 'APPROVED'
+                                    ? const Color(0xFF16A765)
+                                    : currentStatus == 'NO_RESPONSE_CALL'
+                                    ? const Color(0xFFB8860B)
+                                    : currentStatus == 'REJECTED'
+                                    ? const Color(0xFFD22424)
+                                    : const Color(0xFF1E5993),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 10.h),
+
+                      if (currentStatus == 'PENDING') ...[
+                        Text(
+                          passData?.approvalStatusCard?.title ??
+                              'Approval Request Sent to Resident',
+                          style: GoogleFonts.outfit(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
                           ),
                         ),
-
-                        SizedBox(width: 10.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Amit Sharma',
-                                style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.heading,
-                                  letterSpacing: -0.2,
+                        SizedBox(height: 4.h),
+                        Text(
+                          passData?.approvalStatusCard?.description ??
+                              'Notification delivered to resident of Flat $vFlat. System waiting for response...',
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF777777),
+                          ),
+                        ),
+                        SizedBox(height: 12.h),
+                        LinearProgressIndicator(
+                          value: secondsRemaining / 60,
+                          backgroundColor: const Color(0xFFEEEEEE),
+                          valueColor: const AlwaysStoppedAnimation(
+                            Color(0xFFE8B900),
+                          ),
+                          minHeight: 6.h,
+                          borderRadius: BorderRadius.circular(3.r),
+                        ),
+                      ] else if (currentStatus == 'NO_RESPONSE_CALL') ...[
+                        Text(
+                          'Flow 6: 1-Minute No-Response Escalation',
+                          style: GoogleFonts.outfit(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFFB8860B),
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          'Resident did not respond within 1 minute. Call resident directly at $residentPhone for verbal approval/rejection.',
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF777777),
+                          ),
+                        ),
+                        SizedBox(height: 14.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF16A765),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
                                 ),
-                              ),
-
-                              SizedBox(height: 3.h),
-
-                              Text(
-                                'Visitor · Personal Visit',
-                                style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF777777),
-                                  height: 1.2,
-                                ),
-                              ),
-
-                              SizedBox(height: 3.h),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w,
-                                  vertical: 5.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFD2F3DF),
-                                  borderRadius: BorderRadius.circular(4.r),
-                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    currentStatus = 'APPROVED';
+                                  });
+                                },
                                 child: Text(
-                                  'Flat A-204',
+                                  "Verbal Approved",
+                                  style: GoogleFonts.outfit(
+                                    color: Colors.white,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                    color: Color(0xFFD22424),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    currentStatus = 'REJECTED';
+                                  });
+                                },
+                                child: Text(
+                                  "Deny Entry",
+                                  style: GoogleFonts.outfit(
+                                    color: const Color(0xFFD22424),
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ] else if (currentStatus == 'REJECTED') ...[
+                        Text(
+                          'Resident Denied Entry',
+                          style: GoogleFonts.outfit(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFFD22424),
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          'Resident has rejected the entry request. Please inform the visitor and deny entry at gate.',
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF777777),
+                          ),
+                        ),
+                      ] else ...[
+                        Text(
+                          passData?.approvalStatusCard?.title ??
+                              'Resident Approved Visitor Entry',
+                          style: GoogleFonts.outfit(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          passData?.approvalStatusCard?.description ??
+                              'Visitor is approved for entry. Visitor pass is active and verified.',
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF777777),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 18.h),
+
+                // Visitor Details Card
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 18.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14.r),
+                    border: Border.all(
+                      color: const Color(0xFFE0E0E0),
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Visitor Details',
+                        style: GoogleFonts.outfit(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 50.w,
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD2D5D3),
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.r),
+                              child: (vPhotoUrl != null && vPhotoUrl.isNotEmpty)
+                                  ? Image.network(
+                                      vPhotoUrl,
+                                      width: 50.w,
+                                      height: 50.h,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) => Icon(
+                                            Icons.person,
+                                            size: 25.sp,
+                                            color: const Color(0xFF07100D),
+                                          ),
+                                    )
+                                  : Icon(
+                                      Icons.person,
+                                      size: 25.sp,
+                                      color: const Color(0xFF07100D),
+                                    ),
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  vName,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 17.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.heading,
+                                  ),
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  vType,
                                   style: GoogleFonts.outfit(
                                     fontSize: 13.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF20A866),
-                                    letterSpacing: -0.2,
+                                    color: const Color(0xFF777777),
                                   ),
+                                ),
+                                SizedBox(height: 4.h),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
+                                    vertical: 3.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFD2F3DF),
+                                    borderRadius: BorderRadius.circular(4.r),
+                                  ),
+                                  child: Text(
+                                    vFlat.startsWith('Flat')
+                                        ? vFlat
+                                        : 'Flat $vFlat',
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF20A866),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.h),
+                      GridView.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 14.w,
+                        mainAxisSpacing: 12.h,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        childAspectRatio: 2.2,
+                        children: [
+                          _infoCard(title: "Mobile", subtitle: vPhone),
+                          _infoCard(title: "Vehicle", subtitle: vVehicle),
+                          _infoCard(title: "Purpose", subtitle: vPurpose),
+                          _infoCard(
+                            title: "Requested At",
+                            subtitle: vRequestedAt,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 18.h),
+
+                // Resident Contact & Call Option
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 15.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: const Color(0xFFE0E0E0)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Resident Contact',
+                            style: GoogleFonts.outfit(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.heading,
+                            ),
+                          ),
+                          Text(
+                            residentName,
+                            style: GoogleFonts.outfit(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF666666),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 11.h,
+                          horizontal: 14.w,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFFCF0),
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            color: const Color(0xFFE8B900),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: AppColors.heading,
+                                content: Text(
+                                  "Dialing $residentName ($residentPhone)...",
+                                  style: GoogleFonts.outfit(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.phone_in_talk_rounded,
+                                size: 22.sp,
+                                color: const Color(0xFF17201D),
+                              ),
+                              SizedBox(width: 10.w),
+                              Text(
+                                'Call Resident ($residentPhone)',
+                                style: GoogleFonts.outfit(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF17201D),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 18.h),
+
+                // QR Pass Box (Visible when Approved)
+                if (currentStatus == 'APPROVED') ...[
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 24.h,
+                      horizontal: 16.w,
                     ),
-                    SizedBox(height: 12.h),
-                    GridView.count(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16.w,
-                      mainAxisSpacing: 16.h,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      childAspectRatio: 2,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.heading,
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    child: Column(
                       children: [
-                        _infoCard(
-                          title: "Visitor Mobile",
-                          subtitle: "+91 98••••••21",
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 4.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF16A765),
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: Text(
+                            passBadge,
+                            style: GoogleFonts.outfit(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
                         ),
-                        _infoCard(title: "Vehicle", subtitle: "RJ14 AB 1234"),
-                        _infoCard(title: "Purpose", subtitle: "Personal Visit"),
-                        _infoCard(title: "Requested At", subtitle: "10:18 AM"),
+                        SizedBox(height: 14.h),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: (qrCodeUrl != null && qrCodeUrl.isNotEmpty)
+                              ? Image.network(
+                                  qrCodeUrl,
+                                  height: 120.h,
+                                  width: 120.w,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      height: 120.h,
+                                      width: 120.w,
+                                      color: Colors.white,
+                                      child: Icon(
+                                        Icons.qr_code_2_rounded,
+                                        size: 80.sp,
+                                        color: Colors.black,
+                                      ),
+                                    );
+                                  },
+                                )
+                              : Image.asset(
+                                  "assets/lence_img.png",
+                                  height: 110.h,
+                                  width: 110.w,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      height: 110.h,
+                                      width: 110.w,
+                                      color: Colors.white,
+                                      child: Icon(
+                                        Icons.qr_code_2_rounded,
+                                        size: 80.sp,
+                                        color: Colors.black,
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                        SizedBox(height: 12.h),
+                        Text(
+                          "Pass Code: $passCode",
+                          style: GoogleFonts.outfit(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                        SizedBox(height: 6.h),
+                        Text(
+                          passInstruction,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.outfit(
+                            fontSize: 12.sp,
+                            color: const Color(0xFFD3D3D3),
+                          ),
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 15.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                  SizedBox(height: 18.h),
+                ],
+
+                // IN-TIME & OUT-TIME Cards
+                Row(
                   children: [
-                    Text(
-                      'Resident Approval',
-                      style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 11.h),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFCF0),
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(
-                          color: const Color(0xFFE8B900),
-                          width: 1.5,
-                        ),
-                      ),
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(8.r),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.phone_in_talk_outlined,
-                              size: 27.sp,
-                              color: const Color(0xFF17201D),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(12.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: const Border(
+                            left: BorderSide(
+                              color: Color(0xFF16B86A),
+                              width: 3,
                             ),
-
-                            SizedBox(width: 10.w),
-
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              'Call Resident',
+                              'IN-TIME',
+                              style: GoogleFonts.outfit(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF666666),
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
+                            Text(
+                              effectiveInTime,
                               style: GoogleFonts.outfit(
                                 fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF17201D),
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.heading,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 14.w),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(12.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: const Border(
+                            left: BorderSide(
+                              color: Color(0xffE2B509),
+                              width: 3,
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'OUT-TIME',
+                              style: GoogleFonts.outfit(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF666666),
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
+                            Text(
+                              effectiveOutTime ?? 'Inside',
+                              style: GoogleFonts.outfit(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: effectiveOutTime != null
+                                    ? AppColors.heading
+                                    : const Color(0xFFB8860B),
                               ),
                             ),
                           ],
@@ -325,150 +905,114 @@ class _VisitorapprovalpassscreenState extends State<Visitorapprovalpassscreen> {
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 20.h),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 29.h),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.heading,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Image.asset(
-                      "assets/lence_img.png",
-                      height: 120.h,
-                      width: 120.w,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 10.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: const Border(
-                          left: BorderSide(color: Color(0xFF16B86A), width: 2),
+
+                SizedBox(height: 20.h),
+
+                // Action Buttons
+                if (currentStatus == 'APPROVED')
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 44.h,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.heading,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                outTime = _formatCurrentTime();
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: AppColors.heading,
+                                  content: Text(
+                                    "Visitor marked OUT. Record closed.",
+                                    style: GoogleFonts.outfit(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Mark OUT-Time',
+                              style: GoogleFonts.outfit(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'IN-TIME',
-                            style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.heading,
-                              letterSpacing: -0.2,
+                      SizedBox(width: 10.w),
+                      SizedBox(
+                        height: 44.h,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: AppColors.heading),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                           ),
-
-                          SizedBox(height: 2.h),
-
-                          Text(
-                            '10:24 AM',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    const Frequentvisitorsscreen(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Save Frequent',
                             style: GoogleFonts.outfit(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
                               color: AppColors.heading,
-                              letterSpacing: -0.2,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(width: 20.w),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 10.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: const Border(
-                          left: BorderSide(color: Color(0xffE2B509), width: 2),
                         ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'IN-TIME',
-                            style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.heading,
-                              letterSpacing: -0.2,
-                            ),
-                          ),
+                    ],
+                  ),
 
-                          SizedBox(height: 2.h),
+                SizedBox(height: 24.h),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-                          Text(
-                            '10:24 AM',
-                            style: GoogleFonts.outfit(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.heading,
-                              letterSpacing: -0.2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              SizedBox(
-                width: double.infinity,
-                height: 44.h,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.heading,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => Frequentvisitorsscreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Mark Visitor Out-Time',
-                    style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h),
-            ],
+  Widget _statusChip(String label, String statusKey) {
+    final isSelected = currentStatus == statusKey;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          currentStatus = statusKey;
+          if (statusKey == 'PENDING') {
+            _startCountdown();
+          }
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.heading : const Color(0xFFF0EFEA),
+          borderRadius: BorderRadius.circular(6.r),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 12.sp,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+            color: isSelected ? Colors.white : AppColors.heading,
           ),
         ),
       ),
@@ -477,41 +1021,34 @@ class _VisitorapprovalpassscreenState extends State<Visitorapprovalpassscreen> {
 
   Widget _infoCard({required String title, required String subtitle}) {
     return Container(
-      padding: EdgeInsets.only(
-        left: 16.w,
-        right: 12.w,
-        top: 12.h,
-        bottom: 10.h,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: Color(0xffF3F0E8),
-        borderRadius: BorderRadius.circular(10.r),
+        color: const Color(0xffF3F0E8),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             title,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.heading,
-              letterSpacing: -0.54,
+            style: GoogleFonts.outfit(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF666666),
             ),
           ),
-
-          SizedBox(height: 6.h),
+          SizedBox(height: 2.h),
           Text(
             subtitle,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
+            style: GoogleFonts.outfit(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w600,
               color: AppColors.heading,
-              letterSpacing: -0.34,
             ),
           ),
         ],
@@ -519,123 +1056,3 @@ class _VisitorapprovalpassscreenState extends State<Visitorapprovalpassscreen> {
     );
   }
 }
-
-
-
-
-
-// Container(
-              //   width: double.infinity,
-              //   padding: EdgeInsets.all(16),
-              //   decoration: BoxDecoration(
-              //     color: AppColors.heading,
-              //     borderRadius: BorderRadius.circular(16.r),
-              //   ),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Text(
-              //             'Visitor Pass',
-              //             style: GoogleFonts.outfit(
-              //               fontSize: 17.sp,
-              //               fontWeight: FontWeight.w500,
-              //               color: Colors.white,
-              //               letterSpacing: -0.2,
-              //             ),
-              //           ),
-
-              //           Text(
-              //             'VERIFIED PASS',
-              //             style: GoogleFonts.outfit(
-              //               fontSize: 15.sp,
-              //               fontWeight: FontWeight.w500,
-              //               color: const Color(0xFFFFC800),
-              //               letterSpacing: -0.2,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-
-              //       SizedBox(height: 12.h),
-              //       Row(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Image.asset(
-              //             'assets/Frame 1092.png',
-              //             width: 75.w,
-              //             height: 75.w,
-              //             fit: BoxFit.contain,
-              //           ),
-              //           SizedBox(width: 16.w),
-              //           Expanded(
-              //             child: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: [
-              //                 Text(
-              //                   'PASS CODE',
-              //                   style: GoogleFonts.outfit(
-              //                     fontSize: 13.sp,
-              //                     fontWeight: FontWeight.w500,
-              //                     color: Colors.white,
-              //                     letterSpacing: -0.2,
-              //                   ),
-              //                 ),
-              //                 SizedBox(height: 5.h),
-              //                 Text(
-              //                   'VG-4827',
-              //                   style: GoogleFonts.outfit(
-              //                     fontSize: 18.sp,
-              //                     fontWeight: FontWeight.w500,
-              //                     color: const Color(0xFFFFC800),
-              //                     letterSpacing: -0.2,
-              //                   ),
-              //                 ),
-
-              //                 SizedBox(height: 5.h),
-
-              //                 Text(
-              //                   'Scan this QR code or enter the pass code to verify the visitor.',
-              //                   style: GoogleFonts.outfit(
-              //                     fontSize: 13.sp,
-              //                     fontWeight: FontWeight.w500,
-              //                     color: Colors.white,
-              //                     letterSpacing: -0.2,
-              //                   ),
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-
-              //       SizedBox(height: 12.h),
-              //       SizedBox(
-              //         width: double.infinity,
-              //         height: 36.h,
-              //         child: ElevatedButton(
-              //           onPressed: () {},
-              //           style: ElevatedButton.styleFrom(
-              //             backgroundColor: Colors.white,
-              //             foregroundColor: const Color(0xFF0D1C16),
-              //             elevation: 0,
-              //             shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(12.r),
-              //             ),
-              //           ),
-              //           child: Text(
-              //             'Share / View Pass Code',
-              //             style: GoogleFonts.outfit(
-              //               fontSize: 15.sp,
-              //               fontWeight: FontWeight.w500,
-              //               color: AppColors.heading,
-              //               letterSpacing: -0.2,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // )

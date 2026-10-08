@@ -1,13 +1,17 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
-import 'package:property_association_or_resident/Core/data/model/ResponseModel/addGuardResModel.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/Provider/HistoryRecordsProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/Provider/historyGuardProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/markOutResModel.dart'
+    as mark_out_model;
 
 class Guaredhistoryscreen extends StatefulWidget {
   const Guaredhistoryscreen({super.key});
@@ -189,11 +193,330 @@ class HistoryTab extends ConsumerStatefulWidget {
 
 class _HistoryTabState extends ConsumerState<HistoryTab> {
   int index = 0;
-  void showExitRecordedPopup(BuildContext context) {
+  String? _markingOutId;
+
+  Future<void> _handleMarkOut(Record? item) async {
+    final id = item?.rawId != null
+        ? item!.rawId.toString()
+        : (item?.id != null ? item!.id.toString() : null);
+
+    if (id == null || id.isEmpty) {
+      showErrorSnackBar("ID not found to mark exit");
+      return;
+    }
+
+    setState(() {
+      _markingOutId = id;
+    });
+
+    try {
+      final res = await ref.read(authServiceProvider).markOutData(id);
+      if (res.status == true) {
+        showSuccessSnackBar(res.message ?? "Exit recorded successfully");
+        if (mounted) {
+          showExitRecordedPopup(context, res.data);
+        }
+        ref.invalidate(historyRecordsProvider);
+      } else {
+        showErrorSnackBar(res.message ?? "Failed to mark exit");
+      }
+    } catch (e) {
+      // showErrorSnackBar(e.toString());
+      log(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          _markingOutId = null;
+        });
+      }
+    }
+  }
+
+  String? _handingOverParcelId;
+
+  Future<void> _handleParcelHandover(Record? item) async {
+    final String? id = item?.rawId != null
+        ? item!.rawId.toString()
+        : (item?.id != null ? item!.id!.replaceAll('p_', '') : null);
+
+    if (id == null || id.isEmpty) {
+      showErrorSnackBar("Parcel ID not found for handover");
+      return;
+    }
+
+    setState(() {
+      _handingOverParcelId = id;
+    });
+
+    try {
+      final res = await ref.read(authServiceProvider).parcelHandoverData(id);
+      if (res.status == true) {
+        showSuccessSnackBar(res.message ?? "Parcel handed over successfully");
+        ref.invalidate(historyRecordsProvider);
+      } else {
+        showErrorSnackBar(res.message ?? "Failed to handover parcel");
+      }
+    } catch (e) {
+      log("Error handing over parcel: $e");
+      showErrorSnackBar(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          _handingOverParcelId = null;
+        });
+      }
+    }
+  }
+
+  Future<void> _handleVerifyParcelHandover(Record? item, String otp) async {
+    final String? id = item?.rawId != null
+        ? item!.rawId.toString()
+        : (item?.id != null ? item!.id!.replaceAll('p_', '') : null);
+
+    if (id == null || id.isEmpty) {
+      showErrorSnackBar("Parcel ID not found for handover");
+      return;
+    }
+
+    setState(() {
+      _handingOverParcelId = id;
+    });
+
+    try {
+      final res = await ref.read(authServiceProvider).verifyParcelHandoverData(
+            id: id,
+            otp: otp,
+          );
+      if (res.status == true) {
+        showSuccessSnackBar(
+          res.message ?? "Parcel handover verified successfully!",
+        );
+        ref.invalidate(historyRecordsProvider);
+      } else {
+        showErrorSnackBar(res.message ?? "OTP verification failed");
+      }
+    } catch (e) {
+      log("Error verifying parcel handover: $e");
+      showErrorSnackBar(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          _handingOverParcelId = null;
+        });
+      }
+    }
+  }
+
+  void _showParcelOtpDialog(Record? item) {
+    final String? id = item?.rawId != null
+        ? item!.rawId.toString()
+        : (item?.id != null ? item!.id!.replaceAll('p_', '') : null);
+
+    if (id == null || id.isEmpty) {
+      showErrorSnackBar("Parcel ID not found for handover");
+      return;
+    }
+
+    final TextEditingController otpController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              title: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F0E9),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(
+                      Icons.pin_outlined,
+                      color: AppColors.heading,
+                      size: 20.sp,
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Text(
+                      "Pickup Verification",
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Ask resident for their 4-digit pickup code to release parcel for ${item?.vendorName ?? item?.name ?? 'Parcel'}.",
+                    style: GoogleFonts.outfit(
+                      fontSize: 13.sp,
+                      color: const Color(0xFF666666),
+                    ),
+                  ),
+                  SizedBox(height: 14.h),
+                  Container(
+                    padding: EdgeInsets.all(12.w),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFBF9F4),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: const Color(0xFFE5E0D5)),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item?.vendorName ??
+                                    item?.name ??
+                                    "Parcel Delivery",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.heading,
+                                ),
+                              ),
+                              if (item?.categoryLabel != null)
+                                Text(
+                                  item!.categoryLabel!,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF666666),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    "Enter Resident Pickup OTP",
+                    style: GoogleFonts.outfit(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.heading,
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
+                  TextField(
+                    controller: otpController,
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.outfit(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 6,
+                      color: AppColors.heading,
+                    ),
+                    decoration: InputDecoration(
+                      counterText: "",
+                      hintText: "••••",
+                      hintStyle: GoogleFonts.outfit(
+                        fontSize: 22.sp,
+                        color: Colors.grey,
+                        letterSpacing: 6,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 10.h),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide:
+                            const BorderSide(color: Color(0xFFCCCCCC)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(
+                          color: AppColors.heading,
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancel",
+                    style: GoogleFonts.outfit(
+                      color: const Color(0xFF666666),
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _handleParcelHandover(item);
+                  },
+                  child: Text(
+                    "Direct Handover",
+                    style: GoogleFonts.outfit(
+                      color: const Color(0xFFB8860B),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.heading,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  onPressed: () async {
+                    final otp = otpController.text.trim();
+                    if (otp.isEmpty) {
+                      showErrorSnackBar("Please enter the pickup OTP");
+                      return;
+                    }
+                    Navigator.pop(context);
+                    await _handleVerifyParcelHandover(item, otp);
+                  },
+                  child: Text(
+                    "Verify & Hand Over",
+                    style: GoogleFonts.outfit(
+                      color: Colors.white,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void showExitRecordedPopup(
+    BuildContext context, [
+    mark_out_model.Data? exitData,
+  ]) {
     showDialog(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.65),
+      barrierColor: Colors.black.withValues(alpha: 0.65),
       builder: (context) {
         return Dialog(
           backgroundColor: Colors.transparent,
@@ -224,7 +547,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
 
                 SizedBox(height: 12.h),
                 Text(
-                  'EXIT RECORDED',
+                  exitData?.modalTitle ?? 'EXIT RECORDED',
                   style: GoogleFonts.outfit(
                     fontSize: 17.sp,
                     fontWeight: FontWeight.w600,
@@ -235,7 +558,8 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
 
                 SizedBox(height: 8.h),
                 Text(
-                  'Visitor exit has been successfully recorded for future history and reporting.',
+                  exitData?.modalSubtitle ??
+                      'Visitor exit has been successfully recorded for future history and reporting.',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.outfit(
                     fontSize: 15.sp,
@@ -275,7 +599,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                           SizedBox(height: 1.h),
 
                           Text(
-                            '10:32 AM',
+                            exitData?.inTime ?? '10:32 AM',
                             style: GoogleFonts.outfit(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
@@ -313,7 +637,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                           SizedBox(height: 1.h),
 
                           Text(
-                            '9:55 AM',
+                            exitData?.outTime ?? '9:55 AM',
                             style: GoogleFonts.outfit(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
@@ -345,7 +669,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                       ),
                     ),
                     child: Text(
-                      'Done',
+                      exitData?.buttonLabel ?? 'Done',
                       style: GoogleFonts.outfit(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w400,
@@ -647,31 +971,54 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
             ],
           ),
           SizedBox(height: 16.h),
-          SizedBox(
-            height: 37.h,
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                showExitRecordedPopup(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0D1C16),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.r),
+          Builder(
+            builder: (context) {
+              final String currentId = item?.rawId != null
+                  ? item!.rawId.toString()
+                  : (item?.id ?? "");
+              final bool isAlreadyOut = item?.canMarkExit == false;
+              final bool isMarking = _markingOutId == currentId;
+
+              return SizedBox(
+                height: 45.h,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: (isAlreadyOut || _markingOutId != null)
+                      ? null
+                      : () => _handleMarkOut(item),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isAlreadyOut
+                        ? const Color(0xFF888888)
+                        : const Color(0xFF0D1C16),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.r),
+                    ),
+                  ),
+                  child: isMarking
+                      ? SizedBox(
+                          width: 18.w,
+                          height: 18.w,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          isAlreadyOut
+                              ? 'EXIT RECORDED'
+                              : (item?.actionButton?.label ?? 'MARK EXIT'),
+                          style: GoogleFonts.outfit(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
                 ),
-              ),
-              child: Text(
-                item?.actionButton?.label ?? 'MARK EXIT',
-                style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),
@@ -802,31 +1149,77 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
             ],
           ),
           SizedBox(height: 16.h),
-          SizedBox(
-            height: 37.h,
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                // Parcel action handler
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0D1C16),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.r),
+          Builder(
+            builder: (context) {
+              final String currentId = item?.rawId != null
+                  ? item!.rawId.toString()
+                  : (item?.id != null ? item!.id!.replaceAll('p_', '') : "");
+              final bool isHandingOver = _handingOverParcelId == currentId;
+              final bool isHandedOver = (item?.handoverTime != null &&
+                      item!.handoverTime!.isNotEmpty &&
+                      item.handoverTime != "--" &&
+                      item.handoverTime != "-") ||
+                  (item?.badge != null &&
+                      (item!.badge!.toUpperCase() == "COLLECTED" ||
+                          item.badge!.toUpperCase() == "DELIVERED" ||
+                          item.badge!.toUpperCase() == "HANDED OVER")) ||
+                  (item?.statusNote != null &&
+                      (item!.statusNote!.toUpperCase().contains("HANDED OVER") ||
+                          item.statusNote!.toUpperCase().contains("DELIVERED")));
+
+              final bool isLeaveAtGate =
+                  (item?.categoryLabel?.toLowerCase().contains('gate') ==
+                          true) ||
+                      (item?.statusNote?.toLowerCase().contains('gate') ==
+                          true) ||
+                      (item?.statusNote?.toLowerCase().contains('pickup') ==
+                          true) ||
+                      (item?.badge?.toLowerCase().contains('gate') == true);
+
+              return SizedBox(
+                height: 37.h,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: (isHandedOver || _handingOverParcelId != null)
+                      ? null
+                      : () => isLeaveAtGate
+                          ? _showParcelOtpDialog(item)
+                          : _handleParcelHandover(item),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isHandedOver
+                        ? const Color(0xFF888888)
+                        : const Color(0xFF0D1C16),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.r),
+                    ),
+                  ),
+                  child: isHandingOver
+                      ? SizedBox(
+                          width: 18.w,
+                          height: 18.w,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          isHandedOver
+                              ? 'HANDED OVER'
+                              : (isLeaveAtGate
+                                  ? 'HANDOVER (OTP)'
+                                  : 'DIRECT HANDOVER'),
+                          style: GoogleFonts.outfit(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
                 ),
-              ),
-              child: Text(
-                item?.actionButton?.label ?? 'HANDOVER',
-                style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),

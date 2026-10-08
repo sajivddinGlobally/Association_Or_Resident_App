@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:property_association_or_resident/Core/data/model/BodyModel/aiAssistanceBodyModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/complexDetailsModel.dart';
@@ -14,6 +16,7 @@ import 'package:property_association_or_resident/Core/data/model/ResponseModel/m
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/outstandingPendingModel.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/pendingMaintananceModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/VehicleSearchResModel.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/VisitorPassResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/guardDashbordModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/historyGuardResModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
@@ -21,6 +24,12 @@ import 'package:property_association_or_resident/ResidentScreen/Model/getComplai
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintTrackingModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import 'package:retrofit/retrofit.dart';
+import '../../GuardScreen/Model/addParcelResModel.dart';
+import '../../GuardScreen/Model/addVisitorResModel.dart';
+import '../../GuardScreen/Model/getFlatApartmentModel.dart';
+import '../../GuardScreen/Model/guardProfileModel.dart';
+import '../../GuardScreen/Model/markOutResModel.dart';
+import '../../GuardScreen/Model/parcelHandoverResModel.dart';
 import '../../ResidentScreen/Model/ResidentCommunityContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentEmergencyContactResModel.dart';
 import '../../ResidentScreen/Model/ResidentMmcStatusResModel.dart';
@@ -32,6 +41,9 @@ import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintRequestListModel.dart';
 import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
 import '../../ResidentScreen/Model/getResidentCalenderModel.dart';
+import '../../ResidentScreen/Model/getResidentParcelModel.dart';
+import '../../ResidentScreen/Model/residentParcelRespondBodyModel.dart';
+import '../../ResidentScreen/Model/residentParcelRespondResModel.dart';
 import '../../ResidentScreen/Model/getResidentProfileModel.dart';
 import '../../ResidentScreen/Model/residentDashboardModel.dart';
 import '../data/model/BodyModel/addResidentBodyModel.dart';
@@ -359,6 +371,15 @@ abstract class ApiStateNetwork {
     @Body() ComplainCloseBodyModel body,
   );
 
+  @GET("/api/v1/resident/parcels")
+  Future<GetResidentParcelModel> getResidentParcel();
+
+  @POST("/api/v1/resident/parcels/{id}/respond")
+  Future<ResidentParcelRespondResModel> respondResidentParcel(
+    @Path("id") String id,
+    @Body() ResidentParcelRespondBodyModel body,
+  );
+
   /////////////// Guard ///////////////////
 
   @GET("/api/v1/guard/dashboard")
@@ -374,4 +395,50 @@ abstract class ApiStateNetwork {
 
   @GET("/api/v1/guard/guards-on-duty")
   Future<HistoryGuardResModel> historyGuard();
+
+  @POST('/api/v1/guard/visitors')
+  @MultiPart()
+  Future<AddVisitorResModel> addVisitor({
+    @Part(name: 'visitor_name') required String visitorName,
+    @Part(name: 'visitor_phone') required String visitorPhone,
+    @Part(name: 'flat_number') required String flatNumber,
+    @Part(name: 'visit_type') required String visitType,
+    @Part(name: 'vehicle_number') required String vehicleNumber,
+    @Part(name: 'purpose') required String purpose,
+    @Part(name: 'visitor_photo') File? visitorPhoto,
+    @Part(name: 'is_frequent') String? isFrequent,
+    @Part(name: 'frequent_role') String? frequentRole,
+  });
+
+  @GET('/api/v1/guard/visitors/{id}/pass')
+  Future<VisitorPassResModel> getVisitorPassGuard(@Path("id") String id);
+
+  @GET("/api/v1/guard/properties")
+  Future<GetFlatApartmentModel> getFlatApartment();
+
+  @GET("/api/v1/guard/profile")
+  Future<GuardProfileModel> guardProfileData();
+
+  @POST("/api/v1/guard/visitors/{id}/mark-out")
+  Future<MarkOutResModel> markOut(@Path("id") String id);
+
+  @MultiPart()
+  @POST('/api/v1/guard/parcels')
+  Future<AddParcelResModel> addParcel({
+    @Part(name: 'vendor_name') required String vendorName,
+    @Part(name: 'flat_number') required String flatNumber,
+    @Part(name: 'parcel_type') required String parcelType,
+    @Part(name: 'tracking_number') required String trackingNumber,
+    @Part(name: 'handling_type') required String handlingType,
+    @Part(name: 'parcel_photo') required File parcelPhoto,
+  });
+
+  @POST('/api/v1/guard/parcels/{id}/handover')
+  Future<ParcelHandoverResModel> parcelHandover(@Path("id") String id);
+
+  @POST('/api/v1/guard/parcels/{id}/verify-handover')
+  Future<ParcelHandoverResModel> verifyParcelHandover(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
 }

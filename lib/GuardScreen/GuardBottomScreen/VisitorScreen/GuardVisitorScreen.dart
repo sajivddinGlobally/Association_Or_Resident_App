@@ -1,23 +1,83 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/Provider/getFlatApartmentProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/VisitorApprovalPassScreen.dart';
+import 'package:property_association_or_resident/GuardScreen/Model/getFlatApartmentModel.dart';
 
-class Guardvisitorscreen extends StatefulWidget {
+class Guardvisitorscreen extends ConsumerStatefulWidget {
   const Guardvisitorscreen({super.key});
 
   @override
-  State<Guardvisitorscreen> createState() => _GuardvisitorscreenState();
+  ConsumerState<Guardvisitorscreen> createState() => _GuardvisitorscreenState();
 }
 
-class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
+class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
+  final TextEditingController visitorNameController = TextEditingController();
+  final TextEditingController visitorPhoneController = TextEditingController();
+  final TextEditingController flatNumberController = TextEditingController();
+  final TextEditingController vehicleNumberController = TextEditingController();
+  final TextEditingController purposeController = TextEditingController();
+
+  bool isFrequentVisitor = false;
+  String? frequentRole = "Maid";
+  bool isVisitorLoading = false;
+
   String? selectedVisitType;
   File? visitorPhoto;
+  Datum? selectedFlat;
+  final FocusNode flatFocusNode = FocusNode();
+  final GlobalKey _autocompleteKey = GlobalKey();
+
+  late String entryTime;
+
+  @override
+  void initState() {
+    super.initState();
+    entryTime = _formatCurrentTime();
+    flatNumberController.addListener(() {
+      if (selectedFlat != null &&
+          flatNumberController.text.trim().toLowerCase() !=
+              (selectedFlat!.flatNumber ??
+                      selectedFlat!.propertyNameNumber ??
+                      '')
+                  .toLowerCase()) {
+        setState(() {
+          selectedFlat = null;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    visitorNameController.dispose();
+    visitorPhoneController.dispose();
+    flatNumberController.dispose();
+    vehicleNumberController.dispose();
+    purposeController.dispose();
+    flatFocusNode.dispose();
+    super.dispose();
+  }
+
+  String _formatCurrentTime() {
+    final now = DateTime.now();
+    final hour = now.hour == 0
+        ? 12
+        : (now.hour > 12 ? now.hour - 12 : now.hour);
+    final minute = now.minute.toString().padLeft(2, '0');
+    final period = now.hour >= 12 ? "PM" : "AM";
+    return "$hour:$minute $period";
+  }
 
   Future<void> pickVisitorPhoto() async {
     final ImagePicker picker = ImagePicker();
@@ -106,6 +166,7 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
 
   @override
   Widget build(BuildContext context) {
+    final getFlatApartmentState = ref.watch(getFlatApartmentProvider);
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -114,7 +175,6 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
         elevation: 0,
         toolbarHeight: 72.h,
         titleSpacing: 20.w,
-
         title: Row(
           children: [
             Expanded(
@@ -407,6 +467,7 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                     ),
                     SizedBox(height: 10.h),
                     _textField(
+                      controller: visitorNameController,
                       hintText: "Enter Visitor Full Name",
                       keyboardType: TextInputType.name,
                     ),
@@ -422,6 +483,7 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                     ),
                     SizedBox(height: 10.h),
                     _textField(
+                      controller: visitorPhoneController,
                       hintText: "Enter Visitor Mobile Number ",
                       keyboardType: TextInputType.number,
                     ),
@@ -536,6 +598,7 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                               SizedBox(
                                 height: 46.h,
                                 child: _textField(
+                                  controller: vehicleNumberController,
                                   hintText: "Optional",
                                   keyboardType: TextInputType.name,
                                 ),
@@ -557,8 +620,9 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                     ),
                     SizedBox(height: 10.h),
                     TextField(
+                      controller: purposeController,
                       keyboardType: TextInputType.multiline,
-                      maxLines: 5,
+                      maxLines: 4,
                       style: GoogleFonts.outfit(
                         fontSize: 17.sp,
                         color: AppColors.heading,
@@ -579,14 +643,14 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                         filled: true,
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3),
+                          borderRadius: BorderRadius.circular(10.r),
                           borderSide: const BorderSide(
                             color: Color(0xff92929A),
                             width: 1,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3),
+                          borderRadius: BorderRadius.circular(10.r),
                           borderSide: const BorderSide(
                             color: AppColors.heading,
                             width: 1.2,
@@ -594,6 +658,98 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 16.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Frequent Visitor",
+                              style: GoogleFonts.outfit(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.heading,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                            Text(
+                              "Mark as regular staff (Maid, Driver, etc.)",
+                              style: GoogleFonts.outfit(
+                                fontSize: 12.sp,
+                                color: const Color(0xFF666666),
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Transform.scale(
+                          scale: 0.8.h,
+                          child: Switch(
+                            value: isFrequentVisitor,
+                            activeThumbColor: AppColors.heading,
+                            onChanged: (val) {
+                              setState(() {
+                                isFrequentVisitor = val;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (isFrequentVisitor) ...[
+                      SizedBox(height: 10.h),
+                      Text(
+                        "Frequent Role",
+                        style: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.heading,
+                        ),
+                      ),
+                      SizedBox(height: 6.h),
+                      Container(
+                        height: 44.h,
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(6.r),
+                          border: Border.all(color: const Color(0xff92929A)),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: frequentRole,
+                            isExpanded: true,
+                            items:
+                                [
+                                  'Maid',
+                                  'Driver',
+                                  'Cook',
+                                  'Milkman',
+                                  'Plumber',
+                                  'Electrician',
+                                  'Other Staff',
+                                ].map((role) {
+                                  return DropdownMenuItem<String>(
+                                    value: role,
+                                    child: Text(
+                                      role,
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                            onChanged: (val) {
+                              setState(() {
+                                frequentRole = val;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -612,14 +768,37 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Apartment Details",
-                      style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
-                        letterSpacing: -0.2,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Apartment Details",
+                          style: GoogleFonts.outfit(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                        if (getFlatApartmentState.isLoading)
+                          SizedBox(
+                            width: 14.w,
+                            height: 14.w,
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.heading,
+                            ),
+                          )
+                        else if (getFlatApartmentState.hasValue)
+                          Text(
+                            "${(getFlatApartmentState.value?.data ?? getFlatApartmentState.value?.properties ?? []).length} Flats",
+                            style: GoogleFonts.outfit(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF6B7280),
+                            ),
+                          ),
+                      ],
                     ),
                     SizedBox(height: 13.h),
                     Text(
@@ -632,61 +811,559 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                       ),
                     ),
                     SizedBox(height: 7.h),
-                    TextField(
-                      keyboardType: TextInputType.name,
-                      style: GoogleFonts.outfit(
-                        fontSize: 20.sp,
-                        color: AppColors.heading,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: "Enter flat number e.g. A-204",
-                        hintStyle: const TextStyle(
-                          fontSize: 13,
-                          color: Color(0xff888891),
-                          fontWeight: FontWeight.w400,
+
+                    // RawAutocomplete for Flat / Apartment with dynamic suggestions
+                    RawAutocomplete<Datum>(
+                      textEditingController: flatNumberController,
+                      focusNode: flatFocusNode,
+                      optionsBuilder: (TextEditingValue textEditingValue) {
+                        final allFlats =
+                            getFlatApartmentState.value?.data ??
+                            getFlatApartmentState.value?.properties ??
+                            [];
+                        if (textEditingValue.text.isEmpty) {
+                          return allFlats;
+                        }
+                        final q = textEditingValue.text.trim().toLowerCase();
+                        return allFlats.where((flat) {
+                          final fNo =
+                              (flat.flatNumber ?? flat.propertyNameNumber ?? '')
+                                  .toLowerCase();
+                          final res = (flat.residentName ?? '').toLowerCase();
+                          final ph = (flat.residentPhone ?? '').toLowerCase();
+                          final loc = (flat.location ?? '').toLowerCase();
+                          return fNo.contains(q) ||
+                              res.contains(q) ||
+                              ph.contains(q) ||
+                              loc.contains(q);
+                        });
+                      },
+                      displayStringForOption: (Datum option) =>
+                          option.flatNumber ?? option.propertyNameNumber ?? '',
+                      fieldViewBuilder:
+                          (
+                            BuildContext context,
+                            TextEditingController controller,
+                            FocusNode focusNode,
+                            VoidCallback onFieldSubmitted,
+                          ) {
+                            return TextField(
+                              key: _autocompleteKey,
+                              controller: controller,
+                              focusNode: focusNode,
+                              onSubmitted: (_) => onFieldSubmitted(),
+                              style: GoogleFonts.outfit(
+                                fontSize: 16.sp,
+                                color: AppColors.heading,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              decoration: InputDecoration(
+                                isDense: true,
+                                hintText: "Enter flat no. or resident name...",
+                                hintStyle: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: const Color(0xff888891),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.apartment_rounded,
+                                  size: 20.sp,
+                                  color: controller.text.isNotEmpty
+                                      ? AppColors.heading
+                                      : const Color(0xff888891),
+                                ),
+                                suffixIcon: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (controller.text.isNotEmpty)
+                                      GestureDetector(
+                                        onTap: () {
+                                          controller.clear();
+                                          setState(() {
+                                            selectedFlat = null;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 4.w,
+                                          ),
+                                          child: Icon(
+                                            Icons.cancel_rounded,
+                                            size: 20.sp,
+                                            color: const Color(0xFF9CA3AF),
+                                          ),
+                                        ),
+                                      ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 8.w),
+                                      child: Container(
+                                        height: 32.h,
+                                        width: 32.w,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            6.r,
+                                          ),
+                                          color: const Color(0xFFF3F4F6),
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.search,
+                                            color: AppColors.heading,
+                                            size: 18.sp,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 12.h,
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  borderSide: BorderSide(
+                                    color: controller.text.isNotEmpty
+                                        ? AppColors.heading
+                                        : const Color(0xff92929A),
+                                    width: 1,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.heading,
+                                    width: 1.2,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                      optionsViewBuilder:
+                          (
+                            BuildContext context,
+                            AutocompleteOnSelected<Datum> onSelected,
+                            Iterable<Datum> options,
+                          ) {
+                            final renderBox =
+                                _autocompleteKey.currentContext
+                                        ?.findRenderObject()
+                                    as RenderBox?;
+                            final fieldWidth =
+                                renderBox?.size.width ??
+                                (MediaQuery.of(context).size.width - 72.w);
+
+                            return Align(
+                              alignment: Alignment.topLeft,
+                              child: Material(
+                                elevation: 6.0,
+                                shadowColor: Colors.black26,
+                                borderRadius: BorderRadius.circular(12.r),
+                                color: Colors.white,
+                                child: Container(
+                                  width: fieldWidth,
+                                  constraints: BoxConstraints(maxHeight: 260.h),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    border: Border.all(
+                                      color: const Color(0xFFE5E7EB),
+                                      width: 1.2,
+                                    ),
+                                  ),
+                                  child: options.isEmpty
+                                      ? Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 16.h,
+                                            horizontal: 14.w,
+                                          ),
+                                          child: Text(
+                                            "No matching flat or resident found",
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 13.sp,
+                                              color: const Color(0xFF6B7280),
+                                            ),
+                                          ),
+                                        )
+                                      : ListView.separated(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 4.h,
+                                          ),
+                                          shrinkWrap: true,
+                                          itemCount: options.length,
+                                          separatorBuilder: (_, __) =>
+                                              const Divider(
+                                                height: 1,
+                                                color: Color(0xFFF3F4F6),
+                                              ),
+                                          itemBuilder: (BuildContext context, int index) {
+                                            final Datum flat = options
+                                                .elementAt(index);
+                                            final flatNumber =
+                                                flat.flatNumber ??
+                                                flat.propertyNameNumber ??
+                                                'Flat';
+                                            final residentName =
+                                                (flat.residentName != null &&
+                                                    flat.residentName!
+                                                        .trim()
+                                                        .isNotEmpty)
+                                                ? flat.residentName!
+                                                : 'Vacant / Unassigned';
+                                            final isSelected =
+                                                selectedFlat?.id != null
+                                                ? selectedFlat?.id == flat.id
+                                                : flatNumberController.text ==
+                                                      flatNumber;
+
+                                            return InkWell(
+                                              onTap: () {
+                                                onSelected(flat);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 12.w,
+                                                  vertical: 10.h,
+                                                ),
+                                                color: isSelected
+                                                    ? const Color(0xFFF0FDF4)
+                                                    : Colors.transparent,
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 36.w,
+                                                      height: 36.w,
+                                                      decoration: BoxDecoration(
+                                                        color: isSelected
+                                                            ? const Color(
+                                                                0xFFDCFCE7,
+                                                              )
+                                                            : const Color(
+                                                                0xFFF3F4F6,
+                                                              ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              8.r,
+                                                            ),
+                                                      ),
+                                                      child: Center(
+                                                        child: Icon(
+                                                          Icons
+                                                              .apartment_rounded,
+                                                          size: 18.sp,
+                                                          color: isSelected
+                                                              ? const Color(
+                                                                  0xFF16A34A,
+                                                                )
+                                                              : AppColors
+                                                                    .heading,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 10.w),
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                flatNumber,
+                                                                style: GoogleFonts.outfit(
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppColors
+                                                                      .heading,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 6.w,
+                                                              ),
+                                                              Container(
+                                                                padding:
+                                                                    EdgeInsets.symmetric(
+                                                                      horizontal:
+                                                                          5.w,
+                                                                      vertical:
+                                                                          1.h,
+                                                                    ),
+                                                                decoration: BoxDecoration(
+                                                                  color: const Color(
+                                                                    0xFFECFDF5,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(
+                                                                        4.r,
+                                                                      ),
+                                                                ),
+                                                                child: Text(
+                                                                  "OCCUPIED",
+                                                                  style: GoogleFonts.outfit(
+                                                                    fontSize:
+                                                                        9.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: const Color(
+                                                                      0xFF065F46,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(height: 2.h),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .person_outline_rounded,
+                                                                size: 12.sp,
+                                                                color:
+                                                                    const Color(
+                                                                      0xFF6B7280,
+                                                                    ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 4.w,
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  residentName,
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: GoogleFonts.outfit(
+                                                                    fontSize:
+                                                                        12.sp,
+                                                                    color: const Color(
+                                                                      0xFF374151,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              if (flat.residentPhone !=
+                                                                      null &&
+                                                                  flat
+                                                                      .residentPhone!
+                                                                      .isNotEmpty) ...[
+                                                                SizedBox(
+                                                                  width: 6.w,
+                                                                ),
+                                                                Text(
+                                                                  flat.residentPhone!,
+                                                                  style: GoogleFonts.outfit(
+                                                                    fontSize:
+                                                                        11.sp,
+                                                                    color: const Color(
+                                                                      0xFF9CA3AF,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    if (isSelected)
+                                                      Icon(
+                                                        Icons
+                                                            .check_circle_rounded,
+                                                        color: const Color(
+                                                          0xFF16A34A,
+                                                        ),
+                                                        size: 18.sp,
+                                                      ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                ),
+                              ),
+                            );
+                          },
+                      onSelected: (Datum selection) {
+                        setState(() {
+                          selectedFlat = selection;
+                          flatNumberController.text =
+                              selection.flatNumber ??
+                              selection.propertyNameNumber ??
+                              '';
+                        });
+                        flatFocusNode.unfocus();
+                      },
+                    ),
+
+                    // Rich Resident Card Preview when a flat is selected
+                    if (selectedFlat != null) ...[
+                      SizedBox(height: 12.h),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 14.w,
+                          vertical: 12.h,
                         ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 11.h,
-                        ),
-                        suffixIcon: Container(
-                          margin: EdgeInsets.symmetric(
-                            vertical: 5.h,
-                            horizontal: 10.w,
-                          ),
-                          height: 20.w,
-                          width: 22.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r),
-                            border: Border.all(color: AppColors.heading),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.search,
-                              color: AppColors.heading,
-                              size: 20.h,
-                            ),
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Color(0xff92929A),
-                            width: 1,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: AppColors.heading,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF9FAFB),
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(
+                            color: const Color(0xFFE5E7EB),
                             width: 1.2,
                           ),
                         ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.person_outline_rounded,
+                                        size: 16.sp,
+                                        color: AppColors.heading,
+                                      ),
+                                      SizedBox(width: 6.w),
+                                      Expanded(
+                                        child: Text(
+                                          selectedFlat!.residentName ??
+                                              "Vacant / Unassigned",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.heading,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
+                                    vertical: 3.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFECFDF5),
+                                    borderRadius: BorderRadius.circular(6.r),
+                                    border: Border.all(
+                                      color: const Color(0xFFA7F3D0),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: 6.w,
+                                        height: 6.w,
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFF10B981),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(
+                                        selectedFlat!.statusBadge != null
+                                            ? (statusBadgeValues
+                                                      .reverse[selectedFlat!
+                                                      .statusBadge] ??
+                                                  "OCCUPIED")
+                                            : "OCCUPIED",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: const Color(0xFF065F46),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            if (selectedFlat!.residentPhone != null &&
+                                selectedFlat!.residentPhone!.isNotEmpty) ...[
+                              SizedBox(height: 6.h),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.phone_outlined,
+                                    size: 14.sp,
+                                    color: const Color(0xFF6B7280),
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  Text(
+                                    "Mobile: ${selectedFlat!.residentPhone}",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 13.sp,
+                                      color: const Color(0xFF4B5563),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+
+                            if (selectedFlat!.location != null &&
+                                selectedFlat!.location!.isNotEmpty) ...[
+                              SizedBox(height: 6.h),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    size: 14.sp,
+                                    color: const Color(0xFF6B7280),
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  Expanded(
+                                    child: Text(
+                                      "Location: ${selectedFlat!.location}",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 13.sp,
+                                        color: const Color(0xFF6B7280),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ],
+                        ),
                       ),
-                    ),
+                    ] else if (flatNumberController.text.isNotEmpty) ...[
+                      SizedBox(height: 8.h),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline_rounded,
+                            size: 14.sp,
+                            color: const Color(0xFF6B7280),
+                          ),
+                          SizedBox(width: 6.w),
+                          Text(
+                            "Manual flat number. Tap to pick from list.",
+                            style: GoogleFonts.outfit(
+                              fontSize: 12.sp,
+                              color: const Color(0xFF6B7280),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -766,7 +1443,7 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                             ),
                           ),
                           Text(
-                            '11:18 AM',
+                            entryTime,
                             style: GoogleFonts.outfit(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
@@ -791,18 +1468,120 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                   ),
-                  onPressed: () {
-                  Navigator.push(context, CupertinoPageRoute(builder: (context)=> Visitorapprovalpassscreen()));
-                  },
-                  child: Text(
-                    'Send Approval Request',
-                    style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
+                  onPressed: isVisitorLoading
+                      ? null
+                      : () async {
+                          final vName = visitorNameController.text.trim();
+                          final vPhone = visitorPhoneController.text.trim();
+                          final vFlat = flatNumberController.text.trim();
+
+                          if (vName.isEmpty) {
+                            showErrorSnackBar("Please enter visitor full name");
+                            return;
+                          }
+                          if (vPhone.isEmpty) {
+                            showErrorSnackBar(
+                              "Please enter visitor mobile number",
+                            );
+                            return;
+                          }
+                          if (vFlat.isEmpty) {
+                            showErrorSnackBar(
+                              "Please enter flat / apartment number",
+                            );
+                            return;
+                          }
+
+                          final vType = (selectedVisitType ?? "guest")
+                              .toLowerCase();
+                          final vVehicle = vehicleNumberController.text.trim();
+                          final vPurpose = purposeController.text.trim();
+
+                          setState(() {
+                            isVisitorLoading = true;
+                          });
+
+                          try {
+                            final authService = ref.read(authServiceProvider);
+                            final response = await authService.addVisitorData(
+                              visitorName: vName,
+                              visitorPhone: vPhone,
+                              flatNumber: vFlat,
+                              visitType: vType,
+                              vehicleNumber: vVehicle.isEmpty
+                                  ? "None"
+                                  : vVehicle,
+                              purpose: vPurpose.isEmpty ? "Visit" : vPurpose,
+                              visitorPhoto: visitorPhoto,
+                              isFrequent: isFrequentVisitor ? "1" : "0",
+                              frequentRole: isFrequentVisitor
+                                  ? (frequentRole ?? "Maid")
+                                  : "",
+                            );
+
+                            String? returnedVisitorId;
+                            try {
+                              if (response.status == true) {
+                                returnedVisitorId = response
+                                    .data!
+                                    .visitorDetails!
+                                    .id
+                                    .toString();
+                              }
+                            } catch (_) {}
+
+                            showSuccessSnackBar(
+                              "Visitor registered & approval request sent!",
+                            );
+
+                            if (context.mounted) {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) =>
+                                      Visitorapprovalpassscreen(
+                                        visitorId: returnedVisitorId.toString(),
+                                        visitorName: vName,
+                                        visitorPhone: vPhone,
+                                        flatNumber: vFlat,
+                                        visitType: selectedVisitType ?? "Guest",
+                                        vehicleNumber: vVehicle,
+                                        purpose: vPurpose,
+                                        initialStatus: "PENDING",
+                                        inTime: entryTime,
+                                      ),
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            // showErrorSnackBar(e.toString());
+                            log(e.toString());
+                          } finally {
+                            if (mounted) {
+                              setState(() {
+                                isVisitorLoading = false;
+                              });
+                            }
+                          }
+                        },
+                  child: isVisitorLoading
+                      ? SizedBox(
+                          height: 20.h,
+                          width: 20.h,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text(
+                          'Send Approval Request',
+                          style: GoogleFonts.outfit(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
                 ),
               ),
               SizedBox(height: 10.h),
@@ -840,8 +1619,10 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
     required String hintText,
     TextInputType? keyboardType,
     int maxLines = 1,
+    TextEditingController? controller,
   }) {
     return TextField(
+      controller: controller,
       keyboardType: keyboardType,
       maxLines: maxLines,
       style: GoogleFonts.outfit(
@@ -863,11 +1644,11 @@ class _GuardvisitorscreenState extends State<Guardvisitorscreen> {
         filled: true,
         fillColor: Colors.white,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(3),
+          borderRadius: BorderRadius.circular(10.r),
           borderSide: const BorderSide(color: Color(0xff92929A), width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(3),
+          borderRadius: BorderRadius.circular(10.r),
           borderSide: const BorderSide(color: AppColors.heading, width: 1.2),
         ),
       ),

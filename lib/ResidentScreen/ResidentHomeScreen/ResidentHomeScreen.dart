@@ -14,6 +14,7 @@ import 'package:property_association_or_resident/ResidentScreen/ResidentBottomSc
 import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/CommunityContactsScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentEmergencyContactScreen/Emergency_ContactScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentNotification_Screen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentGateApproval/ResidentGateApprovalScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentMmcStatusScreen/MMC_StatusScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassRequest.dart';
 import 'package:svg_flutter/svg.dart';
@@ -489,6 +490,103 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(height: 16.h),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              const ResidentGateApprovalScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFDF0),
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: const Color(0xFFE8B900),
+                          width: 1.2,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8.r),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE8B900).withOpacity(0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.security_rounded,
+                              color: const Color(0xFFB8860B),
+                              size: 18.sp,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Gate Approvals",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.heading,
+                                      ),
+                                    ),
+                                    SizedBox(width: 6.w),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w,
+                                        vertical: 2.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFD22424),
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "2 Pending",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  "Visitor & delivery approval requests at Gate 1",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF666666),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14.sp,
+                            color: AppColors.heading,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
 
                   /*

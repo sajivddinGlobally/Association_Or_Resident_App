@@ -5,9 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
-import 'package:property_association_or_resident/Core/data/model/ResponseModel/maintananceOverviewModel.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/GuaredHistoryScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardParcelScreen/GuardParcelRegisterScreen.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/GuardScanPassScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/GuardVisitorScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/Provider/guardDashBoardProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/GuardVehicleScreen.dart';
@@ -25,12 +25,22 @@ class GuardBottomNavState extends StatefulWidget {
 class _GuardBottomNavStateState extends State<GuardBottomNavState> {
   int selectedBottomIndex = 0;
   List<Widget> get pages => [
-    Guardhomescreen(),
+    Guardhomescreen(
+      onVisitorTap: () {
+        setState(() {
+          selectedBottomIndex = 1;
+        });
+      },
+      onParcelTap: () {
+        setState(() {
+          selectedBottomIndex = 2;
+        });
+      },
+    ),
     Guardvisitorscreen(),
     Guardparcelregisterscreen(),
     Guaredhistoryscreen(),
     GuardProfileScreen(),
-
   ];
   @override
   Widget build(BuildContext context) {
@@ -159,7 +169,13 @@ class _GuardBottomNavStateState extends State<GuardBottomNavState> {
 }
 
 class Guardhomescreen extends ConsumerStatefulWidget {
-  const Guardhomescreen({super.key});
+  final VoidCallback onVisitorTap;
+  final VoidCallback onParcelTap;
+  const Guardhomescreen({
+    super.key,
+    required this.onVisitorTap,
+    required this.onParcelTap,
+  });
 
   @override
   ConsumerState<Guardhomescreen> createState() => _GuardhomescreenState();
@@ -470,17 +486,32 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                             title: "Register Visitor",
                             subtitle:
                                 "Add visitor photo, flat details & request approval",
+                            onTap: () {
+                              widget.onVisitorTap();
+                            },
                           ),
                           _infoCard(
                             icon: Icons.inventory_2_outlined,
                             title: "Register Parcel",
                             subtitle:
                                 "Capture parcel details & request approval",
+                            onTap: () {
+                              widget.onParcelTap();
+                            },
                           ),
                           _infoCard(
-                            icon: Icons.circle,
+                            icon: Icons.qr_code_scanner_rounded,
                             title: "Scan Visitor Pass",
                             subtitle: "Scan QR code or visitor pass code",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) =>
+                                      const GuardScanPassScreen(),
+                                ),
+                              );
+                            },
                           ),
                           _infoCard(
                             icon: Icons.directions_car_outlined,
@@ -626,7 +657,13 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                                     width: 68.w,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        // Search action
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                            builder: (context) =>
+                                                Guardvehiclescreen(),
+                                          ),
+                                        );
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(

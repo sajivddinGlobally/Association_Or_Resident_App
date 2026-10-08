@@ -9,7 +9,7 @@ import 'package:property_association_or_resident/Core/AuthService/AuthServicePro
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardParcelScreen/GuardParcelRegisterScreen.dart';
-import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/Provider/guardDashBoardProvider.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardProfileScreen/provider/getGuardProfileProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/GuardVehicleScreen.dart';
 
 class GuardProfileScreen extends ConsumerStatefulWidget {
@@ -22,17 +22,7 @@ class GuardProfileScreen extends ConsumerStatefulWidget {
 class _GuardProfileScreenState extends ConsumerState<GuardProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final guardDashboard = ref.watch(guardDashboardProvider);
-    final data = guardDashboard.valueOrNull?.data;
-    var box = Hive.box("associationdata");
-
-    final guardName =
-        box.get("name") ?? data?.header?.guardName ?? "Security Guard";
-    final shiftName = data?.shiftCard?.shiftName ?? "Day Shift";
-    final timings = data?.shiftCard?.timings ?? "08:00 AM - 08:00 PM";
-    final isOnDuty = data?.shiftCard?.isOnDuty ?? true;
-    final statusLabel =
-        data?.shiftCard?.statusLabel ?? (isOnDuty ? "ON DUTY" : "OFF DUTY");
+    final guardProfileState = ref.watch(getGuardProfileProvider);
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
@@ -74,303 +64,320 @@ class _GuardProfileScreenState extends ConsumerState<GuardProfileScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20.h),
-
-              // Profile Card
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  color: AppColors.heading,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+      body: guardProfileState.when(
+        data: (data) {
+          final statusleble = data.data?.isOnDuty == true
+              ? "ON DUTY"
+              : "OFF DUTY";
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.heading,
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipOval(
-                          child: Image.network(
-                            data?.header?.avatarUrl ?? "",
-                            width: 58.w,
-                            height: 58.w,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
+                        Row(
+                          children: [
+                            ClipOval(
+                              child: Image.network(
+                                data.data?.avatarUrl ?? "",
                                 width: 58.w,
                                 height: 58.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(50.r),
-                                ),
-                                child: Icon(
-                                  Icons.security,
-                                  color: Colors.white,
-                                  size: 30.sp,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(width: 12.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                guardName,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.outfit(
-                                  fontSize: 19.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                  letterSpacing: -0.2,
-                                ),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 58.w,
+                                    height: 58.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.circular(50.r),
+                                    ),
+                                    child: Icon(
+                                      Icons.security,
+                                      color: Colors.white,
+                                      size: 30.sp,
+                                    ),
+                                  );
+                                },
                               ),
-                              SizedBox(height: 3.h),
-                              Text(
-                                "Security Personnel · Main Gate",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white70,
-                                  letterSpacing: -0.2,
-                                ),
+                            ),
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    data.data?.name ?? "N/A",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 19.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                  SizedBox(height: 3.h),
+                                  Text(
+                                    "Security Personnel · ${data.data?.guardPost ?? ""}",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white70,
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 14.h),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 6.h,
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 14.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 6.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF514719),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Text(
-                        "•  Guard Access Active ($shiftName)",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFFB8860B),
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 20.h),
-
-              // Current Duty Section
-              Text(
-                "Current Shift & Duty",
-                style: GoogleFonts.outfit(
-                  fontSize: 19.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.heading,
-                  letterSpacing: -0.2,
-                ),
-              ),
-              SizedBox(height: 14.h),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFF101C16), width: 1),
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF514719),
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
                           child: Text(
-                            "Gate Duty Assignment",
+                            "•  Guard Access Active (${data.data?.shiftName ?? ""})",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 18.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
-                              color: const Color(0xFF101C16),
+                              color: const Color(0xFFB8860B),
                               letterSpacing: -0.2,
                             ),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 14.w,
-                            vertical: 5.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFD1F4DE),
-                            borderRadius: BorderRadius.circular(25.r),
-                          ),
-                          child: Text(
-                            statusLabel,
-                            style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF16B866),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Text(
+                    "Current Shift & Duty",
+                    style: GoogleFonts.outfit(
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.heading,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  SizedBox(height: 14.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color(0xFF101C16),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "Gate Duty Assignment",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF101C16),
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
                             ),
-                          ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 14.w,
+                                vertical: 5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFD1F4DE),
+                                borderRadius: BorderRadius.circular(25.r),
+                              ),
+                              child: Text(
+                                statusleble,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF16B866),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 12.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _dutyItem(
+                                "Shift Timing",
+                                data.data?.shiftTimings ?? "",
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Expanded(
+                              child: _dutyItem(
+                                "Shift Type",
+                                data.data?.shiftName ?? "",
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 12.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _dutyItem(
+                                "Gate / Post",
+                                data.data?.guardPost ?? "",
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Expanded(
+                              child: _dutyItem(
+                                "Role Assigned",
+                                data.data?.role ?? "",
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    SizedBox(height: 12.h),
-                    Row(
+                  ),
+                  SizedBox(height: 20.h),
+                  Text(
+                    "Gate Operations",
+                    style: GoogleFonts.outfit(
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.heading,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  SizedBox(height: 14.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xff888888)),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Column(
                       children: [
-                        Expanded(child: _dutyItem("Shift Timing", timings)),
-                        SizedBox(width: 16.w),
-                        Expanded(child: _dutyItem("Shift Type", shiftName)),
+                        menuItem(
+                          icon: Icons.directions_car_outlined,
+                          title: "Vehicle Search",
+                          subtitle: "Verify resident & visitor vehicles",
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    const Guardvehiclescreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        const Divider(height: 1, color: Color(0xff555555)),
+                        menuItem(
+                          icon: Icons.inventory_2_outlined,
+                          title: "Parcel Register",
+                          subtitle: "Manage incoming and delivered parcels",
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    const Guardparcelregisterscreen(),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
-                    SizedBox(height: 12.h),
-                    Row(
+                  ),
+                  SizedBox(height: 20.h),
+                  Text(
+                    "Security & Support",
+                    style: GoogleFonts.outfit(
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.heading,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  SizedBox(height: 14.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xff888888)),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: _dutyItem(
-                            "Gate / Post",
-                            "Gate 1 - Main Entry",
-                          ),
+                        menuItem(
+                          icon: Icons.notifications_none_sharp,
+                          title: "Gate Alerts & Notices",
+                          subtitle: "Society announcements and alerts",
+                          onTap: () {},
                         ),
-                        SizedBox(width: 16.w),
-                        Expanded(
-                          child: _dutyItem("Role Assigned", "Head Security"),
+                        const Divider(height: 1, color: Color(0xff555555)),
+                        menuItem(
+                          icon: Icons.phone_in_talk_outlined,
+                          title: "Emergency Contacts",
+                          subtitle: "Police, Fire, Ambulance & Association",
+                          onTap: () {},
+                        ),
+                        const Divider(height: 1, color: Color(0xff555555)),
+                        menuItem(
+                          icon: Icons.lock_outline,
+                          title: "Security & Password",
+                          subtitle: "Update guard account password",
+                          onTap: () {},
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 24.h),
+                  signOutCard(
+                    onTap: () async {
+                      _showLogoutDialog(context);
+                    },
+                  ),
+                  SizedBox(height: 30.h),
+                ],
               ),
-
-              SizedBox(height: 20.h),
-
-              // Gate Operations / Menu Items
-              Text(
-                "Gate Operations",
-                style: GoogleFonts.outfit(
-                  fontSize: 19.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.heading,
-                  letterSpacing: -0.2,
-                ),
-              ),
-              SizedBox(height: 14.h),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xff888888)),
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Column(
-                  children: [
-                    menuItem(
-                      icon: Icons.directions_car_outlined,
-                      title: "Vehicle Search",
-                      subtitle: "Verify resident & visitor vehicles",
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => const Guardvehiclescreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    const Divider(height: 1, color: Color(0xff555555)),
-                    menuItem(
-                      icon: Icons.inventory_2_outlined,
-                      title: "Parcel Register",
-                      subtitle: "Manage incoming and delivered parcels",
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) =>
-                                const Guardparcelregisterscreen(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 20.h),
-
-              // Security & Support Section
-              Text(
-                "Security & Support",
-                style: GoogleFonts.outfit(
-                  fontSize: 19.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.heading,
-                  letterSpacing: -0.2,
-                ),
-              ),
-              SizedBox(height: 14.h),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xff888888)),
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Column(
-                  children: [
-                    menuItem(
-                      icon: Icons.notifications_none_sharp,
-                      title: "Gate Alerts & Notices",
-                      subtitle: "Society announcements and alerts",
-                      onTap: () {},
-                    ),
-                    const Divider(height: 1, color: Color(0xff555555)),
-                    menuItem(
-                      icon: Icons.phone_in_talk_outlined,
-                      title: "Emergency Contacts",
-                      subtitle: "Police, Fire, Ambulance & Association",
-                      onTap: () {},
-                    ),
-                    const Divider(height: 1, color: Color(0xff555555)),
-                    menuItem(
-                      icon: Icons.lock_outline,
-                      title: "Security & Password",
-                      subtitle: "Update guard account password",
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 24.h),
-
-              // Sign Out Card
-              signOutCard(
-                onTap: () async {
-                  _showLogoutDialog(context);
-                },
-              ),
-
-              SizedBox(height: 30.h),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
+        error: (error, stackTrace) {
+          return Center(child: Text("Error loading guard profile"));
+        },
+        loading: () {
+          return Center(
+            child: CircularProgressIndicator(color: AppColors.heading),
+          );
+        },
       ),
     );
   }
