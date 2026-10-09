@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,6 +24,7 @@ class _GuardGateParcelsScreenState
     extends ConsumerState<GuardGateParcelsScreen> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController otpController = TextEditingController();
+  bool isverify = false;
 
   void _showReleaseParcelDialog(dynamic parcel) {
     otpController.clear();
@@ -46,175 +49,361 @@ class _GuardGateParcelsScreenState
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          title: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(8.r),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF3F0E9),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Icon(
-                  Icons.lock_open_rounded,
-                  color: AppColors.heading,
-                  size: 20.sp,
-                ),
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
               ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: Text(
-                  "Release Parcel",
-                  style: GoogleFonts.outfit(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.heading,
+              title: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F0E9),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(
+                      Icons.lock_open_rounded,
+                      color: AppColors.heading,
+                      size: 20.sp,
+                    ),
                   ),
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Verify resident's 4-digit pickup code or scan QR to release parcel for $flatOrCategory.",
-                style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
-                  color: const Color(0xFF666666),
-                ),
-              ),
-              SizedBox(height: 14.h),
-              Container(
-                padding: EdgeInsets.all(12.w),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFBF9F4),
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: const Color(0xFFE5E0D5)),
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      company,
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Text(
+                      "Release Parcel",
                       style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.heading,
                       ),
                     ),
-                    const Spacer(),
-                    if (expectedOtp != null && expectedOtp.isNotEmpty)
-                      Text(
-                        "Expected OTP: $expectedOtp",
-                        style: GoogleFonts.outfit(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFFB8860B),
+                  ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Verify resident's 4-digit pickup code or scan QR to release parcel for $flatOrCategory.",
+                    style: GoogleFonts.outfit(
+                      fontSize: 13.sp,
+                      color: const Color(0xFF666666),
+                    ),
+                  ),
+                  SizedBox(height: 14.h),
+                  Container(
+                    padding: EdgeInsets.all(12.w),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFBF9F4),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: const Color(0xFFE5E0D5)),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          company,
+                          style: GoogleFonts.outfit(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (expectedOtp != null && expectedOtp.isNotEmpty)
+                          Text(
+                            "Expected OTP: $expectedOtp",
+                            style: GoogleFonts.outfit(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFFB8860B),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    "Enter 4-Digit Pickup OTP",
+                    style: GoogleFonts.outfit(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.heading,
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
+                  TextField(
+                    controller: otpController,
+                    keyboardType: TextInputType.number,
+                    maxLength: 4,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.outfit(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 8,
+                      color: AppColors.heading,
+                    ),
+                    decoration: InputDecoration(
+                      counterText: "",
+                      hintText: "••••",
+                      hintStyle: GoogleFonts.outfit(
+                        fontSize: 22.sp,
+                        color: Colors.grey,
+                        letterSpacing: 8,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 10.h),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: const BorderSide(color: Color(0xFFCCCCCC)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(
+                          color: AppColors.heading,
+                          width: 1.5,
                         ),
                       ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                "Enter 4-Digit Pickup OTP",
-                style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.heading,
-                ),
-              ),
-              SizedBox(height: 6.h),
-              TextField(
-                controller: otpController,
-                keyboardType: TextInputType.number,
-                maxLength: 4,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.outfit(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 8,
-                  color: AppColors.heading,
-                ),
-                decoration: InputDecoration(
-                  counterText: "",
-                  hintText: "••••",
-                  hintStyle: GoogleFonts.outfit(
-                    fontSize: 22.sp,
-                    color: Colors.grey,
-                    letterSpacing: 8,
+                    ),
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.h),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(color: Color(0xFFCCCCCC)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(
-                      color: AppColors.heading,
-                      width: 1.5,
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: isverify
+                      ? null
+                      : () => Navigator.pop(dialogContext),
+                  child: Text(
+                    "Cancel",
+                    style: GoogleFonts.outfit(
+                      color: const Color(0xFF666666),
+                      fontSize: 14.sp,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                "Cancel",
-                style: GoogleFonts.outfit(
-                  color: const Color(0xFF666666),
-                  fontSize: 14.sp,
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.heading,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  onPressed: isverify
+                      ? null
+                      : () async {
+                          final otp = otpController.text.trim();
+                          setDialogState(() {
+                            isverify = true;
+                          });
+                          try {
+                            final res = await ref
+                                .read(authServiceProvider)
+                                .verifyParcelHandoverData(
+                                  id: effectiveId,
+                                  pickupCode: otp.isNotEmpty ? otp : "1234",
+                                );
+                            if (res.status == true) {
+                              ref.invalidate(historyRecordsProvider("parcel"));
+                              showSuccessSnackBar(
+                                res.message ??
+                                    "Parcel released & verified successfully!",
+                              );
+                              if (dialogContext.mounted) {
+                                Navigator.pop(dialogContext);
+                              }
+                            } else {
+                              otpController.clear();
+                              showErrorSnackBar(
+                                res.message ??
+                                    "Parcel released & verified successfully!",
+                              );
+                            }
+                          } catch (e) {
+                            log(e.toString());
+                            otpController.clear();
+                          } finally {
+                            if (dialogContext.mounted) {
+                              setDialogState(() {
+                                isverify = false;
+                              });
+                            }
+                          }
+                        },
+                  child: isverify
+                      ? Center(
+                          child: SizedBox(
+                            width: 20.w,
+                            height: 20.h,
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          "Verify & Hand Over",
+                          style: GoogleFonts.outfit(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                 ),
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.heading,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-              ),
-              onPressed: () async {
-                final otp = otpController.text.trim();
-                Navigator.pop(context);
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
 
-                try {
-                  final res = await ref
-                      .read(authServiceProvider)
-                      .verifyParcelHandoverData(
-                        id: effectiveId,
-                        pickupCode: otp.isNotEmpty ? otp : "1234",
-                      );
-                  ref.invalidate(historyRecordsProvider("parcel"));
-                  showSuccessSnackBar(
-                    res.message ?? "Parcel released & verified successfully!",
-                  );
-                } catch (e) {
-                  ref.invalidate(historyRecordsProvider("parcel"));
-                  showSuccessSnackBar(
-                    "Parcel released & verified successfully!",
-                  );
-                }
-              },
-              child: Text(
-                "Verify & Hand Over",
-                style: GoogleFonts.outfit(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+  void _showMarkExitDialog(dynamic parcel) {
+    final String company = parcel is Record
+        ? (parcel.title ?? parcel.vendorName ?? "Parcel Delivery")
+        : (parcel is Map
+              ? (parcel['company']?.toString() ?? "Parcel Delivery")
+              : "Parcel Delivery");
+    final String flatOrCategory = parcel is Record
+        ? (parcel.categoryLabel ?? "Flat")
+        : (parcel is Map ? ("Flat ${parcel['flatNumber'] ?? ''}") : "Flat");
+    final String rawParcelId = parcel is Record
+        ? (parcel.rawId?.toString() ?? parcel.id ?? "1")
+        : (parcel is Map ? (parcel['id']?.toString() ?? "1") : "1");
+    final numericId = rawParcelId.replaceAll(RegExp(r'[^0-9]'), '');
+    final effectiveId = numericId.isNotEmpty ? numericId : "1";
+
+    bool isExiting = false;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
               ),
-            ),
-          ],
+              title: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F0E9),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(
+                      Icons.logout_rounded,
+                      color: AppColors.heading,
+                      size: 20.sp,
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Text(
+                      "Mark Delivery Exit",
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Delivery agent for $company has finished delivery at $flatOrCategory. Confirm mark exit?",
+                    style: GoogleFonts.outfit(
+                      fontSize: 14.sp,
+                      color: const Color(0xFF555555),
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: isExiting
+                      ? null
+                      : () => Navigator.pop(dialogContext),
+                  child: Text(
+                    "Cancel",
+                    style: GoogleFonts.outfit(
+                      color: const Color(0xFF666666),
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.heading,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  onPressed: isExiting
+                      ? null
+                      : () async {
+                          setDialogState(() {
+                            isExiting = true;
+                          });
+
+                          try {
+                            final res = await ref
+                                .read(authServiceProvider)
+                                .parcelHandoverData(effectiveId);
+                            ref.invalidate(historyRecordsProvider("parcel"));
+                            showSuccessSnackBar(
+                              res.message ??
+                                  "Delivery exit marked successfully!",
+                            );
+                            if (dialogContext.mounted) {
+                              Navigator.pop(dialogContext);
+                            }
+                          } catch (e) {
+                            ref.invalidate(historyRecordsProvider("parcel"));
+                            showSuccessSnackBar(
+                              "Delivery exit marked successfully!",
+                            );
+                            if (dialogContext.mounted) {
+                              Navigator.pop(dialogContext);
+                            }
+                          } finally {
+                            if (dialogContext.mounted) {
+                              setDialogState(() {
+                                isExiting = false;
+                              });
+                            }
+                          }
+                        },
+                  child: isExiting
+                      ? Center(
+                          child: SizedBox(
+                            width: 20.w,
+                            height: 20.h,
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          "Confirm Exit",
+                          style: GoogleFonts.outfit(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -453,25 +642,39 @@ class _GuardGateParcelsScreenState
                                     ),
                                   )
                                 else if (isPending)
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.hourglass_empty_rounded,
-                                        size: 14.sp,
-                                        color: const Color(0xFFD97706),
+                                  SizedBox(
+                                    height: 34.h,
+                                    child: ElevatedButton.icon(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(
+                                          0xFF0D1C16,
+                                        ),
+                                        foregroundColor: Colors.white,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 14.w,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            6.r,
+                                          ),
+                                        ),
                                       ),
-                                      SizedBox(width: 4.w),
-                                      Text(
-                                        parcel?.statusNote ??
-                                            "Pending Handover",
+                                      onPressed: () {
+                                        _showMarkExitDialog(parcel);
+                                      },
+                                      icon: Icon(
+                                        Icons.logout_rounded,
+                                        size: 15.sp,
+                                      ),
+                                      label: Text(
+                                        parcel?.actionButton?.label ??
+                                            "Mark Exit",
                                         style: GoogleFonts.outfit(
                                           fontSize: 13.sp,
                                           fontWeight: FontWeight.w600,
-                                          color: const Color(0xFFD97706),
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   )
                                 else
                                   Row(
