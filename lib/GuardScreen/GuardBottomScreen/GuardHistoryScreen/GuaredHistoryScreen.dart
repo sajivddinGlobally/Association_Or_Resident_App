@@ -14,6 +14,7 @@ import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/Gua
 import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/markOutResModel.dart'
     as mark_out_model;
+import 'package:url_launcher/url_launcher.dart';
 
 class Guaredhistoryscreen extends StatefulWidget {
   final bool? isBackButtonShow;
@@ -1563,7 +1564,26 @@ class _GuardsTabState extends ConsumerState<GuardsTab> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            final String phone = guard?.phone ?? "";
+
+                            if (phone.isNotEmpty) {
+                              final Uri phoneUri = Uri(
+                                scheme: 'tel',
+                                path: phone,
+                              );
+
+                              if (await canLaunchUrl(phoneUri)) {
+                                await launchUrl(phoneUri);
+                              } else {
+                                showErrorSnackBar(
+                                  "Unable to open phone dialer",
+                                );
+                              }
+                            } else {
+                              showErrorSnackBar("Phone number not available");
+                            }
+                          },
                           child: Container(
                             height: 30.h,
                             width: 30.w,
@@ -1573,24 +1593,6 @@ class _GuardsTabState extends ConsumerState<GuardsTab> {
                             ),
                             child: Icon(
                               Icons.phone_outlined,
-                              color: Colors.white,
-                              size: 18.sp,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(width: 6.w),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 30.h,
-                            width: 30.w,
-                            decoration: BoxDecoration(
-                              color: const Color(0xff0B211A),
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Icon(
-                              Icons.chat_bubble_outline,
                               color: Colors.white,
                               size: 18.sp,
                             ),

@@ -293,76 +293,6 @@ class _GuardparcelregisterscreenState
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             children: [
-              // SizedBox(height: 16.h),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       CupertinoPageRoute(
-              //         builder: (context) => const GuardGateParcelsScreen(),
-              //       ),
-              //     );
-              //   },
-              //   child: Container(
-              //     width: double.infinity,
-              //     padding: EdgeInsets.symmetric(
-              //       horizontal: 14.w,
-              //       vertical: 12.h,
-              //     ),
-              //     decoration: BoxDecoration(
-              //       color: const Color(0xFFFFFDF0),
-              //       borderRadius: BorderRadius.circular(10.r),
-              //       border: Border.all(
-              //         color: const Color(0xFFE8B900),
-              //         width: 1.2,
-              //       ),
-              //     ),
-              //     child: Row(
-              //       children: [
-              //         Container(
-              //           padding: EdgeInsets.all(8.r),
-              //           decoration: BoxDecoration(
-              //             color: const Color(0xFFE8B900).withValues(alpha: 0.2),
-              //             shape: BoxShape.circle,
-              //           ),
-              //           child: Icon(
-              //             Icons.inventory_2,
-              //             color: const Color(0xFFB8860B),
-              //             size: 18.sp,
-              //           ),
-              //         ),
-              //         SizedBox(width: 10.w),
-              //         Expanded(
-              //           child: Column(
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: [
-              //               Text(
-              //                 "Gate Held Parcels Locker (2 Pending)",
-              //                 style: GoogleFonts.outfit(
-              //                   fontSize: 14.sp,
-              //                   fontWeight: FontWeight.w600,
-              //                   color: AppColors.heading,
-              //                 ),
-              //               ),
-              //               Text(
-              //                 "View held parcels & verify pickup OTP to release",
-              //                 style: GoogleFonts.outfit(
-              //                   fontSize: 12.sp,
-              //                   color: const Color(0xFF666666),
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //         Icon(
-              //           Icons.arrow_forward_ios_rounded,
-              //           size: 14.sp,
-              //           color: AppColors.heading,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
               SizedBox(height: 16.h),
               Container(
                 width: double.infinity,
@@ -1341,16 +1271,15 @@ class _GuardparcelregisterscreenState
                         letterSpacing: -0.2,
                       ),
                     ),
-
                     SizedBox(height: 17.h),
-
                     Row(
                       children: [
                         Expanded(
                           child: _parcelOption(
                             index: 0,
                             icon: "🔔",
-                            title: "Ask Resident",
+                            // title: "Ask Resident",
+                            title: "Home Delivery",
                             subtitle: "Send approval request to resident",
                           ),
                         ),

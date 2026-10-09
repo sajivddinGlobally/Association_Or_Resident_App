@@ -21,16 +21,37 @@ class _ResidentAiPropertyassistantState
     extends ConsumerState<ResidentAiPropertyassistant> {
   final TextEditingController messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final ScrollController _assistantScrollController = ScrollController();
+  final GlobalKey _inputFieldKey = GlobalKey();
 
   bool isSending = false;
   String? pendingQuery;
   GetPropertyAssistantModel? updatedModel;
 
-  void _scrollToBottom() {
+  void _scrollToInputField() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
+      if (_inputFieldKey.currentContext != null) {
+        Scrollable.ensureVisible(
+          _inputFieldKey.currentContext!,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeInOut,
+          alignment: 0.5,
+        );
+      } else if (_scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  void _scrollAssistantToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_assistantScrollController.hasClients) {
+        _assistantScrollController.animateTo(
+          _assistantScrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
@@ -48,7 +69,8 @@ class _ResidentAiPropertyassistantState
       isSending = true;
       pendingQuery = message;
     });
-    _scrollToBottom();
+    _scrollToInputField();
+    _scrollAssistantToBottom();
 
     try {
       final response = await ref
@@ -62,7 +84,8 @@ class _ResidentAiPropertyassistantState
           isSending = false;
         });
         ref.invalidate(getPropertyAssistantProvider);
-        _scrollToBottom();
+        _scrollToInputField();
+        _scrollAssistantToBottom();
       }
     } catch (e) {
       if (mounted) {
@@ -79,6 +102,7 @@ class _ResidentAiPropertyassistantState
   void dispose() {
     messageController.dispose();
     _scrollController.dispose();
+    _assistantScrollController.dispose();
     super.dispose();
   }
 
@@ -443,6 +467,7 @@ class _ResidentAiPropertyassistantState
                                         ? suggestedPrompts[0]
                                         : "What is my current property status?";
                                     messageController.text = prompt;
+                                    _scrollToInputField();
                                   },
                                 ),
                               ),
@@ -458,6 +483,7 @@ class _ResidentAiPropertyassistantState
                                         ? suggestedPrompts[1]
                                         : "Show my latest inspection status";
                                     messageController.text = prompt;
+                                    _scrollToInputField();
                                   },
                                 ),
                               ),
@@ -477,6 +503,7 @@ class _ResidentAiPropertyassistantState
                                         ? suggestedPrompts[2]
                                         : "What maintenance is pending?";
                                     messageController.text = prompt;
+                                    _scrollToInputField();
                                   },
                                 ),
                               ),
@@ -492,6 +519,7 @@ class _ResidentAiPropertyassistantState
                                         ? suggestedPrompts[3]
                                         : "Do I have any open complaints?";
                                     messageController.text = prompt;
+                                    _scrollToInputField();
                                   },
                                 ),
                               ),
@@ -513,7 +541,7 @@ class _ResidentAiPropertyassistantState
                     SizedBox(height: 14.h),
                     Container(
                       width: double.infinity,
-                      constraints: BoxConstraints(minHeight: 145.h),
+                      height: 320.h,
                       padding: EdgeInsets.all(12.w),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFFCEF),
@@ -523,49 +551,102 @@ class _ResidentAiPropertyassistantState
                         ),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: Column(
-                        children: [
-                          if (recentHistory.isNotEmpty) ...[
-                            for (int i = 0; i < recentHistory.length; i++) ...[
-                              if (recentHistory[i].query != null &&
-                                  recentHistory[i].query!
-                                      .trim()
-                                      .isNotEmpty) ...[
-                                if (i > 0) SizedBox(height: 12.h),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth: 280.w,
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 14.w,
-                                      vertical: 10.h,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFEFE8D8),
-                                      border: Border.all(
-                                        color: AppColors.heading,
-                                        width: 1,
+                      child: Scrollbar(
+                        controller: _assistantScrollController,
+                        thumbVisibility: true,
+                        child: SingleChildScrollView(
+                          controller: _assistantScrollController,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              if (recentHistory.isNotEmpty) ...[
+                                for (
+                                  int i = 0;
+                                  i < recentHistory.length;
+                                  i++
+                                ) ...[
+                                  if (recentHistory[i].query != null &&
+                                      recentHistory[i].query!
+                                          .trim()
+                                          .isNotEmpty) ...[
+                                    if (i > 0) SizedBox(height: 12.h),
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          maxWidth: 280.w,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 14.w,
+                                          vertical: 10.h,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFEFE8D8),
+                                          border: Border.all(
+                                            color: AppColors.heading,
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8.r,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          recentHistory[i].query!,
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 17.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.heading,
+                                            letterSpacing: -0.2,
+                                          ),
+                                        ),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.r),
                                     ),
-                                    child: Text(
-                                      recentHistory[i].query!,
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.heading,
-                                      ),
+                                    SizedBox(height: 12.h),
+                                  ],
+                                  if (recentHistory[i].aiResponse != null &&
+                                      recentHistory[i].aiResponse!
+                                          .trim()
+                                          .isNotEmpty)
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 24.w,
+                                          width: 24.w,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFB78932),
+                                            borderRadius: BorderRadius.circular(
+                                              4.r,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            "AI",
+                                            style: GoogleFonts.inter(
+                                              fontSize: 11.sp,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10.w),
+                                        Expanded(
+                                          child: Text(
+                                            recentHistory[i].aiResponse!,
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 17.sp,
+                                              color: AppColors.heading,
+                                              fontWeight: FontWeight.w500,
+                                              letterSpacing: -0.2,
+                                              height: 1.4,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                SizedBox(height: 12.h),
-                              ],
-                              if (recentHistory[i].aiResponse != null &&
-                                  recentHistory[i].aiResponse!
-                                      .trim()
-                                      .isNotEmpty)
+                                ],
+                              ] else ...[
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -591,136 +672,106 @@ class _ResidentAiPropertyassistantState
                                     SizedBox(width: 10.w),
                                     Expanded(
                                       child: Text(
-                                        recentHistory[i].aiResponse!,
+                                        welcomeMessage,
                                         style: GoogleFonts.outfit(
-                                          fontSize: 15.sp,
+                                          fontSize: 17.sp,
                                           color: AppColors.heading,
                                           fontWeight: FontWeight.w500,
                                           letterSpacing: -0.2,
-                                          height: 1.35,
+                                          height: 1.4,
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
+                              ],
+                              if (pendingQuery != null) ...[
+                                SizedBox(height: 12.h),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    constraints: BoxConstraints(
+                                      maxWidth: 280.w,
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 14.w,
+                                      vertical: 10.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFEFE8D8),
+                                      border: Border.all(
+                                        color: AppColors.heading,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    child: Text(
+                                      pendingQuery!,
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.heading,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 12.h),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 24.w,
+                                      width: 24.w,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFB78932),
+                                        borderRadius: BorderRadius.circular(
+                                          4.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "AI",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    SizedBox(
+                                      height: 14.h,
+                                      width: 14.w,
+                                      child: const CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Color(0xFFB78932),
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Text(
+                                      "Thinking...",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 15.sp,
+                                        color: const Color.fromRGBO(
+                                          42,
+                                          41,
+                                          51,
+                                          0.7,
+                                        ),
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ],
-                          ] else ...[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 24.w,
-                                  width: 24.w,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFB78932),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: Text(
-                                    "AI",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Expanded(
-                                  child: Text(
-                                    welcomeMessage,
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
-                                      color: AppColors.heading,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: -0.2,
-                                      height: 1.35,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                          if (pendingQuery != null) ...[
-                            SizedBox(height: 12.h),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Container(
-                                constraints: BoxConstraints(maxWidth: 280.w),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 14.w,
-                                  vertical: 10.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEFE8D8),
-                                  border: Border.all(
-                                    color: AppColors.heading,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                child: Text(
-                                  pendingQuery!,
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.heading,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 12.h),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 24.w,
-                                  width: 24.w,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFB78932),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: Text(
-                                    "AI",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                SizedBox(
-                                  height: 14.h,
-                                  width: 14.w,
-                                  child: const CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Color(0xFFB78932),
-                                  ),
-                                ),
-                                SizedBox(width: 8.w),
-                                Text(
-                                  "Thinking...",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    color: const Color.fromRGBO(
-                                      42,
-                                      41,
-                                      51,
-                                      0.7,
-                                    ),
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ],
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 8.h),
                     Row(
+                      key: _inputFieldKey,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
@@ -765,7 +816,7 @@ class _ResidentAiPropertyassistantState
                               ),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: 10.w,
-                                vertical: 10.h,
+                                vertical: 12.h,
                               ),
                             ),
                           ),
@@ -815,22 +866,47 @@ class _ResidentAiPropertyassistantState
                         propertyOption(
                           icon: Icons.home_outlined,
                           title: "Property details and current property status",
+                          onTap: () {
+                            messageController.text =
+                                "Property details and current property status";
+                            _scrollToInputField();
+                          },
                         ),
                         propertyOption(
                           icon: Icons.check,
                           title: "Inspection and audit information",
+                          onTap: () {
+                            messageController.text =
+                                "Inspection and audit information";
+                            _scrollToInputField();
+                          },
                         ),
                         propertyOption(
                           icon: Icons.settings,
                           title: "Maintenance and service request updates",
+                          onTap: () {
+                            messageController.text =
+                                "Maintenance and service request updates";
+                            _scrollToInputField();
+                          },
                         ),
                         propertyOption(
                           icon: Icons.priority_high,
-                          title: "Maintenance and service request updates",
+                          title: "Security and visitor management updates",
+                          onTap: () {
+                            messageController.text =
+                                "Security and visitor management updates";
+                            _scrollToInputField();
+                          },
                         ),
                         propertyOption(
                           icon: Icons.radio_button_checked,
-                          title: "Maintenance and service request updates",
+                          title: "Facility and amenity booking details",
+                          onTap: () {
+                            messageController.text =
+                                "Facility and amenity booking details";
+                            _scrollToInputField();
+                          },
                         ),
                       ],
                     ),
@@ -867,12 +943,11 @@ class _ResidentAiPropertyassistantState
             SizedBox(height: 10.h),
             Text(
               title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xFF777777),
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.heading,
+                letterSpacing: -0.2,
               ),
             ),
           ],
@@ -881,40 +956,48 @@ class _ResidentAiPropertyassistantState
     );
   }
 
-  Widget propertyOption({required IconData icon, required String title}) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h),
-          child: Row(
-            children: [
-              Container(
-                height: 29.h,
-                width: 29.w,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(6.r),
+  Widget propertyOption({
+    required IconData icon,
+    required String title,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Row(
+              children: [
+                Container(
+                  height: 29.h,
+                  width: 29.w,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(icon, size: 16.sp, color: Colors.black),
                 ),
-                alignment: Alignment.center,
-                child: Icon(icon, size: 16.sp, color: Colors.black),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: Text(
-                  title,
-                  style: GoogleFonts.outfit(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.heading,
-                    letterSpacing: -0.2,
+                SizedBox(width: 10.w),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: GoogleFonts.outfit(
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.heading,
+                      letterSpacing: -0.2,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        const Divider(height: 1, thickness: 1.2, color: Colors.grey),
-      ],
+          const Divider(height: 1, thickness: 1.2, color: Colors.grey),
+        ],
+      ),
     );
   }
 }
