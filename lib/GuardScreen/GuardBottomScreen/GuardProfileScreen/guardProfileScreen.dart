@@ -8,9 +8,9 @@ import 'package:property_association_or_resident/AssociationScreen/Auth/Associat
 import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
-import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardParcelScreen/GuardParcelRegisterScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardProfileScreen/provider/getGuardProfileProvider.dart';
-import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/GuardVehicleScreen.dart';
+import 'GuardChangePasswordScreen.dart';
+import 'GuardEditProfileScreen.dart';
 
 class GuardProfileScreen extends ConsumerStatefulWidget {
   const GuardProfileScreen({super.key});
@@ -142,6 +142,29 @@ class _GuardProfileScreenState extends ConsumerState<GuardProfileScreen> {
                                 ],
                               ),
                             ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) =>
+                                        const GuardEditProfileScreen(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(8.w),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.12),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.edit_outlined,
+                                  color: Colors.white,
+                                  size: 18.sp,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: 14.h),
@@ -269,7 +292,7 @@ class _GuardProfileScreenState extends ConsumerState<GuardProfileScreen> {
                   ),
                   SizedBox(height: 20.h),
                   Text(
-                    "Gate Operations",
+                    "Security ",
                     style: GoogleFonts.outfit(
                       fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
@@ -286,74 +309,33 @@ class _GuardProfileScreenState extends ConsumerState<GuardProfileScreen> {
                     child: Column(
                       children: [
                         menuItem(
-                          icon: Icons.directions_car_outlined,
-                          title: "Vehicle Search",
-                          subtitle: "Verify resident & visitor vehicles",
+                          icon: Icons.person_outline,
+                          title: "Edit Profile",
+                          subtitle: "Update guard name and photo",
                           onTap: () {
                             Navigator.push(
                               context,
                               CupertinoPageRoute(
                                 builder: (context) =>
-                                    const Guardvehiclescreen(),
+                                    const GuardEditProfileScreen(),
                               ),
                             );
                           },
-                        ),
-                        const Divider(height: 1, color: Color(0xff555555)),
-                        menuItem(
-                          icon: Icons.inventory_2_outlined,
-                          title: "Parcel Register",
-                          subtitle: "Manage incoming and delivered parcels",
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) =>
-                                    const Guardparcelregisterscreen(),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    "Security & Support",
-                    style: GoogleFonts.outfit(
-                      fontSize: 19.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                  SizedBox(height: 14.h),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xff888888)),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Column(
-                      children: [
-                        menuItem(
-                          icon: Icons.notifications_none_sharp,
-                          title: "Gate Alerts & Notices",
-                          subtitle: "Society announcements and alerts",
-                          onTap: () {},
-                        ),
-                        const Divider(height: 1, color: Color(0xff555555)),
-                        menuItem(
-                          icon: Icons.phone_in_talk_outlined,
-                          title: "Emergency Contacts",
-                          subtitle: "Police, Fire, Ambulance & Association",
-                          onTap: () {},
                         ),
                         const Divider(height: 1, color: Color(0xff555555)),
                         menuItem(
                           icon: Icons.lock_outline,
                           title: "Security & Password",
                           subtitle: "Update guard account password",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    const GuardChangePasswordScreen(),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

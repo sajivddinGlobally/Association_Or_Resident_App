@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:property_association_or_resident/Core/AuthService/AuthServicePro
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/Provider/visitorPassProvider.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/GuardHomeScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/Model/VisitorPassResModel.dart';
 
 class Visitorapprovalpassscreen extends ConsumerStatefulWidget {
@@ -173,6 +175,14 @@ class _VisitorapprovalpassscreenState
     super.dispose();
   }
 
+  void _navigateToGuardHome() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      CupertinoPageRoute(builder: (context) => const GuardBottomNavState()),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final vId = widget.visitorId;
@@ -234,21 +244,24 @@ class _VisitorapprovalpassscreenState
     final headerSubtitle =
         passData?.header?.subtitle ?? "View approval status and visitor pass";
 
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBg,
-      appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async {
+        _navigateToGuardHome();
+        return false;
+      },
+      child: Scaffold(
         backgroundColor: AppColors.scaffoldBg,
-        automaticallyImplyLeading: false,
-        titleSpacing: 20.w,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
+        appBar: AppBar(
+          backgroundColor: AppColors.scaffoldBg,
+          automaticallyImplyLeading: false,
+          titleSpacing: 20.w,
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: _navigateToGuardHome,
+                  child: Container(
                   width: 41.w,
                   height: 41.h,
                   decoration: BoxDecoration(
@@ -326,15 +339,15 @@ class _VisitorapprovalpassscreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (visitorPassAsync.isLoading) ...[
-                  SizedBox(height: 4.h),
-                  const LinearProgressIndicator(
-                    color: AppColors.heading,
-                    backgroundColor: Color(0xFFE0E0E0),
-                  ),
-                ],
+                // if (visitorPassAsync.isLoading) ...[
+                //   SizedBox(height: 4.h),
+                //   const LinearProgressIndicator(
+                //     color: AppColors.heading,
+                //     backgroundColor: Color(0xFFE0E0E0),
+                //   ),
+                // ],
 
-                SizedBox(height: 16.h),
+                // SizedBox(height: 16.h),
 
                 // Interactive Status Simulator Filter
                 Container(
@@ -599,7 +612,7 @@ class _VisitorapprovalpassscreenState
                                 borderRadius: BorderRadius.circular(8.r),
                               ),
                             ),
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: _navigateToGuardHome,
                             child: Text(
                               "Back to Gate Desk",
                               style: GoogleFonts.outfit(
@@ -1047,7 +1060,7 @@ class _VisitorapprovalpassscreenState
                                       borderRadius: BorderRadius.circular(8.r),
                                     ),
                                   ),
-                                  onPressed: () => Navigator.pop(context),
+                                  onPressed: _navigateToGuardHome,
                                   icon: const Icon(
                                     Icons.check_circle_outline,
                                     color: Colors.white,
@@ -1101,8 +1114,9 @@ class _VisitorapprovalpassscreenState
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _statusChip(String label, String statusKey) {
     final isSelected = currentStatus == statusKey;

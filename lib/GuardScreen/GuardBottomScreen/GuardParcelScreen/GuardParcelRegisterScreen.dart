@@ -175,7 +175,9 @@ class _GuardparcelregisterscreenState
       showSuccessSnackBar("Parcel registered successfully!");
       Navigator.pushReplacement(
         context,
-        CupertinoPageRoute(builder: (context) => Guaredhistoryscreen()),
+        CupertinoPageRoute(
+          builder: (context) => Guaredhistoryscreen(isBackButtonShow: true),
+        ),
       );
     } catch (e) {
       if (!mounted) return;

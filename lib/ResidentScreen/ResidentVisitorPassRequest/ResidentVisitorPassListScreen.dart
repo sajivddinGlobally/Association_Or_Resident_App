@@ -7,6 +7,7 @@ import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassRequest.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/provider/getVisitorPassListProvider.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -503,6 +504,9 @@ class _ResidentVisitorPassListScreenState
                     if (_selectedFilter == "PENDING") {
                       return st == "PENDING" || st == "WAITING";
                     }
+                    if (_selectedFilter == "COMPLETED") {
+                      return st == "COMPLETED";
+                    }
                     return true;
                   }).toList();
 
@@ -513,21 +517,30 @@ class _ResidentVisitorPassListScreenState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "All Passes (${filteredList.length})",
+                            "Passes (${filteredList.length})",
                             style: GoogleFonts.outfit(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.heading,
                             ),
                           ),
-                          Row(
-                            children: [
-                              _buildFilterChip("ALL", "All"),
-                              SizedBox(width: 6.w),
-                              _buildFilterChip("APPROVED", "Approved"),
-                              SizedBox(width: 6.w),
-                              _buildFilterChip("PENDING", "Pending"),
-                            ],
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  SizedBox(width: 8.w),
+                                  _buildFilterChip("ALL", "All"),
+                                  SizedBox(width: 6.w),
+                                  _buildFilterChip("APPROVED", "Approved"),
+                                  SizedBox(width: 6.w),
+                                  _buildFilterChip("PENDING", "Pending"),
+                                  SizedBox(width: 6.w),
+                                  _buildFilterChip("COMPLETED", "Completed"),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -707,27 +720,84 @@ class _ResidentVisitorPassListScreenState
             ? item.subtitle!.split('·').last.trim()
             : "Today");
     final purpose = item.purpose ?? item.visitorType ?? "Guest Visit";
-    final isApproved = (item.status ?? "").toUpperCase() == "APPROVED";
+
+    final statusUpper = (item.status ?? "").toUpperCase().trim();
+    final bool isApproved = statusUpper == "APPROVED";
+    final bool isCompleted = statusUpper == "COMPLETED";
+    final bool isRejected = statusUpper == "REJECTED";
+    final bool isInside = statusUpper == "INSIDE" || statusUpper == "ENTERED";
+
+    // Status styling based on status
+    final Color statusBg;
+    final Color statusColor;
+
+    if (isApproved) {
+      statusBg = const Color(0xFFD4F5E1);
+      statusColor = const Color(0xFF16A765);
+    } else if (isCompleted) {
+      statusBg = const Color(0xFFF3F4F6);
+      statusColor = const Color(0xFF6B7280);
+    } else if (isRejected) {
+      statusBg = const Color(0xFFFEE2E2);
+      statusColor = const Color(0xFFDC2626);
+    } else if (isInside) {
+      statusBg = const Color(0xFFE0F2FE);
+      statusColor = const Color(0xFF0284C7);
+    } else {
+      statusBg = const Color(0xFFFEF3C7);
+      statusColor = const Color(0xFFB8860B);
+    }
 
     return GestureDetector(
       onTap: () {
-        _showQrPassDialog(
-          passCode: pCode,
-          visitorName: vName,
-          visitDate: arr,
-          visitTime: "",
-          purpose: purpose,
-          status: item.status,
-        );
+        if (isApproved) {
+          _showQrPassDialog(
+            passCode: pCode,
+            visitorName: vName,
+            visitDate: arr,
+            visitTime: "",
+            purpose: purpose,
+            status: item.status,
+          );
+        } else if (isCompleted) {
+          showErrorSnackBar(
+            "This visit has already been completed. QR pass is no longer active.",
+          );
+        } else if (isRejected) {
+          showErrorSnackBar(
+            "This visitor request was rejected. QR pass is not available.",
+          );
+        } else if (isInside) {
+          showErrorSnackBar(
+            "Visitor has already entered the campus using this pass.",
+          );
+        } else {
+          showErrorSnackBar(
+            "Pass is pending approval. QR pass will be active once approved.",
+          );
+        }
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 12.h),
         width: double.infinity,
         padding: EdgeInsets.all(14.r),
         decoration: BoxDecoration(
-          color: const Color(0xFFFDFBF7),
+          color: isCompleted
+              ? const Color(0xFFF9FAFB)
+              : isRejected
+              ? const Color(0xFFFFFBFB)
+              : const Color(0xFFFDFBF7),
           borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(color: const Color(0xFFE5DEBA), width: 1.2),
+          border: Border.all(
+            color: isCompleted
+                ? const Color(0xFFE5E7EB)
+                : isRejected
+                ? const Color(0xFFFECACA)
+                : isApproved
+                ? const Color(0xFFBBF7D0)
+                : const Color(0xFFE5DEBA),
+            width: 1.2,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.03),
@@ -747,14 +817,24 @@ class _ResidentVisitorPassListScreenState
                   width: 44.w,
                   height: 44.w,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF101C16),
+                    color: isCompleted
+                        ? const Color(0xFF6B7280)
+                        : isRejected
+                        ? const Color(0xFFDC2626)
+                        : const Color(0xFF101C16),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   alignment: Alignment.center,
                   child: Icon(
-                    Icons.qr_code_2_rounded,
+                    isCompleted
+                        ? Icons.check_circle_outline_rounded
+                        : isRejected
+                        ? Icons.cancel_outlined
+                        : Icons.qr_code_2_rounded,
                     size: 25.sp,
-                    color: const Color(0xFFE8B900),
+                    color: isCompleted || isRejected
+                        ? Colors.white
+                        : const Color(0xFFE8B900),
                   ),
                 ),
                 SizedBox(width: 12.w),
@@ -794,9 +874,7 @@ class _ResidentVisitorPassListScreenState
                     vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
-                    color: isApproved
-                        ? const Color(0xFFD4F5E1)
-                        : const Color(0xFFFEF3C7),
+                    color: statusBg,
                     borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Text(
@@ -804,9 +882,7 @@ class _ResidentVisitorPassListScreenState
                     style: GoogleFonts.outfit(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
-                      color: isApproved
-                          ? const Color(0xFF16A765)
-                          : const Color(0xFFB8860B),
+                      color: statusColor,
                     ),
                   ),
                 ),
@@ -815,65 +891,207 @@ class _ResidentVisitorPassListScreenState
 
             SizedBox(height: 10.h),
 
-            // Pass code pill + Tap to View QR Button
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF9F5EB),
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: const Color(0xFFEBD9A5), width: 1),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.qr_code_rounded,
-                    size: 16.sp,
-                    color: const Color(0xFFB8860B),
-                  ),
-                  SizedBox(width: 6.w),
-                  Expanded(
-                    child: Text(
-                      "Code: $pCode · Tap to View & Share",
-                      style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF7A5805),
+            // Pass code pill
+            if (isApproved)
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0FDF4),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: const Color(0xFFBBF7D0), width: 1),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.qr_code_rounded,
+                      size: 16.sp,
+                      color: const Color(0xFF16A765),
+                    ),
+                    SizedBox(width: 6.w),
+                    Expanded(
+                      child: Text(
+                        "Code: $pCode · Tap to View & Share QR",
+                        style: GoogleFonts.outfit(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF166534),
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8.w,
-                      vertical: 3.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.heading,
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "View QR",
-                          style: GoogleFonts.outfit(
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w600,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 3.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.heading,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "View QR",
+                            style: GoogleFonts.outfit(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 3.w),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 9.sp,
                             color: Colors.white,
                           ),
-                        ),
-                        SizedBox(width: 3.w),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 9.sp,
-                          color: Colors.white,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+              )
+            else if (isCompleted)
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3F4F6),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: const Color(0xFFE5E7EB), width: 1),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline_rounded,
+                      size: 16.sp,
+                      color: const Color(0xFF6B7280),
+                    ),
+                    SizedBox(width: 6.w),
+                    Expanded(
+                      child: Text(
+                        "Code: $pCode · Visit Completed",
+                        style: GoogleFonts.outfit(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF6B7280),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 3.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE5E7EB),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Text(
+                        "Completed",
+                        style: GoogleFonts.outfit(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF6B7280),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else if (isRejected)
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEF2F2),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: const Color(0xFFFECACA), width: 1),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.cancel_outlined,
+                      size: 16.sp,
+                      color: const Color(0xFFDC2626),
+                    ),
+                    SizedBox(width: 6.w),
+                    Expanded(
+                      child: Text(
+                        "Code: $pCode · Request Rejected",
+                        style: GoogleFonts.outfit(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFFDC2626),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 3.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFEE2E2),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Text(
+                        "Declined",
+                        style: GoogleFonts.outfit(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFFDC2626),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
+                decoration: BoxDecoration(
+                  color: isInside
+                      ? const Color(0xFFF0F9FF)
+                      : const Color(0xFFFFFBEB),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    color: isInside
+                        ? const Color(0xFFBAE6FD)
+                        : const Color(0xFFFDE68A),
+                    width: 1,
                   ),
-                ],
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      isInside
+                          ? Icons.meeting_room_outlined
+                          : Icons.hourglass_top_rounded,
+                      size: 16.sp,
+                      color: isInside
+                          ? const Color(0xFF0284C7)
+                          : const Color(0xFFD97706),
+                    ),
+                    SizedBox(width: 6.w),
+                    Expanded(
+                      child: Text(
+                        isInside
+                            ? "Code: $pCode · Visitor Inside Campus"
+                            : "Code: $pCode · Awaiting Entry Approval",
+                        style: GoogleFonts.outfit(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: isInside
+                              ? const Color(0xFF0369A1)
+                              : const Color(0xFF92400E),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

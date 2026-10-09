@@ -431,6 +431,10 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                                     "name",
                                     response.data!.user!.name,
                                   );
+                                  await box.put(
+                                    "phone",
+                                    response.data!.user!.phone,
+                                  );
                                   final userRole =
                                       (response.data?.user?.role != null &&
                                           response.data!.user!.role!
