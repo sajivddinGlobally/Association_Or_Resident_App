@@ -1026,7 +1026,7 @@ class _ApiStateNetwork implements ApiStateNetwork {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/v1/committee/residents/121',
+            '/api/v1/committee/residents/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1859,16 +1859,16 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<HistoryRecordsResModel> historyRecords() async {
+  Future<HistoryRecordsResModel> historyRecords(String filter) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'filter': filter};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HistoryRecordsResModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/v1/guard/history?filter=all',
+            '/api/v1/guard/history',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1886,16 +1886,16 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<VehicleSearchResModel> vehicleSearch() async {
+  Future<VehicleSearchResModel> vehicleSearch(String vehicleNumber) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'vehicle_number': vehicleNumber};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<VehicleSearchResModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/v1/guard/vehicles/search?vehicle_number=RJ14 AB 1234',
+            '/api/v1/guard/vehicles/search',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -13,6 +13,8 @@ import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/Pro
 import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/GuardVehicleScreen.dart';
 import 'package:svg_flutter/svg.dart';
 
+import '../GuardBottomScreen/GuardProfileScreen/guardProfileScreen.dart';
+
 class GuardBottomNavState extends StatefulWidget {
   const GuardBottomNavState({super.key});
 
@@ -27,6 +29,8 @@ class _GuardBottomNavStateState extends State<GuardBottomNavState> {
     Guardvisitorscreen(),
     Guardparcelregisterscreen(),
     Guaredhistoryscreen(),
+    GuardProfileScreen(),
+
   ];
   @override
   Widget build(BuildContext context) {

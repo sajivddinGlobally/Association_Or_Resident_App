@@ -975,7 +975,7 @@ class AuthService {
   }
 
   ////////////////// Guard //////////////////////
-  
+
   Future<GuardDashBoardModel> guardDashBoardData() async {
     try {
       final response = await api.guardDashBoard();
@@ -985,29 +985,29 @@ class AuthService {
     }
   }
 
-  Future<HistoryRecordsResModel>  historyRecordsData() async{
-    try{
-      final response = await api.historyRecords();
+  Future<HistoryRecordsResModel> historyRecordsData(String filter) async {
+    try {
+      final response = await api.historyRecords(filter);
       return response;
-    } catch (e){
+    } catch (e) {
       rethrow;
     }
   }
 
-   Future<VehicleSearchResModel>  vehicleSearchData() async{
-    try{
-      final response = await api.vehicleSearch();
+  Future<VehicleSearchResModel> vehicleSearchData(String vehicleNumber) async {
+    try {
+      final response = await api.vehicleSearch(vehicleNumber);
       return response;
-    } catch (e){
+    } catch (e) {
       rethrow;
     }
   }
 
-    Future<HistoryGuardResModel>  historyGuardData() async{
-    try{
+  Future<HistoryGuardResModel> historyGuardData() async {
+    try {
       final response = await api.historyGuard();
       return response;
-    } catch (e){
+    } catch (e) {
       rethrow;
     }
   }

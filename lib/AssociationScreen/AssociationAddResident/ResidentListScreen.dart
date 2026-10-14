@@ -97,7 +97,16 @@ class _ResidentlistscreenState extends ConsumerState<Residentlistscreen> {
                     itemBuilder: (context, index) {
                       final resident = data.data?.residents?[index];
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => Manageaccountprofile(
+                                id: resident!.id.toString(),
+                              ),
+                            ),
+                          );
+                        },
                         child: Container(
                           margin: EdgeInsets.only(bottom: 12.h),
                           width: double.infinity,
@@ -177,7 +186,12 @@ class _ResidentlistscreenState extends ConsumerState<Residentlistscreen> {
                                       style: GoogleFonts.outfit(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
-                                        color: const Color.fromRGBO(42, 41, 51, 0.85),
+                                        color: const Color.fromRGBO(
+                                          42,
+                                          41,
+                                          51,
+                                          0.85,
+                                        ),
                                       ),
                                     ),
 
@@ -188,7 +202,12 @@ class _ResidentlistscreenState extends ConsumerState<Residentlistscreen> {
                                       style: GoogleFonts.outfit(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                        color: const Color.fromRGBO(
+                                          42,
+                                          41,
+                                          51,
+                                          0.75,
+                                        ),
                                       ),
                                     ),
                                   ],

@@ -511,8 +511,14 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
   }
 
   Widget _buildOccupancyBadge(String? type) {
-    final isTenant = (type ?? "").toLowerCase() == "tenant";
-    final isOwner = !isTenant;
+    if (type == null || type.trim().isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final isTenant = type.toLowerCase() == "tenant";
+    final isOwner = type.toLowerCase() == "owner";
+    if (!isTenant && !isOwner) {
+      return const SizedBox.shrink();
+    }
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),

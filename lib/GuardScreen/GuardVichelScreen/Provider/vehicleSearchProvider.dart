@@ -3,7 +3,14 @@ import 'package:property_association_or_resident/Core/AuthService/AuthServicePro
 import 'package:property_association_or_resident/GuardScreen/Model/VehicleSearchResModel.dart';
 
 final vehicleSearchProvider =
-    FutureProvider.autoDispose<VehicleSearchResModel>((ref) async {
+    FutureProvider.family<VehicleSearchResModel?, String>((
+      ref,
+      vehicleNumber,
+    ) async {
+      final trimmed = vehicleNumber.trim();
+      if (trimmed.isEmpty) {
+        return null;
+      }
       final service = ref.read(authServiceProvider);
-      return await service.vehicleSearchData();
+      return await service.vehicleSearchData(trimmed);
     });

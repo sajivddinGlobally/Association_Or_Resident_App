@@ -195,10 +195,12 @@ class _ResidentAiPropertyassistantState
               data?.assistant?.welcomeMessage ??
               "Ask questions about your property, inspections, maintenance,\n complaints, service requests and property status.";
 
-          final propertyName = data?.property?.name ?? "Apartment A-204";
+          final propertyName = data?.property?.name ?? "Property Not Assigned";
           final complexName =
-              data?.property?.complexName ?? "Green Valley Residency";
-          final rawPropStatus = data?.property?.status ?? "Active";
+              data?.property?.complexName ?? "Society Not Linked";
+          final rawPropStatus =
+              data?.property?.status ??
+              (data?.property?.name != null ? "Active" : "Not Linked");
           final propertyStatus = rawPropStatus.isNotEmpty
               ? "${rawPropStatus[0].toUpperCase()}${rawPropStatus.substring(1)}"
               : "Active";
@@ -529,35 +531,36 @@ class _ResidentAiPropertyassistantState
                                   recentHistory[i].query!
                                       .trim()
                                       .isNotEmpty) ...[
-                                if (i > 0) SizedBox(height: 10.h),
+                                if (i > 0) SizedBox(height: 12.h),
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Container(
                                     constraints: BoxConstraints(
-                                      maxWidth: 216.w,
+                                      maxWidth: 280.w,
                                     ),
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 9.w,
-                                      vertical: 7.h,
+                                      horizontal: 14.w,
+                                      vertical: 10.h,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFFFFCEF),
+                                      color: const Color(0xFFEFE8D8),
                                       border: Border.all(
                                         color: AppColors.heading,
                                         width: 1,
                                       ),
-                                      borderRadius: BorderRadius.circular(4.r),
+                                      borderRadius: BorderRadius.circular(8.r),
                                     ),
                                     child: Text(
                                       recentHistory[i].query!,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
                                         color: AppColors.heading,
                                       ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 10.h),
+                                SizedBox(height: 12.h),
                               ],
                               if (recentHistory[i].aiResponse != null &&
                                   recentHistory[i].aiResponse!
@@ -567,33 +570,34 @@ class _ResidentAiPropertyassistantState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      height: 17.h,
-                                      width: 17.w,
+                                      height: 24.w,
+                                      width: 24.w,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         color: const Color(0xFFB78932),
                                         borderRadius: BorderRadius.circular(
-                                          2.r,
+                                          4.r,
                                         ),
                                       ),
                                       child: Text(
                                         "AI",
                                         style: GoogleFonts.inter(
-                                          fontSize: 7.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 12.w),
+                                    SizedBox(width: 10.w),
                                     Expanded(
                                       child: Text(
                                         recentHistory[i].aiResponse!,
                                         style: GoogleFonts.outfit(
-                                          fontSize: 12.5.sp,
+                                          fontSize: 15.sp,
                                           color: AppColors.heading,
                                           fontWeight: FontWeight.w500,
                                           letterSpacing: -0.2,
+                                          height: 1.35,
                                         ),
                                       ),
                                     ),
@@ -605,23 +609,23 @@ class _ResidentAiPropertyassistantState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 17.h,
-                                  width: 17.w,
+                                  height: 24.w,
+                                  width: 24.w,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFB78932),
-                                    borderRadius: BorderRadius.circular(2.r),
+                                    borderRadius: BorderRadius.circular(4.r),
                                   ),
                                   child: Text(
                                     "AI",
                                     style: GoogleFonts.inter(
-                                      fontSize: 7.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 12.w),
+                                SizedBox(width: 10.w),
                                 Expanded(
                                   child: Text(
                                     welcomeMessage,
@@ -630,6 +634,7 @@ class _ResidentAiPropertyassistantState
                                       color: AppColors.heading,
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: -0.2,
+                                      height: 1.35,
                                     ),
                                   ),
                                 ),
@@ -637,57 +642,58 @@ class _ResidentAiPropertyassistantState
                             ),
                           ],
                           if (pendingQuery != null) ...[
-                            SizedBox(height: 10.h),
+                            SizedBox(height: 12.h),
                             Align(
                               alignment: Alignment.centerRight,
                               child: Container(
-                                constraints: BoxConstraints(maxWidth: 216.w),
+                                constraints: BoxConstraints(maxWidth: 280.w),
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 9.w,
-                                  vertical: 7.h,
+                                  horizontal: 14.w,
+                                  vertical: 10.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFFFFCEF),
+                                  color: const Color(0xFFEFE8D8),
                                   border: Border.all(
                                     color: AppColors.heading,
                                     width: 1,
                                   ),
-                                  borderRadius: BorderRadius.circular(4.r),
+                                  borderRadius: BorderRadius.circular(8.r),
                                 ),
                                 child: Text(
                                   pendingQuery!,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500,
                                     color: AppColors.heading,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10.h),
+                            SizedBox(height: 12.h),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  height: 17.h,
-                                  width: 17.w,
+                                  height: 24.w,
+                                  width: 24.w,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFB78932),
-                                    borderRadius: BorderRadius.circular(2.r),
+                                    borderRadius: BorderRadius.circular(4.r),
                                   ),
                                   child: Text(
                                     "AI",
                                     style: GoogleFonts.inter(
-                                      fontSize: 7.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 12.w),
+                                SizedBox(width: 10.w),
                                 SizedBox(
-                                  height: 12.h,
-                                  width: 12.w,
+                                  height: 14.h,
+                                  width: 14.w,
                                   child: const CircularProgressIndicator(
                                     strokeWidth: 2,
                                     color: Color(0xFFB78932),
@@ -697,12 +703,12 @@ class _ResidentAiPropertyassistantState
                                 Text(
                                   "Thinking...",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 12.5.sp,
+                                    fontSize: 14.sp,
                                     color: const Color.fromRGBO(
                                       42,
                                       41,
                                       51,
-                                      0.6,
+                                      0.7,
                                     ),
                                     fontStyle: FontStyle.italic,
                                   ),

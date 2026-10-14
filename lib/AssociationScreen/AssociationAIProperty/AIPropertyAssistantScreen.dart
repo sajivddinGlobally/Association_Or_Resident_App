@@ -199,10 +199,10 @@ class _AiPropertyAssistantScreenState
               data?.assistant?.welcomeMessage ??
               "Ask questions about your property, inspections, maintenance,\n complaints, service requests and property status.";
 
-          final propertyName = data?.property?.name ?? "Apartment A-204";
+          final propertyName = data?.property?.name ?? "Property Not Assigned";
           final complexName =
-              data?.property?.complexName ?? "Green Valley Residency";
-          final rawPropStatus = data?.property?.status ?? "Active";
+              data?.property?.complexName ?? "Society Not Linked";
+          final rawPropStatus = data?.property?.status ?? (data?.property?.name != null ? "Active" : "Not Linked");
           final propertyStatus = rawPropStatus.isNotEmpty
               ? "${rawPropStatus[0].toUpperCase()}${rawPropStatus.substring(1)}"
               : "Active";

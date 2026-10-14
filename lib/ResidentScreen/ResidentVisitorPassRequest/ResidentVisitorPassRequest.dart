@@ -236,7 +236,7 @@ class _ResidentvisitorpassrequestState
                             ),
                             child: Text(
                               headers?.registeredApartment?.text ??
-                                  "Green Valley · Building A · A-204",
+                                  "Apartment not assigned",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.outfit(

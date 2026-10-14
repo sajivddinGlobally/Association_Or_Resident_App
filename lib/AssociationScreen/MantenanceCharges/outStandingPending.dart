@@ -522,7 +522,7 @@ class _OutstandingPendingState extends ConsumerState<OutstandingPending> {
                               _buildDefaulterItem(
                                 imagePath:
                                     defaulter?.image ?? "assets/unit.png",
-                                title: defaulter?.unitNumber ?? "Flat A-204",
+                                title: defaulter?.unitNumber ?? "Unit N/A",
                                 subtitle: defaulter?.subtitle ?? "N/A",
                                 amount: defaulter?.formattedAmount ?? "0",
                                 status: defaulter?.statusBadge ?? "",
