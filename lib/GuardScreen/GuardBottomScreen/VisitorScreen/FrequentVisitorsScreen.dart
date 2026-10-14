@@ -750,11 +750,11 @@ class _FrequentvisitorsscreenState
                               vertical: 20.h,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: AppColors.scaffoldBg,
                               borderRadius: BorderRadius.circular(10.r),
                               border: Border.all(
-                                color: const Color(0xFFE0E0E0),
-                                width: 1,
+                                color: const Color(0xff101C16),
+                                width: 1.w,
                               ),
                             ),
                             child: Column(
@@ -1120,9 +1120,9 @@ class _FrequentvisitorsscreenState
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.scaffoldBg,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+        border: Border.all(color: const Color(0xff101C16), width: 1.w),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

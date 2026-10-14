@@ -150,7 +150,8 @@ class _AiPropertyAssistantScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "AI Property Assistant",
+                    // "AI Property Assistant",
+                    "Stayo Assistant",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
@@ -298,7 +299,7 @@ class _AiPropertyAssistantScreenState
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: "AI Assistant is ",
+                              text: "Stayo Assistant is ",
                               style: GoogleFonts.outfit(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,

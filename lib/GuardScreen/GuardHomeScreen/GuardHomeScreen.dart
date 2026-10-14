@@ -248,7 +248,7 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                   final confirm = await showDialog<bool>(
                     context: context,
                     builder: (ctx) => AlertDialog(
-                      backgroundColor: Colors.white,
+                      backgroundColor: AppColors.scaffoldBg,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.r),
                       ),
@@ -797,8 +797,12 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                           vertical: 12.h,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.scaffoldBg,
                           borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(
+                            color: const Color(0xff101C16),
+                            width: 1.w,
+                          ),
                         ),
                         child: ListView.builder(
                           itemCount: todaysactivity?.items?.length ?? 0,
@@ -868,8 +872,12 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                               width: double.infinity,
                               padding: EdgeInsets.only(left: 12.w, right: 10.w),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: AppColors.scaffoldBg,
                                 borderRadius: BorderRadius.circular(10.r),
+                                border: Border.all(
+                                  color: const Color(0xffE8E5DC),
+                                  width: 1.w,
+                                ),
                               ),
                               child: Row(
                                 children: [
@@ -993,11 +1001,11 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
               title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.outfit(
                 fontSize: 17.sp,
                 fontWeight: FontWeight.w500,
                 color: AppColors.heading,
-                letterSpacing: -0.54,
+                letterSpacing: -0.3,
               ),
             ),
 
@@ -1007,11 +1015,11 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
               subtitle,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.outfit(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
                 color: const Color.fromRGBO(41, 42, 51, 0.6),
-                letterSpacing: -0.34,
+                letterSpacing: -0.2,
               ),
             ),
           ],

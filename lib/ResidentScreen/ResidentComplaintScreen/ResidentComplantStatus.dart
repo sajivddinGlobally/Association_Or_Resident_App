@@ -90,7 +90,7 @@ class _ResidentcomplantstatusState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Complain Status",
+                    "Complaint Status",
                     style: GoogleFonts.outfit(
                       fontSize: 19.sp,
                       fontWeight: FontWeight.w600,
@@ -100,7 +100,7 @@ class _ResidentcomplantstatusState
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    "Track Your Complain",
+                    "Track Your Complaint",
                     style: GoogleFonts.outfit(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
@@ -139,7 +139,9 @@ class _ResidentcomplantstatusState
                   Container(
                     padding: EdgeInsets.all(16.w),
                     decoration: BoxDecoration(
-                      color: isOverdue ? const Color(0xFFFFFBFB) : Colors.white,
+                      color: isOverdue
+                          ? const Color(0xFFFFFBFB)
+                          : AppColors.scaffoldBg,
                       border: Border.all(
                         color: isOverdue
                             ? const Color(0xFFD32F2F)
@@ -188,17 +190,6 @@ class _ResidentcomplantstatusState
                           style: GoogleFonts.outfit(fontSize: 19.sp),
                         ),
 
-                        // _info(
-                        //   Icons.home_outlined,
-                        //   "Apartment Number",
-                        //   "A-204",
-                        // ),
-                        // _info(Icons.home_outlined, "Status", "In Progress"),
-                        // _info(
-                        //   Icons.calendar_month_outlined,
-                        //   "Submitted",
-                        //   "01 Sep 2026 · 10:42 AM",
-                        // ),
                         ...?(data.data?.complaintTokenCard?.details?.map((
                           item,
                         ) {
@@ -276,12 +267,9 @@ class _ResidentcomplantstatusState
                             color: const Color(0xff071811),
                           ),
                         ),
-
                         SizedBox(height: 25.h),
-
                         ...List.generate(timeline.length, (index) {
                           final item = timeline[index];
-
                           return _TimelineItem(
                             title: item.title ?? "N/A",
                             description: item.description ?? "N/A",
@@ -326,9 +314,7 @@ class _ResidentcomplantstatusState
                                 : const Color(0xffB8860B),
                           ),
                         ),
-
                         SizedBox(width: 10.w),
-
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,182 +358,6 @@ class _ResidentcomplantstatusState
                     ),
                   ),
 
-                  // Resolution Details (Dynamic - only displayed when resolution data is present)
-                  // if (data.data?.resolution != null &&
-                  //     ((data.data?.resolution?.notes != null &&
-                  //             data.data!.resolution!.notes!
-                  //                 .trim()
-                  //                 .isNotEmpty) ||
-                  //         (data.data?.resolution?.photo != null &&
-                  //             data.data!.resolution!.photo!
-                  //                 .trim()
-                  //                 .isNotEmpty) ||
-                  //         (data.data?.resolution?.resolvedAt != null &&
-                  //             data.data!.resolution!.resolvedAt!
-                  //                 .trim()
-                  //                 .isNotEmpty))) ...[
-                  //   SizedBox(height: 20.h),
-                  //   Container(
-                  //     width: double.infinity,
-                  //     padding: EdgeInsets.all(16.w),
-                  //     decoration: BoxDecoration(
-                  //       color: Colors.white,
-                  //       border: Border.all(
-                  //         color: const Color(0xff071811),
-                  //         width: 1,
-                  //       ),
-                  //       borderRadius: BorderRadius.circular(13.r),
-                  //     ),
-                  //     child: Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Row(
-                  //           children: [
-                  //             Container(
-                  //               width: 36.w,
-                  //               height: 36.w,
-                  //               decoration: BoxDecoration(
-                  //                 color: const Color(0xFFE8F5E9),
-                  //                 borderRadius: BorderRadius.circular(10.r),
-                  //               ),
-                  //               child: Icon(
-                  //                 Icons.check_circle_outline,
-                  //                 color: const Color(0xFF22C55E),
-                  //                 size: 20.sp,
-                  //               ),
-                  //             ),
-                  //             SizedBox(width: 10.w),
-                  //             Expanded(
-                  //               child: Column(
-                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                 children: [
-                  //                   Text(
-                  //                     "Resolution Details",
-                  //                     style: GoogleFonts.outfit(
-                  //                       fontSize: 18.sp,
-                  //                       fontWeight: FontWeight.w600,
-                  //                       color: AppColors.heading,
-                  //                       letterSpacing: -0.2,
-                  //                     ),
-                  //                   ),
-                  //                   if (data.data?.resolution?.resolvedAt !=
-                  //                           null &&
-                  //                       data.data!.resolution!.resolvedAt!
-                  //                           .trim()
-                  //                           .isNotEmpty)
-                  //                     Text(
-                  //                       "Resolved: ${data.data!.resolution!.resolvedAt!}",
-                  //                       style: GoogleFonts.outfit(
-                  //                         fontSize: 14.sp,
-                  //                         fontWeight: FontWeight.w500,
-                  //                         color: Colors.grey,
-                  //                         letterSpacing: -0.2,
-                  //                       ),
-                  //                     ),
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         if (data.data?.resolution?.notes != null &&
-                  //             data.data!.resolution!.notes!
-                  //                 .trim()
-                  //                 .isNotEmpty) ...[
-                  //           SizedBox(height: 14.h),
-                  //           Text(
-                  //             "Resolution Notes",
-                  //             style: GoogleFonts.outfit(
-                  //               fontSize: 14.sp,
-                  //               fontWeight: FontWeight.w500,
-                  //               color: Colors.grey,
-                  //             ),
-                  //           ),
-                  //           SizedBox(height: 4.h),
-                  //           Container(
-                  //             width: double.infinity,
-                  //             padding: EdgeInsets.all(12.w),
-                  //             decoration: BoxDecoration(
-                  //               color: const Color(0xffF8F6ED),
-                  //               borderRadius: BorderRadius.circular(8.r),
-                  //               border: Border.all(
-                  //                 color: const Color.fromRGBO(16, 28, 22, 0.1),
-                  //               ),
-                  //             ),
-                  //             child: Text(
-                  //               data.data!.resolution!.notes!,
-                  //               style: GoogleFonts.outfit(
-                  //                 fontSize: 15.sp,
-                  //                 fontWeight: FontWeight.w500,
-                  //                 color: AppColors.heading,
-                  //                 letterSpacing: -0.2,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //         if (data.data?.resolution?.photo != null &&
-                  //             data.data!.resolution!.photo!
-                  //                 .trim()
-                  //                 .isNotEmpty) ...[
-                  //           SizedBox(height: 14.h),
-                  //           Text(
-                  //             "Finished Work Photo",
-                  //             style: GoogleFonts.outfit(
-                  //               fontSize: 14.sp,
-                  //               fontWeight: FontWeight.w500,
-                  //               color: Colors.grey,
-                  //             ),
-                  //           ),
-                  //           SizedBox(height: 8.h),
-                  //           GestureDetector(
-                  //             onTap: () {
-                  //               _showFullImageDialog(
-                  //                 context,
-                  //                 data.data!.resolution!.photo!,
-                  //               );
-                  //             },
-                  //             child: ClipRRect(
-                  //               borderRadius: BorderRadius.circular(10.r),
-                  //               child: Image.network(
-                  //                 data.data!.resolution!.photo!,
-                  //                 height: 160.h,
-                  //                 width: double.infinity,
-                  //                 fit: BoxFit.cover,
-                  //                 errorBuilder: (context, error, stackTrace) =>
-                  //                     Container(
-                  //                       height: 80.h,
-                  //                       alignment: Alignment.center,
-                  //                       decoration: BoxDecoration(
-                  //                         color: Colors.grey[200],
-                  //                         borderRadius: BorderRadius.circular(
-                  //                           10.r,
-                  //                         ),
-                  //                       ),
-                  //                       child: Row(
-                  //                         mainAxisAlignment:
-                  //                             MainAxisAlignment.center,
-                  //                         children: [
-                  //                           const Icon(
-                  //                             Icons.broken_image,
-                  //                             color: Colors.grey,
-                  //                           ),
-                  //                           SizedBox(width: 8.w),
-                  //                           Text(
-                  //                             "Photo unavailable",
-                  //                             style: GoogleFonts.outfit(
-                  //                               color: Colors.grey,
-                  //                             ),
-                  //                           ),
-                  //                         ],
-                  //                       ),
-                  //                     ),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ],
                   SizedBox(height: 30.h),
                 ],
               ),

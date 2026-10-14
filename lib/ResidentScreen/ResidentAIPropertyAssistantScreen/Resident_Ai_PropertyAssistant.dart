@@ -146,7 +146,8 @@ class _ResidentAiPropertyassistantState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "AI Property Assistant",
+                    // "AI Property Assistant",
+                    "Stayo Assistant",
                     style: GoogleFonts.outfit(
                       fontSize: 19.sp,
                       fontWeight: FontWeight.w600,
@@ -291,7 +292,7 @@ class _ResidentAiPropertyassistantState
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: "AI Assistant is",
+                              text: "Stayo Assistant is",
                               style: GoogleFonts.outfit(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w500,
@@ -623,7 +624,7 @@ class _ResidentAiPropertyassistantState
                                           ),
                                           child: Text(
                                             "AI",
-                                            style: GoogleFonts.inter(
+                                            style: GoogleFonts.outfit(
                                               fontSize: 11.sp,
                                               fontWeight: FontWeight.w700,
                                               color: Colors.white,
@@ -662,7 +663,7 @@ class _ResidentAiPropertyassistantState
                                       ),
                                       child: Text(
                                         "AI",
-                                        style: GoogleFonts.inter(
+                                        style: GoogleFonts.outfit(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w700,
                                           color: Colors.white,
@@ -731,7 +732,7 @@ class _ResidentAiPropertyassistantState
                                       ),
                                       child: Text(
                                         "AI",
-                                        style: GoogleFonts.inter(
+                                        style: GoogleFonts.outfit(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w700,
                                           color: Colors.white,

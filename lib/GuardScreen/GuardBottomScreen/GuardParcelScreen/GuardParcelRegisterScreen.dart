@@ -59,7 +59,7 @@ class _GuardparcelregisterscreenState
 
     final ImageSource? source = await showModalBottomSheet<ImageSource>(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.scaffoldBg,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(22.r)),
       ),
@@ -298,9 +298,12 @@ class _GuardparcelregisterscreenState
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+                  border: Border.all(
+                    color: const Color(0xff101C16),
+                    width: 1.w,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -381,8 +384,12 @@ class _GuardparcelregisterscreenState
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 19.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(
+                    color: const Color(0xff101C16),
+                    width: 1.w,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,24 +427,24 @@ class _GuardparcelregisterscreenState
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Parcel Type',
-                                style: TextStyle(
-                                  fontSize: 13,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xff111111),
+                                  color: AppColors.heading,
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              SizedBox(height: 8.h),
 
                               Container(
                                 height: 46.h,
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(4),
+                                  color: AppColors.scaffoldBg,
+                                  borderRadius: BorderRadius.circular(4.r),
                                   border: Border.all(
-                                    color: const Color(0xff92929A),
-                                    width: 1,
+                                    color: const Color(0xff101C16),
+                                    width: 1.w,
                                   ),
                                 ),
                                 child: DropdownButtonHideUnderline(
@@ -445,15 +452,15 @@ class _GuardparcelregisterscreenState
                                     value: selectedVisitType,
                                     isExpanded: true,
 
-                                    hint: const Padding(
-                                      padding: EdgeInsets.symmetric(
+                                    hint: Padding(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 11,
                                       ),
                                       child: Text(
                                         'Select Type',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Color(0xff888891),
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 13.sp,
+                                          color: const Color(0xff888891),
                                         ),
                                       ),
                                     ),
@@ -487,9 +494,11 @@ class _GuardparcelregisterscreenState
                                                   ),
                                               child: Text(
                                                 type,
-                                                style: const TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color(0xff222222),
+                                                style: GoogleFonts.outfit(
+                                                  fontSize: 13.sp,
+                                                  color: const Color(
+                                                    0xff222222,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -512,12 +521,12 @@ class _GuardparcelregisterscreenState
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Tracking / Reference',
-                                style: TextStyle(
-                                  fontSize: 13,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xff111111),
+                                  color: AppColors.heading,
                                 ),
                               ),
 
@@ -544,8 +553,12 @@ class _GuardparcelregisterscreenState
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 19.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(
+                    color: const Color(0xff101C16),
+                    width: 1.w,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -609,7 +622,7 @@ class _GuardparcelregisterscreenState
                               decoration: InputDecoration(
                                 isDense: true,
                                 hintText: "Enter flat no. or resident name...",
-                                hintStyle: TextStyle(
+                                hintStyle: GoogleFonts.outfit(
                                   fontSize: 14.sp,
                                   color: const Color(0xff888891),
                                   fontWeight: FontWeight.w400,
@@ -670,14 +683,14 @@ class _GuardparcelregisterscreenState
                                   vertical: 12.h,
                                 ),
                                 filled: true,
-                                fillColor: Colors.white,
+                                fillColor: AppColors.scaffoldBg,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.r),
                                   borderSide: BorderSide(
                                     color: controller.text.isNotEmpty
                                         ? AppColors.heading
-                                        : const Color(0xff92929A),
-                                    width: 1,
+                                        : const Color(0xff101C16),
+                                    width: 1.w,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -710,16 +723,16 @@ class _GuardparcelregisterscreenState
                                 elevation: 6.0,
                                 shadowColor: Colors.black26,
                                 borderRadius: BorderRadius.circular(12.r),
-                                color: Colors.white,
+                                color: AppColors.scaffoldBg,
                                 child: Container(
                                   width: fieldWidth,
                                   constraints: BoxConstraints(maxHeight: 260.h),
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: AppColors.scaffoldBg,
                                     borderRadius: BorderRadius.circular(12.r),
                                     border: Border.all(
-                                      color: const Color(0xFFE5E7EB),
-                                      width: 1.2,
+                                      color: const Color(0xff101C16),
+                                      width: 1.w,
                                     ),
                                   ),
                                   child: options.isEmpty
@@ -1165,11 +1178,11 @@ class _GuardparcelregisterscreenState
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
-                    color: const Color(0xFFE2E2E2),
-                    width: 1.5,
+                    color: const Color(0xff101C16),
+                    width: 1.w,
                   ),
                 ),
                 child: Column(
@@ -1255,9 +1268,12 @@ class _GuardparcelregisterscreenState
                 width: double.infinity,
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(16.r),
-                  border: Border.all(color: const Color(0xffE1E1E1)),
+                  border: Border.all(
+                    color: const Color(0xff101C16),
+                    width: 1.w,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1329,32 +1345,32 @@ class _GuardparcelregisterscreenState
                         ),
                 ),
               ),
-              SizedBox(height: 16.h),
-              SizedBox(
-                width: double.infinity,
-                height: 44.h,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.scaffoldBg,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: AppColors.heading),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Cancel',
-                    style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                ),
-              ),
+              // SizedBox(height: 16.h),
+              // SizedBox(
+              //   width: double.infinity,
+              //   height: 44.h,
+              //   child: ElevatedButton(
+              //     style: ElevatedButton.styleFrom(
+              //       backgroundColor: AppColors.scaffoldBg,
+              //       shape: RoundedRectangleBorder(
+              //         side: BorderSide(color: AppColors.heading),
+              //         borderRadius: BorderRadius.circular(8.r),
+              //       ),
+              //     ),
+              //     onPressed: () {
+              //       Navigator.pop(context);
+              //     },
+              //     child: Text(
+              //       'Cancel',
+              //       style: GoogleFonts.outfit(
+              //         fontSize: 16.sp,
+              //         fontWeight: FontWeight.w500,
+              //         color: AppColors.heading,
+              //         letterSpacing: -0.2,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 20.h),
             ],
           ),
@@ -1380,24 +1396,24 @@ class _GuardparcelregisterscreenState
       ),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(
-          fontSize: 13,
-          color: Color(0xff888891),
+        hintStyle: GoogleFonts.outfit(
+          fontSize: 13.sp,
+          color: const Color(0xff888891),
           fontWeight: FontWeight.w400,
         ),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: 11,
-          vertical: maxLines > 1 ? 12 : 0,
+          horizontal: 11.w,
+          vertical: maxLines > 1 ? 12.h : 0,
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.scaffoldBg,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(3),
-          borderSide: const BorderSide(color: Color(0xff92929A), width: 1),
+          borderRadius: BorderRadius.circular(4.r),
+          borderSide: BorderSide(color: const Color(0xff101C16), width: 1.w),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(3),
-          borderSide: const BorderSide(color: AppColors.heading, width: 1.2),
+          borderRadius: BorderRadius.circular(4.r),
+          borderSide: BorderSide(color: AppColors.heading, width: 1.2.w),
         ),
       ),
     );
@@ -1419,15 +1435,15 @@ class _GuardparcelregisterscreenState
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xffC9F3D9) : Colors.white,
+          color: isSelected ? const Color(0xffC9F3D9) : AppColors.scaffoldBg,
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: isSelected
                 ? const Color(0xff16B364)
-                : const Color(0xffDDDDDD),
-            width: isSelected ? 1.5 : 1,
+                : const Color(0xff101C16),
+            width: 1.w,
           ),
         ),
         child: Column(
@@ -1445,7 +1461,7 @@ class _GuardparcelregisterscreenState
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
@@ -1460,10 +1476,10 @@ class _GuardparcelregisterscreenState
               subtitle,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 12,
+              style: GoogleFonts.outfit(
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w500,
-                color: Color(0xff666666),
+                color: const Color(0xff666666),
               ),
             ),
           ],

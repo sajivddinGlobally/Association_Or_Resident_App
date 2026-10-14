@@ -485,11 +485,11 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
             title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
+            style: GoogleFonts.outfit(
               fontSize: 17.sp,
               fontWeight: FontWeight.w500,
               color: AppColors.heading,
-              letterSpacing: -0.54,
+              letterSpacing: -0.3,
             ),
           ),
 
@@ -498,11 +498,11 @@ class _ApartmentscreenState extends ConsumerState<Apartmentscreen> {
             subtitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
+            style: GoogleFonts.outfit(
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
-              color: Color.fromRGBO(41, 42, 51, 0.6),
-              letterSpacing: -0.34,
+              color: const Color.fromRGBO(41, 42, 51, 0.6),
+              letterSpacing: -0.2,
             ),
           ),
         ],

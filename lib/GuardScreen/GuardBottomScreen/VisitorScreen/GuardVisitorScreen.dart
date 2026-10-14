@@ -85,7 +85,7 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
 
     final ImageSource? source = await showModalBottomSheet<ImageSource>(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.scaffoldBg,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(22.r)),
       ),
@@ -225,10 +225,7 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
               },
               borderRadius: BorderRadius.circular(8.r),
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 10.w,
-                  vertical: 7.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
                 decoration: BoxDecoration(
                   color: AppColors.heading,
                   borderRadius: BorderRadius.circular(8.r),
@@ -267,11 +264,11 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 14.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
-                    color: const Color(0xffE1E1E1),
-                    width: 1.5,
+                    color: const Color(0xff101C16),
+                    width: 1.w,
                   ),
                 ),
                 child: Column(
@@ -312,7 +309,7 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                             height: 74.h,
                             width: 108.w,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: AppColors.scaffoldBg,
                               borderRadius: BorderRadius.circular(18.r),
                               border: Border.all(
                                 color: Colors.black,
@@ -420,8 +417,12 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 19.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(
+                    color: const Color(0xff101C16),
+                    width: 1.w,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -475,21 +476,22 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Visit Type',
-                                style: TextStyle(
-                                  fontSize: 13,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xff111111),
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              SizedBox(height: 8.h),
 
                               Container(
                                 height: 46.h,
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(4),
+                                  color: AppColors.scaffoldBg,
+                                  borderRadius: BorderRadius.circular(8.r),
                                   border: Border.all(
                                     color: const Color(0xff92929A),
                                     width: 1,
@@ -500,15 +502,16 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                                     value: selectedVisitType,
                                     isExpanded: true,
 
-                                    hint: const Padding(
+                                    hint: Padding(
                                       padding: EdgeInsets.symmetric(
-                                        horizontal: 11,
+                                        horizontal: 11.w,
                                       ),
                                       child: Text(
                                         'Select Type',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Color(0xff888891),
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 14.sp,
+                                          color: const Color(0xff888891),
+                                          letterSpacing: -0.2,
                                         ),
                                       ),
                                     ),
@@ -533,15 +536,17 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                                           return DropdownMenuItem<String>(
                                             value: type,
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 11,
-                                                  ),
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 11.w,
+                                              ),
                                               child: Text(
                                                 type,
-                                                style: const TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color(0xff222222),
+                                                style: GoogleFonts.outfit(
+                                                  fontSize: 14.sp,
+                                                  color: const Color(
+                                                    0xff222222,
+                                                  ),
+                                                  letterSpacing: -0.2,
                                                 ),
                                               ),
                                             ),
@@ -559,21 +564,22 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 20),
+                        SizedBox(width: 20.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Vehicle',
-                                style: TextStyle(
-                                  fontSize: 13,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xff111111),
+                                  color: AppColors.heading,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
 
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8.h),
 
                               SizedBox(
                                 height: 46.h,
@@ -610,18 +616,19 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                       ),
                       decoration: InputDecoration(
                         hintText: "Briefly mention purpose of visit",
-                        hintStyle: const TextStyle(
-                          fontSize: 13,
-                          color: Color(0xff888891),
+                        hintStyle: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          color: const Color(0xff888891),
                           fontWeight: FontWeight.w400,
+                          letterSpacing: -0.2,
                         ),
                         contentPadding: EdgeInsets.symmetric(
-                          horizontal: 11,
-                          vertical: 10,
+                          horizontal: 11.w,
+                          vertical: 10.h,
                         ),
 
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: AppColors.scaffoldBg,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.r),
                           borderSide: const BorderSide(
@@ -693,7 +700,7 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                         height: 44.h,
                         padding: EdgeInsets.symmetric(horizontal: 12.w),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.scaffoldBg,
                           borderRadius: BorderRadius.circular(6.r),
                           border: Border.all(color: const Color(0xff92929A)),
                         ),
@@ -738,11 +745,11 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
-                    color: const Color(0xffE0E0E0),
-                    width: 1.5,
+                    color: const Color(0xff101C16),
+                    width: 1.w,
                   ),
                 ),
                 child: Column(
@@ -840,10 +847,11 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                               decoration: InputDecoration(
                                 isDense: true,
                                 hintText: "Enter flat no. or resident name...",
-                                hintStyle: TextStyle(
+                                hintStyle: GoogleFonts.outfit(
                                   fontSize: 14.sp,
                                   color: const Color(0xff888891),
                                   fontWeight: FontWeight.w400,
+                                  letterSpacing: -0.2,
                                 ),
                                 prefixIcon: Icon(
                                   Icons.apartment_rounded,
@@ -901,7 +909,7 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                                   vertical: 12.h,
                                 ),
                                 filled: true,
-                                fillColor: Colors.white,
+                                fillColor: AppColors.scaffoldBg,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.r),
                                   borderSide: BorderSide(
@@ -1352,7 +1360,7 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
                     color: const Color(0xFFE2E2E2),
@@ -1564,29 +1572,30 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
                         ),
                 ),
               ),
-              SizedBox(height: 10.h),
-              SizedBox(
-                width: double.infinity,
-                height: 44.h,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xffFFFFFF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    'Cancel',
-                    style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                ),
-              ),
+              // SizedBox(height: 10.h),
+              // SizedBox(
+              //   width: double.infinity,
+              //   height: 44.h,
+              //   child: ElevatedButton(
+              //     style: ElevatedButton.styleFrom(
+              //       backgroundColor: AppColors.scaffoldBg,
+              //       side: BorderSide(color: AppColors.heading, width: 1.w),
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(8.r),
+              //       ),
+              //     ),
+              //     onPressed: () {},
+              //     child: Text(
+              //       'Cancel',
+              //       style: GoogleFonts.outfit(
+              //         fontSize: 16.sp,
+              //         fontWeight: FontWeight.w500,
+              //         color: AppColors.heading,
+              //         letterSpacing: -0.2,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 20.h),
             ],
           ),
@@ -1612,17 +1621,18 @@ class _GuardvisitorscreenState extends ConsumerState<Guardvisitorscreen> {
       ),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(
-          fontSize: 13,
-          color: Color(0xff888891),
+        hintStyle: GoogleFonts.outfit(
+          fontSize: 14.sp,
+          color: const Color(0xff888891),
           fontWeight: FontWeight.w400,
+          letterSpacing: -0.2,
         ),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: 11,
-          vertical: maxLines > 1 ? 12 : 0,
+          horizontal: 11.w,
+          vertical: maxLines > 1 ? 12.h : 0,
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.scaffoldBg,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: const BorderSide(color: Color(0xff92929A), width: 1),

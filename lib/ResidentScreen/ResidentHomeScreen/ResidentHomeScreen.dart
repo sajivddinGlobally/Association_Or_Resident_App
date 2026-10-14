@@ -479,12 +479,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       SizedBox(width: 20.w),
                       Expanded(
                         child: _serviceCard(
-                          title:
-                              data.data?.quickActions?.myRequests?.title ??
-                              "My Requests",
-                          subtitle:
-                              data.data?.quickActions?.myRequests?.subtitle ??
-                              "Track your complaints",
+                          title: "My Service Request",
+                          // data.data?.quickActions?.myRequests?.title ??
+                          // "My Requests",
+                          subtitle: "Track your request",
+                          // data.data?.quickActions?.myRequests?.subtitle ??
+                          // "Track your complaints",
                           icon: Icons.chat_bubble_outline,
                           isSelected: false,
                           onTap: widget.onReqeustTap,
@@ -510,11 +510,9 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                         vertical: 12.h,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFFDF0),
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
-                          color: const Color(0xFFE8B900),
-                          width: 1.2,
+                          color: AppColors.heading.withOpacity(0.2),
                         ),
                       ),
                       child: Row(
@@ -591,7 +589,6 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   ),
 
                   SizedBox(height: 12.h),
-
                   // Visitor Request Approvals (Calls /api/v1/resident/visitor-pass)
                   InkWell(
                     onTap: () {
@@ -610,11 +607,9 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                         vertical: 12.h,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF0FDF4),
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
-                          color: const Color(0xFF16A34A),
-                          width: 1.2,
+                          color: AppColors.heading.withOpacity(0.2),
                         ),
                       ),
                       child: Row(
@@ -710,10 +705,9 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                         vertical: 12.h,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFEFF6FF),
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
-                          color: const Color(0xFF2563EB),
+                          color: AppColors.heading.withOpacity(0.2),
                           width: 1.2,
                         ),
                       ),
@@ -790,410 +784,6 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                     ),
                   ),
 
-                  /*
-                  // ==========================================================================
-                  // [POINT 1] EMERGENCY CALLING ON MAIN PAGE (Caretaker & Association Desk)
-                  // To enable, uncomment this section.
-                  // Provides direct 1-tap call access for Caretaker & Association Desk.
-                  // ==========================================================================
-                  SizedBox(height: 18.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Emergency Contacts",
-                        style: GoogleFonts.outfit(
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.heading,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => const EmergencyContactscreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "View All →",
-                          style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xffB8860B),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                  Row(
-                    children: [
-                      // Caretaker Direct Call Card
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFFDF0),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xFFD9D9D0)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 32.w,
-                                    height: 32.w,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffEEE6D2),
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    child: Icon(Icons.person_pin, color: const Color(0xffB8860B), size: 18.sp),
-                                  ),
-                                  const Spacer(),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffD5EEE5),
-                                      borderRadius: BorderRadius.circular(4.r),
-                                    ),
-                                    child: Text(
-                                      "24/7",
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: const Color(0xff009B62),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Building Caretaker",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.heading,
-                                ),
-                              ),
-                              Text(
-                                "Robert Caretaker",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xff777777),
-                                ),
-                              ),
-                              SizedBox(height: 8.h),
-                              InkWell(
-                                onTap: () {
-                                  // Direct call intent
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.symmetric(vertical: 7.h),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff007665),
-                                    borderRadius: BorderRadius.circular(6.r),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.call, size: 13.sp, color: Colors.white),
-                                      SizedBox(width: 4.w),
-                                      Text(
-                                        "Call Caretaker",
-                                        style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      // Association Emergency Desk
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFF8F8),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xFFFFD2D2)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 32.w,
-                                    height: 32.w,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFFFE5E5),
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    child: Icon(Icons.emergency_outlined, color: const Color(0xffD22424), size: 18.sp),
-                                  ),
-                                  const Spacer(),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFFFE5E5),
-                                      borderRadius: BorderRadius.circular(4.r),
-                                    ),
-                                    child: Text(
-                                      "URGENT",
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xffD22424),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Emergency Desk",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.heading,
-                                ),
-                              ),
-                              Text(
-                                "Association Support",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  color: const Color(0xff777777),
-                                ),
-                              ),
-                              SizedBox(height: 8.h),
-                              InkWell(
-                                onTap: () {
-                                  // Direct call intent
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.symmetric(vertical: 7.h),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xffD22424),
-                                    borderRadius: BorderRadius.circular(6.r),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.call, size: 13.sp, color: Colors.white),
-                                      SizedBox(width: 4.w),
-                                      Text(
-                                        "Call Emergency",
-                                        style: GoogleFonts.outfit(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  */
-
-                  /*
-                  // ==========================================================================
-                  // [POINT 4] DAILY ESSENTIALS & SERVICES (Food, Cabs, Groceries Portals)
-                  // To enable, uncomment this section.
-                  // Provides 1-tap redirect to Swiggy/Zomato, Uber/Ola, Blinkit, etc.
-                  // ==========================================================================
-                  SizedBox(height: 18.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Daily Essentials & Services",
-                        style: GoogleFonts.outfit(
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.heading,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                      Text(
-                        "Quick Redirect",
-                        style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          color: const Color(0xff777777),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        // Food Delivery
-                        Container(
-                          width: 110.w,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffFDECEE),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xffF7C1C5)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 36.w,
-                                height: 36.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffE23744),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(Icons.delivery_dining_outlined, color: Colors.white, size: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Food Delivery",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
-                              ),
-                              Text(
-                                "Swiggy / Zomato",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        // Cab Booking
-                        Container(
-                          width: 110.w,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffF0F0F0),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xffD0D0D0)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 36.w,
-                                height: 36.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xff101C16),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(Icons.local_taxi_outlined, color: Colors.white, size: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Cab Booking",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
-                              ),
-                              Text(
-                                "Uber / Ola",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        // Groceries
-                        Container(
-                          width: 110.w,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffFEF9E7),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xffF9E8A2)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 36.w,
-                                height: 36.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffB8860B),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(Icons.shopping_basket_outlined, color: Colors.white, size: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Quick Groceries",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
-                              ),
-                              Text(
-                                "Blinkit / Zepto",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        // Home Maintenance
-                        Container(
-                          width: 110.w,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffF4EDFB),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xffDDC1F7)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 36.w,
-                                height: 36.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xff7B2CBF),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(Icons.handyman_outlined, color: Colors.white, size: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Home Services",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
-                              ),
-                              Text(
-                                "Urban Company",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  */
                   SizedBox(height: 16.h),
                   Text(
                     "Community",
@@ -1266,7 +856,6 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               ],
                             ),
                           ),
-
                           Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: 10.w,
@@ -1662,7 +1251,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.outfit(
-                fontSize: 18.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
                 color: isSelected ? Colors.white : const Color(0xFF101C16),
                 letterSpacing: -0.3,
@@ -1828,7 +1417,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
           Container(
             padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.scaffoldBg,
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Icon(
@@ -1878,7 +1467,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 6.h),
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: AppColors.scaffoldBg,
               shape: BoxShape.circle,
             ),
             child: Icon(

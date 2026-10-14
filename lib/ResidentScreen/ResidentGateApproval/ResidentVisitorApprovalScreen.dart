@@ -88,7 +88,7 @@ class _ResidentVisitorApprovalScreenState
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.scaffoldBg,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.r),
           ),
@@ -229,9 +229,12 @@ class _ResidentVisitorApprovalScreenState
                 height: 38.h,
                 width: 38.w,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                  border: Border.all(
+                    color: const Color(0xff101C16),
+                    width: 1.w,
+                  ),
                 ),
                 child: Icon(
                   Icons.arrow_back,
@@ -342,11 +345,11 @@ class _ResidentVisitorApprovalScreenState
                       vertical: 12.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.scaffoldBg,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
-                        color: const Color(0xFF16A34A),
-                        width: 1.2,
+                        color: const Color(0xff101C16),
+                        width: 1.w,
                       ),
                     ),
                     child: Row(
@@ -470,9 +473,12 @@ class _ResidentVisitorApprovalScreenState
                         horizontal: 20.w,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.scaffoldBg,
                         borderRadius: BorderRadius.circular(14.r),
-                        border: Border.all(color: const Color(0xFFE5E7EB)),
+                        border: Border.all(
+                          color: const Color(0xff101C16),
+                          width: 1.w,
+                        ),
                       ),
                       child: Column(
                         children: [
@@ -590,10 +596,11 @@ class _ResidentVisitorApprovalScreenState
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.heading : Colors.white,
+          color: isSelected ? AppColors.heading : Colors.transparent,
           borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
-            color: isSelected ? AppColors.heading : const Color(0xFFD1D5DB),
+            color: isSelected ? AppColors.heading : const Color(0xff101C16),
+            width: 1.w,
           ),
         ),
         child: Text(
@@ -638,19 +645,12 @@ class _ResidentVisitorApprovalScreenState
       margin: EdgeInsets.only(bottom: 14.h),
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.scaffoldBg,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          color: isPending ? const Color(0xFFF59E0B) : const Color(0xFFE5E7EB),
-          width: isPending ? 1.4 : 1,
+          color: isPending ? const Color(0xFFF59E0B) : const Color(0xff101C16),
+          width: 1.w,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -726,7 +726,7 @@ class _ResidentVisitorApprovalScreenState
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFF9FAFB),
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(color: const Color(0xFFF3F4F6)),
             ),

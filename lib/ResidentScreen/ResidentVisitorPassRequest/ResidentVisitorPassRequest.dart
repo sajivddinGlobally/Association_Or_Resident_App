@@ -115,7 +115,7 @@ class _ResidentvisitorpassrequestState
         return Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.scaffoldBg,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),
@@ -768,9 +768,12 @@ class _ResidentvisitorpassrequestState
                         return Container(
                           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.scaffoldBg,
                             borderRadius: BorderRadius.circular(20.r),
-                            border: Border.all(color: const Color(0xffD9D9D0)),
+                            border: Border.all(
+                              color: const Color(0xff101C16),
+                              width: 1.w,
+                            ),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

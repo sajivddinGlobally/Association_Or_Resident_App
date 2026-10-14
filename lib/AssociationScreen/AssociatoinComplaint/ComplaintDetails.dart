@@ -312,7 +312,12 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                                     style: GoogleFonts.outfit(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
-                                      color: const Color.fromRGBO(42, 41, 51, 0.75),
+                                      color: const Color.fromRGBO(
+                                        42,
+                                        41,
+                                        51,
+                                        0.75,
+                                      ),
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -587,6 +592,33 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                           label: "Property / Unit",
                           value: data.data.complaintInformation.propertyUnit,
                         ),
+                        if (data.data.complaintInformation.areaTypeLabel !=
+                                null ||
+                            data.data.complaintInformation.areaType !=
+                                null) ...[
+                          _divider(),
+                          _informationRow(
+                            icon: Icons.domain_outlined,
+                            label: "Area Scope",
+                            value:
+                                data.data.complaintInformation.areaTypeLabel ??
+                                (data.data.complaintInformation.areaType ==
+                                        'common_area'
+                                    ? 'Common Area'
+                                    : 'Inside Flat'),
+                          ),
+                        ],
+                        if (data.data.complaintInformation.location != null &&
+                            data.data.complaintInformation.location!
+                                .trim()
+                                .isNotEmpty) ...[
+                          _divider(),
+                          _informationRow(
+                            icon: Icons.place_outlined,
+                            label: "Location",
+                            value: data.data.complaintInformation.location!,
+                          ),
+                        ],
                         _divider(),
                         _informationRow(
                           icon: Icons.receipt_long_outlined,
@@ -798,13 +830,18 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                       Expanded(
                         child: _attachmentCard(
                           icon: Icons.image_outlined,
-                          title: data.data.attachments.complaintPhoto.title,
-                          subtitle: data.data.attachments.complaintPhoto.action,
+                          title:
+                              data.data.attachments.complaintPhoto.title ??
+                              "N/A",
+                          subtitle:
+                              data.data.attachments.complaintPhoto.action ??
+                              "N/A",
                           imageUrl: data.data.attachments.complaintPhoto.url,
                           onTap: () {
                             _showAttachmentDialog(
                               context,
-                              data.data.attachments.complaintPhoto.title,
+                              data.data.attachments.complaintPhoto.title ??
+                                  "N/A",
                               data.data.attachments.complaintPhoto.url,
                             );
                           },
@@ -814,15 +851,19 @@ class _ComplaintDetailsState extends ConsumerState<ComplaintDetails> {
                       Expanded(
                         child: _attachmentCard(
                           icon: Icons.description_outlined,
-                          title: data.data.attachments.supportingDocument.title,
+                          title:
+                              data.data.attachments.supportingDocument.title ??
+                              "N/A",
                           subtitle:
-                              data.data.attachments.supportingDocument.action,
+                              data.data.attachments.supportingDocument.action ??
+                              "N/A",
                           imageUrl:
                               data.data.attachments.supportingDocument.url,
                           onTap: () {
                             _showAttachmentDialog(
                               context,
-                              data.data.attachments.supportingDocument.title,
+                              data.data.attachments.supportingDocument.title ??
+                                  "N/A",
                               data.data.attachments.supportingDocument.url,
                             );
                           },
@@ -1273,7 +1314,9 @@ class ComplaintTimeline extends StatelessWidget {
                 textAlign: _getTextAlignment(index, steps.length),
                 style: GoogleFonts.outfit(
                   fontSize: 12.sp,
-                  fontWeight: step.isCurrent ? FontWeight.w700 : FontWeight.w500,
+                  fontWeight: step.isCurrent
+                      ? FontWeight.w700
+                      : FontWeight.w500,
                   color: step.isCurrent
                       ? const Color(0xFF1E5993)
                       : AppColors.heading,

@@ -161,8 +161,9 @@ abstract class ApiStateNetwork {
   @GET("/api/v1/committee/service-requests")
   Future<GetServiceRequestModel> getServiceRequestList(
     @Query("status") String? status,
-    @Query("search") String? search,
-  );
+    @Query("search") String? search, {
+    @Query("type") String? type,
+  });
 
   @GET("/api/v1/committee/tickets/{id}/details")
   Future<GetServiceRequestDetailsModel> getServiceRequestDetails(
@@ -222,8 +223,9 @@ abstract class ApiStateNetwork {
   @GET("/api/v1/committee/complaints")
   Future<AssociationComplaintResModel> getComplaintData(
     @Query("status") String? status,
-    @Query("search") String? search,
-  );
+    @Query("search") String? search, {
+    @Query("type") String? type,
+  });
 
   @GET("/api/v1/committee/complaints/{id}")
   Future<GetComplaintDetailsResModel> getComplaintDetails(

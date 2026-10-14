@@ -148,6 +148,7 @@ class Request {
   String? ticketNumber;
   String? title;
   String? subtitle;
+  String? type;
   String? category;
   String? flatNumber;
   String? residentName;
@@ -164,6 +165,7 @@ class Request {
     this.ticketNumber,
     this.title,
     this.subtitle,
+    this.type,
     this.category,
     this.flatNumber,
     this.residentName,
@@ -181,6 +183,7 @@ class Request {
     ticketNumber: json["ticket_number"],
     title: json["title"],
     subtitle: json["subtitle"],
+    type: json["type"],
     category: json["category"],
     flatNumber: json["flat_number"],
     residentName: json["resident_name"],
@@ -198,6 +201,7 @@ class Request {
     "ticket_number": ticketNumber,
     "title": title,
     "subtitle": subtitle,
+    "type": type,
     "category": category,
     "flat_number": flatNumber,
     "resident_name": residentName,

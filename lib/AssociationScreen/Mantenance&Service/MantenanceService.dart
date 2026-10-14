@@ -352,34 +352,34 @@ class _MantenanceServiceState extends ConsumerState<MantenanceService> {
                                 letterSpacing: -0.3,
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                // View all
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'VIEW ALL',
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
-                                  SizedBox(width: 4.w),
-                                  Text(
-                                    '→',
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     // View all
+                            //   },
+                            //   child: Row(
+                            //     mainAxisSize: MainAxisSize.min,
+                            //     children: [
+                            //       Text(
+                            //         'VIEW ALL',
+                            //         style: GoogleFonts.outfit(
+                            //           fontSize: 14.sp,
+                            //           fontWeight: FontWeight.w600,
+                            //           color: Colors.white,
+                            //           letterSpacing: -0.2,
+                            //         ),
+                            //       ),
+                            //       SizedBox(width: 4.w),
+                            //       Text(
+                            //         '→',
+                            //         style: GoogleFonts.outfit(
+                            //           fontSize: 18.sp,
+                            //           fontWeight: FontWeight.w600,
+                            //           color: Colors.white,
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                         SizedBox(height: 16.h),
@@ -597,11 +597,7 @@ class ServiceCard extends StatelessWidget {
                     border: Border.all(color: AppColors.heading, width: 1.2),
                     borderRadius: BorderRadius.circular(6.r),
                   ),
-                  child: Icon(
-                    icon,
-                    size: 20.sp,
-                    color: AppColors.heading,
-                  ),
+                  child: Icon(icon, size: 20.sp, color: AppColors.heading),
                 ),
                 SizedBox(width: 12.w),
                 Expanded(
@@ -640,7 +636,10 @@ class ServiceCard extends StatelessWidget {
                   width: 36.w,
                   height: 36.w,
                   decoration: BoxDecoration(
-                    border: Border.all(color: const Color.fromRGBO(16, 28, 22, 0.3), width: 1.w),
+                    border: Border.all(
+                      color: const Color.fromRGBO(16, 28, 22, 0.3),
+                      width: 1.w,
+                    ),
                     borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(

@@ -77,7 +77,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "My Requests",
+                    "My Complaints",
                     style: GoogleFonts.outfit(
                       fontSize: 19.sp,
                       fontWeight: FontWeight.w600,
@@ -110,7 +110,7 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
               : [
                   FilterTab(key: "all", label: "All"),
                   FilterTab(key: "open", label: "Open"),
-                  FilterTab(key: "in_progress", label: "In Progress"),
+                  FilterTab(key: "in_progress", label: "Under Review"),
                   FilterTab(key: "resolved", label: "Resolved"),
                 ];
 
@@ -177,14 +177,25 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                 Container(
                   padding: EdgeInsets.all(6.w),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.scaffoldBg,
                     borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(
+                      color: const Color(0xff101C16),
+                      width: 1.w,
+                    ),
                   ),
                   child: Row(
                     children: filterTabs.map((tab) {
                       final tabKey = tab.key ?? "all";
                       final isSelected = selectedFilter == tabKey;
-                      return _tab(tab.label ?? tabKey, tabKey, isSelected);
+                      String tabLabel = tab.label ?? tabKey;
+                      final labelLower = tabLabel.toLowerCase().trim();
+                      if (labelLower == "in progress" ||
+                          labelLower == "in_progress" ||
+                          tabKey.toLowerCase().trim() == "in_progress") {
+                        tabLabel = "Under Review";
+                      }
+                      return _tab(tabLabel, tabKey, isSelected);
                     }).toList(),
                   ),
                 ),
@@ -242,6 +253,13 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                             Border? badgeBorder;
                             String statusLabel;
 
+                            final rawStatusLower = (request?.status ?? "")
+                                .toLowerCase()
+                                .trim();
+                            final isInProgress =
+                                rawStatusLower == "in progress" ||
+                                rawStatusLower == "in_progress";
+
                             if (isEmergency) {
                               badgeBg = const Color(0xFFFFEBEE);
                               badgeText = const Color(0xFFEF4444);
@@ -258,17 +276,14 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                 color: apiStatusColor.withOpacity(0.35),
                                 width: 1,
                               );
-                              statusLabel = request?.status ?? "";
+                              statusLabel = isInProgress
+                                  ? "Under Review"
+                                  : (request?.status ?? "");
                             } else {
-                              final statusLower = (request?.status ?? "")
-                                  .toLowerCase();
                               final isResolved =
-                                  statusLower == "resolved" ||
-                                  statusLower == "completed" ||
-                                  statusLower == "closed";
-                              final isInProgress =
-                                  statusLower == "in progress" ||
-                                  statusLower == "in_progress";
+                                  rawStatusLower == "resolved" ||
+                                  rawStatusLower == "completed" ||
+                                  rawStatusLower == "closed";
 
                               if (isResolved) {
                                 badgeBg = const Color(0xFFE8F5E9);
@@ -292,13 +307,20 @@ class _ResidentrequestscreenState extends ConsumerState<Residentrequestscreen> {
                                   ).withOpacity(0.3),
                                   width: 1,
                                 );
-                                statusLabel = request?.status ?? "In Progress";
+                                statusLabel = "Under Review";
                               } else {
                                 badgeBg = const Color(0xFFECEFF1);
                                 badgeText = const Color(0xFF455A64);
                                 badgeBorder = null;
                                 statusLabel = request?.status ?? "Submitted";
                               }
+                            }
+
+                            if (statusLabel.toLowerCase().trim() ==
+                                    "in progress" ||
+                                statusLabel.toLowerCase().trim() ==
+                                    "in_progress") {
+                              statusLabel = "Under Review";
                             }
 
                             final areaType =

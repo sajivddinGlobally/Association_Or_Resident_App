@@ -52,7 +52,7 @@ class _GuardGateParcelsScreenState
         return StatefulBuilder(
           builder: (dialogContext, setDialogState) {
             return AlertDialog(
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.scaffoldBg,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
@@ -282,7 +282,7 @@ class _GuardGateParcelsScreenState
         return StatefulBuilder(
           builder: (dialogContext, setDialogState) {
             return AlertDialog(
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.scaffoldBg,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
@@ -523,10 +523,10 @@ class _GuardGateParcelsScreenState
                         margin: EdgeInsets.only(bottom: 14.h),
                         padding: EdgeInsets.all(14.w),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.scaffoldBg,
                           borderRadius: BorderRadius.circular(14.r),
                           border: Border.all(
-                            color: Colors.grey.shade200,
+                            color: const Color(0xff101C16),
                             width: 1.w,
                           ),
                         ),

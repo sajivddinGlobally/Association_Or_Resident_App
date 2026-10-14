@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:property_association_or_resident/AssociationScreen/AssociationImportantAlertsScreen/AlertDetailsScreen.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationImportantAlertsScreen/provider/getAlertsProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getAlertModel.dart';
@@ -450,110 +452,120 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
   }
 
   Widget _buildUrgentHeroCard(Alert alert) {
-    return Container(
-      padding: EdgeInsets.all(18.w),
-      margin: EdgeInsets.only(bottom: 14.h),
-      decoration: BoxDecoration(
-        color: const Color(0xff0C1C16),
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 18.w,
-                height: 18.w,
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(184, 134, 11, 0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.circle,
-                  size: 7.sp,
-                  color: const Color(0xffB8860B),
-                ),
-              ),
-              SizedBox(width: 7.w),
-              Text(
-                alert.badgeText ?? "URGENT ALERT",
-                style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  letterSpacing: -0.2,
-                ),
-              ),
-              const Spacer(),
-              Text(
-                alert.timeAgo ?? "",
-                style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white70,
-                ),
-              ),
-            ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => AlertDetailsScreen(alert: alert),
           ),
-          SizedBox(height: 10.h),
-          Text(
-            alert.title ?? "",
-            style: GoogleFonts.outfit(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              letterSpacing: -0.2,
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.all(18.w),
+        margin: EdgeInsets.only(bottom: 14.h),
+        decoration: BoxDecoration(
+          color: const Color(0xff0C1C16),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 18.w,
+                  height: 18.w,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(184, 134, 11, 0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.circle,
+                    size: 7.sp,
+                    color: const Color(0xffB8860B),
+                  ),
+                ),
+                SizedBox(width: 7.w),
+                Text(
+                  alert.badgeText ?? "URGENT ALERT",
+                  style: GoogleFonts.outfit(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    letterSpacing: -0.2,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  alert.timeAgo ?? "",
+                  style: GoogleFonts.outfit(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
             ),
-          ),
-          if (alert.subtitle != null && alert.subtitle!.isNotEmpty) ...[
-            SizedBox(height: 4.h),
+            SizedBox(height: 10.h),
             Text(
-              alert.subtitle!,
+              alert.title ?? "",
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xffD0D8D4),
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
                 letterSpacing: -0.2,
               ),
             ),
-          ],
-          SizedBox(height: 14.h),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  alert.locationInfo ?? "",
-                  style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+            if (alert.subtitle != null && alert.subtitle!.isNotEmpty) ...[
+              SizedBox(height: 4.h),
+              Text(
+                alert.subtitle!,
+                style: GoogleFonts.outfit(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xffD0D8D4),
+                  letterSpacing: -0.2,
                 ),
               ),
-              if (alert.actionButton?.label != null &&
-                  alert.actionButton!.label!.isNotEmpty)
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 14.w,
-                    vertical: 6.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xffB8860B),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
+            ],
+            SizedBox(height: 14.h),
+            Row(
+              children: [
+                Expanded(
                   child: Text(
-                    alert.actionButton!.label!,
+                    alert.locationInfo ?? "",
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),
                   ),
                 ),
-            ],
-          ),
-        ],
+                if (alert.actionButton?.label != null &&
+                    alert.actionButton!.label!.isNotEmpty)
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 14.w,
+                      vertical: 6.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xffB8860B),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      alert.actionButton!.label!,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -582,121 +594,136 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
         .replaceAll('→', '')
         .trim();
 
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
-      margin: EdgeInsets.only(bottom: 14.h),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFDF0),
-        border: Border.all(color: const Color(0xFF101C16), width: 1.2),
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 40.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  color: iconBgColor,
-                  borderRadius: BorderRadius.circular(6.r),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => AlertDetailsScreen(alert: alert),
+          ),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
+        margin: EdgeInsets.only(bottom: 14.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFFDF0),
+          border: Border.all(color: const Color(0xFF101C16), width: 1.2),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 40.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    color: iconBgColor,
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  child: Icon(iconData, color: iconColor, size: 20.sp),
                 ),
-                child: Icon(iconData, color: iconColor, size: 20.sp),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      alert.title ?? "",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF101C16),
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                    if (alert.subtitle != null && alert.subtitle!.isNotEmpty) ...[
-                      SizedBox(height: 2.h),
+                SizedBox(width: 10.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        alert.subtitle!,
-                        maxLines: 2,
+                        alert.title ?? "",
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(42, 41, 51, 0.75),
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF101C16),
                           letterSpacing: -0.2,
                         ),
                       ),
+                      if (alert.subtitle != null &&
+                          alert.subtitle!.isNotEmpty) ...[
+                        SizedBox(height: 2.h),
+                        Text(
+                          alert.subtitle!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromRGBO(42, 41, 51, 0.75),
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
-                ),
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                alert.timeAgo ?? "",
-                maxLines: 1,
-                style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                  color: const Color.fromRGBO(42, 41, 51, 0.7),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          const Divider(height: 1, thickness: 1, color: Color.fromRGBO(16, 28, 22, 0.15)),
-          SizedBox(height: 12.h),
-          Row(
-            children: [
-              if (badgeData?.text != null && badgeData!.text!.isNotEmpty)
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 14.w,
-                    vertical: 4.h,
                   ),
-                  decoration: BoxDecoration(
-                    color: isOutline ? Colors.transparent : badgeBgColor,
-                    border: isOutline
-                        ? Border.all(color: badgeBorderColor, width: 1)
-                        : null,
-                    borderRadius: BorderRadius.circular(20.r),
+                ),
+                SizedBox(width: 8.w),
+                Text(
+                  alert.timeAgo ?? "",
+                  maxLines: 1,
+                  style: GoogleFonts.outfit(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromRGBO(42, 41, 51, 0.7),
                   ),
-                  child: Text(
-                    badgeData.text!,
-                    style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
-                      color: badgeTextColor,
-                      letterSpacing: -0.2,
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+            const Divider(
+              height: 1,
+              thickness: 1,
+              color: Color.fromRGBO(16, 28, 22, 0.15),
+            ),
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                if (badgeData?.text != null && badgeData!.text!.isNotEmpty)
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 14.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isOutline ? Colors.transparent : badgeBgColor,
+                      border: isOutline
+                          ? Border.all(color: badgeBorderColor, width: 1)
+                          : null,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      badgeData.text!,
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                        color: badgeTextColor,
+                        letterSpacing: -0.2,
+                      ),
                     ),
                   ),
+                const Spacer(),
+                Text(
+                  actionLabel,
+                  style: GoogleFonts.outfit(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF101C16),
+                    letterSpacing: -0.2,
+                  ),
                 ),
-              const Spacer(),
-              Text(
-                actionLabel,
-                style: GoogleFonts.outfit(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
+                SizedBox(width: 5.w),
+                Icon(
+                  Icons.arrow_forward,
+                  size: 16.sp,
                   color: const Color(0xFF101C16),
-                  letterSpacing: -0.2,
                 ),
-              ),
-              SizedBox(width: 5.w),
-              Icon(
-                Icons.arrow_forward,
-                size: 16.sp,
-                color: const Color(0xFF101C16),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -39,7 +39,7 @@ class _ResidentVisitorPassListScreenState
         return Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.scaffoldBg,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),
@@ -353,7 +353,6 @@ class _ResidentVisitorPassListScreenState
                 height: 38.h,
                 width: 38.w,
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   borderRadius: BorderRadius.circular(8.r),
                   border: Border.all(color: const Color(0xFFE5E7EB)),
                 ),
@@ -554,9 +553,12 @@ class _ResidentVisitorPassListScreenState
                             horizontal: 20.w,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.scaffoldBg,
                             borderRadius: BorderRadius.circular(14.r),
-                            border: Border.all(color: const Color(0xFFE5E7EB)),
+                            border: Border.all(
+                              color: const Color(0xff101C16),
+                              width: 1.w,
+                            ),
                           ),
                           child: Column(
                             children: [
@@ -646,9 +648,13 @@ class _ResidentVisitorPassListScreenState
                           ),
                           onPressed: () =>
                               ref.invalidate(getVisitorListProvider),
-                          child: const Text(
+                          child: Text(
                             "Retry",
-                            style: TextStyle(color: Colors.white),
+                            style: GoogleFonts.outfit(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ],
@@ -684,10 +690,11 @@ class _ResidentVisitorPassListScreenState
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.heading : Colors.white,
+          color: isSelected ? AppColors.heading : Colors.transparent,
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
-            color: isSelected ? AppColors.heading : const Color(0xFFD1D5DB),
+            color: isSelected ? AppColors.heading : const Color(0xff101C16),
+            width: 1.w,
           ),
         ),
         child: Text(
@@ -782,11 +789,6 @@ class _ResidentVisitorPassListScreenState
         width: double.infinity,
         padding: EdgeInsets.all(14.r),
         decoration: BoxDecoration(
-          color: isCompleted
-              ? const Color(0xFFF9FAFB)
-              : isRejected
-              ? const Color(0xFFFFFBFB)
-              : const Color(0xFFFDFBF7),
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
             color: isCompleted

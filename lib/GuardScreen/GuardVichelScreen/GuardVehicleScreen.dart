@@ -129,11 +129,11 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
-                    color: const Color(0xffE0E0E0),
-                    width: 1.3,
+                    color: const Color(0xff101C16),
+                    width: 1.w,
                   ),
                 ),
                 child: Column(
@@ -162,9 +162,9 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
                       ),
                       decoration: InputDecoration(
                         hintText: "e.g. RJ14 AB 1234",
-                        hintStyle: const TextStyle(
-                          fontSize: 13,
-                          color: Color(0xff888891),
+                        hintStyle: GoogleFonts.outfit(
+                          fontSize: 13.sp,
+                          color: const Color(0xff888891),
                           fontWeight: FontWeight.w400,
                         ),
                         prefixIcon: Icon(
@@ -205,12 +205,12 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
                           vertical: 10.h,
                         ),
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: AppColors.scaffoldBg,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.r),
-                          borderSide: const BorderSide(
-                            color: Color(0xff92929A),
-                            width: 1,
+                          borderSide: BorderSide(
+                            color: const Color(0xff101C16),
+                            width: 1.w,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -234,11 +234,11 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
                     vertical: 25.h,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.scaffoldBg,
                     borderRadius: BorderRadius.circular(22.r),
                     border: Border.all(
-                      color: const Color(0xffDEDEDE),
-                      width: 1,
+                      color: const Color(0xff101C16),
+                      width: 1.w,
                     ),
                   ),
                   child: Column(
@@ -327,11 +327,11 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
                           vertical: 25.h,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.scaffoldBg,
                           borderRadius: BorderRadius.circular(22.r),
                           border: Border.all(
-                            color: const Color(0xffDEDEDE),
-                            width: 1,
+                            color: const Color(0xff101C16),
+                            width: 1.w,
                           ),
                         ),
                         child: Column(
@@ -363,11 +363,11 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
                         vertical: 25.h,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.scaffoldBg,
                         borderRadius: BorderRadius.circular(22.r),
                         border: Border.all(
-                          color: const Color(0xffDEDEDE),
-                          width: 1,
+                          color: const Color(0xff101C16),
+                          width: 1.w,
                         ),
                       ),
                       child: Column(
@@ -495,9 +495,12 @@ class _GuardvehiclescreenState extends ConsumerState<Guardvehiclescreen> {
                       width: double.infinity,
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.scaffoldBg,
                         borderRadius: BorderRadius.circular(16.r),
-                        border: Border.all(color: const Color(0xffDEDEDE)),
+                        border: Border.all(
+                          color: const Color(0xff101C16),
+                          width: 1.w,
+                        ),
                       ),
                       child: Column(
                         children: [

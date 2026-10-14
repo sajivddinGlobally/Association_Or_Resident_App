@@ -337,9 +337,10 @@ class _ResidentnotificationScreenState
                           ),
                           child: Text(
                             "Retry",
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               color: Colors.white,
                               fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),

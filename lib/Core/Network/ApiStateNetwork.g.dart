@@ -435,12 +435,14 @@ class _ApiStateNetwork implements ApiStateNetwork {
   @override
   Future<GetServiceRequestModel> getServiceRequestList(
     String? status,
-    String? search,
-  ) async {
+    String? search, {
+    String? type,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'status': status,
       r'search': search,
+      r'type': type,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -816,12 +818,14 @@ class _ApiStateNetwork implements ApiStateNetwork {
   @override
   Future<AssociationComplaintResModel> getComplaintData(
     String? status,
-    String? search,
-  ) async {
+    String? search, {
+    String? type,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'status': status,
       r'search': search,
+      r'type': type,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

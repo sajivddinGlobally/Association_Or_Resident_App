@@ -308,7 +308,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
         return StatefulBuilder(
           builder: (dialogContext, setDialogState) {
             return AlertDialog(
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.scaffoldBg,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
@@ -539,7 +539,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
         return StatefulBuilder(
           builder: (dialogContext, setDialogState) {
             return AlertDialog(
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.scaffoldBg,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
@@ -684,8 +684,12 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 28.h, horizontal: 40.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.scaffoldBg,
               borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(
+                color: const Color(0xff101C16),
+                width: 1.w,
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -861,9 +865,9 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.scaffoldBg,
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(color: const Color(0xffE1E1E1), width: 1.5),
+              border: Border.all(color: const Color(0xff101C16), width: 1.w),
             ),
             child: Row(
               children: [
@@ -880,7 +884,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                       decoration: BoxDecoration(
                         color: index == 0
                             ? const Color(0xffE7F8ED)
-                            : Colors.white,
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
                           color: index == 0
@@ -915,7 +919,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                       decoration: BoxDecoration(
                         color: index == 1
                             ? const Color(0xffE7F8ED)
-                            : Colors.white,
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
                           color: index == 1
@@ -949,7 +953,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                       decoration: BoxDecoration(
                         color: index == 2
                             ? const Color(0xffE7F8ED)
-                            : Colors.white,
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
                           color: index == 2
@@ -1011,9 +1015,9 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
       margin: EdgeInsets.only(bottom: 16.h),
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.scaffoldBg,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+        border: Border.all(color: const Color(0xff101C16), width: 1.w),
       ),
       child: Column(
         children: [
@@ -1215,9 +1219,9 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
       margin: EdgeInsets.only(bottom: 16.h),
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.scaffoldBg,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+        border: Border.all(color: const Color(0xff101C16), width: 1.w),
       ),
       child: Column(
         children: [
@@ -1486,11 +1490,11 @@ class _GuardsTabState extends ConsumerState<GuardsTab> {
                       vertical: 14.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.scaffoldBg,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
-                        color: const Color(0xffE1E1E1),
-                        width: 1,
+                        color: const Color(0xff101C16),
+                        width: 1.w,
                       ),
                     ),
                     child: Row(

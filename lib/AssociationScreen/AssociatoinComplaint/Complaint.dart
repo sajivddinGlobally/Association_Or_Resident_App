@@ -419,10 +419,19 @@ class _ComplaintState extends ConsumerState<Complaint> {
             SizedBox(height: 30.h),
             getComplaintState.when(
               data: (data) {
-                if (data.data.complaints.isEmpty) {
+                final allComplaints = data.data.complaints;
+                final complaints = allComplaints.where((item) {
+                  if (item.type != null && item.type!.isNotEmpty) {
+                    return item.type!.toLowerCase() == 'complaint';
+                  }
+                  if (item.ticketNumber.toUpperCase().startsWith('SR')) {
+                    return false;
+                  }
+                  return true;
+                }).toList();
+                if (complaints.isEmpty) {
                   return Center(child: Text("No complaints found"));
                 }
-                final complaints = data.data.complaints;
                 return ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -434,6 +443,9 @@ class _ComplaintState extends ConsumerState<Complaint> {
                       icon: Icons.warning_amber_rounded,
                       title: item.title,
                       subtitle: item.unitSubtitle,
+                      areaType: item.areaType,
+                      areaTypeLabel: item.areaTypeLabel,
+                      isEmergency: item.isEmergency,
                       priority: item.priority,
                       providerLabel: 'CATEGORY',
                       providerName: item.category,
@@ -529,6 +541,9 @@ class ServiceCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final String? areaType;
+  final String? areaTypeLabel;
+  final bool? isEmergency;
   final String? priority;
   final String providerLabel;
   final String providerName;
@@ -546,6 +561,9 @@ class ServiceCard extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subtitle,
+    this.areaType,
+    this.areaTypeLabel,
+    this.isEmergency,
     this.priority,
     required this.providerLabel,
     required this.providerName,
@@ -595,34 +613,101 @@ class ServiceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                        Text(
-                          title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.outfit(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.heading,
-                            height: 1.1,
-                            letterSpacing: -0.2,
-                          ),
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.outfit(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          height: 1.1,
+                          letterSpacing: -0.2,
                         ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          subtitle,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromRGBO(0, 0, 0, 0.75),
-                            height: 1.1,
-                            letterSpacing: -0.2,
-                          ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(0, 0, 0, 0.75),
+                          height: 1.1,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      if ((areaType != null && areaType!.isNotEmpty) ||
+                          (areaTypeLabel != null &&
+                              areaTypeLabel!.isNotEmpty)) ...[
+                        SizedBox(height: 6.h),
+                        Builder(
+                          builder: (context) {
+                            final rawType = (areaType ?? '').toLowerCase();
+                            final rawLabel =
+                                (areaTypeLabel ?? '').toLowerCase();
+                            final bool isCommon = rawType.contains('common') ||
+                                rawLabel.contains('common') ||
+                                rawType == 'common_area';
+
+                            final String label = areaTypeLabel != null &&
+                                    areaTypeLabel!.isNotEmpty
+                                ? areaTypeLabel!
+                                : (isCommon ? "Common Area" : "Inside Unit");
+
+                            final Color bg = isCommon
+                                ? const Color(0xFFF9F3EA)
+                                : const Color(0xFFEFF3F6);
+                            final Color border = isCommon
+                                ? const Color(0xFFB8860B)
+                                : const Color(0xFF90A4AE);
+                            final Color textColor = isCommon
+                                ? const Color(0xFF8C6400)
+                                : const Color(0xFF37474F);
+
+                            return Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 3.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: bg,
+                                borderRadius: BorderRadius.circular(4.r),
+                                border: Border.all(
+                                  color: border,
+                                  width: 0.9,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    isCommon
+                                        ? Icons.domain_rounded
+                                        : Icons.home_rounded,
+                                    size: 13.sp,
+                                    color: textColor,
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Text(
+                                    label,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: textColor,
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         ),
                       ],
-                    ),
+                    ],
                   ),
+                ),
                   Builder(
                     builder: (context) {
                       final p = (priority ?? "HIGH").toUpperCase();

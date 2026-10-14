@@ -297,11 +297,7 @@ class _AssociationServiceManagementState
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.search,
-                    size: 24.sp,
-                    color: AppColors.heading,
-                  ),
+                  Icon(Icons.search, size: 24.sp, color: AppColors.heading),
                   SizedBox(width: 10.w),
                   Expanded(
                     child: TextField(
@@ -713,11 +709,7 @@ class ServiceCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 14.h),
-          Divider(
-            height: 1,
-            thickness: 1,
-            color: Color(0xFFE0E0E0),
-          ),
+          Divider(height: 1, thickness: 1, color: Color(0xFFE0E0E0)),
           SizedBox(height: 14.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -745,11 +737,7 @@ class ServiceCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 14.h),
-          Divider(
-            height: 1,
-            thickness: 1,
-            color: Color(0xFFE0E0E0),
-          ),
+          Divider(height: 1, thickness: 1, color: Color(0xFFE0E0E0)),
           SizedBox(height: 10.h),
           Row(
             children: [

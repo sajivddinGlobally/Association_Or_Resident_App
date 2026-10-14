@@ -772,11 +772,11 @@ class _GuardScanPassScreenState extends ConsumerState<GuardScanPassScreen>
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.scaffoldBg,
                   borderRadius: BorderRadius.circular(14.r),
                   border: Border.all(
-                    color: const Color(0xFFE0E0E0),
-                    width: 1.2,
+                    color: const Color(0xff101C16),
+                    width: 1.w,
                   ),
                 ),
                 child: Column(
@@ -825,11 +825,12 @@ class _GuardScanPassScreenState extends ConsumerState<GuardScanPassScreen>
                                 vertical: 12.h,
                               ),
                               filled: true,
-                              fillColor: const Color(0xFFF9F9F9),
+                              fillColor: AppColors.scaffoldBg,
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.r),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFFCCCCCC),
+                                borderSide: BorderSide(
+                                  color: const Color(0xff101C16),
+                                  width: 1.w,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(

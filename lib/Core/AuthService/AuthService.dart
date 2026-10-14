@@ -297,9 +297,14 @@ class AuthService {
   Future<GetServiceRequestModel> getServiceRequests({
     String? status,
     String? search,
+    String? type = "service_request",
   }) async {
     try {
-      final response = await api.getServiceRequestList(status, search);
+      final response = await api.getServiceRequestList(
+        status,
+        search,
+        type: type,
+      );
       return response;
     } catch (e) {
       rethrow;
@@ -515,9 +520,10 @@ class AuthService {
   Future<AssociationComplaintResModel> getComplaintData({
     required String status,
     required String search,
+    String? type = "complaint",
   }) async {
     try {
-      final response = await api.getComplaintData(status, search);
+      final response = await api.getComplaintData(status, search, type: type);
       return response;
     } catch (e) {
       rethrow;

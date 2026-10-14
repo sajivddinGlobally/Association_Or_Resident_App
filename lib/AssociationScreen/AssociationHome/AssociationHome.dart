@@ -2237,9 +2237,7 @@ class _AssociationHomeState extends ConsumerState<AssociationHome> {
               CupertinoPageRoute(
                 builder: (context) => const Importantalertsscreen(),
               ),
-            ).then((value) {
-              ref.invalidate(commiteDashboardProvider);
-            });
+            );
           },
           child: Padding(
             padding: EdgeInsets.only(top: 5.h),
