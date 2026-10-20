@@ -403,10 +403,10 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                               if (passwordController.text.trim().isEmpty) {
                                 return;
                               }
-                              if (rememberMe == false) {
-                                showErrorSnackBar("Please checked Remember Me");
-                                return;
-                              }
+                              // if (rememberMe == false) {
+                              //   showErrorSnackBar("Please checked Remember Me");
+                              //   return;
+                              // }
 
                               try {
                                 setState(() {
@@ -430,6 +430,10 @@ class _AssociationLoginState extends ConsumerState<AssociationLogin> {
                                   await box.put(
                                     "name",
                                     response.data!.user!.name,
+                                  );
+                                  await box.put(
+                                    "phone",
+                                    response.data!.user!.phone,
                                   );
                                   final userRole =
                                       (response.data?.user?.role != null &&

@@ -176,7 +176,12 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                                       style: GoogleFonts.outfit(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: const Color.fromRGBO(0, 0, 0, 0.75),
+                                        color: const Color.fromRGBO(
+                                          0,
+                                          0,
+                                          0,
+                                          0.75,
+                                        ),
                                         letterSpacing: -0.2,
                                         height: 1.1,
                                       ),
@@ -246,11 +251,7 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.search,
-                      size: 24.sp,
-                      color: AppColors.heading,
-                    ),
+                    Icon(Icons.search, size: 24.sp, color: AppColors.heading),
                     SizedBox(width: 10.w),
                     Expanded(
                       child: TextField(
@@ -408,7 +409,7 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                           subtitle: report.subtitle,
                           count: report.statBadge,
                           status: report.status,
-                          pdf: report.format
+                          pdf: report.format,
                         ),
                       );
                     },
@@ -645,15 +646,15 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                   letterSpacing: -0.2,
                 ),
               ),
-              const Spacer(),
-              Text(
-                "VIEW →",
-                style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1E5993),
-                ),
-              ),
+              // const Spacer(),
+              // Text(
+              //   "VIEW →",
+              //   style: GoogleFonts.outfit(
+              //     fontSize: 13.sp,
+              //     fontWeight: FontWeight.w700,
+              //     color: Color(0xFF1E5993),
+              //   ),
+              // ),
             ],
           ),
         ],

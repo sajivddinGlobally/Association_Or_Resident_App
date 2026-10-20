@@ -209,7 +209,7 @@ class _AssociationPropertyUnitDetailsState
                                 ),
                                 label: infoList[i].title ?? "",
                                 value: infoList[i].value ?? "",
-                                action: infoList[i].actionText,
+                                // action: infoList[i].actionText,
                                 bottomPadding: i == infoList.length - 1
                                     ? 10
                                     : 8,
@@ -841,22 +841,22 @@ class _AssociationPropertyUnitDetailsState
                             letterSpacing: -0.2,
                           ),
                         ),
-                        const Spacer(),
-                        Text(
-                          "View All",
-                          style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.heading,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                        SizedBox(width: 2.w),
-                        Icon(
-                          Icons.chevron_right,
-                          size: 18.sp,
-                          color: AppColors.heading,
-                        ),
+                        // const Spacer(),
+                        // Text(
+                        //   "View All",
+                        //   style: GoogleFonts.outfit(
+                        //     fontSize: 15.sp,
+                        //     fontWeight: FontWeight.w600,
+                        //     color: AppColors.heading,
+                        //     letterSpacing: -0.2,
+                        //   ),
+                        // ),
+                        // SizedBox(width: 2.w),
+                        // Icon(
+                        //   Icons.chevron_right,
+                        //   size: 18.sp,
+                        //   color: AppColors.heading,
+                        // ),
                       ],
                     ),
                     SizedBox(height: 16.h),

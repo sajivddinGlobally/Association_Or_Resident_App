@@ -285,7 +285,8 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: GoogleFonts.outfit(
-                                                    color: Colors.white.withOpacity(0.9),
+                                                    color: Colors.white
+                                                        .withOpacity(0.9),
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.w500,
                                                     height: 1.1,
@@ -572,7 +573,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                             unit.occupancyStatus!
                                                 .substring(1)
                                                 .toLowerCase())
-                                      : "Occupied";
+                                      : "N/A";
                                   return _unitCard(
                                     unitNumber:
                                         unit.badge ?? unit.unitNumber ?? "",
@@ -581,7 +582,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                     blockName:
                                         unit.subtitle ??
                                         "${unit.block ?? ""} · ${unit.floor ?? ""}",
-                                    status: displayStatus,
+                                    // status: displayStatus,
                                     owner: unit.propertyOwner ?? "N/A",
                                     residents: unit.residents ?? "N/A",
                                     propertyStatus:
@@ -684,7 +685,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
     required String unitNumber,
     required String apartmentName,
     required String blockName,
-    required String status,
+    // required String status,
     required String owner,
     required String residents,
     required String propertyStatus,
@@ -801,29 +802,29 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                       ),
                     ),
                     SizedBox(width: 5.w),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 3.h,
-                      ),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color(0xFFEAD408),
-                          width: 1.w,
-                        ),
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                      child: Text(
-                        status,
-                        style: GoogleFonts.outfit(
-                          color: const Color(0xFFEAD408),
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(
+                    //     horizontal: 8.w,
+                    //     vertical: 3.h,
+                    //   ),
+                    //   alignment: Alignment.center,
+                    //   decoration: BoxDecoration(
+                    //     border: Border.all(
+                    //       color: const Color(0xFFEAD408),
+                    //       width: 1.w,
+                    //     ),
+                    //     borderRadius: BorderRadius.circular(4.r),
+                    //   ),
+                    //   child: Text(
+                    //     status,
+                    //     style: GoogleFonts.outfit(
+                    //       color: const Color(0xFFEAD408),
+                    //       fontSize: 13.sp,
+                    //       fontWeight: FontWeight.w600,
+                    //       letterSpacing: -0.2,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 20.h),
@@ -936,7 +937,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'View Report',
+                        'View Details',
                         style: GoogleFonts.outfit(
                           color: const Color(0xFFEAD408),
                           fontSize: 14.sp,

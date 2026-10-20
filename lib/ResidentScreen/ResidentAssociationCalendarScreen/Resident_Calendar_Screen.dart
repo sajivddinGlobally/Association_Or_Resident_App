@@ -260,8 +260,12 @@ class _ResidentCalendarScreenState
                         vertical: 22.h,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.scaffoldBg,
                         borderRadius: BorderRadius.circular(20.r),
+                        border: Border.all(
+                          color: const Color(0xff101C16),
+                          width: 1.w,
+                        ),
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

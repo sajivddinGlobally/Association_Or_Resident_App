@@ -167,8 +167,9 @@ class _RaisecomplaintState extends ConsumerState<Raisecomplaint> {
             width: double.infinity,
             padding: EdgeInsets.fromLTRB(20.w, 32.h, 20.w, 31.h),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.scaffoldBg,
               borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: const Color(0xff101C16), width: 1.w),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,

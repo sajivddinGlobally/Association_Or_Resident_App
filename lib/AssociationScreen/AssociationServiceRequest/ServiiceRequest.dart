@@ -282,7 +282,17 @@ class _ServiiceRequestState extends ConsumerState<ServiiceRequest> {
             SizedBox(height: 16.h),
             serviceState.when(
               data: (data) {
-                final requests = data.data?.requests ?? [];
+                final allRequests = data.data?.requests ?? [];
+                final requests = allRequests.where((item) {
+                  if (item.type != null && item.type!.isNotEmpty) {
+                    return item.type!.toLowerCase() == 'service_request';
+                  }
+                  if (item.ticketNumber != null &&
+                      item.ticketNumber!.toUpperCase().startsWith('CMP')) {
+                    return false;
+                  }
+                  return true;
+                }).toList();
                 if (requests.isEmpty) {
                   return Container(
                     margin: EdgeInsets.symmetric(horizontal: 20.w),

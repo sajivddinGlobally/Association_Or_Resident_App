@@ -115,6 +115,10 @@ class Complaint {
     final String unitSubtitle;
     final String priority;
     final String priorityColor;
+    final bool? isEmergency;
+    final String? type;
+    final String? areaType;
+    final String? areaTypeLabel;
     final String category;
     final String submittedBy;
     final String assignedTo;
@@ -122,6 +126,7 @@ class Complaint {
     final String status;
     final String statusLabel;
     final String statusColor;
+    final String? resolutionPhoto;
     final String viewDetailsUrl;
 
     Complaint({
@@ -131,6 +136,10 @@ class Complaint {
         required this.unitSubtitle,
         required this.priority,
         required this.priorityColor,
+        this.isEmergency,
+        this.type,
+        this.areaType,
+        this.areaTypeLabel,
         required this.category,
         required this.submittedBy,
         required this.assignedTo,
@@ -138,6 +147,7 @@ class Complaint {
         required this.status,
         required this.statusLabel,
         required this.statusColor,
+        this.resolutionPhoto,
         required this.viewDetailsUrl,
     });
 
@@ -148,6 +158,10 @@ class Complaint {
         unitSubtitle: json["unit_subtitle"],
         priority: json["priority"],
         priorityColor: json["priority_color"],
+        isEmergency: json["is_emergency"],
+        type: json["type"],
+        areaType: json["area_type"],
+        areaTypeLabel: json["area_type_label"],
         category: json["category"],
         submittedBy: json["submitted_by"],
         assignedTo: json["assigned_to"],
@@ -155,6 +169,7 @@ class Complaint {
         status: json["status"],
         statusLabel: json["status_label"],
         statusColor: json["status_color"],
+        resolutionPhoto: json["resolution_photo"],
         viewDetailsUrl: json["view_details_url"],
     );
 
@@ -165,6 +180,10 @@ class Complaint {
         "unit_subtitle": unitSubtitle,
         "priority": priority,
         "priority_color": priorityColor,
+        "is_emergency": isEmergency,
+        "type": type,
+        "area_type": areaType,
+        "area_type_label": areaTypeLabel,
         "category": category,
         "submitted_by": submittedBy,
         "assigned_to": assignedTo,
@@ -172,6 +191,7 @@ class Complaint {
         "status": status,
         "status_label": statusLabel,
         "status_color": statusColor,
+        "resolution_photo": resolutionPhoto,
         "view_details_url": viewDetailsUrl,
     };
 }

@@ -354,7 +354,7 @@ class _ServiceManageProviderDetailsState
                           ),
                           child: ClipOval(
                             child: Image.network(
-                              data.data.primaryContact.avatar,
+                              data.data.primaryContact.avatar  ?? "",
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Icon(
@@ -372,7 +372,7 @@ class _ServiceManageProviderDetailsState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                data.data.primaryContact.title,
+                                data.data.primaryContact.title ?? "",
                                 style: GoogleFonts.outfit(
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w500,
@@ -383,7 +383,7 @@ class _ServiceManageProviderDetailsState
                               ),
                               SizedBox(height: 3.h),
                               Text(
-                                data.data.primaryContact.contactPerson,
+                                data.data.primaryContact.contactPerson  ?? "",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
@@ -397,7 +397,7 @@ class _ServiceManageProviderDetailsState
                               Text(
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                data.data.primaryContact.contactRole,
+                                data.data.primaryContact.contactRole  ?? "",
                                 style: GoogleFonts.outfit(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
@@ -448,14 +448,14 @@ class _ServiceManageProviderDetailsState
                             Expanded(
                               child: _providerInfoItem(
                                 label: "Phone",
-                                value: data.data.contactDetails.phone,
+                                value: data.data.contactDetails.phone ?? "",
                               ),
                             ),
                             SizedBox(width: 18.w),
                             Expanded(
                               child: _providerInfoItem(
                                 label: "Email",
-                                value: data.data.contactDetails.email,
+                                value: data.data.contactDetails.email ?? "",
                               ),
                             ),
                           ],
@@ -467,7 +467,7 @@ class _ServiceManageProviderDetailsState
                             Expanded(
                               child: _providerInfoItem(
                                 label: "Working Hours",
-                                value: data.data.contactDetails.workingHours,
+                                value: data.data.contactDetails.workingHours ?? "",
                               ),
                             ),
                             SizedBox(width: 18.w),
@@ -475,7 +475,7 @@ class _ServiceManageProviderDetailsState
                               child: _providerInfoItem(
                                 label: "Emergency Support",
                                 value:
-                                    data.data.contactDetails.emergencySupport,
+                                    data.data.contactDetails.emergencySupport ?? "",
                               ),
                             ),
                           ],
@@ -689,7 +689,7 @@ class _ServiceManageProviderDetailsState
                               icon: Icons.description_outlined,
                               title: document.title,
                               subtitle: document.format,
-                              status: document.status,
+                              // status: document.status,
                             ),
 
                             if (index !=
@@ -902,7 +902,7 @@ class _ServiceManageProviderDetailsState
     required IconData icon,
     required String title,
     required String subtitle,
-    required String status,
+    // required String status,
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
@@ -957,15 +957,15 @@ class _ServiceManageProviderDetailsState
 
           SizedBox(width: 8.w),
 
-          Text(
-            status,
-            style: GoogleFonts.outfit(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFFB8860B),
-              letterSpacing: -0.2,
-            ),
-          ),
+          // Text(
+          //   status,
+          //   style: GoogleFonts.outfit(
+          //     fontSize: 13.sp,
+          //     fontWeight: FontWeight.w600,
+          //     color: const Color(0xFFB8860B),
+          //     letterSpacing: -0.2,
+          //   ),
+          // ),
         ],
       ),
     );

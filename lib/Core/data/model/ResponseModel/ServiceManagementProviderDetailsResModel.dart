@@ -125,18 +125,18 @@ class Service {
 }
 
 class ContactDetails {
-    final String title;
-    final String phone;
-    final String email;
-    final String workingHours;
-    final String emergencySupport;
+     String? title;
+     String? phone;
+     String? email;
+     String? workingHours;
+     String? emergencySupport;
 
     ContactDetails({
-        required this.title,
-        required this.phone,
-        required this.email,
-        required this.workingHours,
-        required this.emergencySupport,
+         this.title,
+         this.phone,
+         this.email,
+         this.workingHours,
+         this.emergencySupport,
     });
 
     factory ContactDetails.fromJson(Map<String, dynamic> json) => ContactDetails(
@@ -177,16 +177,16 @@ class Header {
 }
 
 class PrimaryContact {
-    final String title;
-    final String contactPerson;
-    final String contactRole;
-    final String avatar;
+     String? title;
+     String? contactPerson;
+     String? contactRole;
+     String? avatar;
 
     PrimaryContact({
-        required this.title,
-        required this.contactPerson,
-        required this.contactRole,
-        required this.avatar,
+         this.title,
+         this.contactRole,
+         this.contactPerson,
+         this.avatar,
     });
 
     factory PrimaryContact.fromJson(Map<String, dynamic> json) => PrimaryContact(

@@ -5,15 +5,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
-import 'package:property_association_or_resident/Core/data/model/ResponseModel/maintananceOverviewModel.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardHistoryScreen/GuaredHistoryScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/GuardParcelScreen/GuardParcelRegisterScreen.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/GuardScanPassScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/GuardVisitorScreen.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardHomeScreen/Provider/guardDashBoardProvider.dart';
 import 'package:property_association_or_resident/GuardScreen/GuardVichelScreen/GuardVehicleScreen.dart';
 import 'package:svg_flutter/svg.dart';
 
+import 'package:property_association_or_resident/Core/AuthService/AuthServiceProvider.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
+import 'package:property_association_or_resident/GuardScreen/GuardBottomScreen/VisitorScreen/FrequentVisitorsScreen.dart';
 import '../GuardBottomScreen/GuardProfileScreen/guardProfileScreen.dart';
+import '../GuardNotificationScreen/GuardNotificationScreen.dart';
 
 class GuardBottomNavState extends StatefulWidget {
   const GuardBottomNavState({super.key});
@@ -25,12 +29,27 @@ class GuardBottomNavState extends StatefulWidget {
 class _GuardBottomNavStateState extends State<GuardBottomNavState> {
   int selectedBottomIndex = 0;
   List<Widget> get pages => [
-    Guardhomescreen(),
+    Guardhomescreen(
+      onVisitorTap: () {
+        setState(() {
+          selectedBottomIndex = 1;
+        });
+      },
+      onParcelTap: () {
+        setState(() {
+          selectedBottomIndex = 2;
+        });
+      },
+      onProfileTap: () {
+        setState(() {
+          selectedBottomIndex = 4;
+        });
+      },
+    ),
     Guardvisitorscreen(),
     Guardparcelregisterscreen(),
     Guaredhistoryscreen(),
     GuardProfileScreen(),
-
   ];
   @override
   Widget build(BuildContext context) {
@@ -159,17 +178,28 @@ class _GuardBottomNavStateState extends State<GuardBottomNavState> {
 }
 
 class Guardhomescreen extends ConsumerStatefulWidget {
-  const Guardhomescreen({super.key});
+  final VoidCallback onVisitorTap;
+  final VoidCallback onParcelTap;
+  final VoidCallback onProfileTap;
+  const Guardhomescreen({
+    super.key,
+    required this.onVisitorTap,
+    required this.onParcelTap,
+    required this.onProfileTap,
+  });
 
   @override
   ConsumerState<Guardhomescreen> createState() => _GuardhomescreenState();
 }
 
 class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
+  bool _isTogglingShift = false;
+
   @override
   Widget build(BuildContext context) {
     final guardDashboard = ref.watch(guardDashboardProvider);
     final todaysactivity = guardDashboard.valueOrNull?.data?.todaysActivity;
+    final header = guardDashboard.valueOrNull?.data?.header;
     var box = Hive.box("associationdata");
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
@@ -213,19 +243,125 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
         actions: [
           Row(
             children: [
+              InkWell(
+                onTap: () async {
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      backgroundColor: AppColors.scaffoldBg,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      title: Row(
+                        children: [
+                          Icon(
+                            Icons.warning_amber_rounded,
+                            color: const Color(0xFFD22424),
+                            size: 24.sp,
+                          ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            "Emergency SOS",
+                            style: GoogleFonts.outfit(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18.sp,
+                              color: const Color(0xFFD22424),
+                            ),
+                          ),
+                        ],
+                      ),
+                      content: Text(
+                        "Broadcast an emergency security alert to committee & residents from gate?",
+                        style: GoogleFonts.outfit(fontSize: 14.sp),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          child: Text(
+                            "Cancel",
+                            style: GoogleFonts.outfit(
+                              color: Colors.grey,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFD22424),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          ),
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: Text(
+                            "TRIGGER SOS",
+                            style: GoogleFonts.outfit(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (confirm == true) {
+                    try {
+                      final res = await ref
+                          .read(authServiceProvider)
+                          .sendGuardSosData(reason: "Emergency Gate Alert");
+                      showSuccessSnackBar(
+                        res.message ?? "Emergency SOS alert triggered!",
+                      );
+                    } catch (e) {
+                      showErrorSnackBar("Failed to send SOS alert: $e");
+                    }
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 7.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD22424),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.warning_amber_rounded,
+                        size: 15.sp,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        "SOS",
+                        style: GoogleFonts.outfit(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 8.w),
               Stack(
                 clipBehavior: Clip.none,
                 children: [
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   CupertinoPageRoute(
-                      //     builder: (context) => Notification(),
-                      //   ),
-                      // ).then((value) {
-                      //   ref.invalidate(commiteDashboardProvider);
-                      // });
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const GuardNotificationScreen(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(guardDashboardProvider);
+                      });
                     },
                     child: Container(
                       width: 40.w,
@@ -233,33 +369,33 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color: Color(0xffE8E5DC)),
+                        border: Border.all(color: const Color(0xffE8E5DC)),
                       ),
                       child: Icon(
                         Icons.notifications_none_rounded,
                         size: 21.sp,
-                        color: Color(0xff0D241B),
+                        color: const Color(0xff0D241B),
                       ),
                     ),
                   ),
-                  // if ((header?.unreadNotifications ?? 0) > 0)
-                  Positioned(
-                    right: 0.w,
-                    top: -2.h,
-                    child: Container(
-                      width: 8.w,
-                      height: 8.w,
-                      decoration: const BoxDecoration(
-                        color: Color(0xffD5A52C),
-                        shape: BoxShape.circle,
+                  if (header?.hasNotifications == true)
+                    Positioned(
+                      right: 0.w,
+                      top: -2.h,
+                      child: Container(
+                        width: 8.w,
+                        height: 8.w,
+                        decoration: const BoxDecoration(
+                          color: Color(0xffD5A52C),
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
               SizedBox(width: 8.w),
               InkWell(
-                // onTap: widget.onProfileTap,
+                onTap: widget.onProfileTap,
                 child: Container(
                   width: 40.w,
                   height: 40.w,
@@ -349,79 +485,181 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                           left: 20.w,
                           bottom: 65.h,
                           right: 20.w,
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 20.w,
-                                width: 20.w,
-                                decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(17, 197, 80, 0.2),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Container(
-                                    height: 14.w,
-                                    width: 14.w,
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xff11C550),
+                          child: Builder(
+                            builder: (context) {
+                              final isOnDuty =
+                                  data.data?.shiftCard?.isOnDuty ?? true;
+                              return Row(
+                                children: [
+                                  Container(
+                                    height: 20.w,
+                                    width: 20.w,
+                                    decoration: BoxDecoration(
+                                      color: isOnDuty
+                                          ? const Color.fromRGBO(
+                                              17,
+                                              197,
+                                              80,
+                                              0.2,
+                                            )
+                                          : const Color.fromRGBO(
+                                              210,
+                                              36,
+                                              36,
+                                              0.2,
+                                            ),
                                       shape: BoxShape.circle,
                                     ),
+                                    child: Center(
+                                      child: Container(
+                                        height: 14.w,
+                                        width: 14.w,
+                                        decoration: BoxDecoration(
+                                          color: isOnDuty
+                                              ? const Color(0xff11C550)
+                                              : const Color(0xFFD22424),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
 
-                              SizedBox(width: 8.w),
+                                  SizedBox(width: 8.w),
 
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data.data?.shiftCard?.shiftName ?? "",
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 18.sp,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data.data?.shiftCard?.shiftName ?? "",
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 18.sp,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.3,
+                                          ),
+                                        ),
+                                        Text(
+                                          data.data?.shiftCard?.timings ?? "",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                            letterSpacing: -0.2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 8.w),
+
+                                  InkWell(
+                                    onTap: _isTogglingShift
+                                        ? null
+                                        : () async {
+                                            setState(() {
+                                              _isTogglingShift = true;
+                                            });
+                                            try {
+                                              final res = await ref
+                                                  .read(authServiceProvider)
+                                                  .toggleGuardShiftData();
+                                              showSuccessSnackBar(
+                                                res.message ??
+                                                    "Shift status updated successfully",
+                                              );
+                                              ref.invalidate(
+                                                guardDashboardProvider,
+                                              );
+                                            } catch (e) {
+                                              showErrorSnackBar(
+                                                "Failed to toggle shift: $e",
+                                              );
+                                            } finally {
+                                              if (mounted) {
+                                                setState(() {
+                                                  _isTogglingShift = false;
+                                                });
+                                              }
+                                            }
+                                          },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 17.w,
+                                        vertical: 10.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          50.r,
+                                        ),
                                         color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.3,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            blurRadius: 4,
+                                            offset: Offset(0, 2),
+                                          ),
+                                        ],
                                       ),
+                                      child: _isTogglingShift
+                                          ? Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(
+                                                  width: 14.w,
+                                                  height: 14.w,
+                                                  child:
+                                                      const CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                        color:
+                                                            AppColors.heading,
+                                                      ),
+                                                ),
+                                                SizedBox(width: 6.w),
+                                                Text(
+                                                  "Updating...",
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: 14.sp,
+                                                    color: AppColors.heading,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 0.3,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.sync,
+                                                  size: 14.sp,
+                                                  color: AppColors.heading,
+                                                ),
+                                                SizedBox(width: 4.w),
+                                                Text(
+                                                  data
+                                                          .data
+                                                          ?.shiftCard
+                                                          ?.statusLabel ??
+                                                      "Toggle Shift",
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: 14.sp,
+                                                    color: AppColors.heading,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 0.3,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                     ),
-                                    Text(
-                                      data.data?.shiftCard?.timings ?? "",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
-                                        letterSpacing: -0.2,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              SizedBox(width: 8.w),
-
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 17.w,
-                                  vertical: 10.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50.r),
-                                  color: Colors.white,
-                                ),
-                                child: Text(
-                                  data.data?.shiftCard?.statusLabel ?? "",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    color: AppColors.heading,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 0.3,
                                   ),
-                                ),
-                              ),
-                            ],
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -470,17 +708,32 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                             title: "Register Visitor",
                             subtitle:
                                 "Add visitor photo, flat details & request approval",
+                            onTap: () {
+                              widget.onVisitorTap();
+                            },
                           ),
                           _infoCard(
                             icon: Icons.inventory_2_outlined,
                             title: "Register Parcel",
                             subtitle:
                                 "Capture parcel details & request approval",
+                            onTap: () {
+                              widget.onParcelTap();
+                            },
                           ),
                           _infoCard(
-                            icon: Icons.circle,
+                            icon: Icons.qr_code_scanner_rounded,
                             title: "Scan Visitor Pass",
                             subtitle: "Scan QR code or visitor pass code",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) =>
+                                      const GuardScanPassScreen(),
+                                ),
+                              );
+                            },
                           ),
                           _infoCard(
                             icon: Icons.directions_car_outlined,
@@ -491,6 +744,21 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                                 context,
                                 CupertinoPageRoute(
                                   builder: (context) => Guardvehiclescreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          _infoCard(
+                            icon: Icons.repeat_rounded,
+                            title: "Frequent Visitors",
+                            subtitle:
+                                "1-Tap entry for maids, milkman & daily staff",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) =>
+                                      const Frequentvisitorsscreen(),
                                 ),
                               );
                             },
@@ -529,8 +797,12 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                           vertical: 12.h,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.scaffoldBg,
                           borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(
+                            color: const Color(0xff101C16),
+                            width: 1.w,
+                          ),
                         ),
                         child: ListView.builder(
                           itemCount: todaysactivity?.items?.length ?? 0,
@@ -600,13 +872,27 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                               width: double.infinity,
                               padding: EdgeInsets.only(left: 12.w, right: 10.w),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: AppColors.scaffoldBg,
                                 borderRadius: BorderRadius.circular(10.r),
+                                border: Border.all(
+                                  color: const Color(0xffE8E5DC),
+                                  width: 1.w,
+                                ),
                               ),
                               child: Row(
                                 children: [
                                   Expanded(
                                     child: TextField(
+                                      readOnly: true,
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                            builder: (context) =>
+                                                Guardvehiclescreen(),
+                                          ),
+                                        );
+                                      },
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "",
@@ -626,7 +912,13 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
                                     width: 68.w,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        // Search action
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                            builder: (context) =>
+                                                Guardvehiclescreen(),
+                                          ),
+                                        );
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(
@@ -709,11 +1001,11 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
               title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.outfit(
                 fontSize: 17.sp,
                 fontWeight: FontWeight.w500,
                 color: AppColors.heading,
-                letterSpacing: -0.54,
+                letterSpacing: -0.3,
               ),
             ),
 
@@ -723,11 +1015,11 @@ class _GuardhomescreenState extends ConsumerState<Guardhomescreen> {
               subtitle,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.outfit(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
                 color: const Color.fromRGBO(41, 42, 51, 0.6),
-                letterSpacing: -0.34,
+                letterSpacing: -0.2,
               ),
             ),
           ],

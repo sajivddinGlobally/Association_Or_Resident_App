@@ -14,8 +14,10 @@ import 'package:property_association_or_resident/ResidentScreen/ResidentBottomSc
 import 'package:property_association_or_resident/ResidentScreen/ResidentComplaintScreen/CommunityContactsScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentEmergencyContactScreen/Emergency_ContactScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentHomeScreen/ResidentNotification_Screen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentGateApproval/ResidentGateApprovalScreen.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentGateApproval/ResidentVisitorApprovalScreen.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentMmcStatusScreen/MMC_StatusScreen.dart';
-import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassRequest.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassListScreen.dart';
 import 'package:svg_flutter/svg.dart';
 
 import 'provider/residentDashboardProvider.dart';
@@ -477,12 +479,12 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       SizedBox(width: 20.w),
                       Expanded(
                         child: _serviceCard(
-                          title:
-                              data.data?.quickActions?.myRequests?.title ??
-                              "My Requests",
-                          subtitle:
-                              data.data?.quickActions?.myRequests?.subtitle ??
-                              "Track your complaints",
+                          title: "My Service Request",
+                          // data.data?.quickActions?.myRequests?.title ??
+                          // "My Requests",
+                          subtitle: "Track your request",
+                          // data.data?.quickActions?.myRequests?.subtitle ??
+                          // "Track your complaints",
                           icon: Icons.chat_bubble_outline,
                           isSelected: false,
                           onTap: widget.onReqeustTap,
@@ -490,411 +492,298 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       ),
                     ],
                   ),
-
-                  /*
-                  // ==========================================================================
-                  // [POINT 1] EMERGENCY CALLING ON MAIN PAGE (Caretaker & Association Desk)
-                  // To enable, uncomment this section.
-                  // Provides direct 1-tap call access for Caretaker & Association Desk.
-                  // ==========================================================================
-                  SizedBox(height: 18.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Emergency Contacts",
-                        style: GoogleFonts.outfit(
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.heading,
-                          letterSpacing: -0.2,
+                  SizedBox(height: 16.h),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              const ResidentGateApprovalScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: AppColors.heading.withOpacity(0.2),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => const EmergencyContactscreen(),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8.r),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE8B900).withOpacity(0.2),
+                              shape: BoxShape.circle,
                             ),
-                          );
-                        },
-                        child: Text(
-                          "View All →",
-                          style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xffB8860B),
+                            child: Icon(
+                              Icons.security_rounded,
+                              color: const Color(0xFFB8860B),
+                              size: 18.sp,
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                  Row(
-                    children: [
-                      // Caretaker Direct Call Card
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFFDF0),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xFFD9D9D0)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 32.w,
-                                    height: 32.w,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffEEE6D2),
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    child: Icon(Icons.person_pin, color: const Color(0xffB8860B), size: 18.sp),
-                                  ),
-                                  const Spacer(),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffD5EEE5),
-                                      borderRadius: BorderRadius.circular(4.r),
-                                    ),
-                                    child: Text(
-                                      "24/7",
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Parcel & Delivery Approvals",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: const Color(0xff009B62),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.heading,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Building Caretaker",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.heading,
-                                ),
-                              ),
-                              Text(
-                                "Robert Caretaker",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xff777777),
-                                ),
-                              ),
-                              SizedBox(height: 8.h),
-                              InkWell(
-                                onTap: () {
-                                  // Direct call intent
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.symmetric(vertical: 7.h),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff007665),
-                                    borderRadius: BorderRadius.circular(6.r),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.call, size: 13.sp, color: Colors.white),
-                                      SizedBox(width: 4.w),
-                                      Text(
-                                        "Call Caretaker",
+                                    SizedBox(width: 6.w),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w,
+                                        vertical: 2.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFD22424),
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Parcels",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
+                                          fontSize: 11.sp,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white,
                                         ),
                                       ),
-                                    ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  "Approve deliveries & leave at gate options",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF666666),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14.sp,
+                            color: AppColors.heading,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 12.h),
+                  // Visitor Request Approvals (Calls /api/v1/resident/visitor-pass)
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              const ResidentVisitorApprovalScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: AppColors.heading.withOpacity(0.2),
                         ),
                       ),
-                      SizedBox(width: 12.w),
-                      // Association Emergency Desk
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFF8F8),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xFFFFD2D2)),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8.r),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFDCFCE7),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.badge_outlined,
+                              color: const Color(0xFF16A34A),
+                              size: 18.sp,
+                            ),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 32.w,
-                                    height: 32.w,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFFFE5E5),
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    child: Icon(Icons.emergency_outlined, color: const Color(0xffD22424), size: 18.sp),
-                                  ),
-                                  const Spacer(),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFFFE5E5),
-                                      borderRadius: BorderRadius.circular(4.r),
-                                    ),
-                                    child: Text(
-                                      "URGENT",
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Visitor Request Approvals",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 12.sp,
+                                        fontSize: 15.sp,
                                         fontWeight: FontWeight.w600,
-                                        color: const Color(0xffD22424),
+                                        color: AppColors.heading,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Emergency Desk",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.heading,
-                                ),
-                              ),
-                              Text(
-                                "Association Support",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  color: const Color(0xff777777),
-                                ),
-                              ),
-                              SizedBox(height: 8.h),
-                              InkWell(
-                                onTap: () {
-                                  // Direct call intent
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.symmetric(vertical: 7.h),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xffD22424),
-                                    borderRadius: BorderRadius.circular(6.r),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.call, size: 13.sp, color: Colors.white),
-                                      SizedBox(width: 4.w),
-                                      Text(
-                                        "Call Emergency",
+                                    SizedBox(width: 6.w),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w,
+                                        vertical: 2.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF16A34A),
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Visitor Pass",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.white,
                                         ),
                                       ),
-                                    ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  "Gate passes & visitor entry requests created by guard",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF666666),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14.sp,
+                            color: AppColors.heading,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  */
-
-                  /*
-                  // ==========================================================================
-                  // [POINT 4] DAILY ESSENTIALS & SERVICES (Food, Cabs, Groceries Portals)
-                  // To enable, uncomment this section.
-                  // Provides 1-tap redirect to Swiggy/Zomato, Uber/Ola, Blinkit, etc.
-                  // ==========================================================================
-                  SizedBox(height: 18.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Daily Essentials & Services",
-                        style: GoogleFonts.outfit(
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.heading,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                      Text(
-                        "Quick Redirect",
-                        style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          color: const Color(0xff777777),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        // Food Delivery
-                        Container(
-                          width: 110.w,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffFDECEE),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xffF7C1C5)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 36.w,
-                                height: 36.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffE23744),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(Icons.delivery_dining_outlined, color: Colors.white, size: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Food Delivery",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
-                              ),
-                              Text(
-                                "Swiggy / Zomato",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        // Cab Booking
-                        Container(
-                          width: 110.w,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffF0F0F0),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xffD0D0D0)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 36.w,
-                                height: 36.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xff101C16),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(Icons.local_taxi_outlined, color: Colors.white, size: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Cab Booking",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
-                              ),
-                              Text(
-                                "Uber / Ola",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        // Groceries
-                        Container(
-                          width: 110.w,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffFEF9E7),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xffF9E8A2)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 36.w,
-                                height: 36.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffB8860B),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(Icons.shopping_basket_outlined, color: Colors.white, size: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Quick Groceries",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
-                              ),
-                              Text(
-                                "Blinkit / Zepto",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        // Home Maintenance
-                        Container(
-                          width: 110.w,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffF4EDFB),
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: const Color(0xffDDC1F7)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 36.w,
-                                height: 36.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xff7B2CBF),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(Icons.handyman_outlined, color: Colors.white, size: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                "Home Services",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.heading),
-                              ),
-                              Text(
-                                "Urban Company",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(fontSize: 12.sp, color: const Color(0xff777777)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
                     ),
                   ),
-                  */
+
+                  SizedBox(height: 12.h),
+
+                  // Pre-Approve Visitor / Create Visitor Pass (Process 2: QR Pass)
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              const ResidentVisitorPassListScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: AppColors.heading.withOpacity(0.2),
+                          width: 1.2,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8.r),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFDBEAFE),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.qr_code_2_rounded,
+                              color: const Color(0xFF2563EB),
+                              size: 18.sp,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Pre-Approve Visitor",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.heading,
+                                      ),
+                                    ),
+                                    SizedBox(width: 6.w),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w,
+                                        vertical: 2.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2563EB),
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "QR Pass",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  "Create guest pass & get QR code to share with visitor",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF666666),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14.sp,
+                            color: AppColors.heading,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
                   SizedBox(height: 16.h),
                   Text(
                     "Community",
@@ -967,7 +856,6 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                               ],
                             ),
                           ),
-
                           Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: 10.w,
@@ -1274,7 +1162,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => Residentvisitorpassrequest(),
+                          builder: (context) =>
+                              const ResidentVisitorPassListScreen(),
                         ),
                       );
                     },
@@ -1362,7 +1251,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.outfit(
-                fontSize: 18.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
                 color: isSelected ? Colors.white : const Color(0xFF101C16),
                 letterSpacing: -0.3,
@@ -1528,7 +1417,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
           Container(
             padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.scaffoldBg,
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Icon(
@@ -1578,7 +1467,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 6.h),
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: AppColors.scaffoldBg,
               shape: BoxShape.circle,
             ),
             child: Icon(
