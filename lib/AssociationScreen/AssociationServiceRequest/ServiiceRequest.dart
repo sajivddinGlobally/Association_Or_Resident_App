@@ -9,6 +9,8 @@ import 'package:property_association_or_resident/AssociationScreen/AssociationSe
 import 'package:property_association_or_resident/AssociationScreen/AssociationServiceRequest/ServiceRequestDetails.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 
+import 'createServiceReqeust.dart';
+
 class ServiiceRequest extends ConsumerStatefulWidget {
   const ServiiceRequest({super.key});
 
@@ -129,6 +131,31 @@ class _ServiiceRequestState extends ConsumerState<ServiiceRequest> {
             ),
           ],
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.w),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => CreateServiceRequest(),
+                  ),
+                );
+              },
+              child: Container(
+                width: 50.w,
+                height: 50.h,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: const Color(0xff101C16),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Icon(Icons.add, color: Colors.white, size: 24.sp),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

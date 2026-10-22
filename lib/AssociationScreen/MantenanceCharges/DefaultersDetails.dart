@@ -16,6 +16,36 @@ class DefaultersDetails extends ConsumerStatefulWidget {
 }
 
 class _DefaultersDetailsState extends ConsumerState<DefaultersDetails> {
+  Color _resolveDefaulterBadgeColor({
+    String? badgeColorHex,
+    String? statusText,
+    bool? isDefaulter,
+    bool? isOverdueAbove2Months,
+  }) {
+    if (badgeColorHex != null && badgeColorHex.isNotEmpty) {
+      try {
+        final hex = badgeColorHex.replaceAll("#", "").trim();
+        if (hex.length == 6) {
+          return Color(int.parse("FF$hex", radix: 16));
+        } else if (hex.length == 8) {
+          return Color(int.parse(hex, radix: 16));
+        }
+      } catch (_) {}
+    }
+
+    final upper = (statusText ?? "").toUpperCase().trim();
+    if (isDefaulter == true ||
+        isOverdueAbove2Months == true ||
+        upper == "DEFAULTER") {
+      return const Color(0xFFEF4444);
+    } else if (upper == "CLEARED" || upper == "PAID") {
+      return const Color(0xFF22C55E);
+    } else if (upper == "REGULAR") {
+      return const Color(0xFFEAB308);
+    }
+    return const Color(0xFFEF4444);
+  }
+
   @override
   Widget build(BuildContext context) {
     final defaulterDetails = ref.watch(getDefaulterDetailsProvider(widget.id));
@@ -171,54 +201,66 @@ class _DefaultersDetailsState extends ConsumerState<DefaultersDetails> {
                               ],
                             ),
                           ),
-                          InkWell(
-                            onTap: _isTogglingStatus ? null : _toggleStatus,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
-                                vertical: 5.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(
-                                  0xff101C16,
-                                ).withOpacity(0.05),
-                                border: Border.all(
-                                  color: AppColors.heading,
-                                  width: 1.w,
+                          Builder(builder: (context) {
+                            final unitCard = data.data?.unitCard;
+                            final statusBadge = unitCard?.defaulterStatus ??
+                                unitCard?.statusBadge ??
+                                "N/A";
+                            final statusColor = _resolveDefaulterBadgeColor(
+                              badgeColorHex: unitCard?.badgeColor,
+                              statusText: statusBadge,
+                              isDefaulter: unitCard?.isDefaulter,
+                              isOverdueAbove2Months:
+                                  unitCard?.isOverdueAbove2Months,
+                            );
+
+                            return InkWell(
+                              onTap: _isTogglingStatus ? null : _toggleStatus,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 5.h,
                                 ),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (_isTogglingStatus)
-                                    SizedBox(
-                                      width: 12.w,
-                                      height: 12.w,
-                                      child: const CircularProgressIndicator(
-                                        strokeWidth: 1.5,
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  else
-                                    Icon(
-                                      Icons.swap_horiz,
-                                      size: 14.sp,
-                                      color: AppColors.heading,
-                                    ),
-                                  SizedBox(width: 4.w),
-                                  Text(
-                                    data.data?.unitCard?.statusBadge ?? "N/A",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.heading,
-                                    ),
+                                decoration: BoxDecoration(
+                                  color: statusColor.withOpacity(0.08),
+                                  border: Border.all(
+                                    color: statusColor,
+                                    width: 1.w,
                                   ),
-                                ],
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (_isTogglingStatus)
+                                      SizedBox(
+                                        width: 12.w,
+                                        height: 12.w,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 1.5,
+                                          color: statusColor,
+                                        ),
+                                      )
+                                    else
+                                      Icon(
+                                        Icons.swap_horiz,
+                                        size: 14.sp,
+                                        color: statusColor,
+                                      ),
+                                    SizedBox(width: 4.w),
+                                    Text(
+                                      statusBadge,
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: statusColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          }),
                         ],
                       ),
                       SizedBox(height: 14.h),
@@ -799,7 +841,9 @@ class _DefaultersDetailsState extends ConsumerState<DefaultersDetails> {
   }
 
   Widget _buildActionButtons(dynamic data) {
-    final statusBadge = data?.unitCard?.statusBadge ?? "Defaulter";
+    final statusBadge = data?.unitCard?.defaulterStatus ??
+        data?.unitCard?.statusBadge ??
+        "Defaulter";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

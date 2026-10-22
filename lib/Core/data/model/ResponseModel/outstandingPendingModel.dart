@@ -252,9 +252,13 @@ class Item {
     int? amount;
     String? formattedAmount;
     String? statusBadge;
-    StatusColor? statusColor;
+    String? statusColor;
     String? image;
     String? detailsUrl;
+    String? defaulterStatus;
+    bool? isDefaulter;
+    String? badgeColor;
+    bool? isOverdueAbove2Months;
 
     Item({
         this.id,
@@ -267,19 +271,36 @@ class Item {
         this.statusColor,
         this.image,
         this.detailsUrl,
+        this.defaulterStatus,
+        this.isDefaulter,
+        this.badgeColor,
+        this.isOverdueAbove2Months,
     });
 
     factory Item.fromJson(Map<String, dynamic> json) => Item(
         id: json["id"],
-        unitNumber: json["unit_number"],
-        ownerName: json["owner_name"],
-        subtitle: json["subtitle"],
-        amount: json["amount"],
-        formattedAmount: json["formatted_amount"],
-        statusBadge: json["status_badge"],
-        statusColor: statusColorValues.map[json["status_color"]],
-        image: json["image"],
-        detailsUrl: json["details_url"],
+        unitNumber: json["unit_number"]?.toString(),
+        ownerName: json["owner_name"]?.toString(),
+        subtitle: json["subtitle"]?.toString(),
+        amount: json["amount"] is num
+            ? (json["amount"] as num).toInt()
+            : int.tryParse(json["amount"]?.toString() ?? ""),
+        formattedAmount: json["formatted_amount"]?.toString(),
+        statusBadge: json["defaulter_status"]?.toString() ??
+            json["status_badge"]?.toString(),
+        statusColor: json["badge_color"]?.toString() ??
+            json["status_color"]?.toString(),
+        image: json["image"]?.toString(),
+        detailsUrl: json["details_url"]?.toString(),
+        defaulterStatus: json["defaulter_status"]?.toString(),
+        isDefaulter: json["is_defaulter"] == true ||
+            json["is_defaulter"] == 1 ||
+            json["is_defaulter"] == "true",
+        badgeColor: json["badge_color"]?.toString() ??
+            json["status_color"]?.toString(),
+        isOverdueAbove2Months: json["is_overdue_above_2_months"] == true ||
+            json["is_overdue_above_2_months"] == 1 ||
+            json["is_overdue_above_2_months"] == "true",
     );
 
     Map<String, dynamic> toJson() => {
@@ -290,9 +311,13 @@ class Item {
         "amount": amount,
         "formatted_amount": formattedAmount,
         "status_badge": statusBadge,
-        "status_color": statusColorValues.reverse[statusColor],
+        "status_color": statusColor,
         "image": image,
         "details_url": detailsUrl,
+        "defaulter_status": defaulterStatus,
+        "is_defaulter": isDefaulter,
+        "badge_color": badgeColor,
+        "is_overdue_above_2_months": isOverdueAbove2Months,
     };
 }
 

@@ -380,108 +380,218 @@ class _NotificationState extends ConsumerState<Notification> {
     );
   }
 
+  Color _parseBadgeColor(
+    String? color, {
+    Color defaultColor = const Color(0xFFEF4444),
+  }) {
+    if (color == null || color.isEmpty) {
+      return defaultColor;
+    }
+    try {
+      final hex = color.replaceAll("#", "").trim();
+      if (hex.length == 6) {
+        return Color(int.parse("FF$hex", radix: 16));
+      } else if (hex.length == 8) {
+        return Color(int.parse(hex, radix: 16));
+      }
+      return defaultColor;
+    } catch (_) {
+      return defaultColor;
+    }
+  }
+
   Widget _buildNotificationCard(notif_model.Notification item) {
+    final bool isOverdue = item.isOverdue == true ||
+        (item.redTag != null && item.redTag!.trim().isNotEmpty);
+
+    final Color overdueColor = _parseBadgeColor(
+      item.tagColor ?? item.badgeColor,
+      defaultColor: const Color(0xFFEF4444),
+    );
+
+    final String headingBadgeText = (item.headingReminderTag != null &&
+            item.headingReminderTag!.trim().isNotEmpty)
+        ? item.headingReminderTag!.trim()
+        : (item.redTag != null && item.redTag!.trim().isNotEmpty)
+            ? item.redTag!.trim()
+            : "OVERDUE REMINDER";
+
     return GestureDetector(
       onTap: () => _onNotificationTap(item),
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
         margin: EdgeInsets.only(bottom: 16.h),
         decoration: BoxDecoration(
-          color: Colors.transparent,
-          border: Border.all(color: const Color(0xff101010), width: 1.2),
+          color: isOverdue ? overdueColor.withOpacity(0.04) : Colors.transparent,
+          border: Border.all(
+            color: isOverdue
+                ? overdueColor.withOpacity(0.5)
+                : const Color(0xff101010),
+            width: 1.2,
+          ),
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 46.w,
-              height: 46.h,
-              decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xff101010), width: 1.2),
-                borderRadius: BorderRadius.circular(6.r),
-              ),
-              child: Center(
-                child: Icon(
-                  _getNotificationIcon(item.iconType),
-                  color: AppColors.heading,
-                  size: 22.sp,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (isOverdue)
+                Container(
+                  width: 5.w,
+                  decoration: BoxDecoration(
+                    color: overdueColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(7.r),
+                      bottomLeft: Radius.circular(7.r),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(width: 14.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 14.h,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Text(
-                          item.title ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.heading,
-                            letterSpacing: -0.2,
+                      Container(
+                        width: 46.w,
+                        height: 46.h,
+                        decoration: BoxDecoration(
+                          color: isOverdue
+                              ? overdueColor.withOpacity(0.1)
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: isOverdue
+                                ? overdueColor
+                                : const Color(0xff101010),
+                            width: 1.2,
+                          ),
+                          borderRadius: BorderRadius.circular(6.r),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            _getNotificationIcon(item.iconType),
+                            color: isOverdue ? overdueColor : AppColors.heading,
+                            size: 22.sp,
                           ),
                         ),
                       ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        item.time ?? "",
-                        style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(42, 41, 51, 0.75),
+                      SizedBox(width: 14.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
+                                    spacing: 6.w,
+                                    runSpacing: 4.h,
+                                    children: [
+                                      Text(
+                                        item.title ?? "",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.heading,
+                                          letterSpacing: -0.2,
+                                        ),
+                                      ),
+                                      if (isOverdue)
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 7.w,
+                                            vertical: 2.5.h,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: overdueColor,
+                                            borderRadius:
+                                                BorderRadius.circular(4.r),
+                                          ),
+                                          child: Text(
+                                            headingBadgeText.toUpperCase(),
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 10.sp,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                              letterSpacing: 0.2,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
+                                Text(
+                                  item.time ?? "",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        const Color.fromRGBO(42, 41, 51, 0.75),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5.h),
+                            Text(
+                              item.message ?? "",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.outfit(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(0, 0, 0, 0.75),
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 14.w,
+                                vertical: 4.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isOverdue
+                                    ? overdueColor.withOpacity(0.1)
+                                    : Colors.transparent,
+                                border: Border.all(
+                                  color: isOverdue
+                                      ? overdueColor
+                                      : const Color(0xff101010),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(25.r),
+                              ),
+                              child: Text(
+                                isOverdue
+                                    ? (item.redTag ?? item.tag ?? "Overdue Reminder")
+                                    : (item.tag ?? "General"),
+                                style: GoogleFonts.outfit(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: isOverdue
+                                      ? overdueColor
+                                      : const Color(0xff101010),
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    item.message ?? "",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromRGBO(0, 0, 0, 0.75),
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 14.w,
-                      vertical: 4.h,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xff101010),
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(25.r),
-                    ),
-                    child: Text(
-                      item.tag ?? "General",
-                      style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xff101010),
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

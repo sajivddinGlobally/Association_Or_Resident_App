@@ -1,12 +1,13 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationAuditReport/Provider/associationReportProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+
+import 'AssociationReportDetails.dart';
 
 class AssociationReport extends ConsumerStatefulWidget {
   const AssociationReport({super.key});
@@ -360,10 +361,29 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                 itemBuilder: (context, index) {
                   final report = quickReport!.items[index];
 
-                  return _topReportCard(
-                    icon: Icons.build,
-                    title: report.title,
-                    subtitle: report.subtitle,
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(10.r),
+                    onTap: () {
+                      final fullData = reportState.valueOrNull?.data;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AssociationReportDetails(
+                            quickReportItem: report,
+                            complexName: fullData?.header.complexName,
+                            headerSubtitle: fullData?.header.subtitle,
+                            footerNote: fullData?.footerNote,
+                          ),
+                        ),
+                      );
+                    },
+                    child: _topReportCard(
+                      icon: report.icon == "account_balance_wallet"
+                          ? Icons.account_balance_wallet_outlined
+                          : Icons.build,
+                      title: report.title,
+                      subtitle: report.subtitle,
+                    ),
                   );
                 },
               ),
@@ -395,21 +415,37 @@ class _AssociationReportState extends ConsumerState<AssociationReport> {
                               ? 0
                               : 14.h,
                         ),
-                        child: _reportCard(
-                          icon: report.categoryKey == "financial"
-                              ? Icons.bar_chart_rounded
-                              : Icons.description_outlined,
-                          iconColor: report.categoryKey == "financial"
-                              ? const Color(0xFFB58A16)
-                              : const Color(0xFFE3C000),
-                          iconBgColor: report.categoryKey == "financial"
-                              ? const Color(0xFFF0DDA8)
-                              : const Color(0xFFFFF5CE),
-                          title: report.title,
-                          subtitle: report.subtitle,
-                          count: report.statBadge,
-                          status: report.status,
-                          pdf: report.format,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AssociationReportDetails(
+                                      reportItem: report,
+                                      complexName: data.data.header.complexName,
+                                      headerSubtitle: data.data.header.subtitle,
+                                      footerNote: data.data.footerNote,
+                                    ),
+                              ),
+                            );
+                          },
+                          child: _reportCard(
+                            icon: report.categoryKey == "financial"
+                                ? Icons.bar_chart_rounded
+                                : Icons.description_outlined,
+                            iconColor: report.categoryKey == "financial"
+                                ? const Color(0xFFB58A16)
+                                : const Color(0xFFE3C000),
+                            iconBgColor: report.categoryKey == "financial"
+                                ? const Color(0xFFF0DDA8)
+                                : const Color(0xFFFFF5CE),
+                            title: report.title,
+                            subtitle: report.subtitle,
+                            count: report.statBadge,
+                            status: report.status,
+                            pdf: report.format,
+                          ),
                         ),
                       );
                     },

@@ -589,7 +589,7 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                   ),
 
                   SizedBox(height: 12.h),
-                  // Visitor Request Approvals (Calls /api/v1/resident/visitor-pass)
+                  // Visitor Request Approvals (Calls /api/v1/resident/visitor-passes)
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -733,7 +733,8 @@ class _ResidenthomescreenState extends ConsumerState<Residenthomescreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      "Pre-Approve Visitor",
+                                      // "Pre-Approve Visitor",
+                                      "Get Pass Visitor List",
                                       style: GoogleFonts.outfit(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.w600,

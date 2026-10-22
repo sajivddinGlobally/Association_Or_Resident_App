@@ -34,6 +34,7 @@ class Data {
     Filters? filters;
     Summary? summary;
     List<Block>? blocks;
+    List<Unit>? allUnits;
     String? disclaimer;
 
     Data({
@@ -42,8 +43,20 @@ class Data {
         this.filters,
         this.summary,
         this.blocks,
+        this.allUnits,
         this.disclaimer,
     });
+
+    List<Unit> get flattenedUnits {
+        if (allUnits != null && allUnits!.isNotEmpty) {
+            return allUnits!;
+        }
+        final List<Unit> list = [];
+        for (final b in (blocks ?? [])) {
+            list.addAll(b.units ?? []);
+        }
+        return list;
+    }
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         header: json["header"] == null ? null : Header.fromJson(json["header"]),
@@ -51,6 +64,7 @@ class Data {
         filters: json["filters"] == null ? null : Filters.fromJson(json["filters"]),
         summary: json["summary"] == null ? null : Summary.fromJson(json["summary"]),
         blocks: json["blocks"] == null ? [] : List<Block>.from(json["blocks"]!.map((x) => Block.fromJson(x))),
+        allUnits: json["all_units"] == null ? [] : List<Unit>.from(json["all_units"]!.map((x) => Unit.fromJson(x))),
         disclaimer: json["disclaimer"],
     );
 
@@ -60,6 +74,7 @@ class Data {
         "filters": filters?.toJson(),
         "summary": summary?.toJson(),
         "blocks": blocks == null ? [] : List<dynamic>.from(blocks!.map((x) => x.toJson())),
+        "all_units": allUnits == null ? [] : List<dynamic>.from(allUnits!.map((x) => x.toJson())),
         "disclaimer": disclaimer,
     };
 }

@@ -14,3 +14,9 @@ final getPropertyUnitListProvider = FutureProvider.autoDispose
         search: params.search,
       );
     });
+
+final committeeUnitsListProvider = FutureProvider.autoDispose<GetPropertyUnitListModel>((ref) async {
+  final service = ref.read(authServiceProvider);
+  return await service.getPropertyUnitList();
+});
+

@@ -25,6 +25,8 @@ import 'package:property_association_or_resident/ResidentScreen/Model/getComplai
 import 'package:property_association_or_resident/ResidentScreen/Model/getComplaintTrackingModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
 import 'package:retrofit/retrofit.dart';
+import '../../AssociationScreen/AssociationAuditReport/provider/getInspecitonReportModel.dart';
+import '../../AssociationScreen/AssociationAuditReport/provider/getInspectionReportDetailsModel.dart';
 import '../../GuardScreen/Model/addParcelResModel.dart';
 import '../../GuardScreen/Model/addVisitorResModel.dart';
 import '../../GuardScreen/Model/getFlatApartmentModel.dart';
@@ -40,6 +42,7 @@ import '../../ResidentScreen/Model/closeComplaintBodyModel.dart';
 import '../../ResidentScreen/Model/complainCloseResModel.dart';
 import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
+import '../../ResidentScreen/Model/getPassListResModel.dart';
 import '../../ResidentScreen/Model/getResidentCalenderModel.dart';
 import '../../ResidentScreen/Model/getResidentParcelModel.dart';
 import '../../ResidentScreen/Model/residentParcelRespondBodyModel.dart';
@@ -177,6 +180,21 @@ abstract class ApiStateNetwork {
     @Body() UpdateTicketStatusBodyModel body,
   );
 
+  @MultiPart()
+  @POST("/api/v1/tickets")
+  Future<dynamic> createService(
+    @Part(name: "service_category") String serviceCategory,
+    @Part(name: "service_type") String? serviceType,
+    @Part(name: "title") String title,
+    @Part(name: "details") String details,
+    @Part(name: "preferred_date") String? preferredDate,
+    @Part(name: "preferred_time") String? preferredTime,
+    @Part(name: "priority") String priority,
+    @Part(name: "attachment") MultipartFile? attachment,
+    @Part(name: "type") String type,
+    @Part(name: "property_id") int? propertyId,
+  );
+
   @GET("/api/v1/committee/service-requests/{id}/tracking")
   Future<GetServiceRequestStatusModel> getServiceRequestStatus({
     @Path("id") required String id,
@@ -299,10 +317,22 @@ abstract class ApiStateNetwork {
     @Path("id") String id,
   );
 
-  @GET("/api/v1/committee/reports?category=financial")
+  @GET("/api/v1/committee/reports")
   Future<AssociationReportResModel> associationReport(
-    @Query("status") String? status,
+    @Query("category") String? status,
     @Query("search") String? search,
+  );
+
+  @GET("/api/v1/inspections")
+  Future<GetInspectionReportModel> getInspectionReport(
+    @Query("filter") String filter,
+    @Query("type") String type,
+    @Query("property_id") int? propertyId,
+  );
+
+  @GET("/api/v1/inspections/{id}")
+  Future<GetInspectionReportDetailsModel> getInpectionReportDetails(
+    @Path('id') String id,
   );
 
   @MultiPart()
@@ -359,11 +389,6 @@ abstract class ApiStateNetwork {
   @GET("/api/v1/resident/communication")
   Future<ResidentCommunityContactResModel> residentCommunityContact();
 
-  @POST("/api/v1/resident/visitor-pass")
-  Future<CreatVisitorPassResModdel> createVisitorPassRequest(
-    @Body() CreateVisitorPassBodyModdel body,
-  );
-
   @GET("/api/v1/resident/visitor-pass")
   Future<GetVisitorPassListModel> getVisitorPass();
 
@@ -401,6 +426,14 @@ abstract class ApiStateNetwork {
 
   @GET("/api/v1/resident/maintenance-activities")
   Future<MaintenanceActivitiesResModel> maintenanceActive();
+
+  @POST("/api/v1/resident/visitor-pass")
+  Future<CreatVisitorPassResModdel> createVisitorPassRequest(
+    @Body() CreateVisitorPassBodyModdel body,
+  );
+
+  @GET("/api/v1/resident/visitor-passes")
+  Future<GetPassListResModel> getPass();
 
   /////////////// Guard ///////////////////
 

@@ -590,20 +590,20 @@ class _AiPropertyAssistantScreenState
                                       alignment: Alignment.centerRight,
                                       child: Container(
                                         constraints: BoxConstraints(
-                                          maxWidth: 240.w,
+                                          maxWidth: 280.w,
                                         ),
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: 12.w,
-                                          vertical: 9.h,
+                                          horizontal: 14.w,
+                                          vertical: 10.h,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: const Color(0xFFFFFCEF),
+                                          color: const Color(0xFFEFE8D8),
                                           border: Border.all(
                                             color: AppColors.heading,
-                                            width: 1.2,
+                                            width: 1,
                                           ),
                                           borderRadius: BorderRadius.circular(
-                                            6.r,
+                                            8.r,
                                           ),
                                         ),
                                         child: Text(
@@ -612,6 +612,7 @@ class _AiPropertyAssistantScreenState
                                             fontSize: 17.sp,
                                             fontWeight: FontWeight.w600,
                                             color: AppColors.heading,
+                                            letterSpacing: -0.2,
                                           ),
                                         ),
                                       ),
@@ -627,8 +628,8 @@ class _AiPropertyAssistantScreenState
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          height: 22.h,
-                                          width: 22.w,
+                                          height: 24.w,
+                                          width: 24.w,
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                             color: const Color(0xFFB78932),
@@ -638,14 +639,14 @@ class _AiPropertyAssistantScreenState
                                           ),
                                           child: Text(
                                             "AI",
-                                            style: GoogleFonts.inter(
+                                            style: GoogleFonts.outfit(
                                               fontSize: 11.sp,
                                               fontWeight: FontWeight.w700,
-                                              color: Colors.black,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
-                                        SizedBox(width: 12.w),
+                                        SizedBox(width: 10.w),
                                         Expanded(
                                           child: Text(
                                             recentHistory[i].aiResponse!,
@@ -666,8 +667,8 @@ class _AiPropertyAssistantScreenState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      height: 22.h,
-                                      width: 22.w,
+                                      height: 24.w,
+                                      width: 24.w,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         color: const Color(0xFFB78932),
@@ -677,14 +678,14 @@ class _AiPropertyAssistantScreenState
                                       ),
                                       child: Text(
                                         "AI",
-                                        style: GoogleFonts.inter(
+                                        style: GoogleFonts.outfit(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w700,
-                                          color: Colors.black,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 12.w),
+                                    SizedBox(width: 10.w),
                                     Expanded(
                                       child: Text(
                                         welcomeMessage,
@@ -706,19 +707,19 @@ class _AiPropertyAssistantScreenState
                                   alignment: Alignment.centerRight,
                                   child: Container(
                                     constraints: BoxConstraints(
-                                      maxWidth: 240.w,
+                                      maxWidth: 280.w,
                                     ),
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 12.w,
-                                      vertical: 9.h,
+                                      horizontal: 14.w,
+                                      vertical: 10.h,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFFFFCEF),
+                                      color: const Color(0xFFEFE8D8),
                                       border: Border.all(
                                         color: AppColors.heading,
-                                        width: 1.2,
+                                        width: 1,
                                       ),
-                                      borderRadius: BorderRadius.circular(6.r),
+                                      borderRadius: BorderRadius.circular(8.r),
                                     ),
                                     child: Text(
                                       pendingQuery!,
@@ -735,8 +736,8 @@ class _AiPropertyAssistantScreenState
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      height: 22.h,
-                                      width: 22.w,
+                                      height: 24.w,
+                                      width: 24.w,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         color: const Color(0xFFB78932),
@@ -746,14 +747,14 @@ class _AiPropertyAssistantScreenState
                                       ),
                                       child: Text(
                                         "AI",
-                                        style: GoogleFonts.inter(
+                                        style: GoogleFonts.outfit(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w700,
-                                          color: Colors.black,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 12.w),
+                                    SizedBox(width: 10.w),
                                     SizedBox(
                                       height: 14.h,
                                       width: 14.w,
@@ -767,14 +768,13 @@ class _AiPropertyAssistantScreenState
                                       "Thinking...",
                                       style: GoogleFonts.outfit(
                                         fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
                                         color: const Color.fromRGBO(
                                           42,
                                           41,
                                           51,
-                                          0.75,
+                                          0.7,
                                         ),
-                                        fontStyle: FontStyle.italic,
+                                        letterSpacing: -0.2,
                                       ),
                                     ),
                                   ],

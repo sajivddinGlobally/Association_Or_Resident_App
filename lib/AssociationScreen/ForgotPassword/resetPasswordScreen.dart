@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/AssociationScreen/Auth/AssociationLogin.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
-import '../../core/AuthService/AuthServiceProvider.dart';
+import '../../Core/AuthService/AuthServiceProvider.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
   final String email;

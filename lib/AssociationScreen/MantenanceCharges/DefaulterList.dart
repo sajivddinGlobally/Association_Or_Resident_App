@@ -418,6 +418,16 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                     itemCount: records.length,
                     itemBuilder: (context, index) {
                       final record = records[index];
+                      final statusText = record.defaulterStatus ??
+                          record.statusBadge ??
+                          record.status ??
+                          "N/A";
+                      final statusColor = _resolveDefaulterBadgeColor(
+                        badgeColorHex: record.badgeColor,
+                        statusText: statusText,
+                        isDefaulter: record.isDefaulter,
+                        isOverdueAbove2Months: record.isOverdueAbove2Months,
+                      );
                       return Column(
                         children: [
                           _buildDefaulterItem(
@@ -425,7 +435,8 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                             title: record.unitNumber ?? "NA",
                             subtitle: record.subtitle ?? "N/A",
                             amount: record.formattedAmount ?? "0",
-                            status: record.status ?? "N/A",
+                            status: statusText,
+                            statusColor: statusColor,
                             id: record.id.toString(),
                           ),
                           if (index != records.length - 1) _divider(),
@@ -593,12 +604,43 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
     );
   }
 
+  Color _resolveDefaulterBadgeColor({
+    String? badgeColorHex,
+    String? statusText,
+    bool? isDefaulter,
+    bool? isOverdueAbove2Months,
+  }) {
+    if (badgeColorHex != null && badgeColorHex.isNotEmpty) {
+      try {
+        final hex = badgeColorHex.replaceAll("#", "").trim();
+        if (hex.length == 6) {
+          return Color(int.parse("FF$hex", radix: 16));
+        } else if (hex.length == 8) {
+          return Color(int.parse(hex, radix: 16));
+        }
+      } catch (_) {}
+    }
+
+    final upper = (statusText ?? "").toUpperCase().trim();
+    if (isDefaulter == true ||
+        isOverdueAbove2Months == true ||
+        upper == "DEFAULTER") {
+      return const Color(0xFFEF4444);
+    } else if (upper == "CLEARED" || upper == "PAID") {
+      return const Color(0xFF22C55E);
+    } else if (upper == "REGULAR") {
+      return const Color(0xFFEAB308);
+    }
+    return const Color(0xFFEF4444);
+  }
+
   Widget _buildDefaulterItem({
     required String imagePath,
     required String title,
     required String subtitle,
     required String amount,
     required String status,
+    Color? statusColor,
     required String id,
   }) {
     return Padding(
@@ -686,7 +728,7 @@ class _DefaulterListState extends ConsumerState<DefaulterList> {
                   style: GoogleFonts.outfit(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w600,
-                    color: const Color(0xFFB8860B),
+                    color: statusColor ?? const Color(0xFFEF4444),
                     letterSpacing: -0.1,
                   ),
                 ),

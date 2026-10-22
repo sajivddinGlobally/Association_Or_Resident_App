@@ -17,6 +17,7 @@ class AddResedentBodyModel {
     String? unitNumber;
     bool? termsAccepted;
     String? occupancyType;
+    String? vehicleNumber;
 
     AddResedentBodyModel({
         this.name,
@@ -27,6 +28,7 @@ class AddResedentBodyModel {
         this.unitNumber,
         this.termsAccepted,
         this.occupancyType,
+        this.vehicleNumber,
     });
 
     factory AddResedentBodyModel.fromJson(Map<String, dynamic> json) => AddResedentBodyModel(
@@ -38,6 +40,7 @@ class AddResedentBodyModel {
         unitNumber: json["unit_number"],
         termsAccepted: json["terms_accepted"],
         occupancyType: json["occupancy_type"] ?? json["resident_type"],
+        vehicleNumber: json["vehicle_number"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -49,5 +52,7 @@ class AddResedentBodyModel {
         "unit_number": unitNumber,
         "terms_accepted": termsAccepted,
         if (occupancyType != null) "occupancy_type": occupancyType,
+        if (vehicleNumber != null && vehicleNumber!.trim().isNotEmpty)
+          "vehicle_number": vehicleNumber!.trim(),
     };
 }

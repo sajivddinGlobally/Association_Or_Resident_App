@@ -399,17 +399,34 @@ class _OutstandingPendingState extends ConsumerState<OutstandingPending> {
             SizedBox(height: 16.h),
             outstandingPending.when(
               data: (data) {
-                Color _parseBadgeColor(String? color) {
-                  if (color == null || color.isEmpty) {
-                    return Colors.grey;
+                Color _resolveDefaulterBadgeColor({
+                  String? badgeColorHex,
+                  String? statusText,
+                  bool? isDefaulter,
+                  bool? isOverdueAbove2Months,
+                }) {
+                  if (badgeColorHex != null && badgeColorHex.isNotEmpty) {
+                    try {
+                      final hex = badgeColorHex.replaceAll("#", "").trim();
+                      if (hex.length == 6) {
+                        return Color(int.parse("FF$hex", radix: 16));
+                      } else if (hex.length == 8) {
+                        return Color(int.parse(hex, radix: 16));
+                      }
+                    } catch (_) {}
                   }
 
-                  try {
-                    final hex = color.replaceFirst("#", "");
-                    return Color(int.parse("FF$hex", radix: 16));
-                  } catch (_) {
-                    return Colors.grey;
+                  final upper = (statusText ?? "").toUpperCase().trim();
+                  if (isDefaulter == true ||
+                      isOverdueAbove2Months == true ||
+                      upper == "DEFAULTER") {
+                    return const Color(0xFFEF4444);
+                  } else if (upper == "CLEARED" || upper == "PAID") {
+                    return const Color(0xFF22C55E);
+                  } else if (upper == "REGULAR") {
+                    return const Color(0xFFEAB308);
                   }
+                  return const Color(0xFFEF4444);
                 }
 
                 final percentage =
@@ -525,9 +542,17 @@ class _OutstandingPendingState extends ConsumerState<OutstandingPending> {
                                 title: defaulter?.unitNumber ?? "Unit N/A",
                                 subtitle: defaulter?.subtitle ?? "N/A",
                                 amount: defaulter?.formattedAmount ?? "0",
-                                status: defaulter?.statusBadge ?? "",
-                                statusColor: _parseBadgeColor(
-                                  defaulter?.statusColor.toString(),
+                                status: defaulter?.defaulterStatus ??
+                                    defaulter?.statusBadge ??
+                                    "",
+                                statusColor: _resolveDefaulterBadgeColor(
+                                  badgeColorHex: defaulter?.badgeColor ??
+                                      defaulter?.statusColor?.toString(),
+                                  statusText: defaulter?.defaulterStatus ??
+                                      defaulter?.statusBadge,
+                                  isDefaulter: defaulter?.isDefaulter,
+                                  isOverdueAbove2Months:
+                                      defaulter?.isOverdueAbove2Months,
                                 ),
                                 id: defaulter?.id.toString() ?? "",
                               ),

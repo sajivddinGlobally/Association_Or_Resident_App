@@ -4,12 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
-import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
+import 'package:property_association_or_resident/ResidentScreen/Model/getPassListResModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/ResidentVisitorPassRequest.dart';
-import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/provider/getVisitorPassListProvider.dart';
+import 'package:property_association_or_resident/ResidentScreen/ResidentVisitorPassRequest/provider/getPassListProvider.dart';
 import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:share_plus/share_plus.dart';
+import 'provider/getVisitorPassListProvider.dart';
+import 'service/qr_share_service.dart';
 
 class ResidentVisitorPassListScreen extends ConsumerStatefulWidget {
   const ResidentVisitorPassListScreen({super.key});
@@ -268,13 +269,12 @@ class _ResidentVisitorPassListScreenState
                           ),
                         ),
                         onPressed: () {
-                          Share.share(
-                            "🏠 Visitor Gate Pass\n"
-                            "Visitor: $visitorName\n"
-                            "Pass Code: $passCode\n"
-                            "Date: $visitDate ${visitTime.isNotEmpty ? 'at $visitTime' : ''}\n"
-                            "Purpose: $purpose\n\n"
-                            "Please show this pass code or QR code to the security guard at the gate for fast entry.",
+                          QrShareService.sharePassWithQr(
+                            passCode: passCode,
+                            visitorName: visitorName,
+                            visitDate: visitDate,
+                            visitTime: visitTime,
+                            purpose: purpose,
                           );
                         },
                         icon: Icon(
@@ -330,14 +330,13 @@ class _ResidentVisitorPassListScreenState
         builder: (context) => const Residentvisitorpassrequest(),
       ),
     ).then((_) {
-      ref.invalidate(getVisitorListProvider);
+      ref.invalidate(getPassListProvider);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(getVisitorListProvider);
-
+    final state = ref.watch(getPassListProvider);
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -365,7 +364,7 @@ class _ResidentVisitorPassListScreenState
             ),
             SizedBox(width: 12.w),
             Text(
-              "Pre-Approved Passes",
+              "Get Pass Visitor List",
               style: GoogleFonts.outfit(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
@@ -417,7 +416,7 @@ class _ResidentVisitorPassListScreenState
       body: RefreshIndicator(
         color: AppColors.heading,
         onRefresh: () async {
-          ref.invalidate(getVisitorListProvider);
+          ref.invalidate(getPassListProvider);
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -492,7 +491,7 @@ class _ResidentVisitorPassListScreenState
               // Filter Row
               state.when(
                 data: (data) {
-                  final allRequests = data.data?.recentRequests?.requests ?? [];
+                  final allRequests = data.data?.visitorPasses ?? [];
 
                   final filteredList = allRequests.where((req) {
                     if (_selectedFilter == "ALL") return true;
@@ -646,8 +645,7 @@ class _ResidentVisitorPassListScreenState
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.heading,
                           ),
-                          onPressed: () =>
-                              ref.invalidate(getVisitorListProvider),
+                          onPressed: () => ref.invalidate(getPassListProvider),
                           child: Text(
                             "Retry",
                             style: GoogleFonts.outfit(
@@ -709,23 +707,11 @@ class _ResidentVisitorPassListScreenState
     );
   }
 
-  Widget _buildPassItemCard(Request item) {
-    final rawCode =
-        item.token ??
-        (item.title != null && item.title!.contains('#')
-            ? item.title!.split('#').last.trim()
-            : "VP-${item.id ?? 1024}");
+  Widget _buildPassItemCard(VisitorPass item) {
+    final rawCode = item.passCode ?? "VP-${item.id ?? 1024}";
     final pCode = rawCode.replaceAll('#', '').trim();
-    final vName =
-        item.visitorName ??
-        (item.subtitle != null && item.subtitle!.contains('·')
-            ? item.subtitle!.split('·').first.trim()
-            : "Visitor");
-    final arr =
-        item.arrivalTime ??
-        (item.subtitle != null && item.subtitle!.contains('·')
-            ? item.subtitle!.split('·').last.trim()
-            : "Today");
+    final vName = item.visitorName ?? "Visitor";
+    final arr = item.expectedArrival ?? item.createdAt ?? "Today";
     final purpose = item.purpose ?? item.visitorType ?? "Guest Visit";
 
     final statusUpper = (item.status ?? "").toUpperCase().trim();
@@ -857,7 +843,7 @@ class _ResidentVisitorPassListScreenState
                       ),
                       SizedBox(height: 2.h),
                       Text(
-                        item.subtitle ?? "$purpose · $arr",
+                        "${item.visitorType ?? 'Guest'} · $purpose · $arr",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(

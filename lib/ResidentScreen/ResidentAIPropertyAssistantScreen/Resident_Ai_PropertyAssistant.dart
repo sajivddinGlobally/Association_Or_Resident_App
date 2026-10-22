@@ -558,7 +558,7 @@ class _ResidentAiPropertyassistantState
                         child: SingleChildScrollView(
                           controller: _assistantScrollController,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (recentHistory.isNotEmpty) ...[
                                 for (
@@ -571,199 +571,27 @@ class _ResidentAiPropertyassistantState
                                           .trim()
                                           .isNotEmpty) ...[
                                     if (i > 0) SizedBox(height: 12.h),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Container(
-                                        constraints: BoxConstraints(
-                                          maxWidth: 280.w,
-                                        ),
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 14.w,
-                                          vertical: 10.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFEFE8D8),
-                                          border: Border.all(
-                                            color: AppColors.heading,
-                                            width: 1,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            8.r,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          recentHistory[i].query!,
-                                          style: GoogleFonts.outfit(
-                                            fontSize: 17.sp,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.heading,
-                                            letterSpacing: -0.2,
-                                          ),
-                                        ),
-                                      ),
+                                    _buildUserQuestionBubble(
+                                      recentHistory[i].query!.trim(),
                                     ),
-                                    SizedBox(height: 12.h),
+                                    SizedBox(height: 10.h),
                                   ],
                                   if (recentHistory[i].aiResponse != null &&
                                       recentHistory[i].aiResponse!
                                           .trim()
                                           .isNotEmpty)
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 24.w,
-                                          width: 24.w,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFFB78932),
-                                            borderRadius: BorderRadius.circular(
-                                              4.r,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            "AI",
-                                            style: GoogleFonts.outfit(
-                                              fontSize: 11.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        Expanded(
-                                          child: Text(
-                                            recentHistory[i].aiResponse!,
-                                            style: GoogleFonts.outfit(
-                                              fontSize: 17.sp,
-                                              color: AppColors.heading,
-                                              fontWeight: FontWeight.w500,
-                                              letterSpacing: -0.2,
-                                              height: 1.4,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    _buildAiAnswerBubble(
+                                      recentHistory[i].aiResponse!.trim(),
                                     ),
                                 ],
                               ] else ...[
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: 24.w,
-                                      width: 24.w,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFB78932),
-                                        borderRadius: BorderRadius.circular(
-                                          4.r,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        "AI",
-                                        style: GoogleFonts.outfit(
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    Expanded(
-                                      child: Text(
-                                        welcomeMessage,
-                                        style: GoogleFonts.outfit(
-                                          fontSize: 17.sp,
-                                          color: AppColors.heading,
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: -0.2,
-                                          height: 1.4,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                _buildAiAnswerBubble(welcomeMessage),
                               ],
                               if (pendingQuery != null) ...[
                                 SizedBox(height: 12.h),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth: 280.w,
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 14.w,
-                                      vertical: 10.h,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFEFE8D8),
-                                      border: Border.all(
-                                        color: AppColors.heading,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    child: Text(
-                                      pendingQuery!,
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 17.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.heading,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 12.h),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 24.w,
-                                      width: 24.w,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFB78932),
-                                        borderRadius: BorderRadius.circular(
-                                          4.r,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        "AI",
-                                        style: GoogleFonts.outfit(
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    SizedBox(
-                                      height: 14.h,
-                                      width: 14.w,
-                                      child: const CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Color(0xFFB78932),
-                                      ),
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    Text(
-                                      "Thinking...",
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 15.sp,
-                                        color: const Color.fromRGBO(
-                                          42,
-                                          41,
-                                          51,
-                                          0.7,
-                                        ),
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                _buildUserQuestionBubble(pendingQuery!.trim()),
+                                SizedBox(height: 10.h),
+                                _buildAiThinkingBubble(),
                               ],
                             ],
                           ),
@@ -918,6 +746,190 @@ class _ResidentAiPropertyassistantState
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildUserQuestionBubble(String text) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 270.w),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFF10201A),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12.r),
+            topRight: Radius.circular(12.r),
+            bottomLeft: Radius.circular(12.r),
+            bottomRight: Radius.circular(2.r),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.08),
+              blurRadius: 4,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Text(
+          text,
+          style: GoogleFonts.outfit(
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+            letterSpacing: -0.2,
+            height: 1.35,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAiAnswerBubble(String text) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 290.w),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF5DC),
+          border: Border.all(color: const Color(0xFFB78932), width: 1.2),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(2.r),
+            topRight: Radius.circular(12.r),
+            bottomLeft: Radius.circular(12.r),
+            bottomRight: Radius.circular(12.r),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromRGBO(183, 137, 50, 0.12),
+              blurRadius: 6,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFB78932),
+                    borderRadius: BorderRadius.circular(3.r),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.auto_awesome,
+                        size: 11.sp,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 3.w),
+                      Text(
+                        "Stayo Assistant",
+                        style: GoogleFonts.inter(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 7.h),
+            Text(
+              text,
+              style: GoogleFonts.outfit(
+                fontSize: 15.sp,
+                color: const Color(0xFF101C16),
+                fontWeight: FontWeight.w500,
+                letterSpacing: -0.2,
+                height: 1.4,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAiThinkingBubble() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF5DC),
+          border: Border.all(color: const Color(0xFFB78932), width: 1.2),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(2.r),
+            topRight: Radius.circular(12.r),
+            bottomLeft: Radius.circular(12.r),
+            bottomRight: Radius.circular(12.r),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromRGBO(183, 137, 50, 0.12),
+              blurRadius: 6,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+              decoration: BoxDecoration(
+                color: const Color(0xFFB78932),
+                borderRadius: BorderRadius.circular(3.r),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.auto_awesome, size: 11.sp, color: Colors.black),
+                  SizedBox(width: 3.w),
+                  Text(
+                    "AI",
+                    style: GoogleFonts.inter(
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 8.w),
+            SizedBox(
+              height: 13.h,
+              width: 13.w,
+              child: const CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Color(0xFFB78932),
+              ),
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              "Thinking...",
+              style: GoogleFonts.outfit(
+                fontSize: 14.sp,
+                color: const Color(0xFF101C16),
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

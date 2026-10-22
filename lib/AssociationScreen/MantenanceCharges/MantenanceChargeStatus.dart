@@ -93,17 +93,34 @@ class _MantenanceChargeStatusState
       body: state.when(
         data: (data) {
           final records = data.data?.unitWiseStatus?.records ?? [];
-          Color _parseBadgeColor(String? color) {
-            if (color == null || color.isEmpty) {
-              return Colors.grey;
+          Color _resolveBadgeColor({
+            String? badgeColorHex,
+            String? statusText,
+            bool? isDefaulter,
+            bool? isOverdueAbove2Months,
+          }) {
+            if (badgeColorHex != null && badgeColorHex.isNotEmpty) {
+              try {
+                final hex = badgeColorHex.replaceAll("#", "").trim();
+                if (hex.length == 6) {
+                  return Color(int.parse("FF$hex", radix: 16));
+                } else if (hex.length == 8) {
+                  return Color(int.parse(hex, radix: 16));
+                }
+              } catch (_) {}
             }
 
-            try {
-              final hex = color.replaceFirst("#", "");
-              return Color(int.parse("FF$hex", radix: 16));
-            } catch (_) {
-              return Colors.grey;
+            final upper = (statusText ?? "").toUpperCase().trim();
+            if (isDefaulter == true ||
+                isOverdueAbove2Months == true ||
+                upper == "DEFAULTER") {
+              return const Color(0xFFEF4444);
+            } else if (upper == "CLEARED" || upper == "PAID") {
+              return const Color(0xFF22C55E);
+            } else if (upper == "REGULAR") {
+              return const Color(0xFFEAB308);
             }
+            return Colors.grey;
           }
 
           return SingleChildScrollView(
@@ -511,13 +528,23 @@ class _MantenanceChargeStatusState
                           itemBuilder: (context, index) {
                             final item = records[index];
 
+                            final statusText = item.defaulterStatus ??
+                                item.status ??
+                                "N/A";
+                            final statusColor = _resolveBadgeColor(
+                              badgeColorHex: item.badgeColor,
+                              statusText: statusText,
+                              isDefaulter: item.isDefaulter,
+                              isOverdueAbove2Months: item.isOverdueAbove2Months,
+                            );
+
                             return _buildUnitItem(
                               imagePath: "assets/unit.png",
                               title: item.unitNumber ?? "N/A",
                               subtitle: item.subtitle ?? "N/A",
                               amount: item.formattedAmount ?? "₹ 0",
-                              statusText: (item.status ?? "N/A").toUpperCase(),
-                              statusColor: _parseBadgeColor(item.badgeColor),
+                              statusText: statusText.toUpperCase(),
+                              statusColor: statusColor,
                               id: item.id.toString(),
                             );
                           },

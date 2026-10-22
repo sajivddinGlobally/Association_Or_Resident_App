@@ -306,6 +306,10 @@ class UnitCard {
     String? propertyType;
     String? propertyOwner;
     String? dueDate;
+    String? defaulterStatus;
+    bool? isDefaulter;
+    String? badgeColor;
+    bool? isOverdueAbove2Months;
 
     UnitCard({
         this.unitNumber,
@@ -313,14 +317,28 @@ class UnitCard {
         this.propertyType,
         this.propertyOwner,
         this.dueDate,
+        this.defaulterStatus,
+        this.isDefaulter,
+        this.badgeColor,
+        this.isOverdueAbove2Months,
     });
 
     factory UnitCard.fromJson(Map<String, dynamic> json) => UnitCard(
-        unitNumber: json["unit_number"],
-        statusBadge: json["status_badge"],
-        propertyType: json["property_type"],
-        propertyOwner: json["property_owner"],
-        dueDate: json["due_date"],
+        unitNumber: json["unit_number"]?.toString(),
+        statusBadge: json["defaulter_status"]?.toString() ??
+            json["status_badge"]?.toString(),
+        propertyType: json["property_type"]?.toString(),
+        propertyOwner: json["property_owner"]?.toString(),
+        dueDate: json["due_date"]?.toString(),
+        defaulterStatus: json["defaulter_status"]?.toString(),
+        isDefaulter: json["is_defaulter"] == true ||
+            json["is_defaulter"] == 1 ||
+            json["is_defaulter"] == "true",
+        badgeColor: json["badge_color"]?.toString() ??
+            json["status_color"]?.toString(),
+        isOverdueAbove2Months: json["is_overdue_above_2_months"] == true ||
+            json["is_overdue_above_2_months"] == 1 ||
+            json["is_overdue_above_2_months"] == "true",
     );
 
     Map<String, dynamic> toJson() => {
@@ -329,5 +347,9 @@ class UnitCard {
         "property_type": propertyType,
         "property_owner": propertyOwner,
         "due_date": dueDate,
+        "defaulter_status": defaulterStatus,
+        "is_defaulter": isDefaulter,
+        "badge_color": badgeColor,
+        "is_overdue_above_2_months": isOverdueAbove2Months,
     };
 }

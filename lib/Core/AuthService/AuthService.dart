@@ -20,6 +20,8 @@ import 'package:property_association_or_resident/GuardScreen/Model/historyGuardR
 import 'package:property_association_or_resident/GuardScreen/Model/historyRecordsModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/MaintenanceActivitiesResModel.dart';
 import 'package:property_association_or_resident/ResidentScreen/Model/getVisitorPassListModel.dart';
+import '../../AssociationScreen/AssociationAuditReport/provider/getInspecitonReportModel.dart';
+import '../../AssociationScreen/AssociationAuditReport/provider/getInspectionReportDetailsModel.dart';
 import '../../GuardScreen/Model/addParcelResModel.dart';
 import '../../GuardScreen/Model/addVisitorResModel.dart';
 import '../../GuardScreen/Model/getFlatApartmentModel.dart';
@@ -37,6 +39,7 @@ import '../../ResidentScreen/Model/createPassVisitorBodyModel.dart';
 import '../../ResidentScreen/Model/createPassVisotroResModel.dart';
 import '../../ResidentScreen/Model/getComplaintListModel.dart';
 import '../../ResidentScreen/Model/getComplaintTrackingModel.dart';
+import '../../ResidentScreen/Model/getPassListResModel.dart';
 import '../../ResidentScreen/Model/getResidentCalenderModel.dart';
 import '../../ResidentScreen/Model/getResidentParcelModel.dart';
 import '../../ResidentScreen/Model/residentParcelRespondBodyModel.dart';
@@ -555,6 +558,62 @@ class AuthService {
     }
   }
 
+  Future<dynamic> createServiceTicket({
+    required String serviceCategory,
+    String? serviceType,
+    required String title,
+    required String details,
+    String? preferredDate,
+    String? preferredTime,
+    required String priority,
+    MultipartFile? attachment,
+    required String type,
+    int? propertyId,
+  }) async {
+    try {
+      final response = await api.createService(
+        serviceCategory,
+        serviceType,
+        title,
+        details,
+        preferredDate,
+        preferredTime,
+        priority,
+        attachment,
+        type,
+        propertyId,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> createComplaintTicket({
+    required String serviceCategory,
+    String? serviceType,
+    required String title,
+    required String details,
+    String? preferredDate,
+    String? preferredTime,
+    required String priority,
+    MultipartFile? attachment,
+    int? propertyId,
+  }) async {
+    return await createServiceTicket(
+      serviceCategory: serviceCategory,
+      serviceType: serviceType,
+      title: title,
+      details: details,
+      preferredDate: preferredDate,
+      preferredTime: preferredTime,
+      priority: priority,
+      attachment: attachment,
+      type: "complaint",
+      propertyId: propertyId,
+    );
+  }
+
   Future<ComplaintStatusResModel> getComplaintStatus({
     required String id,
   }) async {
@@ -598,6 +657,7 @@ class AuthService {
     required String unitNumber,
     required bool termsAccepted,
     String? occupancyType,
+    String? vehicleNumber,
   }) async {
     try {
       final body = AddResedentBodyModel(
@@ -609,6 +669,7 @@ class AuthService {
         unitNumber: unitNumber,
         termsAccepted: termsAccepted,
         occupancyType: occupancyType,
+        vehicleNumber: vehicleNumber,
       );
       final response = await api.addResident(body);
       return response;
@@ -786,6 +847,30 @@ class AuthService {
   }) async {
     try {
       final response = await api.associationReport(status, search);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GetInspectionReportModel> getInspectionReport({
+    required String filter,
+    required String type,
+    dynamic propertyId,
+  }) async {
+    try {
+      final response = await api.getInspectionReport(filter, type, propertyId);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GetInspectionReportDetailsModel> getInspectionReportDetails({
+    required String id,
+  }) async {
+    try {
+      final response = await api.getInpectionReportDetails(id);
       return response;
     } catch (e) {
       rethrow;
@@ -1034,11 +1119,20 @@ class AuthService {
     }
   }
 
-  Future<MaintenanceActivitiesResModel>  maintenanceActivitiesData()async{
-    try{
+  Future<MaintenanceActivitiesResModel> maintenanceActivitiesData() async {
+    try {
       final response = await api.maintenanceActive();
       return response;
-    }catch (e){
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GetPassListResModel> getPass() async {
+    try {
+      final response = await api.getPass();
+      return response;
+    } catch (e) {
       rethrow;
     }
   }

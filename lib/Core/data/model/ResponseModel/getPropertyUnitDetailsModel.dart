@@ -267,35 +267,92 @@ class PropertyRecord {
 }
 
 class RecentPropertyActivity {
-  int? id;
+  dynamic id;
+  String? activityType;
   String? icon;
   String? title;
   String? subtitle;
+  String? status;
   String? date;
+  String? category;
+  String? resolutionNotes;
+  List<ActivityAttachment>? attachments;
+  int? sequence;
 
   RecentPropertyActivity({
     this.id,
+    this.activityType,
     this.icon,
     this.title,
     this.subtitle,
+    this.status,
     this.date,
+    this.category,
+    this.resolutionNotes,
+    this.attachments,
+    this.sequence,
   });
 
   factory RecentPropertyActivity.fromJson(Map<String, dynamic> json) =>
       RecentPropertyActivity(
-        id: json["id"] != null ? int.tryParse(json["id"].toString()) : null,
+        id: json["id"]?.toString(),
+        activityType: json["activity_type"]?.toString(),
         icon: json["icon"]?.toString(),
         title: json["title"]?.toString(),
         subtitle: json["subtitle"]?.toString(),
+        status: json["status"]?.toString(),
         date: json["date"]?.toString(),
+        category: json["category"]?.toString(),
+        resolutionNotes: json["resolution_notes"]?.toString(),
+        attachments: json["attachments"] == null
+            ? []
+            : List<ActivityAttachment>.from(
+                json["attachments"]!.map((x) => ActivityAttachment.fromJson(x)),
+              ),
+        sequence: json["sequence"] != null
+            ? int.tryParse(json["sequence"].toString())
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
     "id": id,
+    "activity_type": activityType,
     "icon": icon,
     "title": title,
     "subtitle": subtitle,
+    "status": status,
     "date": date,
+    "category": category,
+    "resolution_notes": resolutionNotes,
+    "attachments": attachments == null
+        ? []
+        : List<dynamic>.from(attachments!.map((x) => x.toJson())),
+    "sequence": sequence,
+  };
+}
+
+class ActivityAttachment {
+  String? type;
+  String? title;
+  String? url;
+
+  ActivityAttachment({
+    this.type,
+    this.title,
+    this.url,
+  });
+
+  factory ActivityAttachment.fromJson(Map<String, dynamic> json) =>
+      ActivityAttachment(
+        type: json["type"]?.toString(),
+        title: json["title"]?.toString(),
+        url: json["url"]?.toString(),
+      );
+
+  Map<String, dynamic> toJson() => {
+    "type": type,
+    "title": title,
+    "url": url,
   };
 }
 

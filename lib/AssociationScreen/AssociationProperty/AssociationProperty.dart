@@ -585,8 +585,8 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                                     // status: displayStatus,
                                     owner: unit.propertyOwner ?? "N/A",
                                     residents: unit.residents ?? "N/A",
-                                    propertyStatus:
-                                        unit.propertyStatus ?? "Good",
+                                    // propertyStatus:
+                                    //     unit.propertyStatus ?? "Good",
                                     inspectionDate: 'N/A',
                                     image: unit.image,
                                     id: unit.id.toString(),
@@ -688,7 +688,7 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
     // required String status,
     required String owner,
     required String residents,
-    required String propertyStatus,
+    // required String propertyStatus,
     required String inspectionDate,
     String? image,
     required String id,
@@ -802,29 +802,6 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                       ),
                     ),
                     SizedBox(width: 5.w),
-                    // Container(
-                    //   padding: EdgeInsets.symmetric(
-                    //     horizontal: 8.w,
-                    //     vertical: 3.h,
-                    //   ),
-                    //   alignment: Alignment.center,
-                    //   decoration: BoxDecoration(
-                    //     border: Border.all(
-                    //       color: const Color(0xFFEAD408),
-                    //       width: 1.w,
-                    //     ),
-                    //     borderRadius: BorderRadius.circular(4.r),
-                    //   ),
-                    //   child: Text(
-                    //     status,
-                    //     style: GoogleFonts.outfit(
-                    //       color: const Color(0xFFEAD408),
-                    //       fontSize: 13.sp,
-                    //       fontWeight: FontWeight.w600,
-                    //       letterSpacing: -0.2,
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
                 SizedBox(height: 20.h),
@@ -891,35 +868,35 @@ class _AssociationPropertyState extends ConsumerState<AssociationProperty> {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "PROPERTY STATUS",
-                            style: GoogleFonts.outfit(
-                              color: const Color.fromRGBO(255, 255, 255, 0.65),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: -0.2,
-                            ),
-                          ),
-                          SizedBox(height: 2.h),
-                          Text(
-                            propertyStatus,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.outfit(
-                              color: Colors.white,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                              height: 1,
-                              letterSpacing: -0.2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text(
+                    //         "PROPERTY STATUS",
+                    //         style: GoogleFonts.outfit(
+                    //           color: const Color.fromRGBO(255, 255, 255, 0.65),
+                    //           fontSize: 12.sp,
+                    //           fontWeight: FontWeight.w600,
+                    //           letterSpacing: -0.2,
+                    //         ),
+                    //       ),
+                    //       SizedBox(height: 2.h),
+                    //       Text(
+                    //         propertyStatus,
+                    //         maxLines: 1,
+                    //         overflow: TextOverflow.ellipsis,
+                    //         style: GoogleFonts.outfit(
+                    //           color: Colors.white,
+                    //           fontSize: 15.sp,
+                    //           fontWeight: FontWeight.w600,
+                    //           height: 1,
+                    //           letterSpacing: -0.2,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 20.h),

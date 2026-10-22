@@ -372,6 +372,9 @@ class RecordItem {
   String? statusRaw;
   String? badgeColor;
   String? dueDate;
+  String? defaulterStatus;
+  bool? isDefaulter;
+  bool? isOverdueAbove2Months;
 
   RecordItem({
     this.id,
@@ -385,6 +388,9 @@ class RecordItem {
     this.statusRaw,
     this.badgeColor,
     this.dueDate,
+    this.defaulterStatus,
+    this.isDefaulter,
+    this.isOverdueAbove2Months,
   });
 
   factory RecordItem.fromJson(Map<String, dynamic> json) => RecordItem(
@@ -399,10 +405,20 @@ class RecordItem {
             ? (json["amount"] as num).toInt()
             : int.tryParse(json["amount"]?.toString() ?? ""),
         formattedAmount: json["formatted_amount"]?.toString(),
-        status: json["status"]?.toString(),
+        status: json["defaulter_status"]?.toString() ??
+            json["status"]?.toString() ??
+            json["status_badge"]?.toString(),
         statusRaw: json["status_raw"]?.toString(),
-        badgeColor: json["badge_color"]?.toString(),
+        badgeColor: json["badge_color"]?.toString() ??
+            json["status_color"]?.toString(),
         dueDate: json["due_date"]?.toString(),
+        defaulterStatus: json["defaulter_status"]?.toString(),
+        isDefaulter: json["is_defaulter"] == true ||
+            json["is_defaulter"] == 1 ||
+            json["is_defaulter"] == "true",
+        isOverdueAbove2Months: json["is_overdue_above_2_months"] == true ||
+            json["is_overdue_above_2_months"] == 1 ||
+            json["is_overdue_above_2_months"] == "true",
       );
 
   Map<String, dynamic> toJson() => {
@@ -417,5 +433,8 @@ class RecordItem {
         "status_raw": statusRaw,
         "badge_color": badgeColor,
         "due_date": dueDate,
+        "defaulter_status": defaulterStatus,
+        "is_defaulter": isDefaulter,
+        "is_overdue_above_2_months": isOverdueAbove2Months,
       };
 }

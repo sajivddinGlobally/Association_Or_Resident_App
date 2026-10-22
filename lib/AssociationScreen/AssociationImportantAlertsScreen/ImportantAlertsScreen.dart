@@ -542,8 +542,8 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                     ),
                   ),
                 ),
-                if (alert.actionButton?.label != null &&
-                    alert.actionButton!.label!.isNotEmpty)
+                if (alert.actionLink?.label != null &&
+                    alert.actionLink!.label!.isNotEmpty)
                   Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 14.w,
@@ -554,7 +554,7 @@ class _ImportantalertsscreenState extends ConsumerState<Importantalertsscreen> {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
-                      alert.actionButton!.label!,
+                      alert.actionLink!.label!,
                       style: GoogleFonts.outfit(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,

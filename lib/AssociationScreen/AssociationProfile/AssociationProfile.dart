@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationAddResident/AddResidentScreen.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationAddResident/GuardScreen/addGuardScreen.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationAuditReport/AssociationReport.dart';
+import 'package:property_association_or_resident/AssociationScreen/AssociationAuditReport/inspectionReportScreen.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationCalender/AssociationCalender.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationNotification/Notificaion.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationProfile/AssociationChangePassword.dart';
@@ -367,6 +368,20 @@ class _AssociationProfileState extends ConsumerState<AssociationProfile> {
                               context,
                               CupertinoPageRoute(
                                 builder: (context) => AssociationReport(),
+                              ),
+                            );
+                          },
+                        ),
+                        Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
+                        _accountSettingTab(
+                          image: "assets/SvgImage/audit.svg",
+                          name: "Inspection Reports",
+                          title: "Inspection Reports history",
+                          callback: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => InspectionReportScreen(),
                               ),
                             );
                           },

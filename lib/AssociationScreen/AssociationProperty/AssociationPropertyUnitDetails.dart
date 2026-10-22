@@ -1,14 +1,21 @@
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart' hide Banner;
 import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationInspectionReport/InspectionReport_Screen.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociationProperty/Provider/getPropertyUnitDetailsProvider.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/Complaint.dart';
 import 'package:property_association_or_resident/AssociationScreen/Mantenance&Service/MantenanceService.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
+import 'package:property_association_or_resident/Core/Utils/showMessage.dart';
 import 'package:property_association_or_resident/Core/data/model/ResponseModel/getPropertyUnitDetailsModel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../AssociationDocument/AssociationDocument.dart';
 
@@ -506,329 +513,7 @@ class _AssociationPropertyUnitDetailsState
                         ),
                       ),
                     ],
-                    // SizedBox(height: 10.h),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       "Occupancy Status",
-                    //       style: GoogleFonts.outfit(
-                    //         fontSize: 17.sp,
-                    //         fontWeight: FontWeight.w500,
-                    //         color: Colors.black,
-                    //         letterSpacing: -0.2,
-                    //       ),
-                    //     ),
-                    //     InkWell(
-                    //       onTap: () {
-                    //         // Navigator.push(
-                    //         //   context,
-                    //         //   CupertinoPageRoute(
-                    //         //     builder: (context) =>
-                    //         //         const AssociationOccupancePropertyStatus(),
-                    //         //   ),
-                    //         // );
-                    //       },
-                    //       child: Text(
-                    //         "View Status ›",
-                    //         style: GoogleFonts.outfit(
-                    //           fontSize: 14.sp,
-                    //           fontWeight: FontWeight.w500,
-                    //           color: const Color(0xFF000000),
-                    //           letterSpacing: -0.2,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(height: 16.h),
-                    // Container(
-                    //   width: double.infinity,
-                    //   padding: EdgeInsets.symmetric(
-                    //     horizontal: 9.w,
-                    //     vertical: 12.h,
-                    //   ),
-                    //   decoration: BoxDecoration(
-                    //     border: Border.all(
-                    //       color: const Color(0xFF000000),
-                    //       width: 1.w,
-                    //     ),
-                    //     borderRadius: BorderRadius.circular(10.r),
-                    //   ),
-                    //   child: Column(
-                    //     children: [
-                    //       Row(
-                    //         crossAxisAlignment: CrossAxisAlignment.center,
-                    //         children: [
-                    //           Container(
-                    //             height: 33.h,
-                    //             width: 33.w,
-                    //             decoration: BoxDecoration(
-                    //               border: Border.all(
-                    //                 color: const Color(0xFF000000),
-                    //                 width: 1.w,
-                    //               ),
-                    //               borderRadius: BorderRadius.circular(4.r),
-                    //             ),
-                    //             child: Center(
-                    //               child: Image.asset(
-                    //                 "assets/associationImage/currently.png",
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           SizedBox(width: 6.w),
-                    //           Expanded(
-                    //             child: Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.start,
-                    //               children: [
-                    //                 Text(
-                    //                   banner?.isActive == true ||
-                    //                           banner?.status?.toLowerCase() ==
-                    //                               "active"
-                    //                       ? "Currently Occupied"
-                    //                       : "Currently Vacant",
-                    //                   style: GoogleFonts.outfit(
-                    //                     fontSize: 17.sp,
-                    //                     fontWeight: FontWeight.w500,
-                    //                     color: Colors.black,
-                    //                     letterSpacing: -0.2,
-                    //                   ),
-                    //                 ),
-                    //                 Text(
-                    //                   "Unit occupancy information",
-                    //                   style: GoogleFonts.outfit(
-                    //                     fontSize: 14.sp,
-                    //                     fontWeight: FontWeight.w500,
-                    //                     color: const Color.fromRGBO(
-                    //                       0,
-                    //                       0,
-                    //                       0,
-                    //                       0.7,
-                    //                     ),
-                    //                     letterSpacing: -0.2,
-                    //                     height: 1.1,
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           Container(
-                    //             padding: EdgeInsets.symmetric(
-                    //               horizontal: 10.w,
-                    //               vertical: 4.h,
-                    //             ),
-                    //             decoration: BoxDecoration(
-                    //               border: Border.all(
-                    //                 color: const Color(0xFF1E5993),
-                    //                 width: 1.w,
-                    //               ),
-                    //               borderRadius: BorderRadius.circular(7.r),
-                    //             ),
-                    //             child: Text(
-                    //               banner?.status ?? "Occupied",
-                    //               style: GoogleFonts.outfit(
-                    //                 fontSize: 14.sp,
-                    //                 fontWeight: FontWeight.w500,
-                    //                 color: const Color(0xFF1E5993),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //       SizedBox(height: 24.h),
-                    //       Row(
-                    //         children: [
-                    //           Expanded(
-                    //             child: Container(
-                    //               height: 3.h,
-                    //               decoration: BoxDecoration(
-                    //                 color: const Color(0xFF101C16),
-                    //                 borderRadius: BorderRadius.circular(10.r),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //       SizedBox(height: 5.h),
-                    //       Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         children: [
-                    //           Text(
-                    //             "Occupancy",
-                    //             style: GoogleFonts.outfit(
-                    //               fontSize: 12.sp,
-                    //               fontWeight: FontWeight.w500,
-                    //               color: Colors.black,
-                    //               letterSpacing: -0.2,
-                    //             ),
-                    //           ),
-                    //           Text(
-                    //             banner?.status ?? "Active",
-                    //             style: GoogleFonts.outfit(
-                    //               fontSize: 12.sp,
-                    //               fontWeight: FontWeight.w500,
-                    //               color: Colors.black,
-                    //               letterSpacing: -0.2,
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(height: 20.h),
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       "Property Performance",
-                    //       style: GoogleFonts.outfit(
-                    //         fontSize: 17.sp,
-                    //         fontWeight: FontWeight.w500,
-                    //         color: Colors.black,
-                    //         letterSpacing: -0.2,
-                    //       ),
-                    //     ),
-                    //     const Spacer(),
-                    //     Text(
-                    //       "View Details",
-                    //       style: GoogleFonts.outfit(
-                    //         fontSize: 14.sp,
-                    //         fontWeight: FontWeight.w500,
-                    //         color: const Color(0xFF000000),
-                    //         letterSpacing: -0.2,
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: 2.w),
-                    //     Icon(
-                    //       Icons.chevron_right,
-                    //       size: 17.sp,
-                    //       color: Colors.black,
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(height: 16.h),
-                    // Container(
-                    //   width: double.infinity,
-                    //   padding: EdgeInsets.symmetric(
-                    //     horizontal: 14.w,
-                    //     vertical: 18.h,
-                    //   ),
-                    //   decoration: BoxDecoration(
-                    //     border: Border.all(
-                    //       color: const Color(0xFF000000),
-                    //       width: 1.w,
-                    //     ),
-                    //     borderRadius: BorderRadius.circular(10.r),
-                    //   ),
-                    //   child: Row(
-                    //     children: [
-                    //       SizedBox(
-                    //         width: 60.w,
-                    //         height: 60.w,
-                    //         child: Stack(
-                    //           alignment: Alignment.center,
-                    //           children: [
-                    //             SizedBox(
-                    //               width: 55.w,
-                    //               height: 55.w,
-                    //               child: CircularProgressIndicator(
-                    //                 value: (scoreVal / 100).clamp(0.0, 1.0),
-                    //                 strokeWidth: 5.w,
-                    //                 backgroundColor: const Color(0xFF101C16),
-                    //                 color: const Color(0xFF4A8266),
-                    //               ),
-                    //             ),
-                    //             Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.center,
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               children: [
-                    //                 Text(
-                    //                   "$scoreInt",
-                    //                   style: GoogleFonts.outfit(
-                    //                     fontSize: 17.sp,
-                    //                     fontWeight: FontWeight.w500,
-                    //                     color: const Color(0xFF101C16),
-                    //                     letterSpacing: -0.2,
-                    //                     height: 1.h,
-                    //                   ),
-                    //                 ),
-                    //                 SizedBox(height: 2.h),
-                    //                 Text(
-                    //                   "/100",
-                    //                   style: GoogleFonts.outfit(
-                    //                     fontSize: 12.sp,
-                    //                     fontWeight: FontWeight.w500,
-                    //                     color: const Color(0xFF101C16),
-                    //                     letterSpacing: -0.2,
-                    //                     height: 1.h,
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       SizedBox(width: 10.w),
-                    //       Expanded(
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Text(
-                    //               "Property Score",
-                    //               style: GoogleFonts.outfit(
-                    //                 fontSize: 17.sp,
-                    //                 fontWeight: FontWeight.w500,
-                    //                 color: const Color(0xFF101C16),
-                    //                 letterSpacing: -0.2,
-                    //               ),
-                    //             ),
-                    //             SizedBox(height: 3.h),
-                    //             Text(
-                    //               "Overall property performance based on maintenance, cleanliness, security and inspections",
-                    //               style: GoogleFonts.outfit(
-                    //                 fontSize: 14.sp,
-                    //                 fontWeight: FontWeight.w500,
-                    //                 height: 1.1,
-                    //                 color: const Color.fromRGBO(
-                    //                   42,
-                    //                   41,
-                    //                   51,
-                    //                   0.7,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             SizedBox(height: 3.h),
-                    //             Row(
-                    //               children: [
-                    //                 Container(
-                    //                   height: 7.h,
-                    //                   width: 7.w,
-                    //                   decoration: const BoxDecoration(
-                    //                     shape: BoxShape.circle,
-                    //                     color: Color(0xFF24B06A),
-                    //                   ),
-                    //                 ),
-                    //                 SizedBox(width: 3.w),
-                    //                 Text(
-                    //                   scoreVal >= 80
-                    //                       ? "Good Performance"
-                    //                       : (scoreVal >= 50
-                    //                             ? "Average Performance"
-                    //                             : "Needs Attention"),
-                    //                   style: GoogleFonts.outfit(
-                    //                     fontSize: 12.sp,
-                    //                     fontWeight: FontWeight.w700,
-                    //                     color: const Color(0xFF24B06A),
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+
                     SizedBox(height: 20.h),
                     Row(
                       children: [
@@ -841,22 +526,6 @@ class _AssociationPropertyUnitDetailsState
                             letterSpacing: -0.2,
                           ),
                         ),
-                        // const Spacer(),
-                        // Text(
-                        //   "View All",
-                        //   style: GoogleFonts.outfit(
-                        //     fontSize: 15.sp,
-                        //     fontWeight: FontWeight.w600,
-                        //     color: AppColors.heading,
-                        //     letterSpacing: -0.2,
-                        //   ),
-                        // ),
-                        // SizedBox(width: 2.w),
-                        // Icon(
-                        //   Icons.chevron_right,
-                        //   size: 18.sp,
-                        //   color: AppColors.heading,
-                        // ),
                       ],
                     ),
                     SizedBox(height: 16.h),
@@ -880,14 +549,26 @@ class _AssociationPropertyUnitDetailsState
                             for (int i = 0; i < activities.length; i++) ...[
                               if (i > 0) _divider(),
                               _activityItem(
+                                activity: activities[i],
                                 icon: _mapActivitySymbol(activities[i].icon),
                                 title: activities[i].title ?? "",
                                 subtitle: activities[i].subtitle ?? "",
                                 date: activities[i].date ?? "",
+                                onTap: () => _showActivityDetails(activities[i]),
                               ),
                             ],
                           ] else
-                            ...[],
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.h),
+                              child: Text(
+                                "No recent property activity recorded.",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(42, 41, 51, 0.6),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),
@@ -1379,74 +1060,478 @@ class _AssociationPropertyUnitDetailsState
     );
   }
 
-  Widget _activityItem({
-    required String icon,
-    required String title,
-    required String subtitle,
-    required String date,
-  }) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 38.h,
-            width: 38.w,
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFF171717), width: 1.w),
-              borderRadius: BorderRadius.circular(5.r),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              icon,
-              style: GoogleFonts.outfit(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF000000),
-              ),
-            ),
+  Future<void> _viewDocument(String? url) async {
+    if (url == null || url.trim().isEmpty) {
+      showErrorSnackBar("Document URL not available.");
+      return;
+    }
+    try {
+      final uri = Uri.parse(url.trim());
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        await _downloadAndOpenDocument(url, openAfter: true);
+      }
+    } catch (_) {
+      await _downloadAndOpenDocument(url, openAfter: true);
+    }
+  }
+
+  Future<void> _downloadAndOpenDocument(String url, {bool openAfter = false}) async {
+    try {
+      showSuccessSnackBar(openAfter ? "Opening document..." : "Downloading document...");
+
+      final Directory? dir = Platform.isAndroid
+          ? await getExternalStorageDirectory()
+          : await getApplicationDocumentsDirectory();
+
+      if (dir == null) {
+        showErrorSnackBar("Unable to access storage directory.");
+        return;
+      }
+
+      String fileName = url.split('/').last.split('?').first;
+      if (fileName.isEmpty || !fileName.contains('.')) {
+        fileName = "document_${DateTime.now().millisecondsSinceEpoch}.pdf";
+      }
+
+      final savePath = "${dir.path}/$fileName";
+
+      final dio = Dio();
+      try {
+        final box = Hive.isBoxOpen("associationdata")
+            ? Hive.box("associationdata")
+            : await Hive.openBox("associationdata");
+        final token = box.get("token");
+        if (token != null && token.toString().isNotEmpty) {
+          dio.options.headers["Authorization"] = "Bearer $token";
+        }
+      } catch (_) {}
+
+      await dio.download(url, savePath);
+
+      if (openAfter) {
+        final result = await OpenFilex.open(savePath);
+        if (result.type != ResultType.done) {
+          showSuccessSnackBar("Downloaded to $savePath");
+        }
+      } else {
+        showSuccessSnackBar("Downloaded successfully to $savePath");
+      }
+    } catch (e) {
+      showErrorSnackBar("Failed to download document.");
+    }
+  }
+
+  void _showActivityDetails(RecentPropertyActivity activity) {
+    final attachments = activity.attachments ?? [];
+    final hasAttachment = attachments.isNotEmpty;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
           ),
-          SizedBox(width: 8.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.outfit(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.heading,
-                    letterSpacing: -0.2,
+          padding: EdgeInsets.only(
+            left: 20.w,
+            right: 20.w,
+            top: 14.h,
+            bottom: MediaQuery.of(ctx).padding.bottom + 20.h,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 44.w,
+                  height: 4.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD1D5DB),
+                    borderRadius: BorderRadius.circular(2.r),
                   ),
                 ),
+              ),
+              SizedBox(height: 16.h),
+              Row(
+                children: [
+                  if (activity.category != null && activity.category!.isNotEmpty)
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEFF3F1),
+                        borderRadius: BorderRadius.circular(4.r),
+                        border: Border.all(color: const Color(0xFF101C16), width: 0.8.w),
+                      ),
+                      child: Text(
+                        activity.category!.replaceAll('_', ' ').toUpperCase(),
+                        style: GoogleFonts.outfit(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF101C16),
+                        ),
+                      ),
+                    ),
+                  if (activity.status != null && activity.status!.isNotEmpty) ...[
+                    SizedBox(width: 8.w),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F5E9),
+                        borderRadius: BorderRadius.circular(4.r),
+                        border: Border.all(color: const Color(0xFF2E7D32), width: 0.8.w),
+                      ),
+                      child: Text(
+                        activity.status!,
+                        style: GoogleFonts.outfit(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF2E7D32),
+                        ),
+                      ),
+                    ),
+                  ],
+                  const Spacer(),
+                  if (activity.date != null)
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_today_outlined, size: 14.sp, color: Colors.grey[700]),
+                        SizedBox(width: 4.w),
+                        Text(
+                          activity.date!,
+                          style: GoogleFonts.outfit(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF2A2933),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+              SizedBox(height: 14.h),
+              Text(
+                activity.title ?? "Property Activity",
+                style: GoogleFonts.outfit(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              if (activity.subtitle != null && activity.subtitle!.isNotEmpty) ...[
+                SizedBox(height: 4.h),
                 Text(
-                  subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  activity.subtitle!,
                   style: GoogleFonts.outfit(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
-                    height: 1.1,
                     color: const Color.fromRGBO(42, 41, 51, 0.75),
                   ),
                 ),
               ],
-            ),
+              SizedBox(height: 16.h),
+              if (activity.resolutionNotes != null && activity.resolutionNotes!.isNotEmpty) ...[
+                Text(
+                  "Activity Notes",
+                  style: GoogleFonts.outfit(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.heading,
+                  ),
+                ),
+                SizedBox(height: 6.h),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF9F9FA),
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(color: const Color(0xFFE5E7EB)),
+                  ),
+                  child: Text(
+                    activity.resolutionNotes!,
+                    style: GoogleFonts.outfit(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF2A2933),
+                      height: 1.3,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.h),
+              ],
+              Text(
+                "Attached Document",
+                style: GoogleFonts.outfit(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              if (hasAttachment) ...[
+                for (final att in attachments) ...[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10.h),
+                    padding: EdgeInsets.all(12.w),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFFDF2),
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(color: const Color(0xFF101C16), width: 1.w),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              height: 38.w,
+                              width: 38.w,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(6.r),
+                                border: Border.all(color: const Color(0xFF101C16), width: 0.8.w),
+                              ),
+                              child: Icon(
+                                Icons.picture_as_pdf_outlined,
+                                color: const Color(0xFFD32F2F),
+                                size: 22.sp,
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    att.title ?? "Document File",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: const Color(0xFF101C16),
+                                    ),
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    att.type ?? "PDF Document",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xFF6B7280),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 12.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed: () {
+                                  Navigator.pop(ctx);
+                                  _viewDocument(att.url);
+                                },
+                                icon: Icon(Icons.visibility_outlined, size: 16.sp, color: const Color(0xFF101C16)),
+                                label: Text(
+                                  "View File",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: const Color(0xFF101C16),
+                                  ),
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(color: Color(0xFF101C16), width: 1),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+                                  padding: EdgeInsets.symmetric(vertical: 8.h),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.pop(ctx);
+                                  if (att.url != null) {
+                                    _downloadAndOpenDocument(att.url!, openAfter: false);
+                                  }
+                                },
+                                icon: Icon(Icons.download_outlined, size: 16.sp, color: Colors.white),
+                                label: Text(
+                                  "Download",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF101C16),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+                                  padding: EdgeInsets.symmetric(vertical: 8.h),
+                                  elevation: 0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ] else ...[
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF9F9FA),
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(color: const Color(0xFFE5E7EB)),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline, size: 18.sp, color: Colors.grey[600]),
+                      SizedBox(width: 8.w),
+                      Text(
+                        "No file attachment linked to this activity.",
+                        style: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
           ),
-          SizedBox(width: 8.w),
-          Text(
-            date,
-            style: GoogleFonts.outfit(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
+        );
+      },
+    );
+  }
+
+  Widget _activityItem({
+    required RecentPropertyActivity activity,
+    required String icon,
+    required String title,
+    required String subtitle,
+    required String date,
+    required VoidCallback onTap,
+  }) {
+    final hasAttachment = activity.attachments != null && activity.attachments!.isNotEmpty;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(6.r),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 2.w),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 38.h,
+              width: 38.w,
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xFF171717), width: 1.w),
+                borderRadius: BorderRadius.circular(5.r),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                icon,
+                style: GoogleFonts.outfit(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF000000),
+                ),
+              ),
+            ),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.outfit(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.outfit(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      height: 1.1,
+                      color: const Color.fromRGBO(42, 41, 51, 0.75),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 8.w),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  date,
+                  style: GoogleFonts.outfit(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF2A2933),
+                  ),
+                ),
+                if (hasAttachment)
+                  Padding(
+                    padding: EdgeInsets.only(top: 2.h),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.attach_file,
+                          size: 13.sp,
+                          color: const Color(0xFF2A2933),
+                        ),
+                        SizedBox(width: 2.w),
+                        Text(
+                          "Doc",
+                          style: GoogleFonts.outfit(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFF2A2933),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+            SizedBox(width: 4.w),
+            Icon(
+              Icons.chevron_right,
+              size: 18.sp,
               color: const Color(0xFF2A2933),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

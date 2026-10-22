@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/ComplaintDetails.dart';
+import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/CreateComplaintScreen.dart';
 import 'package:property_association_or_resident/AssociationScreen/AssociatoinComplaint/Provider/getComplaintProvider.dart';
 import 'package:property_association_or_resident/Core/Constant/appColor.dart';
 
@@ -101,32 +102,34 @@ class _ComplaintState extends ConsumerState<Complaint> {
                 ),
               ),
               SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Open Complaints",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.heading,
-                      letterSpacing: -0.3,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Open Complaints",
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.heading,
+                        letterSpacing: -0.3,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "Review and monitor complaints across the complex",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color.fromRGBO(42, 41, 51, 0.7),
-                      letterSpacing: -0.2,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Review and monitor complaints across the complex",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(42, 41, 51, 0.7),
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -210,7 +213,12 @@ class _ComplaintState extends ConsumerState<Complaint> {
                                     style: GoogleFonts.outfit(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: const Color.fromRGBO(0, 0, 0, 0.75),
+                                      color: const Color.fromRGBO(
+                                        0,
+                                        0,
+                                        0,
+                                        0.75,
+                                      ),
                                       letterSpacing: -0.2,
                                       height: 1.1,
                                     ),
@@ -500,6 +508,30 @@ class _ComplaintState extends ConsumerState<Complaint> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: const Color(0xFF101C16),
+        elevation: 3,
+        onPressed: () async {
+          final res = await Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => const CreateComplaintScreen(),
+            ),
+          );
+          if (res == true) {
+            ref.invalidate(getComplaintProvider);
+          }
+        },
+        icon: Icon(Icons.add, color: Colors.white, size: 20.sp),
+        label: Text(
+          "Create Complaint",
+          style: GoogleFonts.outfit(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 
@@ -645,13 +677,15 @@ class ServiceCard extends StatelessWidget {
                         Builder(
                           builder: (context) {
                             final rawType = (areaType ?? '').toLowerCase();
-                            final rawLabel =
-                                (areaTypeLabel ?? '').toLowerCase();
-                            final bool isCommon = rawType.contains('common') ||
+                            final rawLabel = (areaTypeLabel ?? '')
+                                .toLowerCase();
+                            final bool isCommon =
+                                rawType.contains('common') ||
                                 rawLabel.contains('common') ||
                                 rawType == 'common_area';
 
-                            final String label = areaTypeLabel != null &&
+                            final String label =
+                                areaTypeLabel != null &&
                                     areaTypeLabel!.isNotEmpty
                                 ? areaTypeLabel!
                                 : (isCommon ? "Common Area" : "Inside Unit");
@@ -674,10 +708,7 @@ class ServiceCard extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: bg,
                                 borderRadius: BorderRadius.circular(4.r),
-                                border: Border.all(
-                                  color: border,
-                                  width: 0.9,
-                                ),
+                                border: Border.all(color: border, width: 0.9),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -708,162 +739,162 @@ class ServiceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                  Builder(
-                    builder: (context) {
-                      final p = (priority ?? "HIGH").toUpperCase();
-                      Color badgeBg;
-                      Color badgeText;
-                      Color badgeBorder;
+                Builder(
+                  builder: (context) {
+                    final p = (priority ?? "HIGH").toUpperCase();
+                    Color badgeBg;
+                    Color badgeText;
+                    Color badgeBorder;
 
-                      if (p.contains("HIGH") ||
-                          p.contains("URGENT") ||
-                          p.contains("EMERGENCY")) {
-                        badgeBg = const Color(0xFFFFEBEE);
-                        badgeText = const Color(0xFFD32F2F);
-                        badgeBorder = const Color(0xFFEF9A9A);
-                      } else if (p.contains("MEDIUM") || p.contains("MED")) {
-                        badgeBg = const Color(0xFFFFF3E0);
-                        badgeText = const Color(0xFFE65100);
-                        badgeBorder = const Color(0xFFFFB74D);
-                      } else if (p.contains("LOW")) {
-                        badgeBg = const Color(0xFFE8F5E9);
-                        badgeText = const Color(0xFF2E7D32);
-                        badgeBorder = const Color(0xFFA5D6A7);
-                      } else {
-                        badgeBg = const Color(0xFFF5F5F5);
-                        badgeText = const Color(0xFF333333);
-                        badgeBorder = const Color(0xFFD9D9D0);
-                      }
+                    if (p.contains("HIGH") ||
+                        p.contains("URGENT") ||
+                        p.contains("EMERGENCY")) {
+                      badgeBg = const Color(0xFFFFEBEE);
+                      badgeText = const Color(0xFFD32F2F);
+                      badgeBorder = const Color(0xFFEF9A9A);
+                    } else if (p.contains("MEDIUM") || p.contains("MED")) {
+                      badgeBg = const Color(0xFFFFF3E0);
+                      badgeText = const Color(0xFFE65100);
+                      badgeBorder = const Color(0xFFFFB74D);
+                    } else if (p.contains("LOW")) {
+                      badgeBg = const Color(0xFFE8F5E9);
+                      badgeText = const Color(0xFF2E7D32);
+                      badgeBorder = const Color(0xFFA5D6A7);
+                    } else {
+                      badgeBg = const Color(0xFFF5F5F5);
+                      badgeText = const Color(0xFF333333);
+                      badgeBorder = const Color(0xFFD9D9D0);
+                    }
 
-                      return Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 4.h,
+                    return Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 4.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: badgeBg,
+                        borderRadius: BorderRadius.circular(4.r),
+                        border: Border.all(color: badgeBorder, width: 1.w),
+                      ),
+                      child: Text(
+                        p,
+                        style: GoogleFonts.outfit(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
+                          color: badgeText,
+                          letterSpacing: -0.2,
                         ),
-                        decoration: BoxDecoration(
-                          color: badgeBg,
-                          borderRadius: BorderRadius.circular(4.r),
-                          border: Border.all(color: badgeBorder, width: 1.w),
-                        ),
-                        child: Text(
-                          p,
-                          style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w600,
-                            color: badgeText,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      );
-                    },
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 14.h),
+            Divider(height: 1, thickness: 1, color: Color(0xFFE0E0E0)),
+            SizedBox(height: 14.h),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: _infoItem(label: providerLabel, value: providerName),
+                ),
+                SizedBox(width: 20.w),
+                Expanded(
+                  child: _infoItem(label: scheduleLabel, value: schedule),
+                ),
+              ],
+            ),
+            SizedBox(height: 17.h),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: _infoItem(label: issueLabel, value: issues),
+                ),
+                SizedBox(width: 20.w),
+                Expanded(
+                  child: _infoItem(label: lastServiceLabel, value: lastService),
+                ),
+              ],
+            ),
+            SizedBox(height: 14.h),
+            Row(
+              children: [
+                Icon(Icons.circle, size: 8.sp, color: Color(0xFF1E5993)),
+                SizedBox(width: 4.w),
+                Text(
+                  status,
+                  style: GoogleFonts.outfit(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1E5993),
+                    height: 1.1,
+                    letterSpacing: -0.2,
                   ),
-                ],
-              ),
-              SizedBox(height: 14.h),
-              Divider(height: 1, thickness: 1, color: Color(0xFFE0E0E0)),
-              SizedBox(height: 14.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: _infoItem(label: providerLabel, value: providerName),
-                  ),
-                  SizedBox(width: 20.w),
-                  Expanded(
-                    child: _infoItem(label: scheduleLabel, value: schedule),
-                  ),
-                ],
-              ),
-              SizedBox(height: 17.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: _infoItem(label: issueLabel, value: issues),
-                  ),
-                  SizedBox(width: 20.w),
-                  Expanded(
-                    child: _infoItem(label: lastServiceLabel, value: lastService),
-                  ),
-                ],
-              ),
-              SizedBox(height: 14.h),
-              Row(
-                children: [
-                  Icon(Icons.circle, size: 8.sp, color: Color(0xFF1E5993)),
-                  SizedBox(width: 4.w),
-                  Text(
-                    status,
-                    style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF1E5993),
-                      height: 1.1,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                  Spacer(),
-                  InkWell(
-                    onTap: onTap,
-                    child: Row(
-                      children: [
-                        Text(
-                          "View Details",
-                          style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: Color.fromRGBO(184, 134, 11, 0.9),
-                            height: 1.1,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                        SizedBox(width: 4.w),
-                        Icon(
-                          Icons.arrow_forward,
-                          size: 15.sp,
+                ),
+                Spacer(),
+                InkWell(
+                  onTap: onTap,
+                  child: Row(
+                    children: [
+                      Text(
+                        "View Details",
+                        style: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
                           color: Color.fromRGBO(184, 134, 11, 0.9),
+                          height: 1.1,
+                          letterSpacing: -0.2,
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(width: 4.w),
+                      Icon(
+                        Icons.arrow_forward,
+                        size: 15.sp,
+                        color: Color.fromRGBO(184, 134, 11, 0.9),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _infoItem({required String label, required String value}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: GoogleFonts.outfit(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+            color: Color.fromRGBO(42, 41, 51, 0.75),
+            height: 1.1,
+            letterSpacing: -0.2,
           ),
         ),
-      );
-    }
-
-    Widget _infoItem({required String label, required String value}) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.outfit(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              color: Color.fromRGBO(42, 41, 51, 0.75),
-              height: 1.1,
-              letterSpacing: -0.2,
-            ),
+        SizedBox(height: 4.h),
+        Text(
+          value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: GoogleFonts.outfit(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.heading,
+            height: 1.1,
+            letterSpacing: -0.2,
           ),
-          SizedBox(height: 4.h),
-          Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.outfit(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.heading,
-              height: 1.1,
-              letterSpacing: -0.2,
-            ),
-          ),
-        ],
-      );
-    }
+        ),
+      ],
+    );
   }
+}

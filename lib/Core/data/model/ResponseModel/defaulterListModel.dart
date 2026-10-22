@@ -99,6 +99,11 @@ class Record {
     String? formattedAmount;
     String? status;
     String? detailsUrl;
+    String? defaulterStatus;
+    bool? isDefaulter;
+    String? badgeColor;
+    bool? isOverdueAbove2Months;
+    String? statusBadge;
 
     Record({
         this.id,
@@ -111,19 +116,40 @@ class Record {
         this.formattedAmount,
         this.status,
         this.detailsUrl,
+        this.defaulterStatus,
+        this.isDefaulter,
+        this.badgeColor,
+        this.isOverdueAbove2Months,
+        this.statusBadge,
     });
 
     factory Record.fromJson(Map<String, dynamic> json) => Record(
         id: json["id"],
-        unitNumber: json["unit_number"],
-        ownerName: json["owner_name"],
-        dueSince: json["due_since"],
-        overdueDays: json["overdue_days"],
-        subtitle: json["subtitle"],
-        amount: json["amount"],
-        formattedAmount: json["formatted_amount"],
-        status: json["status"],
-        detailsUrl: json["details_url"],
+        unitNumber: json["unit_number"]?.toString(),
+        ownerName: json["owner_name"]?.toString(),
+        dueSince: json["due_since"]?.toString(),
+        overdueDays: json["overdue_days"] is num
+            ? (json["overdue_days"] as num).toInt()
+            : int.tryParse(json["overdue_days"]?.toString() ?? ""),
+        subtitle: json["subtitle"]?.toString(),
+        amount: json["amount"] is num
+            ? (json["amount"] as num).toInt()
+            : int.tryParse(json["amount"]?.toString() ?? ""),
+        formattedAmount: json["formatted_amount"]?.toString(),
+        status: json["defaulter_status"]?.toString() ??
+            json["status"]?.toString() ??
+            json["status_badge"]?.toString(),
+        detailsUrl: json["details_url"]?.toString(),
+        defaulterStatus: json["defaulter_status"]?.toString(),
+        isDefaulter: json["is_defaulter"] == true ||
+            json["is_defaulter"] == 1 ||
+            json["is_defaulter"] == "true",
+        badgeColor: json["badge_color"]?.toString() ??
+            json["status_color"]?.toString(),
+        isOverdueAbove2Months: json["is_overdue_above_2_months"] == true ||
+            json["is_overdue_above_2_months"] == 1 ||
+            json["is_overdue_above_2_months"] == "true",
+        statusBadge: json["status_badge"]?.toString(),
     );
 
     Map<String, dynamic> toJson() => {
@@ -137,6 +163,11 @@ class Record {
         "formatted_amount": formattedAmount,
         "status": status,
         "details_url": detailsUrl,
+        "defaulter_status": defaulterStatus,
+        "is_defaulter": isDefaulter,
+        "badge_color": badgeColor,
+        "is_overdue_above_2_months": isOverdueAbove2Months,
+        "status_badge": statusBadge,
     };
 }
 

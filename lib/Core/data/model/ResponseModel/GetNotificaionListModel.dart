@@ -95,6 +95,12 @@ class Notification {
     bool? isRead;
     String? createdAt;
     String? timeAgo;
+    bool? isOverdue;
+    String? redTag;
+    String? headingReminderTag;
+    String? tagColor;
+    String? badgeColor;
+    String? badgeClass;
 
     Notification({
         this.id,
@@ -107,6 +113,12 @@ class Notification {
         this.isRead,
         this.createdAt,
         this.timeAgo,
+        this.isOverdue,
+        this.redTag,
+        this.headingReminderTag,
+        this.tagColor,
+        this.badgeColor,
+        this.badgeClass,
     });
 
     factory Notification.fromJson(Map<String, dynamic> json) => Notification(
@@ -120,6 +132,14 @@ class Notification {
         isRead: json["is_read"],
         createdAt: json["created_at"],
         timeAgo: json["time_ago"]?.toString(),
+        isOverdue: json["is_overdue"] == true ||
+            json["is_overdue"] == 1 ||
+            json["is_overdue"] == "true",
+        redTag: json["red_tag"]?.toString(),
+        headingReminderTag: json["heading_reminder_tag"]?.toString(),
+        tagColor: json["tag_color"]?.toString(),
+        badgeColor: json["badge_color"]?.toString(),
+        badgeClass: json["badge_class"]?.toString(),
     );
 
     Map<String, dynamic> toJson() => {
@@ -133,6 +153,12 @@ class Notification {
         "is_read": isRead,
         "created_at": createdAt,
         "time_ago": timeAgo,
+        "is_overdue": isOverdue,
+        "red_tag": redTag,
+        "heading_reminder_tag": headingReminderTag,
+        "tag_color": tagColor,
+        "badge_color": badgeColor,
+        "badge_class": badgeClass,
     };
 }
 

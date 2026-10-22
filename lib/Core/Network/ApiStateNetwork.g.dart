@@ -523,6 +523,64 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
+  Future<dynamic> createService(
+    String serviceCategory,
+    String? serviceType,
+    String title,
+    String details,
+    String? preferredDate,
+    String? preferredTime,
+    String priority,
+    MultipartFile? attachment,
+    String type,
+    int? propertyId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry('service_category', serviceCategory));
+    if (serviceType != null) {
+      _data.fields.add(MapEntry('service_type', serviceType));
+    }
+    _data.fields.add(MapEntry('title', title));
+    _data.fields.add(MapEntry('details', details));
+    if (preferredDate != null) {
+      _data.fields.add(MapEntry('preferred_date', preferredDate));
+    }
+    if (preferredTime != null) {
+      _data.fields.add(MapEntry('preferred_time', preferredTime));
+    }
+    _data.fields.add(MapEntry('priority', priority));
+    if (attachment != null) {
+      _data.files.add(MapEntry('attachment', attachment));
+    }
+    _data.fields.add(MapEntry('type', type));
+    if (propertyId != null) {
+      _data.fields.add(MapEntry('property_id', propertyId.toString()));
+    }
+    final _options = _setStreamType<dynamic>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            '/api/v1/tickets',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
+  }
+
+  @override
   Future<GetServiceRequestStatusModel> getServiceRequestStatus({
     required String id,
   }) async {
@@ -1342,7 +1400,7 @@ class _ApiStateNetwork implements ApiStateNetwork {
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'status': status,
+      r'category': status,
       r'search': search,
     };
     queryParameters.removeWhere((k, v) => v == null);
@@ -1352,7 +1410,7 @@ class _ApiStateNetwork implements ApiStateNetwork {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/v1/committee/reports?category=financial',
+            '/api/v1/committee/reports',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1362,6 +1420,71 @@ class _ApiStateNetwork implements ApiStateNetwork {
     late AssociationReportResModel _value;
     try {
       _value = AssociationReportResModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<GetInspectionReportModel> getInspectionReport(
+    String filter,
+    String type,
+    int? propertyId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'filter': filter,
+      r'type': type,
+      r'property_id': propertyId,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<GetInspectionReportModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/inspections',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetInspectionReportModel _value;
+    try {
+      _value = GetInspectionReportModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<GetInspectionReportDetailsModel> getInpectionReportDetails(
+    String id,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<GetInspectionReportDetailsModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/inspections/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetInspectionReportDetailsModel _value;
+    try {
+      _value = GetInspectionReportDetailsModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -1693,36 +1816,6 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<CreatVisitorPassResModdel> createVisitorPassRequest(
-    CreateVisitorPassBodyModdel body,
-  ) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(body.toJson());
-    final _options = _setStreamType<CreatVisitorPassResModdel>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/api/v1/resident/visitor-pass',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late CreatVisitorPassResModdel _value;
-    try {
-      _value = CreatVisitorPassResModdel.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
   Future<GetVisitorPassListModel> getVisitorPass() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -1971,6 +2064,63 @@ class _ApiStateNetwork implements ApiStateNetwork {
     late MaintenanceActivitiesResModel _value;
     try {
       _value = MaintenanceActivitiesResModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CreatVisitorPassResModdel> createVisitorPassRequest(
+    CreateVisitorPassBodyModdel body,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<CreatVisitorPassResModdel>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/resident/visitor-pass',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CreatVisitorPassResModdel _value;
+    try {
+      _value = CreatVisitorPassResModdel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<GetPassListResModel> getPass() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<GetPassListResModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/resident/visitor-passes',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetPassListResModel _value;
+    try {
+      _value = GetPassListResModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
